@@ -1,0 +1,6 @@
+dist
+node_modules
+.parcel-cache
+bun.lockb
+localhost.pem
+localhost-key.pem

@@ -1,0 +1,53 @@
+{
+  "name": "sketchbook",
+  "version": "0.0.1",
+  "author": "Jhey <jh3y@users.noreply.github.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jh3y/sketchbook.git"
+  },
+  "main": "index.js",
+  "bugs": {
+    "url": "https://github.com/jh3y/sketchbook/issues"
+  },
+  "description": "a repository for my CodePen source",
+  "homepage": "https://github.com/jh3y/sketchbook#readme",
+  "keywords": [
+    "creative",
+    "coding",
+    "fun",
+    "experimental",
+    "codepen",
+    "javascript",
+    "html",
+    "css",
+    "pug",
+    "stylus",
+    "greensock",
+    "animation",
+    "whimsy"
+  ],
+  "license": "MIT",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "init": "mkcert -install && mkcert localhost",
+    "dev": "rm -rf dist && parcel --no-source-maps --port 1987 --https --cert ./localhost.pem --key ./localhost-key.pem",
+    "create": "plop"
+  },
+  "devDependencies": {
+    "@parcel/transformer-pug": "2.6.2",
+    "@parcel/transformer-stylus": "2.6.2",
+    "parcel": "^2.6.2",
+    "plop": "^3.1.1",
+    "prettier": "^2.7.1",
+    "process": "^0.11.10"
+  },
+  "dependencies": {
+    "dat.gui": "^0.7.9",
+    "gsap": "npm:@gsap/member",
+    "normalize.css": "^8.0.1",
+    "open-props": "^1.4.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  }
+}

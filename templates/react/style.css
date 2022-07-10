@@ -1,0 +1,13 @@
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+#app {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	font-family: 'Google Sans', sans-serif, system-ui;
+	align-content: center;
+}
