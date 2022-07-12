@@ -1,0 +1,148 @@
+:root {
+  --open: 0;
+  --bg: var(--gray-9);
+  --text-1: var(--gray-1);
+  --text-2: var(--gray-1);
+  --color: var(--gray-1);
+  --header-gradient: var(--gradient-2);
+  --hover-action: var(--gray-7);
+  --nav-color: var(--gray-8);
+  --link: var(--red-3);
+}
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+	font-family: 'Google Sans', sans-serif, system-ui;
+	background: var(--bg);
+  display: grid;
+  color: var(--color);
+  align-items: start;
+  justify-items: center;
+  min-height: 100vh;
+  grid-auto-rows: min-content;
+  transition: color 0.2s, background 0.2s, transform 0.2s var(--ease-1);
+  overflow-x: hidden;
+  transform: translateX(calc(var(--open, 0) * -200px));
+}
+
+[aria-pressed] {
+  background: none;
+  border-radius: 50%;
+}
+
+[aria-pressed]:hover {
+  background: var(--hover-action);
+}
+
+nav {
+  padding: var(--size-fluid-3) 0;
+  width: 100vw;
+  background: var(--nav-color);
+  position: fixed;
+  top: 0;
+  width: 200px;
+  left: 100%;
+  bottom: 0;
+  box-shadow: var(--inner-shadow-4);
+}
+
+header {
+  padding: var(--size-12) 0;
+  background: var(--header-gradient);
+  width: 100%;
+  display: grid;
+  place-items: center;
+}
+
+h1 {
+  text-align: center;
+  width: 100%;
+  font-size: var(--font-size-fluid-3);
+  margin: 0;
+}
+
+:where(p, ul) {
+  font-size: var(--font-size-fluid-0);
+  max-inline-size: var(--size-content-2);
+}
+
+nav ul {
+  list-style-type: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 100%;
+  padding: 0;
+  margin: 0;
+  width: var(--size-xl);
+  gap: var(--size-4);
+  display: none;
+}
+
+nav li:hover {
+  text-decoration: underline var(--size-1) var(--color);
+}
+
+button {
+  height: 48px;
+  position: relative;
+  aspect-ratio: 1;
+  overflow: hidden;
+  padding: 0;
+}
+
+button span {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  color: transparent;
+}
+
+main {
+	padding: var(--size-4);
+}
+
+* + p {
+  margin-top: var(--size-4);
+}
+
+[aria-pressed] :is(span, svg title, svg path) {
+  display: none;
+}
+
+[aria-pressed="false"] :is(span:nth-of-type(1), title:nth-of-type(1), path:nth-of-type(1)),
+[aria-pressed="true"] :is(span:nth-of-type(2), title:nth-of-type(2), path:nth-of-type(2)){
+  display: block;
+}
+/*
+:root:has(.theme-toggle[aria-pressed="true"]) {
+  --bg: var(--gray-1);
+  --color: var(--gray-9);
+  --nav-color: var(--gray-2);
+  --hover-action: var(--gray-3);
+  --header-gradient: var(--gradient-6);
+}*/
+
+button svg {
+  height: 75%;
+  stroke: none;
+}
+
+[aria-expanded] {
+  position: absolute;
+  top: var(--size-4);
+  right: calc(100% + var(--size-4));
+}
+
+:root:has([aria-expanded="true"]) {
+  --open: 1;
+}
+
+:root:has([aria-expanded="true"]) nav ul {
+	display: flex;
+}

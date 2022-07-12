@@ -41,6 +41,6 @@
   .object-view-box-support .support-warning--object-view-box { display: none; }
 }
 
-.supports-popup .support-warning--popup {
+.popup-supported .support-warning--popup {
   display: none;
 }

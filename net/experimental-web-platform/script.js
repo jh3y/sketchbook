@@ -1,7 +1,7 @@
 const SUPPORT_MESSAGES = [
   {
     modifier: 'has',
-    message: 'This browser is not supported... yet. :has is currently supported in Chrome Canary with the "Experimental Web Platform Features" flag enabled.',
+    message: 'This browser is not supported... yet. :has is currently supported in Chrome Canary with the "Experimental Web Platform Features" flag enabled or Safari.',
   },
   {
     modifier: 'popup',
@@ -36,4 +36,4 @@ generateWarnings()
 
 // For JavaScript APIs
 if (Element.prototype.hasOwnProperty("popUp"))
-  document.body.classList.add('supports-popup')
+  document.documentElement.classList.add('popup-supported')

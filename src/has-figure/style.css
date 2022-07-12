@@ -1,0 +1,43 @@
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	font-family:  'Google Sans', sans-serif, system-ui;
+}
+
+figure:not(:has(figcaption)) {
+	float: left;
+	margin: var(--size-fluid-2) var(--size-fluid-2) var(--size-fluid-2) 0;
+}
+
+article {
+	width: var(--size-content-3);
+	padding: var(--size-fluid-4) 0;
+}
+
+article * + p {
+	margin-top:  var(--size-fluid-2);
+}
+
+figure:has(figcaption) {
+	width: 100%;
+	margin: var(--size-fluid-4) 0;
+}
+
+figcaption {
+	opacity:  0.65;
+}
+
+figure:has(figcaption) img {
+	width: 100%;
+	aspect-ratio: 16/9;
+	height: auto;
+	object-fit: cover;
+	object-position: center top;
+}
