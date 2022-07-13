@@ -1,0 +1,94 @@
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+form {
+	display: grid;
+	place-items: center;
+	align-content: center;
+	grid-gap: var(--size-fluid-3);
+  height: 100vh;
+  width: 100vw;
+}
+
+body {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+	font-family:  'Google Sans', sans-serif, system-ui;
+  grid-auto-flow: column;
+  background: hsl(var(--hue) 20% 50%);
+}
+
+.steps {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: center;
+}
+
+.step {
+  height: var(--size-fluid-6);
+  position: relative;
+  aspect-ratio: 1;
+  background: hsl(var(--hue, 10) 80% 50% / 0.25);
+}
+
+button {
+	display: block;
+	padding: var(--size-2) var(--size-4);
+	font-weight: bold;
+	background: var(--gray-2);
+	color: var(--gray-9);
+}
+
+button:hover {
+	background: var(--gray-4);
+}
+
+[for] {
+  background: var(--gray-4);
+  color: var(--gray-9);
+  font-weight: bold;
+  font-size: var(--font-size-fluid-3);
+  position: absolute;
+  inset: 0;
+  cursor: pointer;
+  line-height: var(--size-fluid-6);
+  text-align: center;
+}
+
+[for]:hover {
+  background: var(--gray-2);
+}
+
+:is(.step) {
+	--hue: 10;
+  pointer-events: none;
+  opacity: 0.2;
+}
+
+:is(.step:first-of-type) {
+  --hue: 210;
+  pointer-events: all;
+  opacity: 1;
+}
+
+:is(.step:has(:checked), .step:first-of-type:has(:checked)) {
+  --hue: 10;
+  pointer-events: none;
+  opacity: 0.2;
+}
+
+
+:is(.step:has(:checked) + .step:not(.step:has(:checked))) {
+  --hue: 210;
+  pointer-events: all;
+  opacity: 1;
+}
+
+:root:has(#step--10:checked) {
+  --hue: 130;
+}

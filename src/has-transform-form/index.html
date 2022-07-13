@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  class="popup-support has-support houdini-support object-view-box-support"
+>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, user-scalable=0, maximum-scale=1.0"
+    />
+    <title>has-transform-form</title>
+    <link rel="stylesheet" href="npm:normalize.css" />
+    <link rel="stylesheet" href="npm:open-props/open-props.min.css" />
+    <link rel="stylesheet" href="npm:open-props/normalize.min.css" />
+    <link rel="stylesheet" href="npm:open-props/colors-hsl.min.css" />
+    <link
+      rel="stylesheet"
+      href="../../net/experimental-web-platform/style.css"
+    />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <form>
+      <div class="form-group">
+        <div class="form-group__content">
+          <label for="first-name">First Name</label>
+          <input
+            id="first-name"
+            type="text"
+            placeholder="first name"
+            required
+            pattern="[A-Za-z]{2,}"
+          />
+          <label class="ok button button--icon" for="proceed-first-name">
+            OK.
+            <svg viewBox="0 0 512 512" title="check-circle">
+              <path
+                d="M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z"
+              />
+            </svg>
+          </label>
+        </div>
+        <input
+          class="proceed sr-only"
+          id="proceed-first-name"
+          type="checkbox"
+          tabindex="-1"
+        />
+        <div class="form-group__controls">
+          <label class="prev button button--icon">
+            <span class="sr-only">Previous question</span>
+            <svg viewBox="0 0 320 512" title="angle-up">
+              <path
+                d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"
+              />
+            </svg>
+          </label>
+          <label class="next button button--icon" for="proceed-first-name">
+            <span class="sr-only">Next question</span>
+            <svg viewBox="0 0 320 512" title="angle-up">
+              <path
+                d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"
+              />
+            </svg>
+          </label>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="form-group__content">
+          <label for="last-name">Last Name</label>
+          <input
+            id="last-name"
+            type="text"
+            placeholder="last name"
+            required
+            pattern="[A-Za-z]{2,}"
+          />
+          <label class="ok button button--icon" for="proceed-last-name">
+            OK.
+            <svg viewBox="0 0 512 512" title="check-circle">
+              <path
+                d="M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z"
+              />
+            </svg>
+          </label>
+        </div>
+        <input
+          class="proceed sr-only"
+          id="proceed-last-name"
+          type="checkbox"
+          tabindex="-1"
+        />
+        <div class="form-group__controls">
+          <label class="prev button button--icon" for="proceed-first-name">
+            <span class="sr-only">Previous question</span>
+            <svg viewBox="0 0 320 512" title="angle-up">
+              <path
+                d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"
+              />
+            </svg>
+          </label>
+          <label class="next button button--icon" for="proceed-last-name">
+            <span class="sr-only">Next question</span>
+            <svg viewBox="0 0 320 512" title="angle-up">
+              <path
+                d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"
+              />
+            </svg>
+          </label>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="form-group__content">
+          <label for="email">Email</label>
+          <input
+            type="email"
+            required
+            placeholder="email"
+            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+          />
+          <label class="ok button button--icon" for="proceed-email">
+            OK.
+            <svg viewBox="0 0 512 512" title="check-circle">
+              <path
+                d="M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z"
+              />
+            </svg>
+          </label>
+        </div>
+        <input
+          class="proceed sr-only"
+          id="proceed-email"
+          type="checkbox"
+          tabindex="-1"
+        />
+        <div class="form-group__controls">
+          <label class="prev button button--icon" for="proceed-last-name">
+            <span class="sr-only">Previous question</span>
+            <svg viewBox="0 0 320 512" title="angle-up">
+              <path
+                d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"
+              />
+            </svg>
+          </label>
+          <label class="next button button--icon" for="proceed-email">
+            <span class="sr-only">Next question</span>
+            <svg viewBox="0 0 320 512" title="angle-up">
+              <path
+                d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"
+              />
+            </svg>
+          </label>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="form-group__content">
+          <button type="submit">Submit</button>
+        </div>
+        <div class="form-group__controls">
+          <label class="prev button button--icon" for="proceed-email"
+            ><span class="sr-only">Previous question</span>
+            <svg viewBox="0 0 320 512" title="angle-up">
+              <path
+                d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"
+              />
+            </svg>
+          </label>
+          <label class="next button button--icon"
+            ><span class="sr-only">Next question</span>
+            <svg viewBox="0 0 320 512" title="angle-up">
+              <path
+                d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"
+              />
+            </svg>
+          </label>
+        </div>
+      </div>
+      <button type="reset" class="button button--icon">
+        <span class="sr-only">Reset Form</span>
+        <svg viewBox="0 0 24 24" title="reset">
+          <path
+            fill="currentColor"
+            d="M12,5V1L7,6L12,11V7A6,6 0 0,1 18,13A6,6 0 0,1 12,19A6,6 0 0,1 6,13H4A8,8 0 0,0 12,21A8,8 0 0,0 20,13A8,8 0 0,0 12,5Z"
+          ></path>
+        </svg>
+      </button>
+    </form>
+    <script src="../../net/experimental-web-platform/script.js"></script>
+    <script type="module" src="./script.js"></script>
+  </body>
+</html>
