@@ -1,0 +1,157 @@
+- const randomInRange = (min, max) => Math.floor(Math.random() * (Math.floor(max) - Math.ceil(min) + 1) + Math.ceil(min))
+
+-
+  const getHue = input => {
+    if (input > 0 && input <= 25) return 18
+    if (input > 25 && input <= 50) return 130
+    if (input > 50 && input <= 75) return 44
+    if (input > 75 && input <= 100) return 215
+  }
+
+mixin section()
+  section
+    button.play
+        svg(viewBox="0 0 448 512" title="play")
+          path(d="M424.4 214.7L72.4 6.6C43.8-10.3 0 6.1 0 47.9V464c0 37.5 40.7 60.1 72.4 41.3l352-208c31.4-18.5 31.5-64.1 0-82.6z")
+        svg(viewBox="0 0 448 512" title="stop")
+          path(d="M400 32H48C21.5 32 0 53.5 0 80v352c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V80c0-26.5-21.5-48-48-48z")
+    if block
+      block
+doctype html
+html(lang="en")
+  head
+    meta(charset='utf-8')
+    meta(http-equiv="X-UA-Compatible" content="IE=edge")
+    meta(name="viewport", content="width=device-width, initial-scale=1, user-scalable=0, maximum-scale=1.0")
+    title DTT - How to use the Animations Tab
+    link(rel="stylesheet" href="npm:normalize.css")
+    link(rel='stylesheet' href='./style.css')
+  body
+    main
+      h1 Manipulate Time like a Strange Doctor 👀
+      article
+        +section()
+          .sling-ring
+            .sling-ring__ring
+        +section()
+          .sling-ring
+            .sling-ring__ring
+        +section()
+          .sling-ring
+            .sling-ring__ring
+        +section()
+          .sling-ring
+            .sling-ring__ring
+        +section()
+          .sling-ring
+            .sling-ring__ring
+            img(src="./team-awesome.png")
+        +section()
+          .sling-ring
+            .sling-ring__ring
+            img(src="./team-awesome.png")
+        +section()
+          .sling-ring
+            .sling-ring__ring
+            img(src="./team-awesome.png")
+        +section()
+          .sling-ring
+            .sling-ring__ring
+            img(src="./team-awesome.png")
+        - const PARTICLE_COUNT = 14 
+        - const PARTICLES_PER_PEN = 30
+        +section()
+          .sling-ring.sling-ring--particles(style=`--particle-count: ${PARTICLE_COUNT}`)
+            .sling-ring__ring.sling-ring__ring--particles
+              - let i = 0
+              while i < PARTICLE_COUNT
+                .sling-ring__particle-pen(style=`--index: ${i}`)
+                  .sling-ring__particle-start
+                - i++
+            img(src="./team-awesome.png")
+        +section()
+          .sling-ring.sling-ring--particles(style=`--particle-count: ${PARTICLE_COUNT}`)
+            .sling-ring__ring.sling-ring__ring--particles
+              - let a = 0
+              while a < PARTICLE_COUNT
+                .sling-ring__particle-pen(style=`--index: ${a}`)
+                  .sling-ring__particle-start
+                    .sling-ring__particle
+                - a++
+            img(src="./team-awesome.png")
+        +section()
+          .sling-ring.sling-ring--particles(style=`--particle-count: ${PARTICLE_COUNT}`)
+            .sling-ring__ring.sling-ring__ring--particles
+              - let b = 0
+              while b < PARTICLE_COUNT
+                .sling-ring__particle-pen(style=`--index: ${b}`)
+                  .sling-ring__particle-start
+                    - let p = 0
+                    while p < 1
+                      .sling-ring__particle
+                      - p++
+                - b++
+            img(src="./team-awesome.png")
+        +section()
+          .sling-ring.sling-ring--particles.sling-ring--particles-real(style=`--particle-count: ${PARTICLE_COUNT}`)
+            .sling-ring__ring.sling-ring__ring--particles
+              - let c = 0
+              while c < PARTICLE_COUNT
+                .sling-ring__particle-pen(style=`--index: ${c}`)
+                  .sling-ring__particle-start
+                    - let pa = 0
+                    while pa < PARTICLES_PER_PEN
+                      - const SIZE = randomInRange(10, 80)
+                      - const DISTANCE = randomInRange(3, 7)
+                      - const X = randomInRange(0, 100)
+                      - const Y = randomInRange(0, 100)
+                      - const ROTATION = randomInRange(-30, 0)
+                      - const DELAY = randomInRange(0, 100) / 100
+                      .sling-ring__particle(style=`--size: ${SIZE}; --distance: ${DISTANCE}; --x: ${X}; --y: ${Y}; --delay: ${DELAY}; --rotation: ${ROTATION};`)
+                      - pa++
+                - c++
+            img(src="./team-awesome.png")
+        +section()
+          .sling-ring.sling-ring--particles.sling-ring--particles-real(style=`--particle-count: ${PARTICLE_COUNT}`)
+            .sling-ring__ring.sling-ring__ring--particles
+              - let d = 0
+              while d < PARTICLE_COUNT
+                .sling-ring__particle-pen(style=`--index: ${d}; --base-delay: ${d / 5};`)
+                  .sling-ring__particle-start
+                    - let pd = 0
+                    while pd < PARTICLES_PER_PEN
+                      - const SIZE = randomInRange(10, 80)
+                      - const DISTANCE = randomInRange(3, 7)
+                      - const X = randomInRange(0, 100)
+                      - const Y = randomInRange(0, 100)
+                      - const ROTATION = randomInRange(-30, 0)
+                      - const DELAY = randomInRange(0, 100) / 100
+                      - const HUE = randomInRange(0, 360)
+                      - const LIGHTNESS = randomInRange(10, 100)
+                      .sling-ring__particle(style=`--hue: ${HUE}; --lightness: ${LIGHTNESS}; --size: ${SIZE}; --distance: ${DISTANCE}; --x: ${X}; --y: ${Y}; --delay: ${DELAY}; --rotation: ${ROTATION};`)
+                      - pd++
+                - d++
+            img(src="./team-awesome.png")
+        +section()
+          .sling-ring.sling-ring--particles.sling-ring--particles-real(style=`--particle-count: ${PARTICLE_COUNT}`)
+            .sling-ring__ring.sling-ring__ring--particles
+              - let e = 0
+              while e < PARTICLE_COUNT
+                .sling-ring__particle-pen(style=`--index: ${e}; --base-delay: ${e / 5};`)
+                  .sling-ring__particle-start
+                    - let pe = 0
+                    while pe < PARTICLES_PER_PEN
+                      - const SIZE = randomInRange(10, 80)
+                      - const DISTANCE = randomInRange(3, 7)
+                      - const X = randomInRange(0, 100)
+                      - const Y = randomInRange(0, 100)
+                      - const ROTATION = randomInRange(-30, 0)
+                      - const RADIUS = randomInRange(0, 50)
+                      - const DELAY = randomInRange(0, 100) / 100
+                      - const HUE = getHue(Math.round((e / PARTICLE_COUNT) * 100))
+                      - const LIGHTNESS = randomInRange(20, 90)
+                      .sling-ring__particle(style=`--radius: ${RADIUS}; --hue: ${HUE}; --lightness: ${LIGHTNESS}; --size: ${SIZE}; --distance: ${DISTANCE}; --x: ${X}; --y: ${Y}; --delay: ${DELAY}; --rotation: ${ROTATION};`)
+                      - pe++
+                - e++
+            img(src="./team-awesome.png")
+    script(type='module' src='./script.js')

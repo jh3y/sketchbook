@@ -1,0 +1,102 @@
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	font-family:  'Google Sans', sans-serif, system-ui;
+}
+
+[data-addpopup] {
+  position: fixed;
+  bottom: 10vmin;
+  left: 50%;
+  transform: translateX(-50%) scale(var(--scale, 1));
+  padding: var(--size-4) var(--size-8);
+  background: hsl(110 40% var(--lightness, 30%));
+  transition: background 0.25s, transform 0.25s;
+}
+
+[data-addpopup]:hover {
+  --scale: 1.1;
+  --lightness: 40%;
+}
+
+[data-addpopup]:active {
+  --scale: 0.9;
+  --lightness: 20%;
+}
+
+.popup {
+	--show: 0;
+	--speed: 250ms;
+	transition: transform var(--speed);
+	transform: translate(-50%, -50%) scale(var(--show));
+	font-size: var(--font-size, var(--font-size-fluid-3));
+	text-align: center;
+	font-weight: var(--font-weight-9);
+	position: fixed;
+	left: calc(var(--x, 50) * 1%);
+	top: calc(var(--y, 50) * 1%);
+  white-space: nowrap;
+  padding: var(--size-7);
+}
+
+.popup:top-layer {
+	--show: 1;
+}
+
+.popup button span {
+  all: unset;
+  position: absolute;
+  top: var(--size-2);
+  right: var(--size-2);
+  height: 44px;
+  aspect-ratio: 1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+  line-height: 0.5;
+  font-size: var(--size-6);
+  padding: 0.25rem;
+}
+
+
+.popup button {
+  all: unset;
+  position: absolute;
+  inset: 0;
+}
+
+/* If your transitions don't match, the latter will keep the other alive */
+/* If the ::backdrop transition is longer than the animation, the popup returns to it's position */
+.popup[data-hasbackdrop]::backdrop {
+  background: hsl(0 10% 10%/ 0.35);
+  backdrop-filter: blur(2px);
+}
+
+.popup[data-hasbackdrop]:top-layer::backdrop {
+	opacity: 1;
+}
+
+.hand {
+  display: inline-block;
+  animation: wag calc(var(--wave-speed, 3) * 1s) calc(var(--wave-delay, 0) * 1s) infinite both;
+  transform-origin: 65% 65%;
+}
+
+@keyframes wag {
+	0%, 10%, 20%, 30%, 40%  {
+		transform: rotateY(180deg) rotate(-8deg);
+	}
+	5%, 15%, 25%, 35%, 45%  {
+		transform: rotateY(180deg) rotate(8deg);
+	}
+	50%, 100% {
+		transform: rotateY(180deg) rotate(0);
+	}
+}

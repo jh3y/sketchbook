@@ -1,0 +1,265 @@
+@property --ring-reveal {
+  inherits: true;
+  initial-value: 0%;
+  syntax: '<percentage>';
+}
+
+:root {
+  --ring-thickness: clamp(2rem, 2vmin, 4rem);
+  --red: #ff4d00;
+  --green: #38b24d;
+  --yellow: #ebb624;
+  --blue: #0f73ff;
+  --base-speed: 1;
+}
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+  background: #f9f0e6;
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  font-family: 'Google Sans', sans-serif, system-ui;
+  padding: 10vmin;
+}
+main {
+  width: 100%;
+  display: grid;
+  place-items: center;
+}
+h1 {
+  text-align: center;
+  display: none;
+}
+article {
+  --border-thickness: 4px;
+  overflow: auto;
+  height: 50vmin;
+  aspect-ratio: 1;
+  overflow-x: hidden;
+  display: grid;
+  place-items: center;
+  align-items: center;
+  justify-content: center;
+  scroll-snap-type: y mandatory;
+  /*background: #fafafa;*/
+  border-radius: var(--border-thickness);
+}
+
+article::-webkit-scrollbar {
+  display: none;
+}
+
+section {
+  display: grid;
+  height: 100%;
+  aspect-ratio: 1;
+  place-items: center;
+  position: relative;
+  scroll-snap-align: center;
+}
+.sling-ring {
+  height: 70%;
+  aspect-ratio: 1;
+  position: relative;
+}
+.sling-ring__ring {
+  --base-rotation: -120deg;
+  --starting-point: calc(360 * -0.125deg);
+  --ring-reveal: 0%;
+  height: 100%;
+  width: 100%;
+  border-radius: 50%;
+  position: absolute;
+  transform: rotate(0deg);
+  border: var(--ring-thickness) solid;
+  border-color: var(--red) var(--green) var(--yellow) var(--blue);
+  mask: conic-gradient(from var(--starting-point), #000 var(--ring-reveal), transparent var(--ring-reveal));
+  -webkit-mask: conic-gradient(from var(--starting-point), #000 var(--ring-reveal), transparent var(--ring-reveal));
+  animation: reveal calc(var(--base-speed) * 1s) both ease-in, rotate 10s infinite linear;
+  z-index: 2;
+}
+section:nth-of-type(1) .sling-ring__ring,
+section:nth-of-type(2) .sling-ring__ring,
+section:nth-of-type(3) .sling-ring__ring {
+  background: conic-gradient(from var(--starting-point), var(--red) 0 25%, var(--green) 25% 50%, var(--yellow) 50% 75%, var(--blue) 75% 100%);
+}
+section:nth-of-type(1) .sling-ring__ring,
+section:nth-of-type(2) .sling-ring__ring,
+section:nth-of-type(3) .sling-ring__ring,
+section:nth-of-type(4) .sling-ring__ring,
+section:nth-of-type(5) .sling-ring__ring,
+section:nth-of-type(6) .sling-ring__ring,
+section:nth-of-type(7) .sling-ring__ring {
+	animation: rotate-in calc(var(--base-speed) * 1s) both ease-in, reveal calc(var(--base-speed) * 1s) both ease-in;
+}
+section:first-of-type .sling-ring__ring {
+  --base-rotation: -315deg;
+  --ring-reveal: 100%;
+  animation: rotate-in calc(var(--base-speed) * 1s) both ease-in;
+}
+section:nth-of-type(2) .sling-ring__ring {
+  --base-rotation: 0deg;
+  --ring-reveal: 0%;
+	animation: reveal calc(var(--base-speed) * 1s) both ease-in;
+}
+section:nth-of-type(3) .sling-ring__ring {
+  --base-rotation: 0deg;
+  --ring-reveal: 0%;
+  animation: reveal calc(var(--base-speed) * 1s) both ease-in, rotate calc(var(--base-speed) * 1s) linear;
+}
+img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  padding: var(--ring-thickness);
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: fade-in calc(var(--base-speed) * 1s) calc(var(--base-speed) * 0.25s) ease-in both;
+}
+section:nth-of-type(5) .sling-ring img {
+  animation: none;
+}
+section:nth-of-type(7) .sling-ring img {
+  animation: fade-in calc(var(--base-speed) * 0.5s) ease-in both;
+}
+
+section:nth-of-type(8) .sling-ring:hover {
+  --state: running;
+  transition: transform 0.25s ease-in;
+  transform: scale(1.1);
+}
+
+section:nth-of-type(8) .sling-ring__ring {
+	animation: rotate-in calc(var(--base-speed) * 1s) both ease-in, reveal calc(var(--base-speed) * 1s) both ease-in, rotate 10s infinite linear var(--state, paused);
+}
+section:nth-of-type(9) .sling-ring__particle-pen {
+  background: rgba(0,127,255,0.1);
+}
+section:nth-of-type(9) .sling-ring__particle-start {
+  background: #f00;
+}
+.sling-ring__ring--particles {
+  border: none;
+  -webkit-mask: none;
+}
+.sling-ring__particle-pen {
+  aspect-ratio: 1;
+  position: absolute;
+  inset: 0;
+  transform-origin: center;
+  transform: rotate(calc(((360 / var(--particle-count)) * var(--index)) * 1deg));
+}
+.sling-ring__particle-start {
+  position: absolute;
+  height: var(--ring-thickness);
+  aspect-ratio: 1;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, 50%) rotate(-90deg);
+  background: rgba(255,0,0,0.2);
+}
+.sling-ring__particle {
+  height: calc(var(--size, 100) * 1%);
+  aspect-ratio: 1;
+  background: hsl(var(--hue, 280), 100%, calc(var(--lightness, 50) * 1%));
+  position: absolute;
+  top: calc(var(--x, 50) * 1%);
+  left: calc(var(--y, 50) * 1%);
+  animation: blast 0.85s infinite both ease-out, fade-away 0.85s infinite both;
+  animation-delay: calc((var(--base-delay, 0) + var(--delay, 0)) * 1s);
+}
+.sling-ring--particles-real .sling-ring__particle {
+  border-radius: calc(var(--radius, 50) * 1%);
+}
+.sling-ring--particles-real .sling-ring__particle-start {
+  background: none;
+}
+.sling-ring--particles-real img {
+  animation-delay: calc((var(--particle-count) / 5) * 0.75s);
+}
+.play {
+  position: absolute;
+  top: 5%;
+  right: 5%;
+  height: 44px;
+  aspect-ratio: 1;
+  z-index: 3;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.play svg {
+  height: 50%;
+  aspect-ratio: 1;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  fill: #e8bf96;
+}
+.play svg:last-of-type {
+  display: none;
+}
+section.playing * {
+  animation-play-state: running !important;
+}
+section.playing .play svg:first-of-type {
+  display: none;
+}
+section.playing .play svg:last-of-type {
+  display: block;
+}
+section * {
+  animation-play-state: paused !important;
+}
+
+@keyframes reveal {
+  to {
+    --ring-reveal: 100%;
+  }
+}
+
+@keyframes rotate-in {
+  from {
+    transform: rotate(var(--base-rotation, 0deg));
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes rotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes blast {
+  from {
+    transform: rotate(calc(var(--rotation, 0) * 1deg)) scale(0) translate(0, 0);
+  }
+  to {
+    transform: rotate(calc(var(--rotation, 0) * 1deg)) scale(1.2) translate(0, calc((var(--ring-thickness) * var(--distance, 5)) * -1));
+  }
+}
+
+@keyframes fade-away {
+  0%, 75% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}

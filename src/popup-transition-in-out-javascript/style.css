@@ -1,0 +1,82 @@
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	font-family:  'Google Sans', sans-serif, system-ui;
+}
+
+[togglepopup] {
+  position: fixed;
+  bottom: 10vmin;
+  left: 50%;
+  transform: translateX(-50%) scale(var(--scale, 1));
+  padding: var(--size-4) var(--size-8);
+  background: hsl(110 40% var(--lightness, 30%));
+  transition: background 0.25s, transform 0.25s;
+}
+
+[togglepopup]:hover {
+  --scale: 1.1;
+  --lightness: 40%;
+}
+
+[togglepopup]:active {
+  --scale: 0.9;
+  --lightness: 20%;
+}
+
+[popup] {
+	--x: -100;
+	--speed: 200ms;
+	--scale: 0;
+  transition: transform var(--speed);
+	transform: translate(-50%, -50%) translateX(calc(var(--x) * 1%)) scale(var(--scale));
+	font-size: var(--font-size-fluid-3);
+	text-align: center;
+	font-weight: var(--font-weight-9);
+	position: fixed;
+	top: 50%;
+	left: 50%;
+}
+
+[popup]:top-layer {
+  --x: 0;
+  --scale: 1;
+}
+
+/* If your transitions don't match, the latter will keep the other alive */
+/* If the ::backdrop transition is longer than the animation, the popup returns to it's position */
+[popup]::backdrop {
+  background: hsl(0 10% 10%/ 0.35);
+  opacity: 0;
+  transition: opacity var(--speed);
+  backdrop-filter: blur(2px);
+}
+
+[popup]:top-layer::backdrop {
+	opacity: 1;
+}
+
+.hand {
+  display: inline-block;
+  animation: wag 3s infinite;
+  transform-origin: 65% 65%;
+}
+
+@keyframes wag {
+	0%, 10%, 20%, 30%, 40%  {
+		transform: rotateY(180deg) rotate(-8deg);
+	}
+	5%, 15%, 25%, 35%, 45%  {
+		transform: rotateY(180deg) rotate(8deg);
+	}
+	50%, 100% {
+		transform: rotateY(180deg) rotate(0);
+	}
+}
