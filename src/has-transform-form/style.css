@@ -76,10 +76,12 @@ input::placeholder {
   justify-content: center;
   align-content: center;
   opacity: var(--show, 0);
+  opacity: 1;
   transition-property: transform, opacity;
   transition-duration: var(--transition);
   transition-timing-function: var(--ease-elastic-2);
   transform: translateY(calc(var(--offset, 1) * 100%)) scale(var(--show, 0));
+  /*transform: translateY(calc(var(--offset, 1) * 100%)) scale(1);*/
 }
 
 .form-group__controls {
@@ -198,9 +200,25 @@ label {
   --offset: -1;
 }
 
-:is(.form-group:has(:checked) + .form-group:not(.form-group:has(:checked))) {
+
+:is(.form-group:has(:checked):focus-within + .form-group:not(.form-group:has(:checked))) {
   --show: 1;
   --offset: 0;
+}
+
+form:not(:focus-within) .form-group:has(:checked) + .form-group:not(.form-group:has(:checked)) {
+	--show: 1;
+	--offset: 0;
+}
+
+.form-group:has( ~ .form-group:focus-within) {
+	--show: 0;
+	--offset: -1;
+}
+
+.form-group:has(:focus-within) {
+	--show: 1;
+	--offset: 0;
 }
 
 .ok, .next, label:not([for]) {
