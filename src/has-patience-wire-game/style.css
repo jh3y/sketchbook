@@ -1,0 +1,302 @@
+:root {
+	--bg: var(--blue-1);
+	--size: 80vmin;
+	--red: #ff4d00;
+  --yellow: #ebb624;
+  --green: #38b24d;
+  --blue: #0f73ff;
+  --delay-step: 0.5s;
+  --stage-speed: 0.5s;
+  --wire-speed: 1.5s;
+  --backdrop-speed: 0.65s;
+  --dialog-speed: 0.75s;
+  --timer-speed: 20s;
+}
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	background: var(--bg);
+	overflow: hidden;
+	font-family:  'Google Sans', sans-serif, system-ui;
+}
+svg {
+	cursor: url(./handle--north.png) 64 32, pointer;
+}
+
+.wire__segment--top {
+	cursor: url(./handle--south.png) 64 96, pointer;
+}
+.wire__segment--right {
+	cursor: url(./handle--west.png) 32 64, pointer;
+}
+.wire__segment--bottom {
+	cursor: url(./handle--north.png) 64 32, pointer;
+}
+.wire__segment--left {
+	cursor: url(./handle--east.png) 96 64, pointer;
+}
+
+
+.game {
+	width: var(--size);
+}
+
+svg {
+	width: 100%;
+	height: auto;
+}
+
+.screen {
+	position: fixed;
+	inset: 0;
+	height: 100vh;
+	width: 100vw;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%) scale(var(--display-screen, 0));
+	background: hsl(0 0% 0% / 0.75);
+	z-index: 2;
+}
+
+.screen__dialog {
+	width: var(--size);
+	aspect-ratio: 16 / 9;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%) translateY(calc((1 - var(--show, 0)) * 100vh));
+	transition: transform 0.25s var(--ease-elastic-2);
+
+	font-size: clamp(1rem, 2vmin, 2rem);
+  backdrop-filter: blur(10px);
+  color: var(--gray-0);
+  background: hsl(210 29% 20% / 0.9);
+  box-shadow: var(--shadow-6);
+  text-align: center;
+  border-style: solid;
+  border-top-color: var(--red);
+  border-right-color: var(--green);
+  border-bottom-color: var(--yellow);
+  border-left-color: var(--blue);
+  border-width: var(--size-2);
+  display: grid;
+  place-items: center;
+  align-content: center;
+}
+
+/* Aesthetics */
+.wire__segment {
+	fill: none;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+}
+
+.wire__segment:not(.wire__segment--main), .game__zones > * {
+	opacity: 0;
+}
+
+.wire__segment--main {
+	stroke-dasharray: 5408;
+	stroke: var(--orange-4);
+}
+
+
+/* Animations Timeline with Custom Properties */
+.screen--intro {
+	animation: enter var(--backdrop-speed) calc(var(--stage-speed) + var(--wire-speed) + (3 * var(--delay-step))) both var(--ease-in-2);
+}
+
+.screen--intro .dialog--intro {
+	animation: fly var(--dialog-speed) calc(var(--stage-speed) + var(--wire-speed) + var(--backdrop-speed) + (4 * var(--delay-step))) both var(--ease-elastic-2);
+}
+
+@keyframes fly {
+	from {
+		transform: translate(-50%, -50%) translateY(100vh);
+	}
+}
+
+@keyframes enter {
+	from {
+		opacity: 0;
+	}
+}
+
+.wire__segment--main {
+	animation: draw var(--wire-speed) calc(var(--stage-speed) + (2 * var(--delay-step))) both var(--ease-squish-2)
+}
+
+@keyframes draw {
+	from {
+		stroke-dashoffset: 5408;
+	}
+}
+
+.game__stage {
+	animation: bump var(--stage-speed) var(--delay-step) both var(--ease-elastic-2);
+}
+
+@keyframes bump {
+	0% {
+		transform: translateY(100vh);
+	}
+}
+
+
+
+/* Utility  */
+.sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border-width: 0;
+}
+
+.faux-button {
+  --bg: var(--gray-9);
+  box-sizing: border-box;
+  font-size: var(--font-size-fluid-0);
+  padding: var(--size-4) var(--size-6);
+  background: var(--bg);
+  border-radius: var(--size-4);
+  color: var(--gray-0);
+  font-weight: bold;
+  font-family: 'Google Sans', sans-serif;
+  border: var(--size-2) solid var(--gray-0);
+  display: inline-block;
+  transform: translateY(calc(var(--y, 0) * 1%)) scale(var(--s));
+  transition: transform 0.1s, background 0.1s;
+}
+
+.faux-button:hover {
+  --bg: #000;
+  --y: -5;
+  --s: 1.1;
+}
+
+.faux-button:active {
+  --bg: #000;
+  --y: 5;
+  --s: 0.9;
+}
+
+/* Game specific designs */
+.game__control-container {
+	position: absolute;
+	left: calc(var(--size-2) * -1);
+	bottom: calc(var(--size-2) * -1);
+	width: 31.25%;
+	height: 28.5%;
+	display: grid;
+	place-items: center;
+}
+
+.faux-button {
+	max-height: 100%;
+	padding: var(--size-fluid-1);
+}
+
+/* Game Mechanics */
+.dialog--intro {
+	--show: 1;
+}
+
+:root:has(#start:checked) :is(.dialog--intro) {
+	--show: 0;
+}
+
+.screen--intro {
+	--display-screen: var(--display-intro, 1);
+}
+
+.screen--lose {
+	--display-screen: var(--display-lose, 0);
+}
+
+.screen--win {
+	--display-screen: var(--display-win, 0);
+}
+
+:root:not(:has(#start:checked)) {
+	--display-intro: 1;
+}
+
+:root:has(#start:checked) {
+	--display-intro: 0;
+}
+
+:root:has(#start:checked) .timeout {
+	animation: time-out 0.5s var(--timer-speed) both steps(1);
+}
+
+:root:has(#start:checked) body:after {
+	animation: countdown var(--timer-speed) ease-out;
+}
+
+body:after {
+	content: "";
+	height: var(--size-2);
+	width: 100vw;
+	transform-origin: 0 50%;
+	background: var(--green-6);
+	position: fixed;
+	top: 0;
+	clip-path: inset(0 100% 0 0);
+}
+
+@keyframes countdown {
+	0% {
+		background: var(--green-6);
+		clip-path: inset(0 0 0 0);
+	}
+	to {
+		background: var(--red-6);
+		clip-path: inset(0 100% 0 0);
+	}
+}
+
+.timeout {
+	position: fixed;
+	inset: 0;
+	transform: scale(0);
+}
+
+@keyframes time-out {
+	to {
+		transform: scale(1);
+	}
+}
+
+:root:has(#start:checked):has(.game__over:hover, .screen--lose:hover, .timeout:hover) .dialog--lose {
+	--show: 1;
+}
+:root:has(#start:checked):has(.game__over:hover, .screen--lose:hover, .timeout:hover) .screen--lose {
+	--display-lose: 1;
+}
+
+:root:has(#start:checked):has(.game__success:hover, .screen--win:hover) .dialog--win {
+	--show: 1;
+}
+:root:has(#start:checked):has(.game__success:hover, .screen--win:hover) .screen--win {
+	--display-win: 1;
+}
+
+:root:has(#start:checked):has(.game__success:hover, .screen--win:hover) .timeout,
+:root:has(#start:checked):has(.game__over:hover, .screen--lose:hover) .timeout,
+:root:has(#start:checked):has(.game__success:hover, .screen--win:hover) body:after,
+:root:has(#start:checked):has(.game__over:hover, .screen--lose:hover) body:after {
+	animation: none;
+}
