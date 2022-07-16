@@ -1,0 +1,240 @@
+*,
+*:after,
+*:before {
+  box-sizing: border-box;
+  transform-style: preserve-3d;
+  touch-action: none;
+}
+
+:root {
+  --open: 0;
+  --size: 40;
+  --rotation-y: -0;
+  --rotation-x: -0;
+  --depth: 20vmin;
+  --transition: 0.25s;
+  --transition-step: var(--transition);
+  --slide-offset: 20%;
+}
+
+body {
+  background: hsl(0 0% 96%);
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  font-family:  'Google Sans', sans-serif, system-ui;
+  overflow: hidden;
+  font-weight: bold;
+  color: var(--color);
+  font-size: calc(var(--depth, 20vmin) * 0.25);
+}
+
+h1 {
+  opacity: 0.5;
+  color: var(--color);
+  font-size: calc(var(--depth, 20vmin) * 0.25);
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  margin: 0;
+}
+
+.scene {
+  pointer-events: none;
+  background: hsl(10 80% 50% / 0.15);
+  position: relative;
+  transform: translate3d(0, 0, 100vmin) rotateX(calc(var(--rotation-y, 0) * 1deg)) rotateY(calc(var(--rotation-x, 0) * 1deg)) rotateX(90deg);
+}
+
+.rotater {
+  width: 20vmin;
+  aspect-ratio: 1;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotateX(calc(var(--open, 0) * 32deg)) rotateZ(calc(var(--open, 0) * -32deg));
+}
+
+.box__shadows {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  background: hsl(280 80% 50% / 0.2);
+  top: 50%;
+  left: 50%;
+  transform: translate3d(-50%, -50%, calc(var(--depth) * -0.5)) translateX(calc(var(--open, 0) * (-1 * (50% + (var(--slide-offset) * 0.5)))));
+  z-index: -1;
+}
+
+.box {
+  --color: hsl(210 10% 24%);
+  height: 100%;
+  width: 100%;
+}
+
+/* Theming */
+.box .cuboid__side {
+  background: none;
+  border: calc(var(--depth) * 0.05) solid var(--color);
+}
+
+.box .cuboid__side:nth-of-type(5) {
+  transform-origin: 0 50%;
+  transform: translate3d(0, 0, calc(var(--depth, 20vmin) * 0.5)) rotateY(calc(var(--open, 0) * -150deg));
+}
+
+.think {
+  height: 100%;
+  width: 100%;
+  transform: rotateX(-90deg) translateY(calc(var(--open, 0) * -100%));
+}
+
+.think__component {
+  height: 100%;
+  width: 100%;
+  display: grid;
+  place-items: center;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+label {
+  position: fixed;
+  inset: 0;
+  transform: translateZ(200vmin);
+  z-index: 99999;
+}
+
+
+
+:checked ~ .scene {
+  --open: 1;
+}
+
+/* Transition timelines */
+.box {
+  transform: translateX(calc(var(--open, 0) * (-1 * (50% + (var(--slide-offset) * 0.5)))));
+}
+
+.think__component--slide {
+  transform: translateX(calc(var(--open, 0) * (100% + var(--slide-offset))));
+}
+
+.think__component--rotate {
+  transform: rotate(calc(var(--open, 0) * 360deg));
+}
+
+.think__component--drop {
+  transform: translateY(calc(var(--open, 0) * 100%));
+}
+
+.stepper {
+  transition: transform var(--transition) calc(var(--order) * var(--transition-step));
+}
+
+/* When :checked */
+:checked ~ .scene .rotater {
+  --order: 0;
+}
+:checked ~ .scene .box .cuboid__side:nth-of-type(5) {
+  --order: 1;
+}
+.think {
+  --order: 2;
+}
+:checked ~ .scene :is(
+  .box,
+  .think__component--slide,
+  .think__component--rotate
+) {
+  --order: 3;
+}
+:checked ~ .scene .think__component--drop {
+  --order: 4;
+}
+/* When not :checked */
+.rotater {
+  --order: 4;
+}
+.box .cuboid__side:nth-of-type(5) {
+  --order: 3;
+}
+.think {
+  --order: 2;
+}
+.box,
+.box__shadows,
+.think__component--slide,
+.think__component--rotate {
+  --order: 1;
+}
+.think__component--drop {
+  --order: 0;
+}
+
+/* Cuboid boilerplate code */
+.cuboid {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+.cuboid__side {
+  background: var(--color);
+  position: absolute;
+}
+.cuboid__side:nth-of-type(1) {
+  --b: 1.1;
+  height: var(--depth, 20vmin);
+  width: 100%;
+  top: 0;
+  transform: translate(0, -50%) rotateX(90deg);
+}
+.cuboid__side:nth-of-type(2) {
+  --b: 0.9;
+  height: 100%;
+  width: var(--depth, 20vmin);
+  top: 50%;
+  right: 0;
+  transform: translate(50%, -50%) rotateY(90deg);
+}
+.cuboid__side:nth-of-type(3) {
+  --b: 0.5;
+  width: 100%;
+  height: var(--depth, 20vmin);
+  bottom: 0;
+  transform: translate(0%, 50%) rotateX(90deg);
+}
+.cuboid__side:nth-of-type(6) {
+  --b: 1;
+  height: 100%;
+  width: var(--depth, 20vmin);
+  left: 0;
+  top: 50%;
+  transform: translate(-50%, -50%) rotateY(90deg);
+}
+.cuboid__side:nth-of-type(5) {
+  --b: 0.8;
+  height: 100%;
+  width: 100%;
+  transform: translate3d(0, 0, calc(var(--depth, 20vmin) * 0.5));
+  top: 0;
+  left: 0;
+}
+.cuboid__side:nth-of-type(4) {
+  --b: 1.2;
+  height: 100%;
+  width: 100%;
+  transform: translate3d(0, 0, calc(var(--depth, 20vmin) * -0.5)) rotateY(180deg);
+  top: 0;
+  left: 0;
+}
