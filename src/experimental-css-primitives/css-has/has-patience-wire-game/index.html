@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  class="popup-support has-support houdini-support object-view-box-support"
+>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, user-scalable=0, maximum-scale=1.0"
+    />
+    <title>has-patience-wire-game</title>
+    <link rel="stylesheet" href="npm:normalize.css" />
+    <link rel="stylesheet" href="npm:open-props/open-props.min.css" />
+    <link rel="stylesheet" href="npm:open-props/normalize.min.css" />
+    <link rel="stylesheet" href="npm:open-props/colors-hsl.min.css" />
+    <link
+      rel="stylesheet"
+      href="../../../../net/experimental-web-platform/style.css"
+    />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <form class="game">
+      <div class="game__controls">
+        <input class="sr-only" type="checkbox" id="start" />
+        <input class="sr-only" type="checkbox" id="finish" />
+      </div>
+      <div class="game__stage">
+        <svg
+          viewBox="0 0 1920 1080"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <g>
+            <!-- <path fill="#fff" d="M0 0h1920v1080H0z" /> -->
+            <g class="game__platform platform">
+              <path class="platform__side platform__side--front" fill="#D9D9D9" d="M0 958h1628v122H0z" />
+              <path class="platform__side platform__side--right" d="m1628 958 292-122v122l-292 122V958Z" fill="#AAA" />
+              <path
+                class="platform__side platform__side--top"
+                d="M291.544 836H1919.5L1628 958H0l291.544-122Z"
+                fill="#F3F3F3"
+              />
+              <path class="platform__shadow" fill="#D9D9D9" d="M295 887h1330v20H295z" />
+            </g>
+            <g class="game__zones">
+              <path class="game__over" opacity=".5" fill="#EC8080" d="M0 0h1920v1080H0z" />
+              <path class="game__start" opacity=".5" fill="#D9D9D9" d="M-1 772h600v308H-1z"/>
+            </g>
+            <g class="game__wire">
+              <!-- <path
+                d="M299.05 897.065V199.998S631 68.998 667 144.997C719.582 256 421 215.564 421 425.001 421 648 531.138 726 667 726h132c86.921 0 142.16-81.164 146-168 4.662-105.419-200.186-80.561-196-186 3.703-93.278 75.308-149.877 166-172.002 40.216-9.81 106 0 106 0L1177 726s103.94 25.132 162 0c74.41-32.211 119.21-86.965 122-168 3.99-116.056-238.59-70.063-232-186 5.42-95.393 84.85-137.628 174-172.002 80.16-30.908 220 .001 220 .001v697.066"
+                stroke="#F90505"
+                stroke-width="80"
+              /> -->
+              <path
+                class="wire__segment wire__segment--main"
+                d="M299.05 897.065V199.998S631 68.998 667 144.997C719.582 256 421 215.564 421 425.001 421 648 531.138 726 667 726h132c86.921 0 142.16-81.164 146-168 4.662-105.419-200.186-80.561-196-186 3.703-93.278 75.308-149.877 166-172.002 40.216-9.81 106 0 106 0L1177 726s103.94 25.132 162 0c74.41-32.211 119.21-86.965 122-168 3.99-116.056-238.59-70.063-232-186 5.42-95.393 84.85-137.628 174-172.002 80.16-30.908 220 .001 220 .001v697.066"
+                stroke="#000"
+                stroke-width="20"
+              />
+              <path
+                class="wire__segment wire__segment--top"
+                d="M1623 199.999s-139.84-30.909-220-.001c-57.28 22.085-110.54 47.414-142.74 88.002"
+                stroke="#C805F9"
+                stroke-width="80"
+              />
+              <path
+                class="wire__segment wire__segment--right"
+                d="M1259.17 431.088c-19.52-13.562-31.72-31.859-30.17-59.088 1.94-34.105 13.34-61.415 31.26-84"
+                stroke="#F96B05"
+                stroke-width="80"
+              />
+              <path
+                class="wire__segment wire__segment--bottom"
+                d="M1427.09 497.289c-45.25-29.326-124.61-36.105-167.92-66.201"
+                stroke="#05F9BE"
+                stroke-width="80"
+              />
+              <path
+                class="wire__segment wire__segment--left"
+                d="M1427.09 660c20.71-27.786 32.52-61.632 33.91-102 .97-28.314-12.73-46.983-33.91-60.711"
+                stroke="#F905B4"
+                stroke-width="80"
+              />
+              <path
+                class="wire__segment wire__segment--top"
+                d="M1177 726s103.94 25.132 162 0c37.34-16.165 67.23-38.007 88.09-66"
+                stroke="#05A1F9"
+                stroke-width="80"
+                stroke-linecap="round"
+              />
+              <path
+                class="wire__segment wire__segment--top"
+                d="M1021 199.998s-65.784-9.81-106 0C855.803 214.44 804.737 243.569 775.38 288"
+                stroke="#F9B405"
+                stroke-width="80"
+                stroke-linecap="round"
+              />
+              <path
+                class="wire__segment wire__segment--left"
+                d="M779 431.088c-18.818-14.196-31.055-32.499-30-59.088 1.286-32.393 10.761-60.362 26.38-84"
+                stroke="#05F91E"
+                stroke-width="80"
+                stroke-linecap="round"
+              />
+              <path
+                class="wire__segment wire__segment--bottom"
+                d="M927.624 510C894.142 473.747 820.538 462.424 779 431.088"
+                stroke="#F9055D"
+                stroke-width="80"
+                stroke-linecap="round"
+              />
+              <path
+                class="wire__segment wire__segment--left"
+                d="M887 691.724c34.953-31.719 55.699-81.703 58-133.724.891-20.155-5.876-35.548-17.376-48"
+                stroke="#F99705"
+                stroke-width="80"
+                stroke-linecap="round"
+              />
+              <path
+                class="wire__segment wire__segment--top"
+                d="M555 703.62C588.593 719.124 626.663 726 667 726h132c34.85 0 64.607-13.047 88-34.276"
+                stroke="#0575F9"
+                stroke-width="80"
+                stroke-linecap="round"
+              />
+              <path
+                class="wire__segment wire__segment--right"
+                d="M447.461 332C431.185 356.162 421 386.32 421 425.001c0 156.791 54.447 241.901 134 278.619"
+                stroke="#C8F905"
+                stroke-width="80"
+                stroke-linecap="round"
+              />
+              <path
+                class="wire__segment wire__segment--top"
+                d="M299.05 199.998S557.432 98.032 643 126.21"
+                stroke="#F90531"
+                stroke-width="80"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                class="wire__segment wire__segment--bottom"
+                d="M446.136 334c52.059-79.996 170.293-95.303 212.093-134.001"
+                stroke="#F9A605"
+                stroke-width="80"
+                stroke-linecap="round"
+              />
+              <path
+                class="wire__segment wire__segment--right"
+                d="M647 127.674c9.374 3.806 16.273 9.455 20 17.323 11.419 24.106 6.277 41.07-8.771 55.001"
+                stroke="#05F9F9"
+                stroke-width="80"
+                stroke-linecap="round"
+              />
+              <path
+                class="wire__segment wire__segment--right"
+                d="M1623 897.065V199.999"
+                stroke="#61FF00"
+                stroke-width="80"
+                stroke-linecap="round"
+              />
+              <path
+                class="wire__segment wire__segment--right"
+                d="m1177 726-156-526.002"
+                stroke="#4405F9"
+                stroke-width="80"
+                stroke-linecap="round"
+              />
+              <path
+                class="wire__segment wire__segment--left"
+                d="M299.05 897.065V199.999"
+                stroke="#D705F9"
+                stroke-width="80"
+                stroke-linecap="round"
+              />
+            </g>
+            <g class="game__zones">
+              <circle class="game__success" cx="1623" cy="906" r="125" fill="#D9D9D9" />
+            </g>
+          </g>
+        </svg>
+      </div>
+      <!-- The trick is to have your screens inside the <form> and the screens are powered by the <form> -->
+      <!-- For an intro have a separate dismissal [type="checkbox"] outside of the <form>.
+           that doesn't get reset and hides that one [BELOW]-->
+      <div class="screen screen--intro">
+        <!-- Intro -->
+        <div class="screen__dialog dialog dialog--intro">
+          <h2>steady :has()</h2>
+          <p>How steady are those hands? Let's find out.</p>
+          <p>Hit "Start" and follow the wire to the end.</p>
+          <div class="game__control-container">
+            <label class="faux-button" for="start">Start</label>
+          </div>
+        </div>
+      </div>
+      <div class="screen screen--win">
+        <!-- Win -->
+        <div class="screen__dialog dialog dialog--win">
+          <h2>Winner!</h2>
+          <p>You're not a robot. Or are you?</p>
+          <div class="game__control-container">
+            <button type="reset" class="faux-button">Replay</label>
+          </div>
+        </div>
+      </div>
+      <div class="screen screen--lose">
+        <!-- Lose -->
+        <div class="screen__dialog dialog dialog--lose">
+          <h2>Uh Oh</h2>
+          <p>Try again perhaps?</p>
+          <div class="game__control-container">
+            <button type="reset" class="faux-button">Replay</label>
+          </div>
+        </div>
+      </div>
+    </form>
+    <div class="timeout"></div>
+    <script src="../../../../net/experimental-web-platform/script.js"></script>
+    <script type="module" src="./script.js"></script>
+  </body>
+</html>

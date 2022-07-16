@@ -4,16 +4,19 @@
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, maximum-scale=1.0" />
-    <title>PageTitle</title>
+    <title>popup-backdrop-management</title>
     <link rel="stylesheet" href="npm:normalize.css" />
-    <!-- Purposely set to the wrong place to enforce putting things in an experimental subdir -->
+    <link rel="stylesheet" href="npm:open-props/open-props.min.css" />
+    <link rel="stylesheet" href="npm:open-props/normalize.min.css" />
+    <link rel="stylesheet" href="npm:open-props/colors-hsl.min.css" />
     <link rel="stylesheet" href="../../../../net/experimental-web-platform/style.css" />
     <link rel="stylesheet" href="./style.css" />
   </head>
   <body>
-    <h1>Hello, World!</h1>
-    <!-- Purposely set to the wrong place to enforce putting things in an experimental subdir -->
-    <script src="../../net/experimental-web-platform/script.js"></script>
+    <div id="pop" popup>Hey!<span class="hand">👋</span></div>
+    <h1>PopUps are coming...</h1>
+    <button popup="manual" defaultopen data-addpopup>Add PopUp</button>
+    <script src="../../../../net/experimental-web-platform/script.js"></script>
     <script type="module" src="./script.js"></script>
   </body>
 </html>

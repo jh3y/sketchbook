@@ -1,3 +1,8 @@
+const fs = require('fs')
+
+// Base choices on directories under "templates" directory
+const choices = fs.readdirSync(`${__dirname}/templates`)
+
 const PLOPPER = (plop) => {
 	plop.setGenerator('new pen', {
 		description: 'basic HTML, CSS, and JavaScript',
@@ -5,22 +10,13 @@ const PLOPPER = (plop) => {
 			{
 				type: 'input',
 				name: 'name',
-				message: 'name your pen',
+				message: 'Name your pen',
 			},
 			{
 				type: 'list',
 				name: 'template',
-				message: 'choose template (default standard)',
-				choices: [
-					'3d-scene',
-					'3d-scene-preprocessor',
-					'experimental',
-					'greensock',
-					'open-props',
-					'react',
-					'standard',
-					'typescript',
-				],
+				message: 'Choose your template',
+				choices,
 				default: 'standard',
 			},
 		],

@@ -23,6 +23,7 @@
 }
 
 .has-support .support-warning--has,
+.scroll-timeline-support .support-warning--scroll-timeline,
 .popup-support .support-warning--popup,
 .houdini-support .support-warning--houdini,
 .object-view-box-support .support-warning--object-view-box {
@@ -39,6 +40,9 @@
 
 @supports(object-view-box: inset(0 0 0 0)) {
   .object-view-box-support .support-warning--object-view-box { display: none; }
+}
+@supports (animation-timeline: works) {
+  .scroll-timeline-support .support-warning--scroll-timeline { display: none; }
 }
 
 .popup-supported .support-warning--popup {

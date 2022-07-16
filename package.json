@@ -34,6 +34,11 @@
     "dev": "rm -rf dist && parcel --no-source-maps --port 1987 --https --cert ./localhost.pem --key ./localhost-key.pem",
     "create": "plop"
   },
+  "@parcel/transformer-css": {
+    "drafts": {
+      "scrollTimeline": true
+    }
+  },
   "devDependencies": {
     "@parcel/transformer-pug": "2.6.2",
     "@parcel/transformer-stylus": "2.6.2",

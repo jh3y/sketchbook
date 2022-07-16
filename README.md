@@ -1,5 +1,9 @@
 # sketchbook
 
+## init
+`bun install`
+`bun run init`
+
 ## create a new pen
 `bun run create`
 `bun run create -- component -- --name "pen-name" --template standard`

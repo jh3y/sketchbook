@@ -14,6 +14,10 @@ const SUPPORT_MESSAGES = [
   {
     modifier: 'object-view-box',
     message: 'This browser is not supported... yet. object-view-box is currently supported in Chrome Canary with the "Experimental Web Platform Features" flag enabled.',
+  },
+  {
+    modifier: 'scroll-timeline',
+    message: 'This browser is not supported... yet. @scroll-timeline is currently supported in Chrome Canary with the "Experimental Web Platform Features" flag enabled.',
   }
 ]
 
@@ -32,7 +36,6 @@ const generateWarnings = () => {
 }
 
 generateWarnings()
-
 
 // For JavaScript APIs
 if (Element.prototype.hasOwnProperty("popUp"))
