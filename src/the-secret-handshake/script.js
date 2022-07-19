@@ -1,3 +1,9 @@
+const mapRange = (inputLower, inputUpper, outputLower, outputUpper) => {
+  const INPUT_RANGE = inputUpper - inputLower
+  const OUTPUT_RANGE = outputUpper - outputLower
+  return (value) =>
+    outputLower + (((value - inputLower) / INPUT_RANGE) * OUTPUT_RANGE || 0)
+}
 /** This is a tricky little thing to make.
  * Essentially need to work out rotation steps
  * But also check for deviance on the other axis at the same time
@@ -9,26 +15,39 @@
  * beta: around x-axis, an upright device is at 90, flat is 0. 180 is laying flat face down. Also get -180 -> 0
  * gamma: around y-axis, -90 is rotating to the left from flat. 90 is rotating to the right from flat.
  * */
-
+const STEP_LABELS = document.querySelectorAll('.step')
+// Need an activation window for each step...
+// As long as the user remains within that, they won't fail
+// Until the proximity drops to becomes 100 or less...
 const STEPS = [
-	{
-		axis: 'beta',
-		start: 90,
-		end: 0,
-		completed: false,
-	},
-	{
-		axis: 'alpha',
-		start: 359,
-		end: 270,
-		completed: false,
-	},
-	{
-		axis: 'gamma',
-		start: 0,
-		end: 80,
-		completed: false,
-	},
+  {
+    axis: 'beta',
+    start: 90,
+    end: 0,
+    starter_bounds: [[85, 95]],
+    // thresholds: {
+    //   gamma: [[-10, 10]],
+    //   alpha: [
+    //     [0, 10],
+    //     [350, 360],
+    //   ],
+    // },
+  },
+  {
+    axis: 'alpha',
+    start: 359,
+    end: 270,
+    // Can't fall into this before the proximity drops beneath 100
+    starter_bounds: [
+      [0, 5],
+      [360, 355],
+    ],
+  },
+  {
+    axis: 'gamma',
+    start: 0,
+    end: 80,
+  },
 ]
 
 /**
@@ -39,51 +58,64 @@ const STEPS = [
  * */
 let currentStep = 0
 let active = false
-let proximity
 let distance
-const handleOrientation = e => {
-	/**
-	 * This is where it gets tricky. We need to focus on the
-	 * first step in the STEPS that isn't completed until it is.
-	 * But, once we activate, we need to make sure the other axis
-	 * don't deviate too much to make sure we are on track.
-	 * We could do this by tracking the currentStep and having
-	 * a threshold for deviation perhaps.
-	 * */
-	 const STEP = STEPS[currentStep]
-	 if (proximity === undefined) proximity = STEP.start - STEP.end // 90, -270, 80
-	 /**
-	  * We need some way of knowing if we're in the active state
-	  * */
-	 if (!active && Math.floor(e[STEP.axis]) === STEP.start) {
-	 	active = true
-	 	console.info('activated')
-	 } else if (active) {
-	 	// Work out what's going on here.
-	 	const newDistance = STEP.end - (STEP.start - e[STEP.axis])
-	 	if (!distance) distance = newDistance
-	 	else if (newDistance <= distance) {
-	 		distance = newDistance
-	 		console.info('keep going')
-	 	} else if (newDistance > distance) {
-	 		console.info('uh oh reset')
-	 		active = false
-	 		proximity = distance = undefined
-	 	}
-	 	else if (newDistance === STEP.end) {
-	 		console.info('we have an unlock')
-	 	}
-	 	console.info(newDistance, STEP.end)
-	 }
+let proximity
+let mapper
+const UNLOCK_THRESHOLD = 5
+const handleOrientation = (e) => {
+  /**
+   * This is where it gets tricky. We need to focus on the
+   * first step in the STEPS that isn't completed until it is.
+   * But, once we activate, we need to make sure the other axis
+   * don't deviate too much to make sure we are on track.
+   * We could do this by tracking the currentStep and having
+   * a threshold for deviation perhaps.
+   * */
+  const STEP = STEPS[currentStep]
+  /**
+   * We need some way of knowing if we're in the active state
+   * */
+  const position = Math.floor(e[STEP.axis])
+  let withinBounds
+  if (!active)
+    withinBounds =
+      STEP.starter_bounds.filter(
+        (bounds) => position >= bounds[0] && position <= bounds[1]
+      ).length > 0
+  // If the position falls within the starter_bounds of the step, activate
+  const newProximity = mapper && Math.floor(mapper(position))
+  if (!active && withinBounds) {
+    console.info('activate')
+    active = true
+    mapper = mapRange(STEP.start, STEP.end, 100, 0)
+    proximity = Math.floor(mapper(position))
+  } else if (active && newProximity > proximity) {
+    console.error('Wrong way')
+    console.info({ proximity, newProximity })
+    active = false
+    proximity = undefined
+    mapper = undefined
+    currentStep = 0
+  } else if (newProximity >= 0 && newProximity <= UNLOCK_THRESHOLD) {
+    console.info('unlock')
+    STEP_LABELS[currentStep].style.setProperty('--opacity', 1)
+    currentStep = currentStep + 1
+    const NEW_STEP = STEPS[currentStep]
+    mapper = mapRange(NEW_STEP.start, NEW_STEP.end, 100, 0)
+    proximity = mapper(Math.floor(e[NEW_STEP.axis]))
+  } else if (newProximity > UNLOCK_THRESHOLD && newProximity <= proximity) {
+    console.info('keep going')
+    proximity = newProximity
+  }
 }
 
 // Need to tie this to a control to start...
 if (DeviceOrientationEvent?.requestPermission) {
-	DeviceOrientationEvent.requestPermission().then((permission) => {
-		if (permission === 'granted')
-			window.addEventListener('deviceorientation', handleOrientation)
-		else alert('You denied permission to play!')
-	})
+  DeviceOrientationEvent.requestPermission().then((permission) => {
+    if (permission === 'granted')
+      window.addEventListener('deviceorientation', handleOrientation)
+    else alert('You denied permission to play!')
+  })
 } else {
-	window.addEventListener('deviceorientation', handleOrientation)
+  window.addEventListener('deviceorientation', handleOrientation)
 }
