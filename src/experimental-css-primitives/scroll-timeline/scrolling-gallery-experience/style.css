@@ -1,12 +1,39 @@
 *,
 *:after,
 *:before {
-	box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 body {
-	display: grid;
-	place-items: center;
-	min-height: 100vh;
-	font-family:  'Google Sans', sans-serif, system-ui;
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  font-family:  'Google Sans', sans-serif, system-ui;
+  width: 600vw;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  display:grid;
+  grid-template-columns: repeat(30, 1fr);
+  grid-template-rows: repeat(5, auto);
+  width: 100%;
+  justify-items: center;
+}
+
+li {
+  height: 10vmin;
+  aspect-ratio: 1;
+  background: red;
+  list-style-type: none;
+  grid-row: var(--row, 1);
+  grid-column: var(--index, 1);
+  transition: transform 0.2s;
+  transform: rotate(calc(((1 - var(--show, 0)) * var(--rotation, 0)) * 1deg)) scale(var(--show, 0));
+}
+
+li.visible {
+  --show: 1;
+  background: green;
 }
