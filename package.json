@@ -48,6 +48,7 @@
     "process": "^0.11.10"
   },
   "dependencies": {
+    "canvas-confetti": "^1.5.1",
     "dat.gui": "^0.7.9",
     "gsap": "npm:@gsap/member",
     "normalize.css": "^8.0.1",

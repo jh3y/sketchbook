@@ -1,3 +1,7 @@
+import confetti from 'canvas-confetti'
+
+const FANFARE = new Audio(new URL('./grunt-party--optimised.mp3', import.meta.url))
+
 const mapRange = (inputLower, inputUpper, outputLower, outputUpper) => {
   const INPUT_RANGE = inputUpper - inputLower
   const OUTPUT_RANGE = outputUpper - outputLower
@@ -19,25 +23,19 @@ const STEP_LABELS = document.querySelectorAll('.step')
 // Need an activation window for each step...
 // As long as the user remains within that, they won't fail
 // Until the proximity drops to becomes 100 or less...
+// TODO:: Check for deviations on other axis
+// TODO:: Allow for some threshold window when doing this
 const STEPS = [
   {
     axis: 'beta',
     start: 90,
     end: 0,
     starter_bounds: [[85, 95]],
-    // thresholds: {
-    //   gamma: [[-10, 10]],
-    //   alpha: [
-    //     [0, 10],
-    //     [350, 360],
-    //   ],
-    // },
   },
   {
     axis: 'alpha',
     start: 359,
     end: 270,
-    // Can't fall into this before the proximity drops beneath 100
     starter_bounds: [
       [0, 5],
       [360, 355],
@@ -47,6 +45,9 @@ const STEPS = [
     axis: 'gamma',
     start: 0,
     end: 80,
+    starter_bounds: [
+      [-10, 10]
+    ]
   },
 ]
 
@@ -99,10 +100,16 @@ const handleOrientation = (e) => {
   } else if (newProximity >= 0 && newProximity <= UNLOCK_THRESHOLD) {
     console.info('unlock')
     STEP_LABELS[currentStep].style.setProperty('--opacity', 1)
-    currentStep = currentStep + 1
-    const NEW_STEP = STEPS[currentStep]
-    mapper = mapRange(NEW_STEP.start, NEW_STEP.end, 100, 0)
-    proximity = mapper(Math.floor(e[NEW_STEP.axis]))
+    if (currentStep === STEPS.length - 1) {
+      confetti()
+      FANFARE.play()
+      window.removeEventListener('deviceorientation', handleOrientation)
+    } else {
+      currentStep = currentStep + 1
+      const NEW_STEP = STEPS[currentStep]
+      mapper = mapRange(NEW_STEP.start, NEW_STEP.end, 100, 0)
+      proximity = mapper(Math.floor(e[NEW_STEP.axis]))
+    }
   } else if (newProximity > UNLOCK_THRESHOLD && newProximity <= proximity) {
     console.info('keep going')
     proximity = newProximity
