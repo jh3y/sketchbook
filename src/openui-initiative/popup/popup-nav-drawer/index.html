@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  class="scroll-timeline-support popup-support has-support houdini-support object-view-box-support"
+>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, user-scalable=0, maximum-scale=1.0"
+    />
+    <title>openui-initiative/popup/popup-nav-drawer</title>
+    <link rel="stylesheet" href="npm:normalize.css" />
+    <link rel="stylesheet" href="npm:open-props/normalize.min.css" />
+    <link rel="stylesheet" href="npm:open-props/open-props.min.css" />
+    <!-- Purposely set to the wrong place to enforce putting things in an experimental subdir -->
+    <link
+      rel="stylesheet"
+      href="../../../../net/experimental-web-platform/style.css"
+    />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <button
+      togglepopup="drawer"
+      class="nav-control"
+      aria-haspopup="true"
+      aria-expanded="false"
+      aria-controls="nav"
+      aria-pressed="true"
+    >
+      <span>Menu Collapsed</span><span>Menu Expanded</span
+      ><svg class="nav__icon" viewBox="0 0 24 24" role="img">
+        <title>Menu icon</title>
+        <path
+          d="M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z"
+          fill="var(--color)"
+        ></path>
+        <path
+          d="M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z"
+          fill="var(--color)"
+        ></path>
+      </svg>
+    </button>
+    <nav class="menu" id="drawer" popup>
+      <ul>
+        <li>Home</li>
+        <li>About</li>
+        <li>Writing</li>
+      </ul>
+    </nav>
+    <header>
+      <h1>Some Awesome Site</h1>
+    </header>
+    <main>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae
+        voluptatibus non aut cum eos optio inventore alias velit exercitationem
+        sit placeat vel magnam maxime illo ratione fuga, nobis, quibusdam
+        officia!
+      </p>
+      <p>
+        Optio ea dolorem qui, necessitatibus, similique cupiditate. Animi fuga
+        exercitationem hic aperiam corrupti minus sunt inventore dignissimos
+        laborum non, sequi eligendi libero quas totam doloribus officia ipsum,
+        nihil placeat rem.
+      </p>
+      <p>
+        Praesentium laboriosam cumque natus adipisci amet asperiores mollitia
+        sit consequatur, excepturi deleniti dolores, vitae. Tenetur inventore
+        officia, iusto illo, vitae sit fugit vero consequatur molestias, atque
+        nulla, eaque aliquam sapiente.
+      </p>
+      <p>
+        Quam necessitatibus aut sit, nesciunt doloribus? Reprehenderit, illum?
+        Velit distinctio non adipisci modi libero nostrum placeat fuga dolorem,
+        eveniet, ab praesentium nemo, amet. Dolores porro blanditiis doloribus
+        perferendis praesentium impedit.
+      </p>
+      <p>
+        Dolores ratione quaerat veniam placeat aut quidem blanditiis nisi
+        ducimus distinctio soluta ut, inventore nobis ex dolorem modi
+        accusantium architecto vero, voluptas! Cupiditate porro maxime eius,
+        suscipit esse sit, rerum.
+      </p>
+    </main>
+    <!-- Purposely set to the wrong place to enforce putting things in an experimental subdir -->
+    <script src="../../../../net/experimental-web-platform/script.js"></script>
+    <script type="module" src="./script.js"></script>
+  </body>
+</html>

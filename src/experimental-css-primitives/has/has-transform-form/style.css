@@ -68,7 +68,7 @@ input::placeholder {
 
 .form-group__content {
 	height: 100%;
-	width: 100%;
+	width: 90%;
 	display: flex;
   flex-wrap: wrap;
   gap: var(--size-4);
@@ -82,6 +82,16 @@ input::placeholder {
   transition-timing-function: var(--ease-elastic-2);
   transform: translateY(calc(var(--offset, 1) * 100%)) scale(var(--show, 0));
   /*transform: translateY(calc(var(--offset, 1) * 100%)) scale(1);*/
+}
+
+.form-group__shaker {
+	height: 100%;
+	width: 100%;
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--size-4);
+	align-items: center;
+	justify-content: center;
 }
 
 .form-group__controls {
@@ -100,7 +110,7 @@ input::placeholder {
 	z-index: 3;
 }
 
-.form-group input:not([type="checkbox"]) {
+.form-group .form-group__input {
 	flex: 1;
 }
 
@@ -168,6 +178,26 @@ label {
   white-space: nowrap;
   text-align: center;
 }
+
+.form-group__input {
+	position: relative;
+}
+
+.form-group__input input {
+	width: 100%;
+}
+
+.form-group__error {
+	display: none;
+	white-space: nowrap;
+	position: absolute;
+	top: calc(var(--size-2) + 100%);
+	left: 50%;
+	color: var(--red);
+	transform: translate(-50%, 0) scale(1);
+	font-size: var(--font-size-0);
+}
+
 
 .form-group:has(:invalid:not([type="checkbox"])) {
 	--color: var(--invalid);
@@ -237,4 +267,56 @@ form:not(:focus-within) .form-group:has(:checked) + .form-group:not(.form-group:
 
 [type="submit"]:hover {
 	background: var(--green-8);
+}
+
+.form-group:has(:invalid:not(:focus):not(:placeholder-shown)) .form-group__error {
+  display: block;
+}
+
+
+@media(prefers-reduced-motion: no-preference) {
+	
+	.form-group__content:has(:valid:not([type="checkbox"])) .label__letter {
+	  animation: wave 0.25s calc(var(--index) * 0.05s);
+	}
+	
+	.form-group__shaker:has(:invalid:not(:focus)) {
+		animation: shake 0.2s;
+	}
+
+	.form-group__shaker:has(:focus),
+	.form-group__shaker:has(:placeholder-shown:not(:focus)),
+	.form-group__content:has(:placeholder-shown:not(:focus)),
+	.form-group__content:has(:placeholder-shown:not(:focus)) .label__letter {
+	  animation: none;
+	}
+
+	.form-group__error {
+		animation: show-error 0.1s 0.2s both;
+	}
+
+	@keyframes wave {
+	  50% {
+	    transform: translateY(-50%);
+	  }
+	}
+
+	@keyframes show-error {
+		0% {
+			transform: translate(-50%, -100%) scale(0);
+		}
+	}
+
+	@keyframes shake {
+	  0%, 100% {
+	    transform: translateX(0);
+	  } 
+	  20%, 40%, 60%, 80% {
+	    transform: translateX(-2%);
+	  }
+	  10%, 30%, 50%, 70%, 90% {
+	    transform: translateX(2%);
+	  }
+	}
+
 }

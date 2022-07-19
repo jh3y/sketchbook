@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en" class="scroll-timeline-support popup-support has-support houdini-support object-view-box-support">
+  <head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, maximum-scale=1.0" />
+    <title>has-field-error</title>
+    <link rel="stylesheet" href="npm:normalize.css" />
+    <link rel="stylesheet" href="npm:open-props/normalize.min.css" />
+    <link rel="stylesheet" href="npm:open-props/open-props.min.css" />
+    <!-- Purposely set to the wrong place to enforce putting things in an experimental subdir -->
+    <link rel="stylesheet" href="../../../../net/experimental-web-platform/style.css" />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+     <form action="">
+      <div class="form-group">
+        <label for="email" class="form-label">
+          <span style="--index: 0;">E</span>
+          <span style="--index: 1;">m</span>
+          <span style="--index: 2;">a</span>
+          <span style="--index: 3;">i</span>
+          <span style="--index: 4;">l</span>
+        </label>
+        <div class="form-group__input">
+          <input required type="email" id="email" class="form-input" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" title="Enter valid email address" placeholder="Enter valid email address"/>   
+          <div class="form-group__error">Enter a valid email address</div>
+        </div>
+      </div>
+    </form>
+    <!-- Purposely set to the wrong place to enforce putting things in an experimental subdir -->
+    <script src="../../../../net/experimental-web-platform/script.js"></script>
+    <script type="module" src="./script.js"></script>
+  </body>
+</html>

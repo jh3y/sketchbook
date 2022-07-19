@@ -1,0 +1,181 @@
+*,
+*:after,
+*:before {
+  box-sizing: border-box;
+}
+
+:root {
+  --red: hsl(18 100% 50%);
+  --green: hsl(130 52% 46%);
+  --yellow: hsl(44 83% 53%);
+  --blue: hsl(215 100% 53%);
+  --grey: hsl(0 0% 45%);
+  --text: var(--gray-5);
+  --transition: 0.2s;
+  --valid: var(--green);
+  --invalid: var(--red);
+  --focus: var(--indigo-3);
+  --blur: var(--indigo-1);
+  --disabled: var(--grey);
+}
+
+:where(html) {
+	color-scheme: none;
+}
+
+body {
+  display: grid;
+  min-height: 100vh;
+  font-family: 'Google Sans', sans-serif, system-ui;
+  place-items: center;
+  overflow:  hidden;
+  margin: 0;
+  background-color: transparent;
+  font-size: 1rem;
+}
+
+form {
+  display: grid;
+  position: relative;
+  grid-gap: 1rem;
+}
+
+input {
+  border: 4px solid var(--color);
+  border-radius: 4px;
+  padding: 1rem 2rem;
+  font-weight: 400;
+  transition: border-color var(--transition);
+}
+
+input:focus-visible {
+  outline-color: var(--color);
+}
+
+input::placeholder {
+  color: transparent;
+}
+
+.form-group {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+label {
+  font-family: sans-serif;
+  display: flex;
+  font-weight: bold;
+  padding-right: 1rem;
+  transform-style: preserve-3d;
+  transition: color var(--transition);
+  color: var(--color);
+  font-size: 1.25rem;
+}
+
+button {
+  padding: 1rem 2rem;
+  border-radius: 4px;
+  border: 0;
+  cursor: pointer;
+  background: var(--disabled);
+  font-weight: bold;
+  color: var(--gray-5);
+  transition: color var(--transition), background var(--transition);
+}
+
+.form-group:has(:invalid) {
+  --color: var(--invalid);
+}
+
+.form-group:has(:focus) {
+  --color: var(--focus);
+}
+
+.form-group:has(:valid) {
+  --color: var(--valid);
+}
+
+.form-group:has(:placeholder-shown) {
+  --color: var(--blur);
+}
+
+
+label span {
+  display: inline-block;
+}
+
+.form-group:has(:invalid:not(:focus)) .form-group__error {
+  display: block;
+}
+
+.form-group:has(:focus) .form-group__error,
+.form-group:has(:placeholder-shown:not(:focus)) .form-group__error {
+	display: none;
+}
+
+form:valid [type="submit"] {
+  background: var(--valid);
+  color: var(--gray-1);
+}
+
+.form-group__input {
+	position: relative;
+}
+
+.form-group__error {
+	display: none;
+	white-space: nowrap;
+	position: absolute;
+	top: calc(var(--size-2) + 100%);
+	left: 50%;
+	color: var(--red);
+	transform: translate(-50%, 0) scale(1);
+	font-size: var(--font-size-0);
+}
+
+@media(prefers-reduced-motion: no-preference) {
+	
+	.form-group:has(:valid) label span {
+	  animation: wave 0.25s calc(var(--index) * 0.05s);
+	}
+
+
+	.form-group:has(:invalid:not(:focus)) {
+		animation: shake 0.2s;
+	}
+
+	.form-group__error {
+		animation: show-error 0.1s 0.2s both;
+	}
+	
+	.form-group:has(:placeholder-shown:not(:focus)),
+	.form-group:has(:placeholder-shown:not(:focus)) label span {
+	  animation: none;
+	}
+
+	@keyframes show-error {
+		0% {
+			transform: translate(-50%, -100%) scale(0);
+		}
+	}
+
+	@keyframes wave {
+	  50% {
+	    transform: translateY(-50%);
+	  }
+	}
+
+	@keyframes shake {
+	  0%, 100% {
+	    transform: translateX(0);
+	  } 
+	  20%, 40%, 60%, 80% {
+	    transform: translateX(-2%);
+	  }
+	  10%, 30%, 50%, 70%, 90% {
+	    transform: translateX(2%);
+	  }
+	}
+}
+

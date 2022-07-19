@@ -22,25 +22,42 @@
     <link rel="stylesheet" href="./style.css" />
   </head>
   <body>
-    <form>
+    <form action="">
       <div class="form-group">
         <div class="form-group__content">
-          <label for="first-name">First Name</label>
-          <input
-            id="first-name"
-            type="text"
-            placeholder="first name"
-            required
-            pattern="[A-Za-z]{2,}"
-          />
-          <label class="ok button button--icon" for="proceed-first-name">
-            OK.
-            <svg viewBox="0 0 512 512" title="check-circle">
-              <path
-                d="M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z"
+          <div class="form-group__shaker">
+            <label for="first-name">
+              <span aria-hidden="true" class="label__letter" style="--index: 0;">F</span>
+              <span aria-hidden="true" class="label__letter" style="--index: 1;">i</span>
+              <span aria-hidden="true" class="label__letter" style="--index: 2;">r</span>
+              <span aria-hidden="true" class="label__letter" style="--index: 3;">s</span>
+              <span aria-hidden="true" class="label__letter" style="--index: 4;">t</span>
+              <span aria-hidden="true" class="label__letter" style="--index: 5;">&nbsp;</span>
+              <span aria-hidden="true" class="label__letter" style="--index: 6;">N</span>
+              <span aria-hidden="true" class="label__letter" style="--index: 7;">a</span>
+              <span aria-hidden="true" class="label__letter" style="--index: 8;">m</span>
+              <span aria-hidden="true" class="label__letter" style="--index: 9;">e</span>
+              <span class="sr-only">First Name</span>
+            </label>
+            <div class="form-group__input">
+              <input
+                id="first-name"
+                type="text"
+                placeholder="first name"
+                required
+                pattern="[A-Za-z]{2,}"
               />
-            </svg>
-          </label>
+              <div class="form-group__error">Enter at least two characters</div>
+            </div>
+            <label class="ok button button--icon" for="proceed-first-name">
+              OK.
+              <svg viewBox="0 0 512 512" title="check-circle">
+                <path
+                  d="M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z"
+                />
+              </svg>
+            </label>
+          </div>
         </div>
         <input
           class="proceed sr-only"
@@ -69,22 +86,38 @@
       </div>
       <div class="form-group">
         <div class="form-group__content">
-          <label for="last-name">Last Name</label>
-          <input
-            id="last-name"
-            type="text"
-            placeholder="last name"
-            required
-            pattern="[A-Za-z]{2,}"
-          />
-          <label class="ok button button--icon" for="proceed-last-name">
-            OK.
-            <svg viewBox="0 0 512 512" title="check-circle">
-              <path
-                d="M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z"
+          <div class="form-group__shaker">
+            <label for="last-name">
+              <span aria-hidden="true" class="label__letter" style="--index: 0;">L</span>
+              <span aria-hidden="true" class="label__letter" style="--index: 1;">a</span>
+              <span aria-hidden="true" class="label__letter" style="--index: 2;">s</span>
+              <span aria-hidden="true" class="label__letter" style="--index: 3;">t</span>
+              <span aria-hidden="true" class="label__letter" style="--index: 4;">&nbsp;</span>
+              <span aria-hidden="true" class="label__letter" style="--index: 5;">N</span>
+              <span aria-hidden="true" class="label__letter" style="--index: 6;">a</span>
+              <span aria-hidden="true" class="label__letter" style="--index: 7;">m</span>
+              <span aria-hidden="true" class="label__letter" style="--index: 8;">e</span>
+              <span class="sr-only">Last Name</span>
+            </label>
+            <div class="form-group__input">
+              <input
+                id="last-name"
+                type="text"
+                placeholder="last name"
+                required
+                pattern="[A-Za-z]{2,}"
               />
-            </svg>
-          </label>
+              <div class="form-group__error">Enter at least two characters</div>
+            </div>
+            <label class="ok button button--icon" for="proceed-last-name">
+              OK.
+              <svg viewBox="0 0 512 512" title="check-circle">
+                <path
+                  d="M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z"
+                />
+              </svg>
+            </label>
+          </div>
         </div>
         <input
           class="proceed sr-only"
@@ -113,21 +146,33 @@
       </div>
       <div class="form-group">
         <div class="form-group__content">
-          <label for="email">Email</label>
-          <input
-            type="email"
-            required
-            placeholder="email"
-            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
-          />
-          <label class="ok button button--icon" for="proceed-email">
-            OK.
-            <svg viewBox="0 0 512 512" title="check-circle">
-              <path
-                d="M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z"
+          <div class="form-group__shaker">
+            <label for="email">
+              <span aria-hidden="true" class="label__letter" style="--index: 0;">E</span>
+              <span aria-hidden="true" class="label__letter" style="--index: 1;">m</span>
+              <span aria-hidden="true" class="label__letter" style="--index: 2;">a</span>
+              <span aria-hidden="true" class="label__letter" style="--index: 3;">i</span>
+              <span aria-hidden="true" class="label__letter" style="--index: 4;">l</span>
+              <span class="sr-only">Email</span>
+            </label>
+            <div class="form-group__input">
+              <input
+                type="email"
+                required
+                placeholder="email"
+                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
               />
-            </svg>
-          </label>
+              <div class="form-group__error">Enter a valid email address</div>
+            </div>
+            <label class="ok button button--icon" for="proceed-email">
+              OK.
+              <svg viewBox="0 0 512 512" title="check-circle">
+                <path
+                  d="M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z"
+                />
+              </svg>
+            </label>
+          </div>
         </div>
         <input
           class="proceed sr-only"

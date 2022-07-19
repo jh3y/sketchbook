@@ -1,0 +1,138 @@
+:root {
+  --open: 0;
+  --bg: var(--gray-9);
+  --text-1: var(--gray-1);
+  --text-2: var(--gray-1);
+  --color: var(--gray-1);
+  --header-gradient: var(--gradient-1);
+  --hover-action: var(--gray-7);
+  --nav-color: var(--gray-8);
+  --link: var(--red-3);
+}
+
+[aria-pressed] {
+  background: none;
+  border-radius: 50%;
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+}
+
+[aria-pressed]:hover {
+  background: var(--hover-action);
+}
+
+body {
+  background: var(--bg);
+  display: grid;
+  color: var(--color);
+  align-items: start;
+  justify-items: center;
+  min-height: 100vh;
+  grid-auto-rows: min-content;
+  overflow-x: hidden;
+}
+
+nav {
+  padding: var(--size-2) 0;
+  background: var(--nav-color);
+  position: fixed;
+  top: 0;
+  width: 200px;
+  bottom: 0;
+  box-shadow: var(--inner-shadow-4);
+  left: calc(100% - 200px);
+  height: 100vh;
+}
+
+[popup] {
+	--x: 100;
+	--speed: 200ms;
+  transition: transform var(--speed);
+	transform: translateX(calc(var(--x) * 1%));
+}
+
+[popup]:top-layer {
+  --x: 0;
+}
+
+nav::backdrop {
+  background: hsl(0 0% 15% / 0.2);
+  backdrop-filter: blur(4px);
+  animation: fade-in 0.25s ease-in;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+header {
+  padding: var(--size-12) 0;
+  background: var(--header-gradient);
+  width: 100%;
+  display: grid;
+  place-items: center;
+}
+
+:where(h1) {
+  text-align: center;
+  width: 100%;
+  font-size: var(--font-size-6);
+}
+
+:where(p, ul) {
+  font-size: var(--font-size-0);
+  max-inline-size: var(--size-content-2);
+}
+
+nav ul {
+  list-style-type: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 100%;
+  padding: 0;
+  margin: 0;
+  width: var(--size-xl);
+  gap: var(--size-4);
+}
+
+ul li:hover {
+  text-decoration: underline var(--size-1) var(--color);
+}
+
+button {
+  height: 48px;
+  position: relative;
+  aspect-ratio: 1;
+  overflow: hidden;
+  padding: 0;
+}
+
+button span {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  color: transparent;
+}
+
+p {
+  margin-top: var(--size-4);
+}
+
+[aria-pressed] :is(span, svg title, svg path) {
+  display: none;
+}
+
+[aria-pressed="false"] :is(span:nth-of-type(1), title:nth-of-type(1), path:nth-of-type(1)),
+[aria-pressed="true"] :is(span:nth-of-type(2), title:nth-of-type(2), path:nth-of-type(2)){
+  display: block;
+}
+
+button svg {
+  height: 75%;
+  stroke: none;
+}
