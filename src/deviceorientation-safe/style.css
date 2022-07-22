@@ -1,0 +1,408 @@
+* {
+	box-sizing: border-box;
+}
+
+:root {
+	--shadow: hsl(0 0% 0% / 0.5);
+	--safe: hsl(0 0% 45%);
+	--safe--dark: hsl(0 0% 35%);
+	--safe--darkest: hsl(0 0% 15%);
+	--safe--light: hsl(0 0% 55%);
+	--dial: hsl(18 90% 50%);
+}
+
+.cylinder {
+	--hue: 10;
+	--depth: 3;
+  --bg: hsl(var(--hue), 100%, 50%);
+  height: 100%;
+  width: 100%;
+  position: relative;
+}
+.cylinder__segment {
+  filter: brightness(var(--b, 1));
+  background: var(--safe--darkest);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}
+
+.cylinder__side:nth-of-type(2n + 1) {
+	background: var(--safe--dark);
+}
+
+.cylinder__end {
+  --b: 1.2;
+  --end-coefficient: 0.5;
+  height: 100%;
+  width: 100%;
+  border-radius: 50%;
+  transform: translate3d(-50%, -50%, calc((var(--depth, 0) * var(--end-coefficient)) * 1vmin));
+}
+.cylinder__end--bottom {
+  --b: 0.8;
+  --end-coefficient: -0.5;
+  overflow: hidden;
+}
+.cylinder__end--bottom:after {
+	content: '';
+	position: absolute;
+	height: 50%;
+	width: 10%;
+	background: var(--dial);
+	bottom: 75%;
+	left: 50%;
+	transform: translate(-50%, 0);
+}
+
+.cylinder__side {
+  --b: 0.9;
+  height: calc(var(--depth, 30) * 1vmin);
+  width: calc(var(--side) * 1vmin);
+  transform: translate(-50%, -50%) rotateX(90deg) rotateY(calc((var(--index, 0) * 360 / var(--sides)) * 1deg)) translate3d(50%, 0, calc(var(--radius) * 1vmin));
+}
+
+
+.cuboid {
+  height: 100%;
+  width: 100%;
+  position: relative;
+}
+
+.cuboid__side {
+	background: currentColor;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  filter: brightness(
+  var(--brightness, 1));
+}
+
+/* T, R, B, L, F, B */
+
+.cuboid__side:nth-of-type(1) {
+  --brightness: 0.8;
+  top: 0;
+  height: var(--depth, 50vmin);
+  transform: translateY(-50%) rotateX(-90deg);
+}
+
+.cuboid__side:nth-of-type(2) {
+  --brightness: 0.6;
+  top: 50%;
+  right: 0;
+  width: var(--depth, 50vmin);
+  transform: translate(50%, -50%) rotateY(90deg);
+}
+
+.cuboid__side:nth-of-type(3) {
+  --brightness: 1.3;
+  bottom: 0;
+  height: var(--depth, 50vmin);
+  transform: translateY(50%) rotateX(90deg);
+}
+
+.cuboid__side:nth-of-type(4) {
+  --brightness: 0.6;
+  top: 50%;
+  width: var(--depth, 50vmin);
+  transform: translate(-50%, -50%) rotateY(90deg);
+}
+
+.cuboid__side:nth-of-type(5) {
+  --brightness: 0.75;
+  transform: translateZ(calc(var(--depth, 50vmin) / -2));
+}
+
+.cuboid__side:nth-of-type(6) {
+  --brightness: 1;
+  transform: translateZ(calc(var(--depth, 50vmin) / 2)) rotateY(180deg);
+}
+
+.safe {
+	--size: 20vmin;
+	--rotation: 4deg;
+	--flight: -100;
+	--open: 0;
+	--door-speed: 2;
+	--combo: 0;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate3d(-50%, -50%, 100vmin) rotateX(-24deg) rotateY(24deg) translateY(calc(var(--flight, 0) * 1vmin)) rotate(calc((var(--proximity, 0) / 100) * var(--rotation)));
+	height: var(--size);
+	aspect-ratio: 1 / 1;
+	transform-origin: 50% 100%;
+	transition: transform 0.25s ease-in;
+}
+
+.safe__shadow {
+	--size: 20vmin;
+	height: var(--size);
+	aspect-ratio: 1 / 1;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform-origin: 50% 100%;
+	transform: translate3d(-50%, -50%, 100vmin) rotateX(-24deg) rotateY(24deg) translateZ(calc(var(--size) * 0.5)) rotateX(90deg);	
+}
+
+.safe__shadow:after {
+	content: '';
+	position: absolute;
+	inset: 0;
+	background: var(--shadow);
+	opacity: var(--o, 0);
+	transition: opacity 0.25s ease-in, transform 0.25s ease-in;
+	transform: scale(var(--o, 0));
+}
+
+.safe--cracking {
+	animation: shake calc((1 - ((var(--proximity, 0) / 100) * 0.9)) * 1s) infinite;
+}
+
+.safe--cracked {
+	--open: 10;
+}
+
+.safe--opened {
+	--open: 130;
+	--door-speed: 0.5;
+}
+
+* {
+	transform-style: preserve-3d;
+}
+
+.safe__outer {
+	--depth: var(--size);
+	color: var(--safe--dark);
+	height: 100%;
+	aspect-ratio: 1 / 1;
+
+}
+
+.safe__door {
+	--depth: calc(var(--size) * 0.1);
+	height: 80%;
+	aspect-ratio: 1 / 1;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform-origin: 95% 50%;
+	transition: transform calc(var(--door-speed) * 1s) ease-in-out;
+	transform: translate3d(-50%, -50%, calc(var(--size) * 0.45)) rotateY(calc(var(--open) * 1deg));
+	color: var(--safe);
+}
+
+.safe__inner {
+	--depth: calc(var(--size) * 0.9);
+	height: 80%;
+	aspect-ratio: 1 / 1;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate3d(-50%, -50%, calc(var(--size) * 0.05));
+	color: var(--safe);
+}
+
+.safe__inner .cuboid__side:nth-of-type(5) {
+	--brightness: 0.2;
+}
+
+.safe__inner .cuboid__side:last-of-type {
+	display: none;
+}
+
+.safe__outer .cuboid__side:last-of-type {
+	background: none;
+	border: calc(var(--size) * 0.1) solid var(--safe--dark);
+}
+
+.safe__door .cuboid__side:last-of-type {
+	filter: none;
+}
+
+.josh {
+	height: 75%;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	animation: spin 10s infinite linear;
+}
+
+code {
+	color: hsl(18 90% 50%);
+	background: hsl(0 0% 15%);
+	padding: 8px;
+	font-weight: bold;
+	font-size: 1.2rem;
+}
+
+marquee {
+	display: none;
+	font-family: 'Google Sans', sans-serif;
+	position: fixed;
+	width: 50vmin;
+	top: 20vmin;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, calc(-50% + 20vmin));
+}
+
+@keyframes spin {
+	to {
+		transform: translate(-50%, -50%) rotateY(360deg);
+	}
+}
+
+.safe__door .cuboid__side:last-of-type img {
+	position: absolute;
+	height: 20%;
+	top: 5%;
+	right: 5%;
+	filter: grayscale(1);
+	opacity: 0.5;
+}
+
+.safe__combination {
+	--depth: calc(var(--size) * 0.2);
+	transform: translate3d(-50%, -50%, calc(var(--size) * -0.1)) rotate(calc(((360 / 100) * var(--combo, 0)) * 1deg));
+	height: 30%;
+	width: 30%;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transition: transform 0.1s;
+}
+
+
+body {
+	accent-color: hsl(120 80% 50%);
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	margin: 0;
+	font-family: 'Google Sans', sans-serif;
+	font-weight: bold;
+	overflow: hidden;
+}
+
+main {
+	display: grid;
+	grid-template-columns: repeat(2, auto);
+	grid-template-rows: repeat(3, auto);
+	grid-gap: 0.5rem;
+}
+
+label {
+	color: hsl(0 0% 15%);
+}
+
+button {
+	grid-column: 1 / -1;
+	font-weight: bold;
+	font-family: sans-serif;
+	padding: 8px 16px;
+	font-size: 1rem;
+	border-radius: 4px;
+	border: 0;
+	color: hsl(0 0% 100%);
+	background: hsl(120 50% var(--lightness, 50%));
+	transition: background 0.2s;
+	transform: translate3d(0, 0, 200vmin);
+}
+
+button:hover {
+	--lightness: 60%;
+}
+
+button:active {
+	--lightness: 40%;
+}
+
+[for],
+[type="range"] {
+	display: none;
+	/* Animation speed will be 1 to 0.1 */
+	/*animation: shake calc((1 - ((var(--proximity, 0) / 100) * 0.9)) * 1s) infinite;*/
+}
+
+@keyframes shake {
+	25% {
+		transform: translate3d(-50%, -50%, 100vmin) rotateX(-24deg) rotateY(24deg) translateY(calc(var(--flight, 0) * 1vmin)) rotate(calc((var(--proximity, 0) / 100) * var(--rotation)));
+	}
+	75% {
+		transform: translate3d(-50%, -50%, 100vmin) rotateX(-24deg) rotateY(24deg) translateY(calc(var(--flight, 0) * 1vmin)) rotate(calc((var(--proximity, 0) / 100) * (var(--rotation) * -1)));
+	}
+}
+
+.control__label,
+.control__input {
+	display: none;
+}
+
+.locks {
+	display: grid;
+	grid-template-columns: repeat(var(--locks, auto-fit), auto);
+	gap: 0.5rem;
+	position: fixed;
+	top: 1rem;
+	right: 1rem;
+}
+
+.lock {
+	height: 32px;
+	aspect-ratio: 1;
+	display: none;
+	position: relative;
+	color: hsl(130 calc(var(--unlocked, 0) * 90%) 75%);
+  opacity: calc(1 - var(--unlocked, 0));
+  transition: opacity 0.25s 0.25s;
+  animation: bounce-in 0.5s calc(var(--index) * 0.25s) both;
+}
+
+@keyframes bounce-in {
+	0% {
+		transform: scale(0);
+	}
+	90% {
+		transform: scale(1.1);
+	}
+	100% {
+		transform: scale(1);
+	}
+}
+
+.lock:before {
+	content: "";
+  width: 90%;
+  border-radius: 15%;
+  height: 55%;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  background: currentColor;
+  z-index: 2;
+  transform: translate(-50%);
+}
+
+.lock--unlocked {
+	--unlocked: 1;
+}
+
+.lock:after {
+	content: "";
+  height: 100%;
+  width: 60%;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, calc(var(--unlocked, 0) * -25%));
+  border-radius: 50% 50% 0 0 / 35%;
+  border: 6px solid currentColor;
+  box-sizing: border-box;
+  transition: transform 0.25s;
+  clip-path: polygon(0 0, 100% 0, 100% 50%, 50% 50%, 50% 100%, 0 100%);
+}

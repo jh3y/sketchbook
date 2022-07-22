@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, user-scalable=0, maximum-scale=1.0"
+    />
+    <title>deviceorientation-safe</title>
+    <link rel="stylesheet" href="npm:normalize.css" />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div class="locks"></div>
+    <main>
+      <div class="safe__shadow"></div>
+      <div class="safe">
+        <!-- <img class="josh" src="../../../assets/vitaly.svg" /> -->
+        <div class="safe__outer">
+          <div class="cuboid">
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+          </div>
+        </div>
+        <div class="safe__inner">
+          <div class="cuboid">
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+          </div>
+        </div>
+        <div class="safe__door">
+          <div class="cuboid">
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side">
+              <img src="./bear-2022--black.png" />
+              <div class="safe__combination">
+                <div class="cylinder">
+                  <div
+                    class="cylinder__end cylinder__segment cylinder__end--top"
+                  ></div>
+                  <div
+                    class="cylinder__end cylinder__segment cylinder__end--bottom"
+                  ></div>
+                  <div
+                    class="cylinder__side cylinder__segment"
+                    style="--index: 0"
+                  ></div>
+                  <div
+                    class="cylinder__side cylinder__segment"
+                    style="--index: 1"
+                  ></div>
+                  <div
+                    class="cylinder__side cylinder__segment"
+                    style="--index: 2"
+                  ></div>
+                  <div
+                    class="cylinder__side cylinder__segment"
+                    style="--index: 3"
+                  ></div>
+                  <div
+                    class="cylinder__side cylinder__segment"
+                    style="--index: 4"
+                  ></div>
+                  <div
+                    class="cylinder__side cylinder__segment"
+                    style="--index: 5"
+                  ></div>
+                  <div
+                    class="cylinder__side cylinder__segment"
+                    style="--index: 6"
+                  ></div>
+                  <div
+                    class="cylinder__side cylinder__segment"
+                    style="--index: 7"
+                  ></div>
+                  <div
+                    class="cylinder__side cylinder__segment"
+                    style="--index: 8"
+                  ></div>
+                  <div
+                    class="cylinder__side cylinder__segment"
+                    style="--index: 9"
+                  ></div>
+                  <div
+                    class="cylinder__side cylinder__segment"
+                    style="--index: 10"
+                  ></div>
+                  <div
+                    class="cylinder__side cylinder__segment"
+                    style="--index: 11"
+                  ></div>
+                  <div
+                    class="cylinder__side cylinder__segment"
+                    style="--index: 12"
+                  ></div>
+                  <div
+                    class="cylinder__side cylinder__segment"
+                    style="--index: 13"
+                  ></div>
+                  <div
+                    class="cylinder__side cylinder__segment"
+                    style="--index: 14"
+                  ></div>
+                  <div
+                    class="cylinder__side cylinder__segment"
+                    style="--index: 15"
+                  ></div>
+                  <div
+                    class="cylinder__side cylinder__segment"
+                    style="--index: 16"
+                  ></div>
+                  <div
+                    class="cylinder__side cylinder__segment"
+                    style="--index: 17"
+                  ></div>
+                  <div
+                    class="cylinder__side cylinder__segment"
+                    style="--index: 18"
+                  ></div>
+                  <div
+                    class="cylinder__side cylinder__segment"
+                    style="--index: 19"
+                  ></div>
+                  <div
+                    class="cylinder__side cylinder__segment"
+                    style="--index: 20"
+                  ></div>
+                  <div
+                    class="cylinder__side cylinder__segment"
+                    style="--index: 21"
+                  ></div>
+                  <div
+                    class="cylinder__side cylinder__segment"
+                    style="--index: 22"
+                  ></div>
+                  <div
+                    class="cylinder__side cylinder__segment"
+                    style="--index: 23"
+                  ></div>
+                  <div
+                    class="cylinder__side cylinder__segment"
+                    style="--index: 24"
+                  ></div>
+                  <div
+                    class="cylinder__side cylinder__segment"
+                    style="--index: 25"
+                  ></div>
+                  <div
+                    class="cylinder__side cylinder__segment"
+                    style="--index: 26"
+                  ></div>
+                  <div
+                    class="cylinder__side cylinder__segment"
+                    style="--index: 27"
+                  ></div>
+                  <div
+                    class="cylinder__side cylinder__segment"
+                    style="--index: 28"
+                  ></div>
+                  <div
+                    class="cylinder__side cylinder__segment"
+                    style="--index: 29"
+                  ></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <label for="gamma" class="control__label">Gamma</label>
+      <input
+        id="gamma"
+        type="range"
+        name="gamma"
+        class="control__input"
+        min="0"
+        max="100"
+        step="1"
+        value="50"
+      />
+      <label for="alpha" class="control__label">Alpha</label>
+      <input
+        id="alpha"
+        type="range"
+        name="alpha"
+        class="control__input"
+        min="0"
+        max="100"
+        step="1"
+        value="50"
+      />
+      <label for="beta" class="control__label">Beta</label>
+      <input
+        id="beta"
+        type="range"
+        name="beta"
+        class="control__input"
+        min="0"
+        max="100"
+        step="1"
+        value="50"
+      />
+      <button>Get Cracking</button>
+    </main>
+    <script type="module" src="./script.js"></script>
+  </body>
+</html>
