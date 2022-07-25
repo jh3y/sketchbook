@@ -18,6 +18,10 @@ const SUPPORT_MESSAGES = [
   {
     modifier: 'scroll-timeline',
     message: 'This browser is not supported... yet. @scroll-timeline is currently supported in Chrome Canary with the "Experimental Web Platform Features" flag enabled.',
+  },
+  {
+    modifier: 'set',
+    message: 'This browser is not supported... yet. The "Shared Element Transitions" API is currently supported in Chrome Canary with the "Experimental Web Platform Features" and "Document Transition" flags enabled.',
   }
 ]
 
@@ -40,3 +44,6 @@ generateWarnings()
 // For JavaScript APIs
 if (Element.prototype.hasOwnProperty("popUp"))
   document.documentElement.classList.add('popup-supported')
+
+if ('createDocumentTransition' in document)
+  document.documentElement.classList.add('set-supported')

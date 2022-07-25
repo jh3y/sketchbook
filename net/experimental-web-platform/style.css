@@ -26,6 +26,7 @@
 .scroll-timeline-support .support-warning--scroll-timeline,
 .popup-support .support-warning--popup,
 .houdini-support .support-warning--houdini,
+.set-support .support-warning--set,
 .object-view-box-support .support-warning--object-view-box {
   display: inline-block;
 }
@@ -45,6 +46,7 @@
   .scroll-timeline-support .support-warning--scroll-timeline { display: none; }
 }
 
+.set-supported .support-warning--set,
 .popup-supported .support-warning--popup {
   display: none;
 }
