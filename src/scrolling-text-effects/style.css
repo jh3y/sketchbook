@@ -1,0 +1,252 @@
+:root {
+	--font-size: var(--font-size-fluid-3);
+	--transition-speed: 0.25s;
+	--transition-step: 0.1s;
+}
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+	background: var(--gradient-1);
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	font-family: 'Google Sans', sans-serif, system-ui;
+	overflow: hidden;
+	color: var(--gray-0);
+}
+
+ul {
+	padding: 0;
+	margin: 0;
+	list-style-type: none;
+	height: 100vh;
+	width: 100vw;
+	scroll-snap-type: y mandatory;
+	overflow: auto;
+}
+
+.sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border-width: 0;
+}
+
+.effect {
+	height: 100%;
+	width: 100%;
+	background: var(--blue-8);
+	scroll-snap-align: center;
+	display: grid;
+	place-items: center;
+	font-size: var(--font-size);
+	font-weight: var(--font-weight-9);
+	text-align: center;
+	overflow: hidden;
+}
+
+.effect:nth-of-type(odd) {
+	background: var(--red-9);
+}
+
+/* Slots */
+.slots {
+	--color: var(--gray-0);
+	--speed: 0.5s;
+	--delay: var(--transition-speed);
+	--size: var(--font-size-fluid-3);
+	height: calc(var(--size) * 3);
+	overflow: hidden;
+}
+
+.slots .char {
+	text-transform: uppercase;
+	color: var(--color);
+	animation: slots var(--speed) var(--delay) infinite linear;
+  text-shadow: 0 calc(var(--size) * -1) 0 var(--color),
+    0 calc(var(--size) * -2) 0 var(--color),
+    0 calc(var(--size) * -3) 0 var(--color),
+    0 calc(var(--size) * 1) 0 var(--color),
+    0 calc(var(--size) * 2) 0 var(--color),
+    0 calc(var(--size) * 3) 0 var(--color);
+}
+
+.slots .char:nth-of-type(odd) {
+	animation: slots calc(var(--speed) * 0.75) var(--delay) infinite linear reverse;
+}
+
+@keyframes slots {
+	to {
+		transform: translate(0, calc(var(--size) * -1));
+	}
+}
+
+/* Carousel  */
+.carousel {
+  height: var(--font-size);
+  width: var(--font-size);
+  text-transform: uppercase;
+}
+
+.carousel .word {
+	transform-style: preserve-3d;
+	transform: rotateX(-24deg) rotateY(0);
+	height: 100%;
+	width: 100%;
+}
+
+.carousel .char {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%) rotateY(calc(((360 / var(--char-total)) * var(--char-index)) * 1deg)) translate(var(--font-size), 0);
+}
+
+.carousel [data-scroll="in"] {
+	animation: carousel-spin 2s infinite linear reverse;
+}
+
+@keyframes carousel-spin {
+	to {
+		transform: rotateX(-24deg) rotateY(360deg);
+	}
+}
+
+/* Bloat */
+.bloat {
+	display: grid;
+	grid-auto-rows: auto;
+}
+
+.bloat .word {
+	--chars: 5;
+	--center: 2;
+	display: grid;
+	grid-template-columns: repeat(var(--chars), auto);
+}
+
+.bloat [data-scroll="in"] .char {
+	animation-delay: calc(var(--transition-speed) + (var(--word-index) * var(--transition-step)));
+	animation-name: bloat;
+	animation-timing-function: ease-out;
+	animation-duration: 0.5s;
+}
+
+.bloat .char {
+	--offset: calc((var(--char-index) - (var(--chars) * var(--word-index))) - var(--center));
+	transform: translate(0, 0);
+}
+
+@keyframes bloat {
+	50% {
+    transform: translate(calc(var(--offset) * 150%), 0);
+	}
+}
+
+/* Roulette */
+.roulette {
+	position: relative;
+}
+
+.roulette [data-scroll="in"] {
+	animation: roulette 2.5s -0.25s infinite linear;
+}
+  
+.roulette .word {
+  height: var(--font-size);
+  width: var(--font-size);
+}
+
+.roulette .char {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%) rotate(calc((var(--char-index) * (360 / var(--char-total)) * 1deg))) translate(0, -150%);
+}
+
+@keyframes roulette {
+	to {
+		transform: rotate(-360deg);
+	}
+}
+
+/* Hinged */
+
+.hinged .char {
+	--rotation: -180deg;
+	transform-origin: 0 100%;
+	transform: rotate(var(--rotation));
+	transition: transform var(--transition-speed) calc(var(--char-index) * var(--transition-step));
+}
+
+.hinged [data-scroll="in"] .char {
+	--rotation: 0;
+}
+/* Mexican Wave */
+.mexiwave [data-scroll="in"] .char {
+	animation: mexiwave var(--transition-speed) calc(var(--char-index) * var(--transition-step)) ease;
+}
+
+@keyframes mexiwave {
+  50% {
+  	transform: translate(0, -50%);
+  }
+}
+
+/* Enter */
+.enter .char {
+	opacity: var(--opacity, 1);
+	transform: translateY(var(--y, 0%));
+	transition: all var(--transition-speed) calc(var(--char-index) * var(--transition-step));
+}
+
+.enter [data-scroll="out"] {
+	--opacity: 0;
+	--y: -150%;
+}
+
+/* Random */
+.random .char {
+	transition: transform var(--transition-speed) calc((var(--char-index) + 1) * var(--transition-speed));
+}
+.random [data-scroll="out"] .char {
+	transform: translate(calc(var(--x) * 1%), calc(var(--y) * 1%));
+}
+
+/* Swapsies */
+.swapsies .char {
+	transform: translateX(var(--translate));
+}
+
+.swapsies .char:nth-of-type(even) {
+	--translate: -100%;
+}
+.swapsies .char:nth-of-type(odd) {
+	--translate: 100%;
+}
+
+.swapsies [data-scroll="in"] .char {
+	animation: swapsies 0.5s calc(var(--char-index) * var(--transition-step)) both;
+}
+
+@keyframes swapsies {
+  25% {
+    transform: translate(var(--translate), var(--translate));
+  }
+  75% {
+    transform: translate(0, var(--translate));
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
