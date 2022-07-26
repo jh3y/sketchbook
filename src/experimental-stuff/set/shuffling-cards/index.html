@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en" class="set-support">
+  <head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, maximum-scale=1.0" />
+    <title>shuffling-cards-with-shared-element-transitions</title>
+    <link rel="stylesheet" href="npm:normalize.css" />
+    <link rel="stylesheet" href="npm:open-props/open-props.min.css" />
+    <!-- Purposely set to the wrong place to enforce putting things in an experimental subdir -->
+    <link rel="stylesheet" href="../../../../net/experimental-web-platform/style.css" />
+    <link rel="stylesheet" href="./style.css" />
+    <style type="text/css" id="escape-hatch"></style>
+  </head>
+  <body>
+    <div class="table">
+      <div class="table__river river">
+        <div class="river__placeholder">
+          <div class="card card--placeholder"></div>
+          <div class="card card--placeholder"></div>
+          <div class="card card--placeholder"></div>
+          <div class="card card--placeholder"></div>
+          <div class="card card--placeholder"></div>
+        </div>
+        <div class="river__cards">
+          <button class="card">
+            <div class="card__side card__side--front">
+              <img src="./card_hearts_J.png" width="40" height="58" />
+            </div>
+            <div class="card__side card__side--back">
+              <img src="./card_back.png" width="40" height="58" />
+            </div>
+          </button>
+          <button class="card">
+            <div class="card__side card__side--front">
+              <img src="./card_hearts_Q.png" width="40" height="58" />
+            </div>
+            <div class="card__side card__side--back">
+              <img src="./card_back.png" width="40" height="58" />
+            </div>
+          </button>
+          <button class="card">
+            <div class="card__side card__side--front">
+              <img src="./card_hearts_K.png" width="40" height="58" />
+            </div>
+            <div class="card__side card__side--back">
+              <img src="./card_back.png" width="40" height="58" />
+            </div>
+          </button>
+          <button class="card">
+            <div class="card__side card__side--front">
+              <img src="./card_hearts_A.png" width="40" height="58" />
+            </div>
+            <div class="card__side card__side--back">
+              <img src="./card_back.png" width="40" height="58" />
+            </div>
+          </button>
+          <button class="card">
+            <div class="card__side card__side--front">
+              <img src="./card_joker_red.png" width="40" height="58" />
+            </div>
+            <div class="card__side card__side--back">
+              <img src="./card_back.png" width="40" height="58" />
+            </div>
+          </button>
+        </div>
+      </div>
+      <div class="table__shuffler shuffler">
+        <div class="shuffler__controls">
+          <button class="shuffle-button">Shuffle</button>
+          <div class="control-group">
+            <label for="count">No. of shuffles</label>
+            <input id="count" type="range" class="count" min="1" max="10" step="1">
+          </div>
+        </div>
+        <div class="shuffler__placeholder">
+          <div class="card card--placeholder"></div>
+          <div class="card card--placeholder"></div>
+          <div class="card card--placeholder"></div>
+          <div class="card card--placeholder"></div>
+          <div class="card card--placeholder"></div>
+        </div>
+        <div class="shuffler__cards"></div>
+      </div>
+    </div>
+    <!-- Purposely set to the wrong place to enforce putting things in an experimental subdir -->
+    <script src="../../../../net/experimental-web-platform/script.js"></script>
+    <script type="module" src="./script.js"></script>
+  </body>
+</html>

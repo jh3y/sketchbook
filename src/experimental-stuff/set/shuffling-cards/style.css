@@ -1,0 +1,163 @@
+:root {
+	--card-width: max(8vmin, 80px);
+	--card-outline: calc(var(--card-width) * 0.05);
+	--card-gap: calc(var(--card-width) * 0.1);
+	--table-color: hsl(350 70% 40%);
+	--table-outline: hsl(0 0% 92% / 0.6);
+}
+
+* {
+  box-sizing: border-box;
+  touch-action: none;
+}
+
+body {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  text-align: center;
+  background: var(--table-color);
+  font-family: 'Google Sans', sans-serif, system-ui;
+}
+
+.shuffle-button {
+	transition: transform 0.1s;
+	transform: translateY(var(--y, 0)) scale(var(--scale, 1));
+	background: hsl(350 80% 30%);
+	border: 2px solid white;
+	padding: 8px 16px;
+	color: white;
+	font-weight: bold;
+}
+
+.shuffle-button:hover {
+	--y: -10%;
+	--scale: 1.1;
+}
+
+.shuffle-button:active {
+	--y: 5%;
+	--scale: 0.9;
+}
+
+label {
+	color: hsl(0 0% 100%);
+}
+
+[type="range"] {
+	accent-color: hsl(215 50% 85%);
+}
+
+.shuffler__controls {
+	display: flex;
+	flex-direction: column;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+.control-group {
+	position: absolute;
+	top: calc(100% + 1rem);
+	left: 50%;
+	transform: translate(-50%);
+}
+
+
+.shuffler__placeholder,
+.card--placeholder {
+	pointer-events: none;
+}
+
+img {
+	height: 100%;
+	width: 100%;
+}
+
+.river__cards {
+	display: grid;
+	position: absolute;
+	grid-auto-flow: column;
+	gap: var(--card-gap);
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+button {
+	cursor: pointer;
+}
+
+[aria-pressed="true"] {
+	--rotate: 180deg;
+}
+
+.card {
+	transform-style: preserve-3d;
+	transform: rotateY(var(--rotate, 0deg));
+	appearance: none;
+	border: 0;
+  width: var(--card-width);
+  aspect-ratio: 40 / 58;
+  contain: paint;
+  order: var(--order);
+  position: relative;
+}
+
+.card__side {
+	position: absolute;
+	inset: 0;
+	backface-visibility: hidden;
+}
+
+.card__side--back {
+	transform: rotateY(180deg);
+}
+
+.table .table__shuffler {
+	position: relative;
+	margin-top: 10vmin;
+	padding: calc(var(--card-width) * 0.25) calc(var(--card-width) * 0.5);
+	border-radius: var(--card-gap);
+	border: var(--card-outline) solid var(--table-outline);
+	display: inline-flex;
+}
+
+.shuffler__placeholder {
+	display: inline-grid;
+	grid-template-columns: repeat(5, calc(var(--card-width) * 0.5));
+	place-items: center;
+}
+
+.shuffler__cards {
+	place-items: center;
+	display: inline-grid;
+	grid-template-columns: repeat(5, calc(var(--card-width) * 0.5));
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+.shuffler__cards .card {
+	--rotate: 180deg;
+}
+
+.river {
+	border-radius: var(--card-gap);
+	position: relative;
+	padding: calc(var(--card-width) * 0.5);
+	border: var(--card-outline) solid var(--table-outline);
+}
+
+.river__placeholder {
+	display: flex;
+	gap: var(--card-gap);
+	z-index: -1;
+}
+
+.river__placeholder .card {
+	background: transparent;
+	border: var(--card-outline) solid var(--table-outline);
+}
