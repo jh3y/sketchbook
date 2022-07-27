@@ -1,0 +1,130 @@
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	font-family: 'Google Sans', sans-serif, system-ui;
+	padding: var(--size-6);
+}
+
+.feed {
+	max-inline-size: var(--size-content-2);
+	padding: 0;
+	margin: 0;
+	list-style-type: none;
+	width: 100%;
+}
+
+.feed > .item + .item {
+	margin-top: var(--size-6);
+}
+
+.item {
+	background: var(--surface-2);
+	display: grid;
+	grid-template-columns: auto 1fr;
+	grid-template-rows: repeat(3, auto);
+	grid-auto-flow: row;
+	padding: 0;
+	grid-gap: var(--size-2);
+	padding: var(--size-2);
+	font-size: 14px;
+	width: 100%;
+	box-shadow: var(--shadow-4);
+	max-inline-size: 100%;
+}
+
+.item > *:not(.item__media) {
+	grid-column: 2;
+}
+
+.item__media {
+	height: var(--size-8);
+	aspect-ratio: 1;
+	grid-row: 1 / -1;
+	border-radius: 50%;
+	overflow: hidden;
+}
+
+.item__avatar {
+	width: 100%;
+	height: 100%;
+}
+
+.item__author {
+	font-weight: var(--font-weight-7);
+	min-height: 14px;
+}
+
+.item__content {
+	font-weight: var(--font-weight-4);
+	min-height: 14px;
+}
+
+.author__handle {
+	opacity: 0.35;
+}
+
+.item__metrics {
+	display: inline-grid;
+	grid-auto-flow: column;
+	place-items: end;
+	place-content: end;
+	width: auto;
+	min-height: 14px;
+}
+
+.metric svg {
+	height: var(--size-4);
+	aspect-ratio: 1;
+	fill: var(--gray-7);
+	flex: 0 0 var(--size-4);
+}
+
+.metric {
+	gap: var(--size-2);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: var(--text-2);
+}
+
+[data-skeleton] :is(.item__media, .item__author, .item__content, .item__metrics) {
+	background: linear-gradient(transparent, blue, transparent) 0 0 / 200% 200%, red;
+	animation: skeleton 1s infinite linear;
+}
+
+[data-skeleton] :is(.item__media, .item__author, .item__content, .item__metrics) {
+	background: linear-gradient(-55deg, transparent, blue, transparent) 0 0 / 200% 100%, red;
+	background-attachment: fixed;
+	animation: skeleton 2s infinite linear;
+}
+
+[data-skeleton] :is(.item__media, .item__author, .item__content, .item__metrics) {
+	background: linear-gradient(-55deg, transparent 30%, var(--indigo-8) 50%, transparent 70%) 0 0 / 200% 100%, var(--violet-4);
+	background-attachment: fixed;
+	animation: skeleton 2s infinite linear;
+}
+
+@keyframes skeleton {
+	0% {
+		background-position: 0 0;
+	}
+	100% {
+		background-position: 200% 0;
+	}
+}
+
+[data-skeleton] .item__metrics {
+	clip-path: inset(0 0 0 60%);
+}
+
+[data-skeleton] .item__author {
+	clip-path: inset(0 25% 0 0);
+}
+

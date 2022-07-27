@@ -40,6 +40,7 @@
     }
   },
   "devDependencies": {
+    "@faker-js/faker": "^7.3.0",
     "@parcel/transformer-pug": "2.6.2",
     "@parcel/transformer-stylus": "2.6.2",
     "parcel": "^2.6.2",
