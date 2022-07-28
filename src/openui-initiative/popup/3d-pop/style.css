@@ -1,0 +1,100 @@
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+	transform-style: preserve-3d;
+}
+
+body {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	font-family:  'Google Sans', sans-serif, system-ui;
+}
+
+.popup {
+  --depth: 10vmin;
+  --color: hsl(280 80% 50% / 1);
+	background: hsl(0 80% 50% / 0.25);
+	position: absolute;
+	top: 50%;
+  padding: 0;
+	left: 50%;
+  border: 0;
+  transition: transform 0.25s var(--ease-elastic-4);
+	transform: translate3d(-50%, -50%, 100vmin)
+            rotateX(-24deg) rotateY(-24deg)
+            /* Responsible for showing/hiding */
+            translateY(calc(var(--hide, 1) * 100vmin));
+}
+
+[popup]:top-layer, [popup]:top-layer::backdrop {
+  --hide: 0;
+}
+
+[popup]::backdrop {
+  background: hsl(0 10% 10%/ 0.35);
+  opacity: calc(1 - var(--hide, 0));
+  transition: opacity 0.25s;
+  backdrop-filter: blur(2px);
+}
+
+
+
+/* Cuboid boilerplate code */
+.cuboid {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+.cuboid__side {
+  background: var(--color);
+  position: absolute;
+  filter: brightness(var(--b));
+}
+.cuboid__side:nth-of-type(1) {
+  --b: 1.1;
+  height: var(--depth, 20vmin);
+  width: 100%;
+  top: 0;
+  transform: translate(0, -50%) rotateX(90deg);
+}
+.cuboid__side:nth-of-type(2) {
+  --b: 0.9;
+  height: 100%;
+  width: var(--depth, 20vmin);
+  top: 50%;
+  right: 0;
+  transform: translate(50%, -50%) rotateY(90deg);
+}
+.cuboid__side:nth-of-type(3) {
+  --b: 0.5;
+  width: 100%;
+  height: var(--depth, 20vmin);
+  bottom: 0;
+  transform: translate(0%, 50%) rotateX(90deg);
+}
+.cuboid__side:nth-of-type(6) {
+  --b: 1;
+  height: 100%;
+  width: var(--depth, 20vmin);
+  left: 0;
+  top: 50%;
+  transform: translate(-50%, -50%) rotateY(90deg);
+}
+.cuboid__side:nth-of-type(5) {
+  --b: 0.8;
+  height: 100%;
+  width: 100%;
+  transform: translate3d(0, 0, calc(var(--depth, 20vmin) * 0.5));
+  top: 0;
+  left: 0;
+}
+.cuboid__side:nth-of-type(4) {
+  --b: 1.2;
+  height: 100%;
+  width: 100%;
+  transform: translate3d(0, 0, calc(var(--depth, 20vmin) * -0.5)) rotateY(180deg);
+  top: 0;
+  left: 0;
+}

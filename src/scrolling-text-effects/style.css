@@ -1,8 +1,8 @@
 :root {
 	--color: var(--gray-0);
 	--font-size: var(--font-size-fluid-3);
-	--transition-speed: 0.25s;
-	--transition-step: 0.1s;
+	--transition-speed: 0;
+	--transition-step: 0;
 }
 
 *,
@@ -54,6 +54,7 @@ ul {
 	font-weight: var(--font-weight-9);
 	text-align: center;
 	overflow: hidden;
+	max-inline-size: 100%;
 }
 
 .effect > div {
@@ -144,7 +145,7 @@ ul {
 }
 
 .carousel [data-scroll="in"] {
-	animation: carousel-spin 2s infinite linear reverse;
+	animation: carousel-spin calc(var(--transition-speed) * 8) infinite linear reverse;
 }
 
 @keyframes carousel-spin {
@@ -170,7 +171,7 @@ ul {
 	animation-delay: calc(var(--transition-speed) + (var(--word-index) * var(--transition-step)));
 	animation-name: bloat;
 	animation-timing-function: ease-out;
-	animation-duration: 0.5s;
+	animation-duration: calc(2 * var(--transition-speed));
 }
 
 .bloat .char {
@@ -190,7 +191,7 @@ ul {
 }
 
 .roulette [data-scroll="in"] {
-	animation: roulette 2.5s -0.25s infinite linear;
+	animation: roulette calc(var(--transition-speed) * 8) var(--transition-speed) infinite linear;
 }
   
 .roulette .word {
@@ -882,7 +883,7 @@ ul {
 }
 .glare[data-scroll="in"] {
 	clip-path: inset(0 0 0 0);
-	animation: glare 1s infinite linear;
+	animation: glare calc(4 * var(--transition-speed)) infinite linear;
 }
 
 @keyframes glare {
@@ -905,3 +906,17 @@ ul {
 .jump [data-scroll="out"] .char {
 	transform: translateY(100%);
 }
+
+@media(prefers-reduced-motion: no-preference) {
+	:root {
+		--transition-speed: 0.25s;
+		--transition-step: 0.1s;
+	}
+}
+
+/*@media(prefers-reduced-motion: reduce) {
+	:root {
+		--transition-speed: 2s;
+		--transition-step: 0.1s;
+	}
+}*/
