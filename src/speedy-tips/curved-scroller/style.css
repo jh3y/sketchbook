@@ -1,0 +1,48 @@
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+	background: var(--gradient-1);
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	font-family: 'Google Sans', sans-serif, system-ui;
+}
+
+.scroller-track {
+	height: 40vmin;
+	width: 100%;
+	display: flex;
+	overflow: auto;
+	gap: var(--size-4);
+	background: hsl(0 0% 100% / 0.25);
+	padding: 0 var(--size-4);
+	scroll-snap-type: x mandatory;
+	/*-webkit-mask-image: radial-gradient(ellipse at 50% 66%, black 0 30%, transparent 30%);
+	-webkit-mask: radial-gradient(ellipse at 50% 66%, transparent 0 30%, black 30%) 50% 0 / 300% 200%,
+		radial-gradient(ellipse at 50% 16%, transparent 0 30%, black 30%) 50% 0 / 300% 200%;*/
+	/*background: radial-gradient(ellipse at 50% 66%, transparent 0 30%, black 30%) 50% 0 / 300% 200%,*/
+	/*background:
+		radial-gradient(ellipse at 50% 50%, transparent 0 30%, black 30%) 50% -50% / 240% 50% no-repeat,
+		radial-gradient(ellipse at 50% 50%, transparent 0 30%, black 30%) 50% 150% / 240% 50% no-repeat,
+		linear-gradient(black, black) 0 50% / 100% 50% no-repeat;*/
+	/*-webkit-mask:
+		radial-gradient(ellipse at 50% 0%, transparent 0 75%, black 75%) 50% -50% / 110% 50% no-repeat,
+		radial-gradient(ellipse at 50% 100%, transparent 0 75%, black 75%) 50% 150% / 110% 50% no-repeat,
+		linear-gradient(black, black) 0 50% / 100% 50% no-repeat;*/
+	background:
+		radial-gradient(ellipse at 50% 0%, transparent 0 75%, black 75%) 50% -50% / 110% 50% no-repeat,
+		radial-gradient(ellipse at 50% 100%, transparent 0 75%, black 75%) 50% 150% / 110% 50% no-repeat,
+		linear-gradient(black, black) 0 50% / 100% 50% no-repeat, green;
+}
+
+.scroller-track__item {
+	height: 100%;
+	aspect-ratio: 4 / 3;
+	background: hsl(0 80% 50% / 1);
+	scroll-snap-align: center;
+	display: none;
+}
