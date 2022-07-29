@@ -1,26 +1,49 @@
-<!doctype html>
-<html lang="en" class="scroll-timeline-support popup-support has-support houdini-support object-view-box-support">
+<!DOCTYPE html>
+<html
+  lang="en"
+  class="scroll-timeline-support popup-support has-support houdini-support object-view-box-support"
+>
   <head>
-    <meta charset="utf-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, maximum-scale=1.0" />
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, user-scalable=0, maximum-scale=1.0"
+    />
     <title>openui-initiative/popup/3d-pop</title>
     <link rel="stylesheet" href="npm:normalize.css" />
     <link rel="stylesheet" href="npm:open-props/normalize.min.css" />
     <link rel="stylesheet" href="npm:open-props/open-props.min.css" />
     <!-- Purposely set to the wrong place to enforce putting things in an experimental subdir -->
-    <link rel="stylesheet" href="../../../../net/experimental-web-platform/style.css" />
+    <link
+      rel="stylesheet"
+      href="../../../../net/experimental-web-platform/style.css"
+    />
     <link rel="stylesheet" href="./style.css" />
   </head>
   <body>
-    <button togglepopup="pop">Toggle</button>
+    <button togglepopup="pop">Pop Up!</button>
     <div class="popup" popup="" id="pop">
+      <div class="popup__text">Howdy<span class="hand">👋</span></div>
       <div class="cuboid">
         <div class="cuboid__side"></div>
         <div class="cuboid__side"></div>
+        <div class="cuboid__side">
+          <div class="popup__tail">
+            <div class="cuboid">
+              <div class="cuboid__side"></div>
+              <div class="cuboid__side"></div>
+              <div class="cuboid__side"></div>
+              <div class="cuboid__side"></div>
+              <div class="cuboid__side"></div>
+              <div class="cuboid__side"></div>
+            </div>
+          </div>
+        </div>
         <div class="cuboid__side"></div>
-        <div class="cuboid__side"></div>
-        <div class="cuboid__side">Howdy! 👋</div>
+        <div class="cuboid__side">
+          <span aria-hidden="true">Howdy!<span class="hand">👋</span></span>
+        </div>
         <div class="cuboid__side"></div>
       </div>
     </div>
