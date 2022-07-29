@@ -5,44 +5,61 @@
 }
 
 body {
-	background: var(--gradient-1);
+	/*background: var(--gradient-1);*/
+	background: var(--gray-2);
 	display: grid;
 	place-items: center;
 	min-height: 100vh;
 	font-family: 'Google Sans', sans-serif, system-ui;
 }
 
+.scroller-track-wrapper {
+	width: 80%;
+  max-inline-size: var(--size-content-3);
+	overflow: hidden;
+	-webkit-mask: linear-gradient(90deg,
+								transparent 0,
+								black 15% 85%,
+								transparent
+							) 0 50% / 100% calc(100% - (2 * var(--size-4))) no-repeat,
+							linear-gradient(0deg, black, black) 50% 0 / 100% var(--size-4) no-repeat,
+							linear-gradient(0deg, black, black) 50% 100% / 100% var(--size-4) no-repeat;
+}
+
+img {
+	height: 100%;
+	width: 100%;
+}
+
 .scroller-track {
-	height: 40vmin;
+	--size: clamp(200px, 40vmin, 50rem);
+	height: var(--size);
 	width: 100%;
 	display: flex;
 	overflow: auto;
 	gap: var(--size-4);
-	background: hsl(0 0% 100% / 0.25);
-	padding: 0 var(--size-4);
+	/*background: hsl(0 0% 100% / 0.25);*/
+	padding: var(--size-4) calc((var(--size) * 0.5) + (2 * var(--size-4)));
 	scroll-snap-type: x mandatory;
-	/*-webkit-mask-image: radial-gradient(ellipse at 50% 66%, black 0 30%, transparent 30%);
-	-webkit-mask: radial-gradient(ellipse at 50% 66%, transparent 0 30%, black 30%) 50% 0 / 300% 200%,
-		radial-gradient(ellipse at 50% 16%, transparent 0 30%, black 30%) 50% 0 / 300% 200%;*/
-	/*background: radial-gradient(ellipse at 50% 66%, transparent 0 30%, black 30%) 50% 0 / 300% 200%,*/
-	/*background:
-		radial-gradient(ellipse at 50% 50%, transparent 0 30%, black 30%) 50% -50% / 240% 50% no-repeat,
-		radial-gradient(ellipse at 50% 50%, transparent 0 30%, black 30%) 50% 150% / 240% 50% no-repeat,
-		linear-gradient(black, black) 0 50% / 100% 50% no-repeat;*/
-	/*-webkit-mask:
-		radial-gradient(ellipse at 50% 0%, transparent 0 75%, black 75%) 50% -50% / 110% 50% no-repeat,
-		radial-gradient(ellipse at 50% 100%, transparent 0 75%, black 75%) 50% 150% / 110% 50% no-repeat,
-		linear-gradient(black, black) 0 50% / 100% 50% no-repeat;*/
-	background:
-		radial-gradient(ellipse at 50% 0%, transparent 0 75%, black 75%) 50% -50% / 110% 50% no-repeat,
-		radial-gradient(ellipse at 50% 100%, transparent 0 75%, black 75%) 50% 150% / 110% 50% no-repeat,
-		linear-gradient(black, black) 0 50% / 100% 50% no-repeat, green;
+	/* Circular inverted */
+	/* -webkit-mask-image: radial-gradient(ellipse at 50% 66%, black 0 30%, transparent 30%);
+	/* No Scrollbar */
+	/* -webkit-mask: radial-gradient(#0000 0 30%, #000 30%) 50% 20vmin / 240% 100%;*/
+	/* Winner */
+	/*-webkit-mask: radial-gradient(#0000 0 30%, #000 30%) 50% calc(var(--size) * 0.5) / 250% 100%,
+								linear-gradient(0deg, black, black) 50% 0 / 100% var(--size-4) no-repeat,
+								linear-gradient(0deg, black, black) 50% 100% / 100% var(--size-4) no-repeat;*/
+	-webkit-mask: radial-gradient(#0000 0 30%, #000 30%) 50% calc(var(--size) * 0.5) / 250% 100%,
+								linear-gradient(0deg, black, black) 50% 0 / 100% var(--size-4) no-repeat,
+								linear-gradient(0deg, black, black) 50% 100% / 100% var(--size-4) no-repeat;
+
 }
 
 .scroller-track__item {
 	height: 100%;
-	aspect-ratio: 4 / 3;
+	aspect-ratio: 1;
 	background: hsl(0 80% 50% / 1);
+	/*background: var(--surface-2);*/
 	scroll-snap-align: center;
-	display: none;
+	/*display: none;*/
 }
