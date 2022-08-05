@@ -1,0 +1,18 @@
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+#app {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	font-family: 'Google Sans', sans-serif, system-ui;
+	align-content: center;
+}
+
+[type="text"] {
+	transition: transform 0.1s;
+	transform: translate(calc(var(--x, 0) * 1px), calc(var(--y, 0) * 1px));
+}
