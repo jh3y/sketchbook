@@ -39,6 +39,7 @@
     "@faker-js/faker": "^7.3.0",
     "@parcel/transformer-pug": "2.6.2",
     "@parcel/transformer-stylus": "2.6.2",
+    "color": "^4.2.3",
     "parcel": "^2.6.2",
     "plop": "^3.1.1",
     "prettier": "^2.7.1",

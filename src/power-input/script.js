@@ -1,6 +1,7 @@
 import React from 'react'
 import { createRoot } from 'react-dom/client'
 import confetti from 'canvas-confetti'
+import Color from 'color'
 // import useCaretPosition from 'use-caret-position'
 
 /**
@@ -123,8 +124,18 @@ const randomInRange = (min, max) =>
 		Math.random() * (Math.floor(max) - Math.ceil(min) + 1) + Math.ceil(min)
 	)
 
+const colors = []
+const genPalette = (seedHsl) => {
+	const seed = new Color(seedHsl)
+	colors.push(seed.hex())
+	for (let l = 0; l < 4; l++) colors.push(seed.lighten(l + 1 / 20).hex())
+	for (let d = 0; d < 4; d++) colors.push(seed.darken(d + 1 / 20).hex())
+}
+genPalette('hsl(0 90% 50%)')
+
 const App = () => {
 	const powerInputRef = React.useRef(null)
+	const bumpRef = React.useRef(null)
 	const { x, y, getPosition } = useCaretPosition(powerInputRef)
 
 	const resetInput = () => {
@@ -133,35 +144,41 @@ const App = () => {
 		powerInputRef.current.style.setProperty('--y', 0)
 	}
 
-	const blast = pos => {
-		powerInputRef.current.style.setProperty('--x', 10)
-		powerInputRef.current.style.setProperty('--y', 10)
+	const blast = (pos) => {
+		powerInputRef.current.style.setProperty('--x', randomInRange(-1, 1))
+		powerInputRef.current.style.setProperty('--y', randomInRange(-1, 1))
+		
 		confetti({
 			origin: {
 				x: pos.x / window.innerWidth,
 				y: pos.y / window.innerHeight,
 			},
-			particleCount: randomInRange(10, 50),
+			particleCount: randomInRange(10, 40),
 			scalar: randomInRange(50, 120) / 100,
 			disableForReducedMotion: true,
-			gravity: 1,
+			gravity: randomInRange(35, 100) / 100,
 			drift: 0,
 			angle: 90,
 			spread: 45,
-			startVelocity: randomInRange(5, 25),
-			ticks: randomInRange(50, 100),
-			colors: ['#e74c2c'],
+			startVelocity: randomInRange(2, 15),
+			ticks: randomInRange(20, 80),
+			// colors: ['#e74c2c'],
+			colors,
 			zIndex: -1,
 		})
+		if (bumpRef.current) clearTimeout(bumpRef.current)
+		bumpRef.current = setTimeout(resetInput, 100)
 		powerInputRef.current.addEventListener('transitionend', resetInput)
-		
 	}
 
 	const fire = (e) => {
-		if (e.type !== 'focus') {
+		if (
+			e.type !== 'focus' &&
+			window.matchMedia('(prefers-reduced-motion: no-preference)').matches
+		) {
 			const pos = getPosition(powerInputRef)
 			resetInput()
-			requestAnimationFrame(() => blast(pos))
+			blast(pos)
 		}
 	}
 

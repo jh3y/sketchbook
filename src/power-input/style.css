@@ -13,6 +13,6 @@
 }
 
 [type="text"] {
-	transition: transform 0.1s;
-	transform: translate(calc(var(--x, 0) * 1px), calc(var(--y, 0) * 1px));
+	transition: transform calc(var(--speed, 0) * 1s);
+	transform: translate(calc(var(--x, 0) * 0.5ch), calc(var(--y, 0) * 0.5ch));
 }
