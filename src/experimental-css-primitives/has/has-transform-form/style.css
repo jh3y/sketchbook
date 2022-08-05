@@ -8,8 +8,8 @@
   --transition: 0.5s;
   --valid: var(--green);
   --invalid: var(--red);
-  --focus: var(--blue-2);
-  --blur: var(--gray-0);
+  --focus: var(--blue-4);
+  --blur: var(--text-1);
   --disabled: var(--grey);
 }
 
@@ -24,12 +24,13 @@ body {
 	place-items: center;
 	min-height: 100vh;
 	font-family:  'Google Sans', sans-serif, system-ui;
-	overflow: hidden;
 }
 
 form {
+  margin: var(--size-2);
 	width: var(--size-content-3);
-	max-width: 90vw;
+	max-width: 90vmin;
+  min-width: 375px;
 	aspect-ratio: 1;
 	background: var(--surface-2);
 	position: relative;
@@ -92,6 +93,7 @@ input::placeholder {
 	gap: var(--size-4);
 	align-items: center;
 	justify-content: center;
+  align-content: center;
 }
 
 .form-group__controls {
@@ -263,6 +265,7 @@ form:not(:focus-within) .form-group:has(:checked) + .form-group:not(.form-group:
 	font-size: var(--font-size-fluid-1);
 	border-radius: var(--radius-2);
 	padding: var(--size-2) var(--size-4);
+  color: var(--gray-0);
 }
 
 [type="submit"]:hover {

@@ -33,15 +33,16 @@ img {
 
 .track {
 	--size: clamp(200px, 40vmin, 50rem);
+	--padding: var(--size-4);
 	height: var(--size);
 	width: 100%;
 	display: flex;
 	overflow: auto;
-	gap: var(--size-4);
+	gap: var(--padding);
 	list-style-type: none;
 	margin: 0;
 	/*background: hsl(0 0% 100% / 0.25);*/
-	padding: var(--size-4) 33%;
+	padding: var(--padding) 33%;
 	scroll-snap-type: x mandatory;
 	/* Circular inverted */
 	/* -webkit-mask-image: radial-gradient(ellipse at 50% 66%, black 0 30%, transparent 30%);
@@ -49,11 +50,11 @@ img {
 	/* -webkit-mask: radial-gradient(#0000 0 30%, #000 30%) 50% 20vmin / 240% 100%;*/
 	/* Winner */
 	/*-webkit-mask: radial-gradient(#0000 0 30%, #000 30%) 50% calc(var(--size) * 0.5) / 250% 100%,
-								linear-gradient(0deg, black, black) 50% 0 / 100% var(--size-4) no-repeat,
-								linear-gradient(0deg, black, black) 50% 100% / 100% var(--size-4) no-repeat;*/
+								linear-gradient(0deg, black, black) 50% 0 / 100% var(--padding) no-repeat,
+								linear-gradient(0deg, black, black) 50% 100% / 100% var(--padding) no-repeat;*/
 	-webkit-mask: radial-gradient(#0000 0 30%, #000 30%) 50% calc(var(--size) * 0.5) / 250% 100%,
-								linear-gradient(0deg, black, black) 50% 0 / 100% var(--size-4) no-repeat,
-								linear-gradient(0deg, black, black) 50% 100% / 100% var(--size-4) no-repeat;
+								linear-gradient(0deg, black, black) 50% 0 / 100% var(--padding) no-repeat,
+								linear-gradient(0deg, black, black) 50% 100% / 100% var(--padding) no-repeat;
 
 }
 

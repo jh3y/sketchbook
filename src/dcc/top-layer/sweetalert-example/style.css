@@ -1,0 +1,63 @@
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+	background: var(--gradient-1);
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	font-family: 'Google Sans', sans-serif, system-ui;
+}
+
+button {
+  transform: translateX(var(--x, 0)) scale(var(--scale, 1));
+  padding: var(--size-2) var(--size-4);
+  background: hsl(210 60% var(--lightness, 30%));
+  transition: background 0.25s, transform 0.25s;
+  color: var(--gray-0);
+  font-size: var(--font-size-1);
+}
+
+button.open {
+	--x: -50%;
+	position: fixed;
+	bottom: 10vmin;
+	left: 50%;
+}
+
+button:hover {
+  --scale: 1.1;
+  --lightness: 40%;
+}
+
+button:active {
+  --scale: 0.9;
+  --lightness: 20%;
+}
+
+.swal-content {
+	color: var(--gray-9);
+	font-size: var(--font-size-fluid-2);
+	font-weight: var(--font-weight-6);
+}
+
+.hand {
+	animation: wiggle 3s infinite;
+	display: inline-block;
+	transform-origin: 65%;
+}
+
+@keyframes wiggle {
+	0%, 10%, 20%, 30%, 40%  {
+		transform: rotateY(180deg) rotate(-8deg);
+	}
+	5%, 15%, 25%, 35%, 45%  {
+		transform: rotateY(180deg) rotate(8deg);
+	}
+	50%, 100% {
+		transform: rotateY(180deg) rotate(0);
+	}
+}
