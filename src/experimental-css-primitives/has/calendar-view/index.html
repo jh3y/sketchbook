@@ -1,65 +1,278 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en" class="has-support">
   <head>
-    <meta charset="utf-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, maximum-scale=1.0" />
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, user-scalable=0, maximum-scale=1.0"
+    />
     <title>experimental-css-primitives/has/calendar-view</title>
     <link rel="stylesheet" href="npm:normalize.css" />
     <!-- Purposely set to the wrong place to enforce putting things in an experimental subdir -->
-    <link rel="stylesheet" href="../../../../net/experimental-web-platform/style.css" />
+    <link
+      rel="stylesheet"
+      href="../../../../net/experimental-web-platform/style.css"
+    />
     <link rel="stylesheet" href="./style.css" />
   </head>
   <body>
-    <div class="calendar">
+    <form class="calendar" action="" onSubmit="event.preventDefault()">
       <div class="calendar__title">August 2022</div>
-      <div>Sun</div>
-      <div>Mon</div>
-      <div>Tue</div>
-      <div>Wed</div>
-      <div>Thu</div>
-      <div>Fri</div>
-      <div>Sat</div>
-      <!-- Row One -->
-      <div>31</div>
-      <div>1</div>
-      <div>2</div>
-      <div>3</div>
-      <div>4</div>
-      <div>5</div>
-      <div>6</div>
-      <!-- Row Two -->
-      <div>7</div>
-      <div>8</div>
-      <div>9</div>
-      <div>10</div>
-      <div>11</div>
-      <div>12</div>
-      <div>13</div>
-      <!-- Row Three -->
-      <div>14</div>
-      <div>15</div>
-      <div>16</div>
-      <div>17</div>
-      <div>18</div>
-      <div>19</div>
-      <div>20</div>
-      <!-- Row Four -->
-      <div>21</div>
-      <div>22</div>
-      <div>23</div>
-      <div>24</div>
-      <div>25</div>
-      <div>26</div>
-      <div>27</div>
-      <!-- Row Five -->
-      <div>28</div>
-      <div>29</div>
-      <div>30</div>
-      <div>31</div>
-      <div>1</div>
-      <div>2</div>
-      <div>3</div>
+      <div class="calendar__day">Sun</div>
+      <div class="calendar__day">Mon</div>
+      <div class="calendar__day">Tue</div>
+      <div class="calendar__day">Wed</div>
+      <div class="calendar__day">Thu</div>
+      <div class="calendar__day">Fri</div>
+      <div class="calendar__day">Sat</div>
+      <!-- Days -->
+      <div class="calendar__cell">
+        <span class="calendar__number">31</span>
+        <input type="radio" name="from" id="from-31-previous">
+        <input type="radio" name="to" id="to-31-previous">
+        <label for="from-31-previous"></label>
+        <label for="to-31-previous"></label>
+      </div>
+      <div class="calendar__cell">
+        <span class="calendar__number">1</span>
+        <input type="radio" name="from" id="from-1">
+        <input type="radio" name="to" id="to-1">
+        <label for="from-1"></label>
+        <label for="to-1"></label>
+      </div>
+      <div class="calendar__cell">
+        <span class="calendar__number">2</span>
+        <input type="radio" name="from" id="from-2">
+        <input type="radio" name="to" id="to-2">
+        <label for="from-2"></label>
+        <label for="to-2"></label>
+      </div>
+      <div class="calendar__cell">
+        <span class="calendar__number">3</span>
+        <input type="radio" name="from" id="from-3">
+        <input type="radio" name="to" id="to-3">
+        <label for="from-3"></label>
+        <label for="to-3"></label>
+      </div>
+      <div class="calendar__cell">
+        <span class="calendar__number">4</span>
+        <input type="radio" name="from" id="from-4">
+        <input type="radio" name="to" id="to-4">
+        <label for="from-4"></label>
+        <label for="to-4"></label>
+      </div>
+      <div class="calendar__cell">
+        <span class="calendar__number">5</span>
+        <input type="radio" name="from" id="from-5">
+        <input type="radio" name="to" id="to-5">
+        <label for="from-5"></label>
+        <label for="to-5"></label>
+      </div>
+      <div class="calendar__cell">
+        <span class="calendar__number">6</span>
+        <input type="radio" name="from" id="from-6">
+        <input type="radio" name="to" id="to-6">
+        <label for="from-6"></label>
+        <label for="to-6"></label>
+      </div>
+      <div class="calendar__cell">
+        <span class="calendar__number">7</span>
+        <input type="radio" name="from" id="from-7">
+        <input type="radio" name="to" id="to-7">
+        <label for="from-7"></label>
+        <label for="to-7"></label>
+      </div>
+      <div class="calendar__cell">
+        <span class="calendar__number">8</span>
+        <input type="radio" name="from" id="from-8">
+        <input type="radio" name="to" id="to-8">
+        <label for="from-8"></label>
+        <label for="to-8"></label>
+      </div>
+      <div class="calendar__cell">
+        <span class="calendar__number">9</span>
+        <input type="radio" name="from" id="from-9">
+        <input type="radio" name="to" id="to-9">
+        <label for="from-9"></label>
+        <label for="to-9"></label>
+      </div>
+      <div class="calendar__cell">
+        <span class="calendar__number">10</span>
+        <input type="radio" name="from" id="from-10">
+        <input type="radio" name="to" id="to-10">
+        <label for="from-10"></label>
+        <label for="to-10"></label>
+      </div>
+      <div class="calendar__cell">
+        <span class="calendar__number">11</span>
+        <input type="radio" name="from" id="from-11">
+        <input type="radio" name="to" id="to-11">
+        <label for="from-11"></label>
+        <label for="to-11"></label>
+      </div>
+      <div class="calendar__cell">
+        <span class="calendar__number">12</span>
+        <input type="radio" name="from" id="from-12">
+        <input type="radio" name="to" id="to-12">
+        <label for="from-12"></label>
+        <label for="to-12"></label>
+      </div>
+      <div class="calendar__cell">
+        <span class="calendar__number">13</span>
+        <input type="radio" name="from" id="from-13">
+        <input type="radio" name="to" id="to-13">
+        <label for="from-13"></label>
+        <label for="to-13"></label>
+      </div>
+      <div class="calendar__cell">
+        <span class="calendar__number">14</span>
+        <input type="radio" name="from" id="from-14">
+        <input type="radio" name="to" id="to-14">
+        <label for="from-14"></label>
+        <label for="to-14"></label>
+      </div>
+      <div class="calendar__cell">
+        <span class="calendar__number">15</span>
+        <input type="radio" name="from" id="from-15">
+        <input type="radio" name="to" id="to-15">
+        <label for="from-15"></label>
+        <label for="to-15"></label>
+      </div>
+      <div class="calendar__cell">
+        <span class="calendar__number">16</span>
+        <input type="radio" name="from" id="from-16">
+        <input type="radio" name="to" id="to-16">
+        <label for="from-16"></label>
+        <label for="to-16"></label>
+      </div>
+      <div class="calendar__cell">
+        <span class="calendar__number">17</span>
+        <input type="radio" name="from" id="from-17">
+        <input type="radio" name="to" id="to-17">
+        <label for="from-17"></label>
+        <label for="to-17"></label>
+      </div>
+      <div class="calendar__cell">
+        <span class="calendar__number">18</span>
+        <input type="radio" name="from" id="from-18">
+        <input type="radio" name="to" id="to-18">
+        <label for="from-18"></label>
+        <label for="to-18"></label>
+      </div>
+      <div class="calendar__cell">
+        <span class="calendar__number">19</span>
+        <input type="radio" name="from" id="from-19">
+        <input type="radio" name="to" id="to-19">
+        <label for="from-19"></label>
+        <label for="to-19"></label>
+      </div>
+      <div class="calendar__cell">
+        <span class="calendar__number">20</span>
+        <input type="radio" name="from" id="from-20">
+        <input type="radio" name="to" id="to-20">
+        <label for="from-20"></label>
+        <label for="to-20"></label>
+      </div>
+      <div class="calendar__cell">
+        <span class="calendar__number">21</span>
+        <input type="radio" name="from" id="from-21">
+        <input type="radio" name="to" id="to-21">
+        <label for="from-21"></label>
+        <label for="to-21"></label>
+      </div>
+      <div class="calendar__cell">
+        <span class="calendar__number">22</span>
+        <input type="radio" name="from" id="from-22">
+        <input type="radio" name="to" id="to-22">
+        <label for="from-22"></label>
+        <label for="to-22"></label>
+      </div>
+      <div class="calendar__cell">
+        <span class="calendar__number">23</span>
+        <input type="radio" name="from" id="from-23">
+        <input type="radio" name="to" id="to-23">
+        <label for="from-23"></label>
+        <label for="to-23"></label>
+      </div>
+      <div class="calendar__cell">
+        <span class="calendar__number">24</span>
+        <input type="radio" name="from" id="from-24">
+        <input type="radio" name="to" id="to-24">
+        <label for="from-24"></label>
+        <label for="to-24"></label>
+      </div>
+      <div class="calendar__cell">
+        <span class="calendar__number">25</span>
+        <input type="radio" name="from" id="from-25">
+        <input type="radio" name="to" id="to-25">
+        <label for="from-25"></label>
+        <label for="to-25"></label>
+      </div>
+      <div class="calendar__cell">
+        <span class="calendar__number">26</span>
+        <input type="radio" name="from" id="from-26">
+        <input type="radio" name="to" id="to-26">
+        <label for="from-26"></label>
+        <label for="to-26"></label>
+      </div>
+      <div class="calendar__cell">
+        <span class="calendar__number">27</span>
+        <input type="radio" name="from" id="from-27">
+        <input type="radio" name="to" id="to-27">
+        <label for="from-27"></label>
+        <label for="to-27"></label>
+      </div>
+      <div class="calendar__cell">
+        <span class="calendar__number">28</span>
+        <input type="radio" name="from" id="from-28">
+        <input type="radio" name="to" id="to-28">
+        <label for="from-28"></label>
+        <label for="to-28"></label>
+      </div>
+      <div class="calendar__cell">
+        <span class="calendar__number">29</span>
+        <input type="radio" name="from" id="from-29">
+        <input type="radio" name="to" id="to-29">
+        <label for="from-29"></label>
+        <label for="to-29"></label>
+      </div>
+      <div class="calendar__cell">
+        <span class="calendar__number">30</span>
+        <input type="radio" name="from" id="from-30">
+        <input type="radio" name="to" id="to-30">
+        <label for="from-30"></label>
+        <label for="to-30"></label>
+      </div>
+      <div class="calendar__cell">
+        <span class="calendar__number">31</span>
+        <input type="radio" name="from" id="from-31">
+        <input type="radio" name="to" id="to-31">
+        <label for="from-31"></label>
+        <label for="to-31"></label>
+      </div>
+      <div class="calendar__cell">
+        <span class="calendar__number">1</span>
+        <input type="radio" name="from" id="from-1-next">
+        <input type="radio" name="to" id="to-1-next">
+        <label for="from-1-next"></label>
+        <label for="to-1-next"></label>
+      </div>
+      <div class="calendar__cell">
+        <span class="calendar__number">2</span>
+        <input type="radio" name="from" id="from-2-next">
+        <input type="radio" name="to" id="to-2-next">
+        <label for="from-2-next"></label>
+        <label for="to-2-next"></label>
+      </div>
+      <div class="calendar__cell">
+        <span class="calendar__number">3</span>
+        <input type="radio" name="from" id="from-3-next">
+        <input type="radio" name="to" id="to-3-next">
+        <label for="from-3-next"></label>
+        <label for="to-3-next"></label>
+      </div>
+      <button type="reset">Reset Selection</button>
     </div>
     <!-- Purposely set to the wrong place to enforce putting things in an experimental subdir -->
     <script src="../../../../net/experimental-web-platform/script.js"></script>

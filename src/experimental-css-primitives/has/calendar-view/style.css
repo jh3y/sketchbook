@@ -10,3 +10,46 @@ body {
 	min-height: 100vh;
 	font-family:  'Google Sans', sans-serif, system-ui;
 }
+
+.calendar {
+	display: grid;
+	grid-template-columns: repeat(7, 1fr);
+	grid-template-rows: repeat(5, 1fr);
+	gap: 1rem;
+}
+
+.calendar__title {
+	grid-column: 1 / -1;
+	text-align: center;
+}
+
+.calendar__cell:has([for*="previous"], [for*="next"]) {
+	opacity: 0.25;
+}
+
+label {
+	display: inline-block;
+	height: 20px;
+	aspect-ratio: 1;
+	background: red;
+}
+
+[for*=to] {
+	background: blue;
+}
+
+
+.calendar:has([id*=from]:checked):has([id*=to]:checked) .calendar__cell:has([id*=from]:checked) ~ .calendar__cell:not(:has(:checked)) {
+	background: green;
+}
+
+/*.calendar__cell:has([id*=from]:checked):has ~ .calendar__cell {
+	background: green;
+}*/
+
+.calendar:has([id*=from]:checked):has([id*=to]:checked) .calendar__cell:has([id*=to]:checked) ~ .calendar__cell:not(:has(:checked)) {
+	background: transparent;
+}
+.calendar__cell:has([id]:checked) {
+	background: purple;
+}
