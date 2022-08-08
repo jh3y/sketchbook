@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  class="set-support scroll-timeline-support popup-support has-support houdini-support object-view-box-support"
+>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, user-scalable=0, maximum-scale=1.0"
+    />
+    <title>experimental-css-primitives/has/stan-game</title>
+    <link rel="stylesheet" href="npm:normalize.css" />
+    <link rel="stylesheet" href="npm:open-props/open-props.min.css" />
+    <!-- Purposely set to the wrong place to enforce putting things in an experimental subdir -->
+    <link
+      rel="stylesheet"
+      href="../../../../net/experimental-web-platform/style.css"
+    />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <img
+      class="backdrop"
+      src="./desert-sky-backdrop.jpg"
+    />
+    <form>
+      <div class="stan-pen">
+        <div class="stan-rays"></div>
+        <div class="stan-zzz">
+          <span class="stan-z">Z</span><span class="stan-z">Z</span
+          ><span class="stan-z">Z</span>
+        </div>
+        <svg
+          class="stan"
+          viewBox="0 0 701 742"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M245.16 670.592h-35.023v35.294H245.16v35.294h-70.046V600.003H140.091v-35.294H105.068v-35.294H70.046V494.12H35.023v-35.294H0V247.06H35.023v70.589H70.046v35.294h35.022v35.294h70.046v-35.294H210.137v-35.294H245.16v-35.295h35.022V247.06H315.205V35.294H350.228V0H665.433v35.294H700.456v176.472H525.342v35.294H630.41v35.294H490.319v70.589h70.046v70.589H525.342v-35.295H490.319V494.12H455.296v35.295h-35.022v35.294H385.251v141.177H420.274v35.294h-70.046v-70.588H245.16Zm105.068 0v-35.295H315.205v-35.294H280.182v35.294H245.16v35.295h105.068Zm70.046-600.003V52.94H385.251v35.295H420.274V70.589Z"
+            fill="#333"
+          />
+          <g class="stan__eyes">
+            <path
+              class="stan__eyelid stan__eyelid--top"
+              d="M374 40h65v61h-65z"
+            />
+            <path
+              class="stan__eyelid stan__eyelid--bottom"
+              d="M374 40h65v61h-65z"
+            />
+          </g>
+          <path
+            class="stan__star"
+            d="m422.547 23.39 5.518 32.391 28.585 16.203-29.101 15.257-6.576 32.193-23.503-22.962-32.65 3.694 14.575-29.448-13.602-29.91 32.511 4.761 24.243-22.179Z"
+            fill="#FBBC05"
+          />
+        </svg>
+      </div>
+      <div class="deck">
+        <div class="deck__controls">
+          <button type="reset" title="Reset Board">
+            <div class="cuboid">
+              <div class="cuboid">
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side">
+                  <span class="reset-label">Reset</span>
+                </div>
+              </div>
+              <div class="cuboid__side"></div>
+              <div class="cuboid__side"></div>
+              <div class="cuboid__side"></div>
+              <div class="cuboid__side"></div>
+              <div class="cuboid__side"></div>
+              <div class="cuboid__side"></div>
+            </div>
+          </button>
+          <div class="timer">
+            <div class="digit second s s--tens">0</div>
+            <div class="digit second s s--singles">0</div>
+            <span>.</span>
+            <div class="digit digit--small ms ms--tens">0</div>
+            <div class="digit digit--small ms ms--singles">0</div>
+          </div>
+        </div>
+        <div class="turns">
+          <div
+            class="turn bashi"
+            style="
+              --x: 65;
+              --y: 60;
+              --color: var(--yellow);
+              --speed: 4;
+              --x0: -84;
+              --x1: -165;
+              --x2: -174;
+              --x3: -143;
+              --y0: 16;
+              --y1: -60;
+              --y2: 47;
+              --y3: 24;
+            "
+          >
+            <label for="turn--0">
+              <div class="cuboid">
+                <div class="cuboid">
+                  <div class="cuboid__side"></div>
+                  <div class="cuboid__side"></div>
+                  <div class="cuboid__side"></div>
+                  <div class="cuboid__side"></div>
+                  <div class="cuboid__side"></div>
+                  <div class="cuboid__side"></div>
+                </div>
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+              </div>
+            </label>
+            <input type="checkbox" id="turn--0" />
+          </div>
+          <div
+            class="turn bishi"
+            style="
+              --x: 70;
+              --y: 63;
+              --color: var(--red);
+              --speed: 2;
+              --x0: -52;
+              --x1: -53;
+              --x2: 11;
+              --x3: 120;
+              --y0: 10;
+              --y1: -18;
+              --y2: -97;
+              --y3: 88;
+            "
+          >
+            <label for="turn--1">
+              <div class="cuboid">
+                <div class="cuboid">
+                  <div class="cuboid__side"></div>
+                  <div class="cuboid__side"></div>
+                  <div class="cuboid__side"></div>
+                  <div class="cuboid__side"></div>
+                  <div class="cuboid__side"></div>
+                  <div class="cuboid__side"></div>
+                </div>
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+              </div>
+            </label>
+            <input type="checkbox" id="turn--1" />
+          </div>
+          <div
+            class="turn bashi"
+            style="
+              --x: 42;
+              --y: 68;
+              --color: var(--red);
+              --speed: 2;
+              --x0: 60;
+              --x1: -185;
+              --x2: -20;
+              --x3: -186;
+              --y0: -85;
+              --y1: 99;
+              --y2: -11;
+              --y3: -92;
+            "
+          >
+            <label for="turn--2">
+              <div class="cuboid">
+                <div class="cuboid">
+                  <div class="cuboid__side"></div>
+                  <div class="cuboid__side"></div>
+                  <div class="cuboid__side"></div>
+                  <div class="cuboid__side"></div>
+                  <div class="cuboid__side"></div>
+                  <div class="cuboid__side"></div>
+                </div>
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+              </div>
+            </label>
+            <input type="checkbox" id="turn--2" />
+          </div>
+          <div
+            class="turn bishi"
+            style="
+              --x: 70;
+              --y: 77;
+              --color: var(--red);
+              --speed: 4;
+              --x0: 72;
+              --x1: -117;
+              --x2: 50;
+              --x3: -44;
+              --y0: -20;
+              --y1: 57;
+              --y2: -67;
+              --y3: 79;
+            "
+          >
+            <label for="turn--3">
+              <div class="cuboid">
+                <div class="cuboid">
+                  <div class="cuboid__side"></div>
+                  <div class="cuboid__side"></div>
+                  <div class="cuboid__side"></div>
+                  <div class="cuboid__side"></div>
+                  <div class="cuboid__side"></div>
+                  <div class="cuboid__side"></div>
+                </div>
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+              </div>
+            </label>
+            <input type="checkbox" id="turn--3" />
+          </div>
+          <div
+            class="turn bashi"
+            style="
+              --x: 49;
+              --y: 79;
+              --color: var(--green);
+              --speed: 2;
+              --x0: 35;
+              --x1: -90;
+              --x2: 35;
+              --x3: -84;
+              --y0: -34;
+              --y1: 1;
+              --y2: -64;
+              --y3: -84;
+            "
+          >
+            <label for="turn--4">
+              <div class="cuboid">
+                <div class="cuboid">
+                  <div class="cuboid__side"></div>
+                  <div class="cuboid__side"></div>
+                  <div class="cuboid__side"></div>
+                  <div class="cuboid__side"></div>
+                  <div class="cuboid__side"></div>
+                  <div class="cuboid__side"></div>
+                </div>
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+              </div>
+            </label>
+            <input type="checkbox" id="turn--4" />
+          </div>
+          <div
+            class="turn bishi"
+            style="
+              --x: 50;
+              --y: 79;
+              --color: var(--blue);
+              --speed: 4;
+              --x0: -119;
+              --x1: -189;
+              --x2: -28;
+              --x3: 178;
+              --y0: 27;
+              --y1: -65;
+              --y2: 58;
+              --y3: 15;
+            "
+          >
+            <label for="turn--5">
+              <div class="cuboid">
+                <div class="cuboid">
+                  <div class="cuboid__side"></div>
+                  <div class="cuboid__side"></div>
+                  <div class="cuboid__side"></div>
+                  <div class="cuboid__side"></div>
+                  <div class="cuboid__side"></div>
+                  <div class="cuboid__side"></div>
+                </div>
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+              </div>
+            </label>
+            <input type="checkbox" id="turn--5" />
+          </div>
+          <div
+            class="turn bashi"
+            style="
+              --x: 67;
+              --y: 73;
+              --color: var(--red);
+              --speed: 4;
+              --x0: -191;
+              --x1: -185;
+              --x2: 53;
+              --x3: 186;
+              --y0: 90;
+              --y1: 77;
+              --y2: -47;
+              --y3: -43;
+            "
+          >
+            <label for="turn--6">
+              <div class="cuboid">
+                <div class="cuboid">
+                  <div class="cuboid__side"></div>
+                  <div class="cuboid__side"></div>
+                  <div class="cuboid__side"></div>
+                  <div class="cuboid__side"></div>
+                  <div class="cuboid__side"></div>
+                  <div class="cuboid__side"></div>
+                </div>
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+              </div>
+            </label>
+            <input type="checkbox" id="turn--6" />
+          </div>
+          <div
+            class="turn bishi"
+            style="
+              --x: 36;
+              --y: 80;
+              --color: var(--green);
+              --speed: 3;
+              --x0: 53;
+              --x1: -188;
+              --x2: -152;
+              --x3: 101;
+              --y0: -98;
+              --y1: -64;
+              --y2: 5;
+              --y3: 100;
+            "
+          >
+            <label for="turn--7">
+              <div class="cuboid">
+                <div class="cuboid">
+                  <div class="cuboid__side"></div>
+                  <div class="cuboid__side"></div>
+                  <div class="cuboid__side"></div>
+                  <div class="cuboid__side"></div>
+                  <div class="cuboid__side"></div>
+                  <div class="cuboid__side"></div>
+                </div>
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+              </div>
+            </label>
+            <input type="checkbox" id="turn--7" />
+          </div>
+          <div
+            class="turn bashi"
+            style="
+              --x: 33;
+              --y: 61;
+              --color: var(--red);
+              --speed: 1;
+              --x0: -127;
+              --x1: -35;
+              --x2: -19;
+              --x3: 123;
+              --y0: -37;
+              --y1: 49;
+              --y2: -4;
+              --y3: -63;
+            "
+          >
+            <label for="turn--8">
+              <div class="cuboid">
+                <div class="cuboid">
+                  <div class="cuboid__side"></div>
+                  <div class="cuboid__side"></div>
+                  <div class="cuboid__side"></div>
+                  <div class="cuboid__side"></div>
+                  <div class="cuboid__side"></div>
+                  <div class="cuboid__side"></div>
+                </div>
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+              </div>
+            </label>
+            <input type="checkbox" id="turn--8" />
+          </div>
+          <div
+            class="turn bishi"
+            style="
+              --x: 59;
+              --y: 64;
+              --color: var(--green);
+              --speed: 1;
+              --x0: 33;
+              --x1: -85;
+              --x2: 77;
+              --x3: 9;
+              --y0: 25;
+              --y1: -29;
+              --y2: -92;
+              --y3: 45;
+            "
+          >
+            <label for="turn--9">
+              <div class="cuboid">
+                <div class="cuboid">
+                  <div class="cuboid__side"></div>
+                  <div class="cuboid__side"></div>
+                  <div class="cuboid__side"></div>
+                  <div class="cuboid__side"></div>
+                  <div class="cuboid__side"></div>
+                  <div class="cuboid__side"></div>
+                </div>
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+              </div>
+            </label>
+            <input type="checkbox" id="turn--9" />
+          </div>
+          <div
+            class="turn bashi"
+            style="
+              --x: 29;
+              --y: 66;
+              --color: var(--blue);
+              --speed: 1;
+              --x0: 128;
+              --x1: -51;
+              --x2: -37;
+              --x3: -113;
+              --y0: -57;
+              --y1: -8;
+              --y2: -28;
+              --y3: 50;
+            "
+          >
+            <label for="turn--10">
+              <div class="cuboid">
+                <div class="cuboid">
+                  <div class="cuboid__side"></div>
+                  <div class="cuboid__side"></div>
+                  <div class="cuboid__side"></div>
+                  <div class="cuboid__side"></div>
+                  <div class="cuboid__side"></div>
+                  <div class="cuboid__side"></div>
+                </div>
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+              </div>
+            </label>
+            <input type="checkbox" id="turn--10" />
+          </div>
+          <div
+            class="turn bishi"
+            style="
+              --x: 50;
+              --y: 50;
+              --color: var(--yellow);
+              --speed: 3;
+              --x0: 0;
+              --x1: 0;
+              --x2: 0;
+              --x3: 0;
+              --y0: 0;
+              --y1: 0;
+              --y2: 0;
+              --y3: 0;
+            "
+          >
+            <label for="turn--11">
+              <div class="cuboid">
+                <div class="cuboid">
+                  <div class="cuboid__side"></div>
+                  <div class="cuboid__side"></div>
+                  <div class="cuboid__side"></div>
+                  <div class="cuboid__side"></div>
+                  <div class="cuboid__side"></div>
+                  <div class="cuboid__side"></div>
+                </div>
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+              </div>
+            </label>
+            <input type="checkbox" id="turn--11" />
+          </div>
+        </div>
+      </div>
+      <div class="screen">
+        <div class="dialog">
+          <div class="dialog__content dialog__content--intro">
+            <h1>:hishi :hashi Stan</h1>
+            <p>
+              Wake Stan and get him rocking as quick as you can by smashing the
+              buttons!
+            </p>
+            <label class="faux-button" for="start-game">Start Game</label>
+            <input id="start-game" type="checkbox" />
+          </div>
+          <div class="dialog__content dialog__content--results">
+            <h1>Well Done!</h1>
+            <div class="timer">
+              <div class="digit second s s--tens">0</div>
+              <div class="digit second s s--singles">0</div>
+              <span>.</span>
+              <div class="digit digit--small ms ms--tens">0</div>
+              <div class="digit digit--small ms ms--singles">0</div>
+            </div>
+            <button class="faux-button" type="reset" title="Reset Board">
+              Replay
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+    <!-- Purposely set to the wrong place to enforce putting things in an experimental subdir -->
+    <script src="../../../../net/experimental-web-platform/script.js"></script>
+    <script type="module" src="./script.js"></script>
+  </body>
+</html>

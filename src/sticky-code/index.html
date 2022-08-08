@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, user-scalable=0, maximum-scale=1.0"
+    />
+    <title>sticky-code</title>
+    <link rel="stylesheet" href="npm:normalize.css" />
+    <link rel="stylesheet" href="npm:open-props/normalize.min.css" />
+    <link rel="stylesheet" href="npm:open-props/open-props.min.css" />
+    <link rel="stylesheet" href="npm:prism-themes/themes/prism-night-owl.css" />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <pre class="language-js">
+      <code>
+// These code blocks have "sticky" bits
+function myFunction(p1, p2) {
+  // This comment scrolls past
+  const result = p1 * p2;
+  // So does this one
+  return p1 * p2;
+  // Because we're sticking the important bits
+}
+
+// CSS doing it's thing!
+function positionSticky() {
+  console.info('pretty cool, right?');
+}
+
+// Don't need to stick this one
+const clamp = (min, max, value) =>
+  Math.min(Math.max(value, min), max)
+
+
+// The stick position is defined by scoped properties
+const stickByIndent = line => {
+  const indent = getIndent(line)
+  // Apply it via style or in your HTML
+  line.style.setProperty('--level', indent)
+  return indent
+}
+
+// This one has some extras
+const mapRange = (a, b, c, d) => {
+  const INPUT = b - a
+  const OUTPUT = d - c
+  return (value) => {
+    c + (((value - a) / INPUT) * OUTPUT || 0)
+  }
+}
+
+const randomInRange = (min, max) =>
+  Math.floor(
+    Math.random() *
+    (Math.floor(max) - Math.ceil(min) + 1) +
+    Math.ceil(min)
+  )
+      </code>
+    </pre>
+    <script src="npm:prismjs/prism.js"></script>
+    <script src="npm:prismjs/plugins/show-invisibles/prism-show-invisibles.min.js"></script>
+    <script type="module" src="./script.js"></script>
+  </body>
+</html>

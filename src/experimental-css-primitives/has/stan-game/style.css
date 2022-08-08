@@ -1,0 +1,1063 @@
+/*@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap");*/
+
+@property --ms-tens {
+  initial-value: 0;
+  inherits: false;
+  syntax: '<integer>';
+}
+@property --ms-singles {
+  initial-value: 0;
+  inherits: false;
+  syntax: '<integer>';
+}
+@property --s-tens {
+  initial-value: 0;
+  inherits: false;
+  syntax: '<integer>';
+}
+@property --s-singles {
+  initial-value: 0;
+  inherits: false;
+  syntax: '<integer>';
+}
+.digit {
+  position: relative;
+  color: transparent;
+  font-family: 'Orbitron', sans-serif;
+  counter-reset: var(--counter-name) var(--counter-variable);
+  animation: var(--name, none) var(--duration, 1s) infinite steps(var(--steps)) var(--state);
+}
+.digit:after {
+  content: counter(var(--counter-name));
+  font-variant: tabular-nums;
+  color: var(--digit);
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+.timer {
+  color: var(--digit);
+  display: flex;
+  font-size: var(--font-size-fluid-2);
+  padding: 1.75vmin;
+  border-radius: 1vmin;
+  background: #000;
+}
+.deck__controls {
+  display: flex;
+  gap: 1vmin;
+}
+.ms {
+  font-size: var(--font-size-fluid-1);
+  transform: translate(0, -6%);
+}
+.ms--tens {
+  --duration: 1s;
+  --steps: 10;
+  --counter-name: ms-tens;
+  --counter-variable: var(--ms-tens);
+}
+.ms--singles {
+  --duration: 0.1s;
+  --steps: 10;
+  --counter-name: ms-singles;
+  --counter-variable: var(--ms-singles);
+}
+.s--tens {
+  --duration: 60s;
+  --steps: 6;
+  --counter-name: s-tens;
+  --counter-variable: var(--s-tens);
+}
+.s--singles {
+  --duration: 10s;
+  --steps: 10;
+  --counter-name: s-singles;
+  --counter-variable: var(--s-singles);
+}
+:root:has(#start-game:checked) {
+  --state: running;
+}
+:root:has(#start-game:checked) .ms--tens {
+  --name: ms-tens;
+}
+:root:has(#start-game:checked) .ms--singles {
+  --name: ms-singles;
+}
+:root:has(#start-game:checked) .s--tens {
+  --name: s-tens;
+}
+:root:has(#start-game:checked) .s--singles {
+  --name: s-singles;
+}
+:root:has(#start-game:checked) .m--tens {
+  --name: m-tens;
+}
+:root:has(#start-game:checked) .m--singles {
+  --name: m-singles;
+}
+@property --depth {
+  initial-value: 0;
+  inherits: true;
+  syntax: '<length>';
+}
+@property --tx {
+  initial-value: 0;
+  inherits: true;
+  syntax: '<length-percentage>';
+}
+@property --ty {
+  initial-value: 0;
+  inherits: true;
+  syntax: '<length-percentage>';
+}
+.cuboid {
+  height: 100%;
+  width: 100%;
+  position: relative;
+}
+.cuboid .cuboid {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translateZ(var(--elevation, -10vmin));
+  transition: transform 0.2s;
+}
+.cuboid .cuboid .cuboid__side {
+  background-color: currentColor;
+}
+.deck .timer {
+  filter: brightness(1.5);
+}
+.deck [type="reset"] {
+  --depth: 6vmin;
+  --elevation: 0;
+  color: var(--gray-5);
+  aspect-ratio: 1;
+  padding: 0;
+  width: 8vmin;
+}
+:is(label,
+[type="reset"]):hover .cuboid .cuboid {
+  --elevation: 1vmin;
+}
+:is(label,
+[type="reset"]):active .cuboid .cuboid {
+  --elevation: -4vmin;
+}
+.cuboid__side {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  filter: brightness(var(--brightness, 1));
+}
+/* T, R, B, L, F, B */
+.cuboid__side:nth-of-type(1) {
+  --brightness: 0.8;
+  top: 0;
+  height: var(--depth, 50vmin);
+  transform: translateY(-50%) rotateX(-90deg);
+}
+.cuboid__side:nth-of-type(2) {
+  --brightness: 0.6;
+  top: 50%;
+  right: 0;
+  width: var(--depth, 50vmin);
+  transform: translate(50%, -50%) rotateY(90deg);
+}
+.cuboid__side:nth-of-type(3) {
+  --brightness: 1.3;
+  bottom: 0;
+  height: var(--depth, 50vmin);
+  transform: translateY(50%) rotateX(90deg);
+}
+.cuboid__side:nth-of-type(4) {
+  --brightness: 0.6;
+  top: 50%;
+  width: var(--depth, 50vmin);
+  transform: translate(-50%, -50%) rotateY(90deg);
+}
+.cuboid__side:nth-of-type(5) {
+  --brightness: 0.75;
+  transform: translateZ(calc(var(--depth, 50vmin) / -2));
+}
+.cuboid__side:nth-of-type(6) {
+  --brightness: 1;
+  transform: translateZ(calc(var(--depth, 50vmin) / 2)) rotateY(180deg);
+}
+* {
+  box-sizing: border-box;
+  transform-style: preserve-3d;
+}
+:root {
+  --digit: var(--red);
+  --state: paused;
+  --stan-win: 0;
+  --stan-star-scale: 0;
+  --stan-star-rotate: 0;
+  --red: #ff4d00;
+  --yellow: #ebb624;
+  --green: #38b24d;
+  --blue: #0f73ff;
+  --screen-hide: 0;
+  --screen-delay: 0;
+  --show-results: 0;
+  --deck: hsl(210 34% 10%);
+}
+body {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  margin: 0;
+  overflow: hidden;
+}
+.reset-label {
+  color: var(--gray-9);
+  font-weight: bold;
+  font-size: 2.75vmin;
+  position: absolute;
+  display: block;
+  font-family: 'Google Sans', sans-serif;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotateY(180deg);
+}
+@property --stan-star-scale {
+  inherits: true;
+  syntax: '<number>';
+  initial-value: 0;
+}
+@property --stan-star-rotate {
+  inherits: true;
+  syntax: '<number>';
+  initial-value: 0;
+}
+@property --stan-y {
+  inherits: true;
+  syntax: '<length>';
+  initial-value: 0;
+}
+@property --stan-rays-scale {
+  inherits: true;
+  syntax: '<number>';
+  initial-value: 0;
+}
+@property --stan-rays-rotation {
+  inherits: true;
+  syntax: '<angle>';
+  initial-value: 0deg;
+}
+@property --stan-lids {
+  inherits: true;
+  syntax: '<number>';
+  initial-value: 4.5;
+}
+.stan__eyelid {
+  transform: translateY(calc(var(--stan-lids) * 1%));
+}
+.stan__eyelid--top {
+  transform: translateY(calc(var(--stan-lids) * -1%));
+}
+.stan-zzz {
+  position: absolute;
+  background: #f00;
+  left: 54%;
+  top: 0;
+  z-index: 3;
+  transform: rotate(-15deg);
+  transform-origin: 50% 50%;
+}
+.stan-z {
+  display: inline-block;
+  font-size: 10vmin;
+  color: hsl(0 0% 100% / 0.5);
+  position: absolute;
+  font-family: monospace;
+  font-weight: bold;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: snore calc(var(--speed, 1) * 1s) calc(var(--delay, 0) * -1s) infinite;
+}
+.stan-z:nth-of-type(1) {
+  --r: -20;
+  --t: -100;
+  --delay: 1;
+  --speed: 2;
+}
+.stan-z:nth-of-type(2) {
+  --r: 20;
+  --t: -80;
+  --delay: 0.5;
+  --speed: 1.5;
+}
+.stan-z:nth-of-type(3) {
+  --r: 0;
+  --t: -120;
+  --delay: 0.25;
+  --speed: 3;
+}
+:root:has(#turn--0:checked) {
+  --backdrop-brightness: 0.4;
+}
+:root:has(#turn--1:checked) .stan__eyes {
+  animation: eye-opener 1s both;
+}
+:root:has(#turn--1:checked) .stan-z {
+  opacity: 0;
+  animation: none;
+}
+:root:has(#turn--1:checked) {
+  --backdrop-brightness: 0.6;
+}
+:root:has(#turn--2:checked) {
+  --backdrop-brightness: 0.8;
+  --stan-rotate: 180;
+}
+:root:has(#turn--3:checked) {
+  --backdrop-brightness: 1;
+  --stan-rotate: 0;
+}
+:root:has(#turn--4:checked) {
+  --stan-rotate: 180;
+}
+:root:has(#turn--5:checked) {
+  --stan-rotate: 0;
+}
+:root:has(#turn--6:checked) {
+  --stan-rotate: 180;
+  --stan-rotate: 0;
+  --stan-bob: -2;
+  --stan-speed: 0.5;
+}
+:root:has(#turn--7:checked) {
+  --stan-rotate: 0;
+  --stan-bob: -4;
+  --stan-speed: 0.4;
+}
+:root:has(#turn--8:checked) {
+  --stan-rotate: 180;
+  --stan-bob: -6;
+  --stan-speed: 0.3;
+}
+:root:has(#turn--9:checked) {
+  --stan-rotate: 0;
+  --stan-bob: -8;
+  --stan-speed: 0.2;
+}
+:root:has(#turn--10:checked) {
+  --stan-rotate: 180;
+  --stan-bob: -10;
+  --stan-speed: 0.1;
+}
+:root:has(#turn--11:checked) {
+  --stan-rotate: 0;
+  --stan-bob: 0;
+  --stan-speed: 0;
+  --stan-win: 1;
+  --stan-star-scale: 1;
+}
+.stan-pen {
+  width: 80vmin;
+  aspect-ratio: 701/742;
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  transition: transform 0.2s;
+  transform-origin: 50% 50%;
+  transform: translate(-50%, -50%) translateY(var(--stan-y)) rotateY(calc(var(--stan-rotate, 0) * 1deg));
+}
+.stan {
+  animation: bob calc(var(--stan-speed, 0) * 1s) infinite;
+  height: 100%;
+  width: 100%;
+}
+.stan-rays {
+  position: absolute;
+  width: 200vmax;
+  aspect-ratio: 1;
+  background: repeating-conic-gradient(transparent 0 5%, rgba(255,255,255,0.75) 5% 10%);
+  border-radius: 50%;
+  top: 35%;
+  left: 55%;
+  transition: --stan-rays-scale 0.2s;
+  transform: translate(-50%, -50%) scale(var(--stan-rays-scale)) rotate(0deg);
+  animation: rays calc(var(--stan-rays-speed, 0) * 5s) infinite linear;
+}
+.stan path {
+  fill: var(--gray-9);
+  fill: #0d0d0d;
+}
+path.stan__star {
+  fill: var(--yellow-5);
+}
+path.stan__star {
+  transform: scale(var(--stan-star-scale, 0)) rotate(calc(var(--stan-star-rotate, 0) * 1deg));
+  transform-origin: 404px 70px;
+  transition: --stan-star-scale calc(var(--stan-win, 0) * 1s);
+  animation: spin calc(var(--stan-win, 0) * 0.85s) infinite linear;
+}
+@property --backdrop-brightness {
+  inherits: true;
+  syntax: '<number>';
+  initial-value: 0.2;
+}
+.backdrop {
+  position: fixed;
+  height: 100vh;
+  width: 100vw;
+  z-index: -1;
+  object-fit: cover;
+  top: 0;
+  left: 0;
+  filter: brightness(var(--backdrop-brightness));
+  transition: --backdrop-brightness 0.2s;
+}
+@property --screen-hide {
+  initial-value: 0;
+  inherits: true;
+  syntax: '<number>';
+}
+@property --screen-y {
+  initial-value: 0;
+  inherits: true;
+  syntax: '<length>';
+}
+@property --screen-scale {
+  initial-value: 1;
+  inherits: true;
+  syntax: '<number>';
+}
+@property --deck-y {
+  initial-value: 0;
+  inherits: true;
+  syntax: '<length>';
+}
+form {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  margin: 0;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transform-style: flat;
+}
+.deck {
+  background: var(--deck);
+  position: absolute;
+  height: 50%;
+  width: 100%;
+  bottom: 0;
+  left: 50%;
+  transform: translate3d(-50%, 0, 100vmin) rotateX(-16deg) rotateY(-24deg) rotateX(90deg) translateY(var(--deck-y));
+}
+.turns {
+  height: 100%;
+  width: 80%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-40%, -15%);
+}
+.deck:after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--deck);
+  transform-origin: 50% 0;
+  transform: translateZ(0px) scale(5);
+  z-index: -1;
+}
+.turn {
+  --depth: 10vmin;
+  color: var(--color);
+  height: 10vmin;
+  position: relative;
+  aspect-ratio: 1;
+  position: absolute;
+  top: calc(var(--y, 50) * 1%);
+  left: calc(var(--x, 50) * 1%);
+  transform: translate(-50%, -50%) translate(var(--tx), var(--ty));
+  animation: wiggle calc(var(--speed, 0) * 1s) infinite var(--state, paused);
+}
+.turn:last-of-type {
+  height: 14vmin;
+}
+.screen {
+  height: 100vh;
+  width: 100vw;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) translateY(calc(var(--screen-y, 0))) scale(var(--screen-scale, 0)) translateY(calc(var(--screen-hide, 0) * 100vh));
+  z-index: 5;
+  display: grid;
+  place-items: center;
+  transition: --screen-hide 0.2s var(--screen-delay);
+}
+form {
+  animation: intro 1s 1s both ease-in-out;
+}
+.dialog {
+  height: 40vmin;
+  min-height: 280px;
+  aspect-ratio: 1;
+  font-family: 'Google Sans', sans-serif;
+  font-size: clamp(1rem, 2vmin, 2rem);
+  backdrop-filter: blur(10px) saturate(0.75);
+  color: var(--gray-0);
+  background: hsl(210 29% 20% / 0.8);
+  position: absolute;
+  border-radius: 5%;
+  box-shadow: var(--shadow-6);
+  text-align: center;
+  border-style: solid;
+  border-top-color: var(--red);
+  border-right-color: var(--green);
+  border-bottom-color: var(--yellow);
+  border-left-color: var(--blue);
+  border-width: var(--size-2);
+}
+.dialog__content {
+  padding: var(--size-4);
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+}
+.dialog__content--results {
+  opacity: var(--show-results);
+  z-index: var(--show-results);
+}
+.dialog__content--intro {
+  opacity: calc(1 - var(--show-results));
+  z-index: calc(1 - var(--show-results));
+}
+.faux-button {
+  --bg: var(--gray-9);
+  box-sizing: border-box;
+  font-size: var(--font-size-fluid-1);
+  padding: var(--size-4) var(--size-6);
+  background: var(--bg);
+  border-radius: var(--size-4);
+  color: var(--gray-0);
+  font-weight: bold;
+  font-family: 'Google Sans', sans-serif;
+  border: var(--size-2) solid var(--gray-0);
+  display: inline-block;
+  transform: translateY(calc(var(--y, 0) * 1%)) scale(var(--s));
+  transition: transform 0.1s, background 0.1s;
+}
+p + * {
+  margin-top: var(--size-4);
+}
+.faux-button:hover {
+  --bg: #000;
+  --y: -5;
+  --s: 1.1;
+}
+.faux-button:active {
+  --bg: #000;
+  --y: 5;
+  --s: 0.9;
+}
+h1 {
+  text-align: center;
+  margin: 0;
+}
+p {
+  margin: 0;
+}
+[type="checkbox"] {
+  opacity: 0;
+  position: fixed;
+  pointer-events: none;
+}
+[for] {
+  font-weight: bold;
+  font-family: 'Google Sans', sans-serif;
+  cursor: pointer;
+}
+[for*='turn'] {
+  position: absolute;
+  inset: 0;
+}
+[for*='turn']:after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  transform: scale(1.5);
+  border: 1vmin solid var(--color);
+  filter: brightness(1.5) drop-shadow(0 0 1vmin var(--color));
+}
+/* Chromium Bug */
+/* :is(.turn) {
+  display: none;
+}
+
+:is(.turn:first-of-type) {
+  display: block;
+}
+
+:is(.turn:has(:checked), .turn:first-of-type:has(:checked)) {
+  display: none;
+}
+
+:is(.turn:has(:checked) + .turn:not(.turn:has(:checked))) {
+  display: block;
+} */
+:is(.turn) {
+  pointer-events: none;
+}
+:root:has(#start-game:checked) .turn:first-of-type:not(:has(:checked)) {
+  --elevation: 0;
+  pointer-events: all;
+}
+:is(.turn:has(:checked),
+.turn:first-of-type:has(:checked)) {
+  z-index: -1;
+  pointer-events: none;
+}
+:is(.turn:has(:checked) + .turn:not(.turn:has(:checked))) {
+  --elevation: 0;
+  pointer-events: all;
+}
+:root:has(#start-game:checked) {
+  --screen-hide: 1;
+}
+:root:has(#turn--11:checked) {
+  --state: paused;
+  --screen-hide: 0;
+  --screen-delay: 2s;
+  --show-results: 1;
+}
+form:has(#turn--11:checked) {
+  --stan-rays-scale: 1;
+  --stan-rays-speed: 1;
+}
+@-moz-keyframes ms-tens {
+  to {
+    --ms-tens: 10;
+  }
+}
+@-webkit-keyframes ms-tens {
+  to {
+    --ms-tens: 10;
+  }
+}
+@-o-keyframes ms-tens {
+  to {
+    --ms-tens: 10;
+  }
+}
+@keyframes ms-tens {
+  to {
+    --ms-tens: 10;
+  }
+}
+@-moz-keyframes ms-singles {
+  to {
+    --ms-singles: 10;
+  }
+}
+@-webkit-keyframes ms-singles {
+  to {
+    --ms-singles: 10;
+  }
+}
+@-o-keyframes ms-singles {
+  to {
+    --ms-singles: 10;
+  }
+}
+@keyframes ms-singles {
+  to {
+    --ms-singles: 10;
+  }
+}
+@-moz-keyframes s-tens {
+  to {
+    --s-tens: 6;
+  }
+}
+@-webkit-keyframes s-tens {
+  to {
+    --s-tens: 6;
+  }
+}
+@-o-keyframes s-tens {
+  to {
+    --s-tens: 6;
+  }
+}
+@keyframes s-tens {
+  to {
+    --s-tens: 6;
+  }
+}
+@-moz-keyframes s-singles {
+  to {
+    --s-singles: 10;
+  }
+}
+@-webkit-keyframes s-singles {
+  to {
+    --s-singles: 10;
+  }
+}
+@-o-keyframes s-singles {
+  to {
+    --s-singles: 10;
+  }
+}
+@keyframes s-singles {
+  to {
+    --s-singles: 10;
+  }
+}
+@-moz-keyframes wiggle {
+  0%, 100% {
+    --tx: 0%;
+  }
+  25% {
+    --tx: calc(var(--x0) * 1%);
+    --ty: calc(var(--y0) * 1%);
+  }
+  50% {
+    --tx: calc(var(--x1) * 1%);
+    --ty: calc(var(--y1) * 1%);
+  }
+  75% {
+    --tx: calc(var(--x2) * 1%);
+    --ty: calc(var(--y2) * 1%);
+  }
+}
+@-webkit-keyframes wiggle {
+  0%, 100% {
+    --tx: 0%;
+  }
+  25% {
+    --tx: calc(var(--x0) * 1%);
+    --ty: calc(var(--y0) * 1%);
+  }
+  50% {
+    --tx: calc(var(--x1) * 1%);
+    --ty: calc(var(--y1) * 1%);
+  }
+  75% {
+    --tx: calc(var(--x2) * 1%);
+    --ty: calc(var(--y2) * 1%);
+  }
+}
+@-o-keyframes wiggle {
+  0%, 100% {
+    --tx: 0%;
+  }
+  25% {
+    --tx: calc(var(--x0) * 1%);
+    --ty: calc(var(--y0) * 1%);
+  }
+  50% {
+    --tx: calc(var(--x1) * 1%);
+    --ty: calc(var(--y1) * 1%);
+  }
+  75% {
+    --tx: calc(var(--x2) * 1%);
+    --ty: calc(var(--y2) * 1%);
+  }
+}
+@keyframes wiggle {
+  0%, 100% {
+    --tx: 0%;
+  }
+  25% {
+    --tx: calc(var(--x0) * 1%);
+    --ty: calc(var(--y0) * 1%);
+  }
+  50% {
+    --tx: calc(var(--x1) * 1%);
+    --ty: calc(var(--y1) * 1%);
+  }
+  75% {
+    --tx: calc(var(--x2) * 1%);
+    --ty: calc(var(--y2) * 1%);
+  }
+}
+@-moz-keyframes snore {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) rotate(calc(var(--r, 0) * 1deg)) scale(0) translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) rotate(calc(var(--r, 0) * 1deg)) scale(1) translateY(calc(var(--t, -100) * 1%));
+  }
+  10%, 90% {
+    opacity: 1;
+  }
+}
+@-webkit-keyframes snore {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) rotate(calc(var(--r, 0) * 1deg)) scale(0) translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) rotate(calc(var(--r, 0) * 1deg)) scale(1) translateY(calc(var(--t, -100) * 1%));
+  }
+  10%, 90% {
+    opacity: 1;
+  }
+}
+@-o-keyframes snore {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) rotate(calc(var(--r, 0) * 1deg)) scale(0) translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) rotate(calc(var(--r, 0) * 1deg)) scale(1) translateY(calc(var(--t, -100) * 1%));
+  }
+  10%, 90% {
+    opacity: 1;
+  }
+}
+@keyframes snore {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) rotate(calc(var(--r, 0) * 1deg)) scale(0) translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) rotate(calc(var(--r, 0) * 1deg)) scale(1) translateY(calc(var(--t, -100) * 1%));
+  }
+  10%, 90% {
+    opacity: 1;
+  }
+}
+@-moz-keyframes eye-opener {
+  0% {
+    --stan-lids: 4.5;
+  }
+  25% {
+    --stan-lids: 6;
+  }
+  50% {
+    --stan-lids: 0;
+  }
+  100% {
+    --stan-lids: 10;
+  }
+}
+@-webkit-keyframes eye-opener {
+  0% {
+    --stan-lids: 4.5;
+  }
+  25% {
+    --stan-lids: 6;
+  }
+  50% {
+    --stan-lids: 0;
+  }
+  100% {
+    --stan-lids: 10;
+  }
+}
+@-o-keyframes eye-opener {
+  0% {
+    --stan-lids: 4.5;
+  }
+  25% {
+    --stan-lids: 6;
+  }
+  50% {
+    --stan-lids: 0;
+  }
+  100% {
+    --stan-lids: 10;
+  }
+}
+@keyframes eye-opener {
+  0% {
+    --stan-lids: 4.5;
+  }
+  25% {
+    --stan-lids: 6;
+  }
+  50% {
+    --stan-lids: 0;
+  }
+  100% {
+    --stan-lids: 10;
+  }
+}
+@-moz-keyframes bob {
+  50% {
+    transform: translateY(calc(var(--stan-bob, 0) * 1%));
+  }
+}
+@-webkit-keyframes bob {
+  50% {
+    transform: translateY(calc(var(--stan-bob, 0) * 1%));
+  }
+}
+@-o-keyframes bob {
+  50% {
+    transform: translateY(calc(var(--stan-bob, 0) * 1%));
+  }
+}
+@keyframes bob {
+  50% {
+    transform: translateY(calc(var(--stan-bob, 0) * 1%));
+  }
+}
+@-moz-keyframes rays {
+  to {
+    transform: translate(-50%, -50%) scale(var(--stan-rays-scale)) rotate(360deg);
+  }
+}
+@-webkit-keyframes rays {
+  to {
+    transform: translate(-50%, -50%) scale(var(--stan-rays-scale)) rotate(360deg);
+  }
+}
+@-o-keyframes rays {
+  to {
+    transform: translate(-50%, -50%) scale(var(--stan-rays-scale)) rotate(360deg);
+  }
+}
+@keyframes rays {
+  to {
+    transform: translate(-50%, -50%) scale(var(--stan-rays-scale)) rotate(360deg);
+  }
+}
+@-moz-keyframes spin {
+  to {
+    --stan-star-rotate: 360;
+  }
+}
+@-webkit-keyframes spin {
+  to {
+    --stan-star-rotate: 360;
+  }
+}
+@-o-keyframes spin {
+  to {
+    --stan-star-rotate: 360;
+  }
+}
+@keyframes spin {
+  to {
+    --stan-star-rotate: 360;
+  }
+}
+@-moz-keyframes intro {
+  0% {
+    --stan-y: 100vh;
+    --deck-y: 200vh;
+    --screen-y: 100vh;
+    --screen-scale: 0;
+  }
+  25% {
+    --stan-y: 100vh;
+    --deck-y: 0;
+    --screen-y: 100vh;
+    --screen-scale: 0;
+  }
+  50% {
+    --stan-y: 0;
+    --deck-y: 0;
+    --screen-y: 100vh;
+    --screen-scale: 0;
+  }
+  100% {
+    --deck-y: 0;
+    --stan-y: 0;
+    --screen-y: 0;
+    --screen-scale: 1;
+  }
+}
+@-webkit-keyframes intro {
+  0% {
+    --stan-y: 100vh;
+    --deck-y: 200vh;
+    --screen-y: 100vh;
+    --screen-scale: 0;
+  }
+  25% {
+    --stan-y: 100vh;
+    --deck-y: 0;
+    --screen-y: 100vh;
+    --screen-scale: 0;
+  }
+  50% {
+    --stan-y: 0;
+    --deck-y: 0;
+    --screen-y: 100vh;
+    --screen-scale: 0;
+  }
+  100% {
+    --deck-y: 0;
+    --stan-y: 0;
+    --screen-y: 0;
+    --screen-scale: 1;
+  }
+}
+@-o-keyframes intro {
+  0% {
+    --stan-y: 100vh;
+    --deck-y: 200vh;
+    --screen-y: 100vh;
+    --screen-scale: 0;
+  }
+  25% {
+    --stan-y: 100vh;
+    --deck-y: 0;
+    --screen-y: 100vh;
+    --screen-scale: 0;
+  }
+  50% {
+    --stan-y: 0;
+    --deck-y: 0;
+    --screen-y: 100vh;
+    --screen-scale: 0;
+  }
+  100% {
+    --deck-y: 0;
+    --stan-y: 0;
+    --screen-y: 0;
+    --screen-scale: 1;
+  }
+}
+@keyframes intro {
+  0% {
+    --stan-y: 100vh;
+    --deck-y: 200vh;
+    --screen-y: 100vh;
+    --screen-scale: 0;
+  }
+  25% {
+    --stan-y: 100vh;
+    --deck-y: 0;
+    --screen-y: 100vh;
+    --screen-scale: 0;
+  }
+  50% {
+    --stan-y: 0;
+    --deck-y: 0;
+    --screen-y: 100vh;
+    --screen-scale: 0;
+  }
+  100% {
+    --deck-y: 0;
+    --stan-y: 0;
+    --screen-y: 0;
+    --screen-scale: 1;
+  }
+}

@@ -1,0 +1,57 @@
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+	transform-style: preserve-3d;
+	touch-action: none;
+}
+
+body {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	font-family:  'Google Sans', sans-serif, system-ui;
+	perspective: 1000px;
+}
+
+.grid {
+	padding: 0;
+	margin: 0;
+	display: grid;
+	grid-template-columns: repeat(4, 10vmin);
+	gap: 1vmin;
+	transform: translateZ(20vmin) rotateX(-16deg) rotateY(-20deg) rotateX(calc(var(--y, 0) * -10deg)) rotateY(calc(var(--x, 0) * 10deg));
+}
+
+.grid img {
+	aspect-ratio: 1;
+	width: 100%;
+	height: auto;
+	border-radius: 10%;
+	transition: all 0.2s;
+	filter: saturate(var(--saturate, 0.35));
+	opacity: var(--opacity, 1);
+	transform: scale(var(--scale, 1));
+}
+
+.grid:hover img {
+	--opacity: 0.1;
+	--scale: 0.5;
+}
+
+.grid img:hover {
+	--saturate: 1;
+	--opacity: 1;
+	--scale: 1.2;
+}
+
+@supports(selector(:has(*))) {
+	.grid:hover img {
+		--opacity: 1;
+		--scale: 1;
+	}
+	.grid:has(img:hover) img:not(:hover) {
+		--opacity: 0.1;
+		--scale: 0.5;
+	}
+}

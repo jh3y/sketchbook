@@ -1,0 +1,121 @@
+:root {
+  --size: clamp(200px, 40vmin, 50rem);
+}
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+	/*background: var(--gradient-1);*/
+	background: var(--gray-2);
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	font-family: 'Google Sans', sans-serif, system-ui;
+}
+
+.track-wrapper {
+	width: 80%;
+  max-inline-size: var(--size-content-3);
+	overflow: hidden;
+	-webkit-mask: linear-gradient(90deg,
+								transparent 0,
+								black 15% 85%,
+								transparent
+							) 0 50% / 100% calc(100% - (2 * var(--size-4))) no-repeat,
+							linear-gradient(0deg, black, black) 50% 0 / 100% var(--size-4) no-repeat,
+							linear-gradient(0deg, black, black) 50% 100% / 100% var(--size-4) no-repeat;
+}
+
+img {
+	height: 100%;
+	width: 100%;
+}
+
+.track {
+	height: var(--size);
+	width: 100%;
+	display: flex;
+	overflow: auto;
+	gap: var(--size-4);
+	list-style-type: none;
+  margin: 0;
+	/*background: hsl(0 0% 100% / 0.25);*/
+	padding: var(--size-4) 33%;
+	scroll-snap-type: x mandatory;
+	/* Circular inverted */
+	/* -webkit-mask-image: radial-gradient(ellipse at 50% 66%, black 0 30%, transparent 30%);
+	/* No Scrollbar */
+	/* -webkit-mask: radial-gradient(#0000 0 30%, #000 30%) 50% 20vmin / 240% 100%;*/
+	/* Winner */
+	/*-webkit-mask: radial-gradient(#0000 0 30%, #000 30%) 50% calc(var(--size) * 0.5) / 250% 100%,
+								linear-gradient(0deg, black, black) 50% 0 / 100% var(--size-4) no-repeat,
+								linear-gradient(0deg, black, black) 50% 100% / 100% var(--size-4) no-repeat;*/
+	-webkit-mask: radial-gradient(#0000 0 30%, #000 30%) 50% calc(var(--size) * 0.5) / 300% 100%,
+								linear-gradient(black, black) 50% 0 / 100% var(--size-4) no-repeat,
+								linear-gradient(black, black) 50% 100% / 100% var(--size-4) no-repeat;
+
+}
+
+.vertical {
+  --size: 80vmin;
+  height: 80vmin;
+}
+
+.vertical.track-wrapper {
+  -webkit-mask: linear-gradient(0deg,
+    transparent 0,
+    black 15% 85%,
+    transparent
+  ) 50% 50% / calc(100% - (2 * var(--size-4))) 100% no-repeat,
+    linear-gradient(black, black) 0 50% / var(--size-4) 100% no-repeat,
+    linear-gradient(black, black) 100% 50% / var(--size-4) 100% no-repeat;
+  width: var(--size);
+}
+
+.vertical .track {
+  padding: 33% var(--size-4);
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  scroll-snap-type: y mandatory;
+  -webkit-mask: radial-gradient(#0000 0 calc(var(--size) * 0.20), #000 calc(var(--size) * 0.205)) calc(var(--size) * 0.5) 50% / 100% 350%,
+    linear-gradient(black, black) 0 50% / var(--size-4) 100% no-repeat,
+    linear-gradient(black, black) 100% 50% / var(--size-4) 100% no-repeat;
+}
+
+.track__item {
+	width: 100%;
+	aspect-ratio: 1;
+	background: var(--surface-2);
+	scroll-snap-align: center;
+/* 	display: none; */
+}
+
+.vertical .track__item {
+  width: 100%;
+  aspect-ratio: 16 / 9 ;
+}
+
+.vertical img {
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+.track__item:last-of-type {
+  background: none;
+  scroll-snap-align: none;
+  min-height: 50%
+}
+
+h1 {
+  position: fixed;
+  margin: 0;
+  opacity: 0.5;
+  bottom: var(--size-3);
+  right: var(--size-3);
+  font-size: var(--font-size-fluid-1);
+}

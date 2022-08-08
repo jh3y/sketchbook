@@ -1,0 +1,71 @@
+:root {
+	--bg: #282a36;
+}
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	font-family:  'Google Sans', sans-serif, system-ui;
+}
+
+pre {
+	max-inline-size: 60ch;
+	max-height: 200px;
+	width: 100%;
+}
+
+.line, .closer {
+	position: sticky;
+	top: calc(var(--level, 0) * (1.3rem * 0.5));
+
+}
+
+.line:after, .closer:after {
+	content: '';
+	position: absolute;
+	top: 0%;
+	left: 50%;
+	height: 1.3rem;
+	background: purple;
+	width: 200vw;
+	z-index: -1;
+	transform: translate(-50%, 0%);
+}
+
+pre[class*="language-"] {
+	overflow-x: hidden;
+	padding-top: 0;
+	border-top: 1em solid var(--bg);
+	box-shadow: var(--shadow-6);
+}
+
+.line {
+	z-index: 2;
+}
+
+.code-block {
+	display: block;
+	position: relative;
+}
+
+.closer {
+	z-index: 1;
+}
+.block-start {
+	z-index: 3;
+}
+
+:not(pre) > code[class*="language-"], pre[class*="language-"],
+.line,
+.closer,
+.line:after,
+.closer:after {
+	background: var(--bg);
+}
