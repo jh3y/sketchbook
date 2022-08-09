@@ -1,8 +1,7 @@
 @layer normalize, base, utils, button;
 
-@layer normalize {
-  @import url('npm:normalize.css');
-}
+/*@import 'npm:normalize.css' layer(normalize);*/
+
 
 @layer base {
   body {

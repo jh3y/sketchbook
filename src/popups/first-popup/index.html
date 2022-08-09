@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en" class="set-support scroll-timeline-support popup-support has-support houdini-support object-view-box-support">
+  <head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, maximum-scale=1.0" />
+    <title>popups/first-popup</title>
+    <link rel="stylesheet" href="npm:normalize.css" />
+    <!-- Purposely set to the wrong place to enforce putting things in an experimental subdir -->
+    <link rel="stylesheet" href="../../../net/experimental-web-platform/style.css" />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div id="my-first-popup" popup>PopUp Content!</div>
+    <button popuptoggletarget="my-first-popup">Toggle PopUp</button>
+    <!-- Purposely set to the wrong place to enforce putting things in an experimental subdir -->
+    <script src="../../../net/experimental-web-platform/script.js"></script>
+    <script type="module" src="./script.js"></script>
+  </body>
+</html>

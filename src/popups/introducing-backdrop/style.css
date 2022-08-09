@@ -1,0 +1,52 @@
+
+body {
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+h1 {
+  margin: 0;
+}
+
+article {
+  padding-bottom: var(--size-4);
+}
+
+article > p + p {
+  margin-top: var(--size-4);
+}
+
+article > header {
+  margin-bottom: var(--size-4);
+}
+
+[role="img"] {
+  position: fixed;
+  font-size: 10vmin;
+  top: var(--size-4);
+  right: var(--size-4);
+  z-index: 99999;
+}
+
+main {
+  width: var(--size-content-3);
+}
+
+header {
+  min-height: var(--size-content-1);
+  background: var(--surface-2);
+  display: grid;
+  padding: var(--size-4);
+  place-items: center;
+}
+
+[popuptoggletarget] {
+  border: 1px solid var(--text-1);
+  padding: var(--size-2) var(--size-4);
+}
+
+[popup]:top-layer::backdrop {
+  background: hsl(0 0% 10% / 0.5);
+  backdrop-filter: blur(2px);
+}
