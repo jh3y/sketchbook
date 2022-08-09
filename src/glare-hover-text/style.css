@@ -3,6 +3,8 @@
   --shadow: var(--yellow-8);
   --glare: hsl(0 0% 100% / 0.75);
   --font-size: var(--font-size-fluid-3);
+  --transition: 0.2s;
+  --padding: var(--size-2);
 }
 
 * {
@@ -18,7 +20,8 @@ body {
 }
 
 a {
-  padding: 0;
+  border-radius: calc(2 * var(--padding));
+  padding: var(--padding);
   text-decoration: none;
   color: transparent;
   position: relative;
@@ -28,7 +31,7 @@ span {
   display: inline-block;
   font-size: calc(var(--font-size) * 1.5);
   font-weight: var(--font-weight-9);
-  transition: all 0.2s;
+  transition: all var(--transition);
   text-decoration: none;
   text-shadow:
     calc(var(--hover) * -1px) calc(var(--hover) * 1px) var(--shadow),
@@ -41,7 +44,7 @@ span {
 
 span:last-of-type {
   position: absolute;
-  inset: 0;
+  inset: var(--padding);
   background: linear-gradient(
     108deg,
     transparent 0 55%,

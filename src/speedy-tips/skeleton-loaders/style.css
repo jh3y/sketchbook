@@ -95,28 +95,23 @@ body {
 }
 
 [data-skeleton] :is(.item__media, .item__author, .item__content, .item__metrics) {
-	background: linear-gradient(transparent, blue, transparent) 0 0 / 200% 200%, red;
-	animation: skeleton 1s infinite linear;
-}
-
-[data-skeleton] :is(.item__media, .item__author, .item__content, .item__metrics) {
-	background: linear-gradient(-55deg, transparent, blue, transparent) 0 0 / 200% 100%, red;
-	background-attachment: fixed;
+	background: linear-gradient(-75deg, transparent 30%, var(--pink-6) 50%, transparent 70%) 0 0 / 200% 100% fixed, var(--violet-4);
 	animation: skeleton 2s infinite linear;
 }
 
-[data-skeleton] :is(.item__media, .item__author, .item__content, .item__metrics) {
-	background: linear-gradient(-55deg, transparent 30%, var(--indigo-8) 50%, transparent 70%) 0 0 / 200% 100%, var(--violet-4);
-	background-attachment: fixed;
-	animation: skeleton 2s infinite linear;
+.item:nth-of-type(1),
+.item:nth-of-type(2),
+.item:nth-of-type(3) {
+	display: grid;
+}
+
+.item {
+	display: none;
 }
 
 @keyframes skeleton {
-	0% {
-		background-position: 0 0;
-	}
-	100% {
-		background-position: 200% 0;
+	to {
+		background-position: -200% 0;
 	}
 }
 

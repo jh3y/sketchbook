@@ -1,0 +1,129 @@
+@layer normalize, base, utils, button;
+
+@layer normalize {
+  @import url('npm:normalize.css');
+}
+
+@layer base {
+  body {
+    background: hsl(0 0% 96%);
+    display: grid;
+    place-items: center;
+    min-height: 100vh;
+    font-family: "Google Sans", sans-serif, system-ui;
+  }
+}
+
+@layer utils {
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+}
+
+@layer button {
+  button {
+    --size: calc(2 * 48px);
+    --step: 0.2s;
+    --line: hsl(0 0% 35%);
+    outline-color: var(--line);
+    background: hsl(0 0% 100%);
+    height: var(--size);
+    aspect-ratio: 1;
+    padding: calc(var(--size) * 0.2);
+    border-radius: calc(var(--size) * 0.2);
+    border: 1px solid hsl(0 0% 50%);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition: transform var(--step) var(--ease-elastic-5), box-shadow var(--step) var(--ease-elastic-5), background var(--step);
+    transform: translateY(var(--elevate, 0)) scale(var(--scale, 1));
+    box-shadow:
+      calc(var(--size) * var(--shadow-x, 0.05))
+      calc(var(--size) * var(--shadow-y, 0.05))
+      0
+      calc(var(--size) * var(--spread, 0)); 
+  }
+  
+  button:hover {
+    background: hsl(0 0% 98%);
+/*     --shadow: 0;
+    --elevate: -5%;
+    --scale: 1.1;
+    --shadow-x: 0.05;
+    --shadow-y: calc(0.05 * 1.1); */
+  }
+  
+  button:active {
+    --shadow: 0;
+    --elevate: 5%;
+    --scale: 0.9;
+    --shadow-x: 0;
+    --shadow-y: 0;
+  }
+  
+  span {
+    flex: 1;
+    width: 100%;
+    background: linear-gradient(
+      transparent 0 40%,
+      var(--line) 40% 60%,
+      transparent 60%);
+    translate: var(--x, 0) var(--y, 0);
+    rotate: var(--rotate, 0deg);
+    transition-property: translate, rotate;
+    transition-duration: var(--step);
+    transition-delay: calc(var(--step) * var(--translate-index, 0)),
+      calc(var(--step) * var(--rotate-index, 0));
+    transition-timing-function: cubic-bezier(.5, 1.75, .75, 1.25);
+  }
+  
+  [aria-pressed="true"] span:nth-of-type(1) {
+    --y: 100%;
+    --rotate: 45deg;
+  }
+  
+  [aria-pressed="true"] span:nth-of-type(2) {
+    --x: 200%;
+  }
+  
+  [aria-pressed="true"] span:nth-of-type(3) {
+    --y: -100%;
+    --rotate: -45deg;
+  }
+  
+  [aria-pressed="true"] span:nth-of-type(2) {
+    --translate-index: 0;
+  }
+  
+  [aria-pressed="true"] span:is(:nth-of-type(1), :nth-of-type(3)) {
+    --translate-index: 1.5;
+    --rotate-index: 2.5;
+  }
+  
+  [aria-pressed="false"] span:nth-of-type(2) {
+    --translate-index: 2;
+  }
+  
+  [aria-pressed="false"] span:is(:nth-of-type(1), :nth-of-type(3)) {
+    --translate-index: 1;
+    --rotate-index: 0;
+  }
+  
+  [aria-pressed="true"],
+  [aria-pressed="true"]:is(:hover, :active) {
+    --shadow: 0;
+    --elevate: 5%;
+    --scale: 0.9;
+    --shadow-x: 0;
+    --shadow-y: 0;
+  }
+  
+}
