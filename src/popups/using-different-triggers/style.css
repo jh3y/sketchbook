@@ -45,12 +45,49 @@ header {
   place-items: center;
 }
 
-[popuptoggletarget] {
+[popupshowtarget], [popuphidetarget] {
   border: 1px solid var(--text-1);
   padding: var(--size-2) var(--size-4);
 }
 
-[popup]:top-layer::backdrop {
+[popup] {
+  --hide: 1;
+  display: grid;
+  place-items: center;
+  gap: var(--size-4);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation-duration: 0.5s;
+  animation-name: slide-out;
+  animation-fill-mode: both;
+}
+
+[popup]:top-layer {
+  animation-name: slide-in;
+}
+
+@keyframes slide-in {
+  from {
+    transform: translate(-50%, -50%) scale(0) translateX(-100vw);
+  }
+}
+
+@keyframes slide-out {
+  to {
+    transform: translate(-50%, -50%) scale(0) translateX(100vw);
+  }
+}
+
+[popup]::backdrop {
+  transition: opacity 0.2s;
+  opacity: calc(1 - var(--hide, 1));
   background: hsl(0 0% 10% / 0.5);
   backdrop-filter: blur(2px);
 }
+
+/* You can transition your backdrop too */
+[popup]:top-layer::backdrop  {
+  --hide: 0;
+}
+

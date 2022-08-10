@@ -50,7 +50,26 @@ header {
   padding: var(--size-2) var(--size-4);
 }
 
-[popup]:top-layer::backdrop {
+[popup] {
+  --hide: 1;
+  top: 50%;
+  left: 50%;
+  translate: -50%;
+  transition: transform 0.2s;
+  transform: translateY(calc(var(--hide) * 100vh))
+            scale(calc(1 - var(--hide)));
+}
+
+[popup]::backdrop {
+  transition: opacity 0.2s;
+  opacity: calc(1 - var(--hide, 1));
   background: hsl(0 0% 10% / 0.5);
   backdrop-filter: blur(2px);
 }
+
+/* You can transition your backdrop too */
+[popup]:top-layer,
+[popup]:top-layer::backdrop  {
+  --hide: 0;
+}
+

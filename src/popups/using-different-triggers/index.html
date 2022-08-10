@@ -4,7 +4,7 @@
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, maximum-scale=1.0" />
-    <title>popups/introducing-backdrop</title>
+    <title>popups/using-different-triggers</title>
     <link rel="stylesheet" href="npm:normalize.css" />
     <link rel="stylesheet" href="npm:open-props/normalize.min.css" />
     <link rel="stylesheet" href="npm:open-props/open-props.min.css" />
@@ -17,8 +17,11 @@
     <main>
       <header>
         <h1>Awesome Article</h1>
-        <div id="my-first-popup" popup>PopUp Content!</div>
-        <button popuptoggletarget="my-first-popup">Toggle PopUp</button>
+        <div id="my-first-popup" popup>
+          Close me!
+          <button popuphidetarget="my-first-popup">Hide PopUp</button>
+        </div>
+        <button popupshowtarget="my-first-popup">Show PopUp</button>
       </header>
       <article>
         <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Animi laborum obcaecati doloremque facilis ipsum tempora, necessitatibus maiores voluptates! Dolore sunt perferendis quod alias iusto aut eaque atque nisi pariatur cumque?</p>
