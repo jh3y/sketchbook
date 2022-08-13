@@ -1,0 +1,36 @@
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	font-family:  'Google Sans', sans-serif, system-ui;
+}
+
+:where([popup]) {
+	margin: auto;
+	border-width: initial;
+	border-style: solid;
+}
+
+[popup] {
+  --hide: 1;
+  transition: transform 0.2s;
+  transform: translateY(calc(var(--hide) * -100vh))
+            scale(calc(1 - var(--hide)));
+}
+
+[popup]::backdrop {
+	background: hsl(0 0% 25% / 0.5);
+  transition: opacity 0.2s;
+  opacity: calc(1 - var(--hide, 1));
+}
+
+[popup]:top-layer,
+[popup]:top-layer::backdrop  {
+  --hide: 0;
+}

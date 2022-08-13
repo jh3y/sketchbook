@@ -1,0 +1,100 @@
+:root {
+	--blur: var(--size-2);
+}
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+:where([popup]) {
+	margin: auto;
+	border-width: initial;
+	border-style: solid;
+}
+
+main {
+	max-width: var(--size-content-3);
+	margin: 0 auto;
+}
+
+header {
+	background: var(--gradient-1);
+	min-height: 30vmin;
+	max-height: 500px;
+	display: grid;
+	place-items: center;
+}
+
+@media(prefers-color-scheme: light) {
+	header {
+		background: var(--gradient-9);
+	}
+}
+
+h1 {
+	margin: 0;
+}
+
+article {
+	padding: var(--size-6);
+}
+
+article > p + p {
+	margin-top: var(--size-4);
+}
+
+.shine {
+	width: 20%;
+	aspect-ratio: 1;
+	background: hsl(0 0% 100% / 0.5);
+	border-radius: 50%;
+	position: absolute;
+	pointer-events: none;
+	filter: brightness(2) blur(calc(var(--blur) * 1.4));
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%)
+		translateX(calc(((var(--potential-x, 0) * 0.5) * var(--progress-x, 0)) * 1px))
+		translateY(calc(((var(--potential-y, 0) * 0.5) * var(--progress-y, 0)) * 1px));
+
+}
+
+[popup] {
+	font-weight: var(--font-weight-6);
+	font-size: var(--font-size-fluid-1);
+	box-shadow: var(--shadow-5);
+	background: var(--surface-1);
+	color: var(--text-1);
+	flex-direction: column;
+	gap: var(--size-4);
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	margin: 0;
+	transform-style: preserve-3d;
+	transform: translate3d(-50%, -50%, 100vmin)
+		translateX(calc(var(--progress-x, 0) * 10%))
+		translateY(calc(var(--progress-y, 0) * 10%));
+}
+
+[popup]:top-layer {
+	display: flex;
+}
+
+[popup]::backdrop {
+	background: hsl(0 0% 25% / 0.5);
+}
+
+.actions {
+	padding: var(--size-4);
+	display: grid;
+	place-items: center;
+}
+
+ul {
+	font-weight: normal;
+	padding: 0;
+	list-style-position: inside;
+}

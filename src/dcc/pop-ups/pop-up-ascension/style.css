@@ -1,0 +1,60 @@
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+:where([popup]) {
+	margin: auto;
+	border-width: initial;
+	border-style: solid;
+}
+
+[popup] {
+	display: block;
+	transition: all 0.2s;
+	box-shadow: var(--shadow-1);
+}
+
+[popup]:top-layer {
+	transform: translateY(-100%) scale(1.5);
+	box-shadow: var(--shadow-4);
+}
+
+body {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+}
+
+.button {
+	transform: translateY(200%);
+}
+
+[popup]::backdrop {
+	opacity: 0;
+	transition: opacity 0.2s;
+	background: 
+							url(./cloud.svg) -100vw 0 / 100vw 100vh,
+							url(./cloud.svg) -300vw 25vh / 100vw 100vh,
+							url(./cloud-2.svg) -500vw 50vh / 100vw 100vh,
+							url(./cloud.svg) -150vw 75vh / 100vw 100vh,
+							url(./cloud-2.svg) -250vw 100vh / 100vw 100vh,
+							hsl(207 91% 64% / 0.25);
+	animation: sail 60s infinite linear;
+}
+
+@keyframes sail {
+	to {
+		background-position:
+			100vw 0,
+			300vw 25vh,
+			500vw 50vh,
+			150vw 75vh,
+			250vw 100vh;
+	}
+}
+
+[popup]:top-layer::backdrop {
+	opacity: 1;
+}

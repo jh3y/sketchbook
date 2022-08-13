@@ -1,0 +1,72 @@
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+[popup] {
+	margin: auto;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+h1 {
+  margin: 0;
+}
+
+article {
+  padding-bottom: var(--size-4);
+}
+
+article > p + p {
+  margin-top: var(--size-4);
+}
+
+main > header {
+  margin-bottom: var(--size-4);
+  padding-inline: var(--size-10);
+}
+
+main {
+  width: var(--size-content-3);
+}
+
+header {
+  min-height: var(--size-content-1);
+  background: var(--surface-2);
+  display: grid;
+  padding: var(--size-4);
+  place-items: center;
+  width: 100vw;
+  position: relative;
+  top: 0;
+  left: 50%;
+  margin-left: -50vw;
+  min-height: 50vmin;
+  max-height: 500px;
+}
+
+h1 {
+	position: sticky;
+	top: 0;
+}
+
+.button.fab {
+  position: fixed;
+  z-index: 99999;
+  bottom: var(--size-4);
+  right: var(--size-4);
+}
+
+.fab svg {
+	fill: var(--md-sys-color-on-primary-container);
+}
+
+[popup]:top-layer::backdrop {
+  background: hsl(0 0% 10% / 0.5);
+  backdrop-filter: blur(2px);
+}

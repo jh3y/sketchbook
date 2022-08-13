@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en" class="set-support scroll-timeline-support popup-support has-support houdini-support object-view-box-support">
+  <head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, maximum-scale=1.0" />
+    <title>popups/transitioning-pop-up</title>
+    <link rel="stylesheet" href="npm:normalize.css" />
+    <link rel="stylesheet" href="npm:open-props/open-props.min.css" />
+    <link rel="stylesheet" href="npm:open-props/colors-hsl.min.css" />
+    <link rel="stylesheet" href="npm:open-props/normalize.min.css" />
+    <!-- Purposely set to the wrong place to enforce putting things in an experimental subdir -->
+    <link rel="stylesheet" href="../../../../net/experimental-web-platform/style.css" />
+    <link rel="stylesheet" href="../../../../net/material-design-lite/mdl.css" />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nostrum nam sint sed modi dolor veniam repudiandae, et quasi unde quis voluptatum iure accusantium quam quod ducimus itaque eligendi eius, natus?</p>
+    <div id="my-first-pop-up" popup>Pop-up content!</div>
+    <button class="button ripple" popuptoggletarget="my-first-pop-up">Toggle Pop-up</button>
+    <!-- Purposely set to the wrong place to enforce putting things in an experimental subdir -->
+    <script src="../../../../net/experimental-web-platform/script.js"></script>
+    <script type="module" src="./script.js"></script>
+  </body>
+</html>

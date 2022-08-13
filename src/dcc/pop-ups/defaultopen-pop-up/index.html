@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  class="set-support scroll-timeline-support popup-support has-support houdini-support object-view-box-support"
+>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, user-scalable=0, maximum-scale=1.0"
+    />
+    <title>popups/defaultopen-pop-up</title>
+    <link rel="stylesheet" href="npm:normalize.css" />
+    <link rel="stylesheet" href="npm:open-props/open-props.min.css" />
+    <link rel="stylesheet" href="npm:open-props/colors-hsl.min.css" />
+    <link rel="stylesheet" href="npm:open-props/normalize.min.css" />
+    <!-- Purposely set to the wrong place to enforce putting things in an experimental subdir -->
+    <link
+      rel="stylesheet"
+      href="../../../../net/experimental-web-platform/style.css"
+    />
+    <link
+      rel="stylesheet"
+      href="../../../../net/material-design-lite/mdl.css"
+    />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <header>
+      <h1>The Web</h1>
+    </header>
+    <main>
+      <article>
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam,
+          veritatis numquam, incidunt eligendi pariatur ab, quas, fugit veniam
+          accusantium impedit doloremque perspiciatis libero facilis voluptates
+          quaerat rem expedita nisi qui!
+        </p>
+        <p>
+          Quia sunt atque dicta vero, non quasi accusantium dolorum iusto neque
+          repellat sint eveniet alias consequatur vitae illo, eligendi quibusdam
+          natus velit enim labore reiciendis impedit delectus. Possimus, rem,
+          ducimus.
+        </p>
+        <p>
+          Atque nemo fuga suscipit possimus, quaerat numquam quos non? Ab in
+          ipsum incidunt enim labore nemo? Voluptatibus veritatis ea, nemo, non
+          consectetur quasi necessitatibus. Error omnis sit, facere repellendus
+          accusamus?
+        </p>
+        <p>
+          Facilis illum autem ratione, placeat? Inventore praesentium possimus
+          nobis illo, minus nostrum asperiores, repellendus, a tenetur incidunt
+          adipisci ad vel. Eveniet reprehenderit, nam! Voluptatibus, voluptates
+          dolorum porro sint vitae illo!
+        </p>
+        <p>
+          Hic provident, inventore reprehenderit quae voluptatum nam maiores
+          nobis id molestiae, illo libero deserunt asperiores impedit! Cumque
+          laudantium excepturi, ab, eius maxime, cum voluptatum quam aliquid
+          nulla magni atque delectus.
+        </p>
+        <div class="actions">
+          <button class="button ripple" popuptoggletarget="my-first-pop-up">
+            Pop it back up!
+          </button>
+        </div>
+      </article>
+    </main>
+    <div id="my-first-pop-up" popup defaultopen>
+      What's new on the <br>&lt;Web Platform/&gt;?
+      <div class="shine"></div>
+      <ul>
+        <li>Built in pop-ups! 👀</li>
+        <li>CSS :has()</li>
+        <li>CSS @layer</li>
+      </ul>
+      <button popuphidetarget="my-first-pop-up" class="button ripple">Close</button>
+    </div>
+    <!-- Purposely set to the wrong place to enforce putting things in an experimental subdir -->
+    <script src="../../../../net/experimental-web-platform/script.js"></script>
+    <script type="module" src="./script.js"></script>
+  </body>
+</html>
