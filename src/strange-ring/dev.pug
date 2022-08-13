@@ -1,0 +1,47 @@
+- const randomInRange = (min, max) => Math.floor(Math.random() * (Math.floor(max) - Math.ceil(min) + 1) + Math.ceil(min));
+
+-
+  const getHue = input => {
+    if (input > 0 && input <= 25) return 18
+    if (input > 25 && input <= 50) return 130
+    if (input > 50 && input <= 75) return 44
+    if (input > 75 && input <= 100) return 215
+  }
+
+mixin section
+  section
+    if block
+      block
+
+main
+  h1 Tap to replay
+  - const PARTICLE_COUNT = 14;
+  - const PARTICLES_PER_PEN = 30;
+  +section
+    .sling-ring.sling-ring--particles.sling-ring--particles-real(
+      style=`--particle-count: ${PARTICLE_COUNT}`
+    )
+      .sling-ring__ring.sling-ring__ring--particles
+        - let e = 0;
+        while e < PARTICLE_COUNT
+          .sling-ring__particle-pen(
+            style=`--index: ${e}; --base-delay: ${e / 5};`
+          )
+            .sling-ring__particle-start
+              - let pe = 0;
+              while pe < PARTICLES_PER_PEN
+                - const SIZE = randomInRange(10, 80);
+                - const DISTANCE = randomInRange(3, 7);
+                - const X = randomInRange(0, 100);
+                - const Y = randomInRange(0, 100);
+                - const ROTATION = randomInRange(-30, 0);
+                - const RADIUS = randomInRange(0, 50);
+                - const DELAY = randomInRange(0, 100) / 100;
+                - const HUE = getHue(Math.round((e / PARTICLE_COUNT) * 100));
+                - const LIGHTNESS = randomInRange(20, 90);
+                .sling-ring__particle(
+                  style=`--radius: ${RADIUS}; --hue: ${HUE}; --lightness: ${LIGHTNESS}; --size: ${SIZE}; --distance: ${DISTANCE}; --x: ${X}; --y: ${Y}; --delay: ${DELAY}; --rotation: ${ROTATION};`
+                )
+                - pe++;
+          - e++;
+      img(src="https://assets.codepen.io/605876/come-see--square.gif")
