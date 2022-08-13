@@ -9,6 +9,7 @@ body {
 	place-items: center;
 	min-height: 100vh;
 	font-family:  'Google Sans', sans-serif, system-ui;
+	align-content: center;
 }
 
 :where([popup]) {
@@ -20,6 +21,7 @@ body {
 [popup] {
   --hide: 1;
   transition: transform 0.2s;
+  box-shadow: var(--shadow-5);
   transform: translateY(calc(var(--hide) * -100vh))
             scale(calc(1 - var(--hide)));
 }
@@ -33,4 +35,19 @@ body {
 [popup]:top-layer,
 [popup]:top-layer::backdrop  {
   --hide: 0;
+}
+
+code {
+	background: var(--gray-2);
+	color: var(--md-sys-color-primary);
+	font-weight: var(--font-weight-9);
+}
+
+article {
+	padding: var(--size-4);
+	max-inline-size: var(--size-content-2);
+}
+
+article p {
+	margin-bottom: var(--size-4);
 }

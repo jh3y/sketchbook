@@ -1,0 +1,57 @@
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	font-family:  'Google Sans', sans-serif, system-ui;
+}
+
+:where([popup]) {
+	margin: auto;
+	border-width: initial;
+	border-style: solid;
+}
+
+span {
+	display: inline-block;
+	translate: 0 60%;
+}
+
+[popup] {
+	--x: 100;
+	--speed: 1s;
+	background: url(./cloud.svg) 0 0 / 100% 100% no-repeat;
+	border: 0;
+	font-weight: var(--font-weight-8);
+	color: var(--gray-8);
+	padding: var(--size-8);
+	filter: drop-shadow(0 0 var(--size-6) var(--blue-4));
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  margin: 0;
+  /* Animation stuff */
+  animation: exit-animation var(--speed) ease-in-out;
+	transform: translate(-50%, -50%) translateX(0) scale(1);
+}
+
+[popup]:top-layer {
+  animation: entry-animation var(--speed);
+}
+
+@keyframes exit-animation {
+	100% {
+		transform: translate(-50%, -50%) translateX(calc(var(--x) * 1vmin)) scale(0);
+	}
+}
+
+@keyframes entry-animation {
+	0% {
+		transform: translate(-50%, -50%) translateX(calc(var(--x) * -1vmin)) scale(0);
+	}
+}
