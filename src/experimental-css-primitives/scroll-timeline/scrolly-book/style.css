@@ -1,0 +1,50 @@
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+	min-height: 100vh;
+	font-family:  'Google Sans', sans-serif, system-ui;
+	width: 100vw;
+}
+
+.book {
+	width: 50vmin;
+	aspect-ratio: 5.7 / 8.3;
+	background: var(--gray-8);
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	z-index: 2;
+}
+
+.ghost-track {
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+	position: absolute;
+	height: 100vh;
+	top: 0;
+	left: 0;
+	display: grid;
+	width: 100vw;
+	overflow: auto;
+	scroll-snap-type: x mandatory;
+	grid-template-columns: repeat(20, auto);
+}
+
+.ghost-track > li {
+	height: 100vh;
+	width: 100vw;
+	max-width: 100%;
+	background: var(--red-8);
+	scroll-snap-align: center;
+}
+
+.ghost-track > li:nth-of-type(even) {
+	background: var(--indigo-4);
+}
+

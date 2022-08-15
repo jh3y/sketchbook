@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" class="popup-support">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, user-scalable=0, maximum-scale=1.0"
+    />
+    <title>popups/transitioning-pop-up</title>
+    <link rel="stylesheet" href="npm:normalize.css" />
+    <link rel="stylesheet" href="npm:open-props/open-props.min.css" />
+    <link rel="stylesheet" href="npm:open-props/colors-hsl.min.css" />
+    <link rel="stylesheet" href="npm:open-props/normalize.min.css" />
+    <!-- Purposely set to the wrong place to enforce putting things in an experimental subdir -->
+    <link
+      rel="stylesheet"
+      href="../../../../net/experimental-web-platform/style.css"
+    />
+    <link
+      rel="stylesheet"
+      href="../../../../net/material-design-lite/mdl.css"
+    />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <main>
+      <button class="blue button fill elevated" popupshowtarget="blue-pill">
+        Take the blue pill
+      </button>
+      <div id="blue-pill" class="blue" popup="hint">
+        <div class="card elevated">
+          <svg class="pill" width="80" role="img" viewBox="0 0 24 24" aria-labelledby="pillTitle">
+            <title id="pillTitle">Pill capsule</title>
+            <path fill="currentColor" d="m4.22 11.29 7.07-7.07a6.011 6.011 0 0 1 8.49 0c2.34 2.34 2.34 6.14 0 8.49l-7.07 7.07c-2.35 2.34-6.15 2.34-8.49 0a6.011 6.011 0 0 1 0-8.49m1.42 1.42a3.976 3.976 0 0 0-1.04 3.86l5.99-5.98 4.24 4.24 3.53-3.54a3.978 3.978 0 0 0 0-5.65 3.978 3.978 0 0 0-5.65 0l-7.07 7.07Z"/>
+          </svg>
+          <button popupshowtarget="red-pill" class="button ripple">
+            Actually, take the red pill 
+          </button>
+          <button popuphidetarget="blue-pill" class="button ripple">
+            Still deciding
+          </button>
+        </div>
+      </div>
+      <button class="red button fill elevated" popupshowtarget="red-pill">
+        Take the red pill
+      </button>
+      <div id="red-pill" class="red" popup="hint">
+        <div class="card elevated">
+          <svg class="pill" width="80" role="img" viewBox="0 0 24 24" aria-labelledby="pillTitle">
+            <title id="pillTitle">Pill capsule</title>
+            <path fill="currentColor" d="m4.22 11.29 7.07-7.07a6.011 6.011 0 0 1 8.49 0c2.34 2.34 2.34 6.14 0 8.49l-7.07 7.07c-2.35 2.34-6.15 2.34-8.49 0a6.011 6.011 0 0 1 0-8.49m1.42 1.42a3.976 3.976 0 0 0-1.04 3.86l5.99-5.98 4.24 4.24 3.53-3.54a3.978 3.978 0 0 0 0-5.65 3.978 3.978 0 0 0-5.65 0l-7.07 7.07Z"/>
+          </svg>
+          <button popupshowtarget="blue-pill" class="button ripple">
+            Actually, take the blue pill
+          </button>
+          <button popuphidetarget="red-pill" class="button ripple">
+            Still deciding
+          </button>
+        </div>
+      </div>
+    </main>
+    <!-- Purposely set to the wrong place to enforce putting things in an experimental subdir -->
+    <script src="../../../../net/experimental-web-platform/script.js"></script>
+    <script type="module" src="./script.js"></script>
+  </body>
+</html>

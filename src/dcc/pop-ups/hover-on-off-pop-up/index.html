@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" class="popup-support">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, user-scalable=0, maximum-scale=1.0"
+    />
+    <title>popups/transitioning-pop-up</title>
+    <link rel="stylesheet" href="npm:normalize.css" />
+    <link rel="stylesheet" href="npm:open-props/open-props.min.css" />
+    <link rel="stylesheet" href="npm:open-props/colors-hsl.min.css" />
+    <link rel="stylesheet" href="npm:open-props/normalize.min.css" />
+    <!-- Purposely set to the wrong place to enforce putting things in an experimental subdir -->
+    <link
+      rel="stylesheet"
+      href="../../../../net/experimental-web-platform/style.css"
+    />
+    <link
+      rel="stylesheet"
+      href="../../../../net/material-design-lite/mdl.css"
+    />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <main>
+      <div id="hover-pop-up" popup>
+        <svg
+          class="hovercraft"
+          viewBox="0 0 100 58"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            class="hovercraft__stream"
+            stroke="#000"
+            stroke-width="2"
+            stroke-linecap="round"
+            d="M1 9h7M1 17h7M1 25h7"
+          />
+          <path
+            d="M12 8h42c18.778 0 34 15.222 34 34v14H12V8Z"
+            fill="#D9D9D9"
+            stroke="#000"
+            stroke-width="2"
+          />
+          <path
+            fill="#E12727"
+            stroke="#000"
+            stroke-width="2"
+            d="M12 1h21v38H12z"
+          />
+          <rect
+            x="1"
+            y="34"
+            width="98"
+            height="23"
+            rx="11.5"
+            fill="#8F8F8F"
+            stroke="#000"
+            stroke-width="2"
+          />
+          <rect x="7" y="37" width="22" height="7" rx="3.5" fill="#fff" />
+          <rect
+            x="37"
+            y="14"
+            width="14"
+            height="14"
+            rx="1"
+            fill="#A0D5EB"
+            stroke="#000"
+            stroke-width="2"
+          />
+          <path
+            d="M58.908 14.103c1.56.135 3.87.446 6.264 1.157 2.402.714 4.82 1.812 6.655 3.48 2.71 2.463 5.168 5.17 6.754 7.243.622.813 1.086 1.5 1.38 2.017H58.994A.995.995 0 0 1 58 27V15c0-.566.438-.938.908-.897Z"
+            fill="#A0D5EB"
+            stroke="#000"
+            stroke-width="2"
+          />
+          <rect x="15" y="4" width="10" height="4" rx="2" fill="#fff" />
+        </svg>
+        <div>Craft!</div>
+      </div>
+      <div popuphovertarget="hover-pop-up">Hover...</h1>
+    </main>
+    <!-- Purposely set to the wrong place to enforce putting things in an experimental subdir -->
+    <script src="../../../../net/experimental-web-platform/script.js"></script>
+    <script type="module" src="./script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,120 @@
+:root {
+  --primary-color: hsl(280 100% 50% / 0.75);
+  --shine: hsl(0 0% 100% / 0.75);
+  --speed: 1s;
+}
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	font-family:  'Google Sans', sans-serif, system-ui;
+	align-content: center;
+}
+
+:where([popup]) {
+	margin: auto;
+	border-width: initial;
+	border-style: solid;
+}
+
+[popup] {
+  --hide: 1;
+	transform: translate(-50%, calc(
+    (100 + (
+      25 * (1 - var(--hide))
+    )) * -1%
+  )) scale(calc(1 - var(--hide)));
+  position: fixed;
+  top: calc(50% - (var(--font-size-4) * 0.5));
+  left: 50%;
+  margin: 0;
+  text-align: center;
+  overflow: visible;
+  border: 0;
+  border-radius: var(--radius-2);
+  transform-origin: 50% 100%;
+}
+
+[popup]::backdrop {
+  background: hsl(210 80% 50% / 0.25);
+  opacity: calc(1 - var(--hide, 1));
+}
+
+[popup]:before {
+  content: "";
+  width: 25%;
+  aspect-ratio: 1;
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  border-width: inherit;
+  border-style: inherit;
+  background: white;
+  transform: translate(-50%, -50%) rotate(45deg);
+  z-index: -1;
+}
+
+[popup] > * + * {
+  margin-top: var(--size-2);
+}
+
+[popuphovertarget] {
+  pop-up-show-delay: 1s;
+}
+
+[popup] {
+  pop-up-hide-delay: 1s;
+}
+
+[popup]:top-layer,
+[popup]:top-layer::backdrop  {
+  --hide: 0;
+}
+
+
+
+@media (prefers-reduced-motion: no-preference) {
+  [popup]:top-layer .hovercraft {
+    animation: hover 0.25s infinite linear;
+  }
+
+  [popup]:top-layer .hovercraft__stream {
+    animation: stream 1s infinite;
+  }
+
+  [popup] {
+    transition: transform 0.2s;
+  }
+
+  [popup]::backdrop {
+   transition: opacity 0.2s;
+  }
+}
+
+
+@keyframes stream {
+  0% {
+    transform: translateX(10px);
+  }
+  100% {
+    transform: translateX(-10px);
+  }
+}
+
+@keyframes hover {
+  50% {
+    transform: translateY(-20%);
+  }
+}
+
+div {
+  font-size: var(--font-size-4);
+  font-weight: var(--font-weight-9);
+}

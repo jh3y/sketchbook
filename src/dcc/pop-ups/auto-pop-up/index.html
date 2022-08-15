@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en" class="popup-support">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, user-scalable=0, maximum-scale=1.0"
+    />
+    <title>popups/transitioning-pop-up</title>
+    <link rel="stylesheet" href="npm:normalize.css" />
+    <link rel="stylesheet" href="npm:open-props/open-props.min.css" />
+    <link rel="stylesheet" href="npm:open-props/colors-hsl.min.css" />
+    <link rel="stylesheet" href="npm:open-props/normalize.min.css" />
+    <!-- Purposely set to the wrong place to enforce putting things in an experimental subdir -->
+    <link
+      rel="stylesheet"
+      href="../../../../net/experimental-web-platform/style.css"
+    />
+    <link
+      rel="stylesheet"
+      href="../../../../net/material-design-lite/mdl.css"
+    />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <main>
+      <button class="blue button fill elevated" popupshowtarget="blue-one">
+        Take Blue Candy
+      </button>
+      <div id="blue-one" class="blue" popup>
+        <div class="card elevated">
+          <svg
+            class="sweet"
+            width="80"
+            role="img"
+            viewBox="0 0 24 24"
+            aria-labelledby="sweetTitle"
+          >
+            <title id="sweetTitle">Sweet in twist wrapper</title>
+            <path
+              fill="currentColor"
+              d="M15.54 8.46c1.96 1.96 1.96 5.12 0 7.08s-5.12 1.96-7.07 0-1.97-5.12 0-7.08 5.11-1.96 7.07 0m3.93-3.91s-.97.12-2.04.81a5.243 5.243 0 0 0-1.5-2.94 4.027 4.027 0 0 0-1.1 3.92c1.39.36 2.47 1.44 2.83 2.83 1.12.3 2.68.15 3.92-1.1a5.247 5.247 0 0 0-2.9-1.49c.39-.58.7-1.25.79-2.03M4.53 19.45s.97-.12 2.04-.81c.15 1.04.65 2.09 1.5 2.94 1.25-1.24 1.4-2.8 1.1-3.92a3.939 3.939 0 0 1-2.83-2.83c-1.12-.3-2.68-.15-3.92 1.1.84.84 1.87 1.34 2.9 1.49-.39.58-.7 1.26-.79 2.03Z"
+            />
+          </svg>
+          <button popupshowtarget="red-one" class="button ripple">
+            Take first red candy
+          </button>
+          <button popupshowtarget="blue-two" class="button ripple">
+            Take another blue candy
+          </button>
+          <button popuphidetarget="blue-one" class="button ripple">
+            Put this candy back
+          </button>
+          <button popuphidetarget="blue-one" class="button ripple">
+            Put back blue candies
+          </button>
+        </div>
+      </div>
+      <div id="blue-two" class="blue" popup>
+        <div class="card elevated">
+          <svg
+            class="sweet"
+            width="80"
+            role="img"
+            viewBox="0 0 24 24"
+            aria-labelledby="sweetTitle"
+          >
+            <title id="sweetTitle">Sweet in twist wrapper</title>
+            <path
+              fill="currentColor"
+              d="M15.54 8.46c1.96 1.96 1.96 5.12 0 7.08s-5.12 1.96-7.07 0-1.97-5.12 0-7.08 5.11-1.96 7.07 0m3.93-3.91s-.97.12-2.04.81a5.243 5.243 0 0 0-1.5-2.94 4.027 4.027 0 0 0-1.1 3.92c1.39.36 2.47 1.44 2.83 2.83 1.12.3 2.68.15 3.92-1.1a5.247 5.247 0 0 0-2.9-1.49c.39-.58.7-1.25.79-2.03M4.53 19.45s.97-.12 2.04-.81c.15 1.04.65 2.09 1.5 2.94 1.25-1.24 1.4-2.8 1.1-3.92a3.939 3.939 0 0 1-2.83-2.83c-1.12-.3-2.68-.15-3.92 1.1.84.84 1.87 1.34 2.9 1.49-.39.58-.7 1.26-.79 2.03Z"
+            />
+          </svg>
+          <button popupshowtarget="red-one" class="button ripple">
+            Take first red candy
+          </button>
+          <button popupshowtarget="blue-three" class="button ripple">
+            Take another blue candy
+          </button>
+          <button popuphidetarget="blue-two" class="button ripple">
+            Put this candy back
+          </button>
+          <button popuphidetarget="blue-one" class="button ripple">
+            Put back blue candies
+          </button>
+        </div>
+      </div>
+      <div id="blue-three" class="blue" popup>
+        <div class="card elevated">
+          <svg
+            class="sweet"
+            width="80"
+            role="img"
+            viewBox="0 0 24 24"
+            aria-labelledby="sweetTitle"
+          >
+            <title id="sweetTitle">Sweet in twist wrapper</title>
+            <path
+              fill="currentColor"
+              d="M15.54 8.46c1.96 1.96 1.96 5.12 0 7.08s-5.12 1.96-7.07 0-1.97-5.12 0-7.08 5.11-1.96 7.07 0m3.93-3.91s-.97.12-2.04.81a5.243 5.243 0 0 0-1.5-2.94 4.027 4.027 0 0 0-1.1 3.92c1.39.36 2.47 1.44 2.83 2.83 1.12.3 2.68.15 3.92-1.1a5.247 5.247 0 0 0-2.9-1.49c.39-.58.7-1.25.79-2.03M4.53 19.45s.97-.12 2.04-.81c.15 1.04.65 2.09 1.5 2.94 1.25-1.24 1.4-2.8 1.1-3.92a3.939 3.939 0 0 1-2.83-2.83c-1.12-.3-2.68-.15-3.92 1.1.84.84 1.87 1.34 2.9 1.49-.39.58-.7 1.26-.79 2.03Z"
+            />
+          </svg>
+          <button popupshowtarget="red-one" class="button ripple">
+            Take first red candy
+          </button>
+          <button class="button ripple" disabled>
+            Take another blue candy
+          </button>
+          <button popuphidetarget="blue-three" class="button ripple">
+            Put this candy back
+          </button>
+          <button popuphidetarget="blue-one" class="button ripple">
+            Put back blue candies
+          </button>
+        </div>
+      </div>
+      <button class="red button fill elevated" popupshowtarget="red-one">
+        Take Red Candy
+      </button>
+      <div id="red-one" class="red" popup>
+        <div class="card elevated">
+          <svg
+            class="sweet"
+            width="80"
+            role="img"
+            viewBox="0 0 24 24"
+            aria-labelledby="sweetTitle"
+          >
+            <title id="sweetTitle">Sweet in twist wrapper</title>
+            <path
+              fill="currentColor"
+              d="M15.54 8.46c1.96 1.96 1.96 5.12 0 7.08s-5.12 1.96-7.07 0-1.97-5.12 0-7.08 5.11-1.96 7.07 0m3.93-3.91s-.97.12-2.04.81a5.243 5.243 0 0 0-1.5-2.94 4.027 4.027 0 0 0-1.1 3.92c1.39.36 2.47 1.44 2.83 2.83 1.12.3 2.68.15 3.92-1.1a5.247 5.247 0 0 0-2.9-1.49c.39-.58.7-1.25.79-2.03M4.53 19.45s.97-.12 2.04-.81c.15 1.04.65 2.09 1.5 2.94 1.25-1.24 1.4-2.8 1.1-3.92a3.939 3.939 0 0 1-2.83-2.83c-1.12-.3-2.68-.15-3.92 1.1.84.84 1.87 1.34 2.9 1.49-.39.58-.7 1.26-.79 2.03Z"
+            />
+          </svg>
+          <button popupshowtarget="blue-one" class="button ripple">
+            Take first blue candy
+          </button>
+          <button popupshowtarget="red-two" class="button ripple">
+            Take another red candy
+          </button>
+          <button popuphidetarget="red-one" class="button ripple">
+            Put this candy back
+          </button>
+          <button popuphidetarget="red-one" class="button ripple">
+            Put back red candies
+          </button>
+        </div>
+      </div>
+      <div id="red-two" class="red" popup>
+        <div class="card elevated">
+          <svg
+            class="sweet"
+            width="80"
+            role="img"
+            viewBox="0 0 24 24"
+            aria-labelledby="sweetTitle"
+          >
+            <title id="sweetTitle">Sweet in twist wrapper</title>
+            <path
+              fill="currentColor"
+              d="M15.54 8.46c1.96 1.96 1.96 5.12 0 7.08s-5.12 1.96-7.07 0-1.97-5.12 0-7.08 5.11-1.96 7.07 0m3.93-3.91s-.97.12-2.04.81a5.243 5.243 0 0 0-1.5-2.94 4.027 4.027 0 0 0-1.1 3.92c1.39.36 2.47 1.44 2.83 2.83 1.12.3 2.68.15 3.92-1.1a5.247 5.247 0 0 0-2.9-1.49c.39-.58.7-1.25.79-2.03M4.53 19.45s.97-.12 2.04-.81c.15 1.04.65 2.09 1.5 2.94 1.25-1.24 1.4-2.8 1.1-3.92a3.939 3.939 0 0 1-2.83-2.83c-1.12-.3-2.68-.15-3.92 1.1.84.84 1.87 1.34 2.9 1.49-.39.58-.7 1.26-.79 2.03Z"
+            />
+          </svg>
+          <button popupshowtarget="blue-one" class="button ripple">
+            Take first blue candy
+          </button>
+          <button popupshowtarget="red-three" class="button ripple">
+            Take another red candy
+          </button>
+          <button popuphidetarget="red-two" class="button ripple">
+            Put this candy back
+          </button>
+          <button popuphidetarget="red-one" class="button ripple">
+            Put back red candies
+          </button>
+        </div>
+      </div>
+      <div id="red-three" class="red" popup>
+        <div class="card elevated">
+          <svg
+            class="sweet"
+            width="80"
+            role="img"
+            viewBox="0 0 24 24"
+            aria-labelledby="sweetTitle"
+          >
+            <title id="sweetTitle">Sweet in twist wrapper</title>
+            <path
+              fill="currentColor"
+              d="M15.54 8.46c1.96 1.96 1.96 5.12 0 7.08s-5.12 1.96-7.07 0-1.97-5.12 0-7.08 5.11-1.96 7.07 0m3.93-3.91s-.97.12-2.04.81a5.243 5.243 0 0 0-1.5-2.94 4.027 4.027 0 0 0-1.1 3.92c1.39.36 2.47 1.44 2.83 2.83 1.12.3 2.68.15 3.92-1.1a5.247 5.247 0 0 0-2.9-1.49c.39-.58.7-1.25.79-2.03M4.53 19.45s.97-.12 2.04-.81c.15 1.04.65 2.09 1.5 2.94 1.25-1.24 1.4-2.8 1.1-3.92a3.939 3.939 0 0 1-2.83-2.83c-1.12-.3-2.68-.15-3.92 1.1.84.84 1.87 1.34 2.9 1.49-.39.58-.7 1.26-.79 2.03Z"
+            />
+          </svg>
+          <button popupshowtarget="blue-one" class="button ripple">
+            Take first blue candy
+          </button>
+          <button class="button ripple" disabled>Take another red candy</button>
+          <button popuphidetarget="red-three" class="button ripple">
+            Put this candy back
+          </button>
+          <button popuphidetarget="red-one" class="button ripple">
+            Put back red candies
+          </button>
+        </div>
+      </div>
+    </main>
+    <!-- Purposely set to the wrong place to enforce putting things in an experimental subdir -->
+    <script src="../../../../net/experimental-web-platform/script.js"></script>
+    <script type="module" src="./script.js"></script>
+  </body>
+</html>

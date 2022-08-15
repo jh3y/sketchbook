@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  class="popup-support"
+>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, user-scalable=0, maximum-scale=1.0"
+    />
+    <title>popups/transitioning-pop-up</title>
+    <link rel="stylesheet" href="npm:normalize.css" />
+    <link rel="stylesheet" href="npm:open-props/open-props.min.css" />
+    <link rel="stylesheet" href="npm:open-props/colors-hsl.min.css" />
+    <link rel="stylesheet" href="npm:open-props/normalize.min.css" />
+    <!-- Purposely set to the wrong place to enforce putting things in an experimental subdir -->
+    <link
+      rel="stylesheet"
+      href="../../../../net/experimental-web-platform/style.css"
+    />
+    <link
+      rel="stylesheet"
+      href="../../../../net/material-design-lite/mdl.css"
+    />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <main>
+      <article>
+        <h1>Pop-up Discount Code</h1>
+        <p>
+          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nostrum nam
+          sint sed modi dolor veniam repudiandae, et quasi unde quis voluptatum
+          iure accusantium quam quod ducimus itaque eligendi eius, natus?
+        </p>
+        <div
+          id="code-pop-up"
+          class="balloon"
+          popup
+        >
+          <div class="balloon__content">
+            <div class="balloon__handle"></div>
+            <code>my-first-pop-up</code>
+            <button class="button ripple" popuphidetarget="code-pop-up">Hide Code</button>
+          </div>
+        </div>
+        <button class="button ripple" popuphovertarget="code-pop-up">
+          Hover for Code
+        </button>
+      </article>
+    </main>
+    <!-- Purposely set to the wrong place to enforce putting things in an experimental subdir -->
+    <script src="../../../../net/experimental-web-platform/script.js"></script>
+    <script type="module" src="./script.js"></script>
+  </body>
+</html>

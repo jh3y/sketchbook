@@ -1,5 +1,5 @@
 :root {
-  --primary-color: hsl(320 100% 50% / 0.75);
+  --primary-color: hsl(280 100% 50% / 0.75);
   --shine: hsl(0 0% 100% / 0.75);
   --speed: 1s;
 }
@@ -35,7 +35,7 @@ body {
 }
 
 [popup]:top-layer {
-  animation: entry-animation 1s ease-in both;
+  animation: entry-animation 250ms ease-in both;
 }
 
 @keyframes exit-animation {
@@ -53,13 +53,12 @@ body {
 [popup]::backdrop {
   background: hsl(0 10% 10%/ 0.35);
   opacity: 0;
-  transition: all 1s;
+  transition: all 250ms;
   backdrop-filter: blur(2px);
 }
 
 [popup]:top-layer::backdrop {
 	opacity: 1;
-  transition: all 1s;
 }
 
 code {

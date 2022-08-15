@@ -1,0 +1,117 @@
+/* Imports for CodePen */
+/*@import 'https://unpkg.com/open-props/open-props.min.css';
+@import 'https://unpkg.com/open-props/normalize.min.css';
+@import 'https://rodydavis.github.io/material-design-lite/css/mdl.css';*/
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	font-family:  'Google Sans', sans-serif, system-ui;
+	align-content: center;
+}
+
+:where([popup]) {
+	margin: auto;
+	border-width: initial;
+	border-style: solid;
+}
+
+[popup] {
+	transform: translate(-50%, -50%)
+    translateX(calc(var(--offset-x, 0) * 50%))
+    translate(calc(var(--x, 0) * 2vmin), calc(var(--y, 0) * 2vmin))
+    translateX(calc(var(--slide-x, 0) * -10%));
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  overflow: visible;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .red[popup]:has(~ .red[popup]:top-layer),
+  .blue[popup]:has(~ .blue[popup]:top-layer) {
+    transition: transform 0.2s;
+  }
+}
+
+.card > * + * {
+  margin-top: var(--size-2);
+}
+
+.blue {
+  --offset-x: -1;
+}
+
+.red {
+  --offset-x: 1;
+}
+
+#blue-two, #red-two {
+  --x: 1;
+  --y:  -1;
+}
+
+#blue-three, #red-three {
+  --x: 2;
+  --y:  -2;
+}
+
+[popup]::backdrop {
+  background: hsl(0 10% 10%/ 0.35);
+  opacity: 0;
+  transition: all 250ms;
+  backdrop-filter: blur(2px);
+}
+
+.red[popup]:has(~ .red[popup]:top-layer):hover,
+.blue[popup]:has(~ .blue[popup]:top-layer):hover {
+  --slide-x: 1;
+}
+
+.blue.button {
+  background: var(--blue-4);
+  color: var(--gray-0);
+}
+
+.red.button {
+  background: var(--red-4);
+  color: var(--gray-0);
+}
+
+.blue svg {
+  color: var(--blue-4);
+}
+
+.red svg {
+  color: var(--red-4);
+}
+
+main {
+  display: flex;
+  gap: var(--size-4);
+}
+
+.card.elevated {
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  box-shadow: var(--shadow-5);
+  min-width: auto;
+  padding: var(--size-4);
+  background: var(--gray-0);
+}
+
+.card .button {
+  width: 100%;
+}
