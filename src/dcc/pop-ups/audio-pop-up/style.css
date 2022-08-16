@@ -1,0 +1,134 @@
+/*@import 'npm:98.css';*/
+
+:root {
+  --shine: hsl(0 0% 100% / 0.75);
+  --speed: 1s;
+}
+
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	font-family:  'Google Sans', sans-serif, system-ui;
+	align-content: center;
+  overflow: hidden;
+}
+
+:where([popup]) {
+	margin: auto;
+	border-width: initial;
+	border-style: solid;
+}
+
+[popup] {
+  box-shadow: var(--shadow-5);
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.balloon {
+  cursor: pointer;
+  font-size: var(--font-size-fluid-1);
+  font-weight: var(--font-weight-9);
+  color: var(--gray-0);
+  overflow: visible;
+  width: 12vmin;
+  aspect-ratio: 0.8 / 1;
+  height: auto;
+  background: hsl(var(--hue) 50% 50% / 0.75);
+  border-radius: 50% 50% 50% 50% / 45% 45% 55% 55%;
+  transform: translate(-50%, -50%) translateX(calc(var(--index, 0) * 110%)) translateY(0);
+  /*animation: float calc(var(--d, 1) * 1s) calc(var(--delay, 0) * -1s) infinite linear both;*/
+}
+
+[popup]:top-layer {
+  animation: float calc(var(--float-speed) * 10s) forwards,
+    bob calc(var(--bob-speed) * 10s) infinite ease-in-out;
+}
+
+@keyframes float {
+  0% {
+    transform: translate(-50%, -50%) translateX(calc(var(--index, 0) * 110%)) translateY(100vh) translateY(0vh);
+  }
+}
+
+@keyframes bob {
+  50% {
+    transform: translate(-50%, -50%) translateX(calc(var(--index, 0) * 110%)) translateY(0) translateY(-25%);
+  }
+}
+
+.balloon:before {
+  content: '';
+  position: absolute;
+  width: 20%;
+  height: 30%;
+  background: blue;
+  top: 8%;
+  left: 16%;
+  border-radius: 50%;
+  transform: rotate(40deg);
+  background: var(--shine);
+}
+
+.balloon__content {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+	width: 100%;
+	flex-direction: column;
+	gap: var(--size-4);
+	font-weight: var(--font-weight-6);
+}
+
+.balloon__handle {
+  --chord: hsl(45, 100%, 40%);
+  width: 2%;
+  height: 60%;
+  background: var(--chord);
+  top: 100%;
+  left: 50%;
+  transform: translate(-50%, 0);
+  position: absolute;
+}
+.balloon__handle:before,
+.balloon__handle:after {
+  content: '';
+  position: absolute;
+  height: 5%;
+  transform: translate(-50%, 0);
+  border-radius: 25% / 50%;
+  left: 50%;
+}
+
+.balloon__handle:before {
+  top: 0;
+  background: var(--chord);
+  width: 500%;
+}
+
+.balloon__handle:after {
+  top: 5%;
+  background: var(--primary-color);
+  width: 700%;
+}
+
+
+
+@keyframes float-up {
+  from {
+    transform: translate(-50%, -50%) translateX(calc(var(--index) * 125%)) scale(calc(1 + var(--scale, 0))) translateY(100vh);
+  }
+}

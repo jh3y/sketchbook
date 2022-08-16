@@ -1,0 +1,52 @@
+/* Imports for CodePen */
+/*@import 'https://unpkg.com/open-props/open-props.min.css';
+@import 'https://unpkg.com/open-props/normalize.min.css';
+@import 'https://rodydavis.github.io/material-design-lite/css/mdl.css';*/
+
+@import url('https://unpkg.com/xp.css');
+
+*,
+*:after,
+*:before {
+  box-sizing: border-box;
+}
+
+body {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  font-family: 'Google Sans', sans-serif, system-ui;
+  align-content: center;
+}
+
+:where([popup]) {
+  margin: auto;
+  border-width: initial;
+  border-style: solid;
+}
+
+[popup] {
+  transform: translate(-50%, -50%) translateX(calc(var(--offset-x, 0) * 50%))
+    translate(calc(var(--x, 0) * 2vmin), calc(var(--y, 0) * 2vmin))
+    translateX(calc(var(--slide-x, 0) * -10%));
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  overflow: visible;
+}
+
+.window-body {
+  align-items: flex-end;
+  display: flex;
+  flex-direction: column;
+}
+
+.title-bar {
+  height: auto;
+}
+
+

@@ -1,0 +1,49 @@
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+:where([popup]) {
+	margin: auto;
+	border-width: initial;
+	border-style: solid;
+}
+
+body {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	font-family:  'Google Sans', sans-serif, system-ui;
+	align-content: center;
+}
+
+[popup] {
+	background: none;
+	border: 0;
+	padding: 0;
+	max-width: calc(100% - var(--size-8));
+}
+
+.card {
+	padding: var(--size-6);
+	max-width: 100%;
+	min-width: 0;
+}
+
+.card > * + * {
+	margin-top: var(--size-4);
+}
+
+input {
+	color: var(--text-1);
+}
+
+.actions {
+	display: flex;
+	gap: var(--size-4);
+}
+
+:focus {
+	outline: 4px solid var(--green-4);
+}

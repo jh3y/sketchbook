@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" class="popup-support">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, user-scalable=0, maximum-scale=1.0"
+    />
+    <title>popups/transitioning-pop-up</title>
+    <link rel="stylesheet" href="npm:normalize.css" />
+    <link rel="stylesheet" href="npm:open-props/open-props.min.css" />
+    <link rel="stylesheet" href="npm:open-props/colors-hsl.min.css" />
+    <!-- Purposely set to the wrong place to enforce putting things in an experimental subdir -->
+    <link
+      rel="stylesheet"
+      href="../../../../net/experimental-web-platform/style.css"
+    />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <main>
+      <button class="blue button fill elevated" popupshowtarget="window">
+        Show Prompt
+      </button>
+      <div popup="manual" defaultopen id="window">
+        <div class="window">
+          <div class="title-bar">
+            <div class="title-bar-text">A Manual Pop-up</div>
+            <div class="title-bar-controls">
+              <button aria-label="Close" popuphidetarget="window"></button>
+            </div>
+          </div>
+          <div class="window-body">
+            <p>The only way to remove me is via a trigger element, or with JavaScript.</p>
+            <button popuphidetarget="window">Close</button>
+          </div>
+        </div>
+      </div>
+    </main>
+    <!-- Purposely set to the wrong place to enforce putting things in an experimental subdir -->
+    <script src="../../../../net/experimental-web-platform/script.js"></script>
+    <script type="module" src="./script.js"></script>
+  </body>
+</html>

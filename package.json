@@ -34,13 +34,18 @@
     "dev": "rm -rf dist && parcel --no-source-maps --port 1987 --https --cert ./localhost.pem --key ./localhost-key.pem",
     "create": "plop"
   },
+  "@parcel/transformer-css": {
+    "errorRecovery": true
+  },
   "browserslist": "> 0.5%, chrome 95, last 2 versions, not dead",
   "devDependencies": {
+    "98.css": "0.1.11",
     "@faker-js/faker": "^7.3.0",
-    "@parcel/transformer-pug": "2.6.2",
-    "@parcel/transformer-stylus": "2.6.2",
+    "@parcel/transformer-pug": "2.7.0",
+    "@parcel/transformer-sass": "^2.7.0",
+    "@parcel/transformer-stylus": "^2.7.0",
     "color": "^4.2.3",
-    "parcel": "^2.6.2",
+    "parcel": "2.7.0",
     "plop": "^3.1.1",
     "prettier": "^2.7.1",
     "prism-themes": "^1.9.0",
