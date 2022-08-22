@@ -1,0 +1,20 @@
+<svg viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="200" cy="200" r="100" fill="#E12D2D"/>
+  <mask id="mask0_19_832" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="100" y="100" width="200" height="200">
+  <circle cx="200" cy="200" r="100" fill="#D9D9D9"/>
+  </mask>
+  <g mask="url(#mask0_19_832)">
+  <circle cx="248" cy="167" r="100" fill="#D9D9D9"/>
+  </g>
+  <ellipse cx="347.512" cy="200" rx="20.4878" ry="20" fill="#E8F17A"/>
+  <ellipse cx="52.4878" cy="200" rx="20.4878" ry="20" fill="#E8F17A"/>
+  <ellipse cx="200" cy="347.512" rx="20.4878" ry="20" transform="rotate(90 200 347.512)" fill="#E8F17A"/>
+  <ellipse cx="200" cy="52.4878" rx="20.4878" ry="20" transform="rotate(90 200 52.4878)" fill="#E8F17A"/>
+  <ellipse cx="304.307" cy="304.307" rx="20.4878" ry="20" transform="rotate(45 304.307 304.307)" fill="#E8F17A"/>
+  <ellipse cx="95.6931" cy="95.6931" rx="20.4878" ry="20" transform="rotate(45 95.6931 95.6931)" fill="#E8F17A"/>
+  <ellipse cx="95.6931" cy="304.307" rx="20.4878" ry="20" transform="rotate(135 95.6931 304.307)" fill="#E8F17A"/>
+  <ellipse cx="304.307" cy="95.6931" rx="20.4878" ry="20" transform="rotate(135 304.307 95.6931)" fill="#E8F17A"/>
+  <circle cx="272" cy="70" r="12" fill="#A50A0A"/>
+  <circle cx="233" cy="123" r="18" fill="#A50A0A"/>
+  <circle cx="309" cy="165" r="24" fill="#A50A0A"/>
+</svg>

@@ -1,0 +1,79 @@
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	font-family:  'Google Sans', sans-serif, system-ui;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+button {
+	height: calc(48 * 10px);
+	aspect-ratio: 1;
+	padding: 0;
+	display: grid;
+	place-items: center;
+}
+
+@keyframes set {
+	50% {
+		transform: translate(100px, -100px);
+	}
+}
+
+button span {
+	display: inline-block;
+}
+
+.sun-and-moon {
+	height: 100%;
+	width: 100%;
+	display: grid;
+	place-items: center;
+	position: relative;
+	/*filter: drop-shadow(0 0 10px red) brightness(2);*/
+}
+
+.body {
+	height: 50%;
+	aspect-ratio: 1;
+	background: yellow;
+	border-radius: 50%;
+	mask: radial-gradient(circle at bottom center, transparent 25%, black 25.5%) var(--position, 50% 40%) / 200% 200% no-repeat;
+	transition: all 0.25s ease;
+	transform: rotate(225deg);
+}
+
+.ray {
+	width: 10%;
+	aspect-ratio: 1;
+	background: yellow;
+	border-radius: 50%;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transition: all 0.25s calc(var(--index) * 0.05s) ease;
+	opacity: var(--distance);
+	transform: translate(-50%, -50%) rotate(calc((360 / 8) * var(--index) * 1deg)) translateX(calc(var(--distance, 1) * 400%));
+}
+
+[aria-pressed="true"] {
+	--distance: 0;
+	--position: 50% 110%;
+}

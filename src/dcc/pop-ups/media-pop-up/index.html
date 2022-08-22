@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en" class="popup-support">
+  <head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, maximum-scale=1.0" />
+    <title>popups/first-pop-up</title>
+    <link rel="stylesheet" href="npm:normalize.css" />
+    <link rel="stylesheet" href="npm:open-props/open-props.min.css" />
+    <link rel="stylesheet" href="npm:open-props/normalize.min.css" />
+    <!-- Purposely set to the wrong place to enforce putting things in an experimental subdir -->
+    <link rel="stylesheet" href="../../../../net/experimental-web-platform/style.css" />
+    <link rel="stylesheet" href="../../../../net/material-design-lite/mdl.css" />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Pop-up with media</h1>
+      <h2>Video opens in pop-up on play</h2>
+    </header>
+    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quod ut incidunt dicta voluptatum! Beatae, laborum ratione sed minus ipsum doloremque nulla mollitia laudantium nostrum in, at reprehenderit nesciunt, ducimus qui?</p>
+    <div class="video-placeholder">
+      <div class="video-player" popup id="media-pop-up">
+        <figure>
+          <video width="640" height="360" src='./video.mp4' controls loop></video>
+          <figcaption>Video of Picadilly circus</figcaption>
+        </figure>
+        <button title="Close video player" popuphidetarget="media-pop-up">
+          <span class="sr-only">Close video player</span>
+          <svg role="img" aria-hidden="true" viewBox="0 0 24 24">
+            <path fill="currentColor" d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+    <p>Qui fugit rem temporibus nisi aliquid ad voluptatibus sed quia error! Repellat maxime non, soluta, ullam ad quaerat iusto consectetur, nostrum numquam quae nemo, harum esse eius provident iste modi.</p>
+    <!-- <button class="button ripple" popuptoggletarget="media-pop-up">Toggle Pop-up</button> -->
+    <!-- Purposely set to the wrong place to enforce putting things in an experimental subdir -->
+    <script src="../../../../net/experimental-web-platform/script.js"></script>
+    <script type="module" src="./script.js"></script>
+  </body>
+</html>
