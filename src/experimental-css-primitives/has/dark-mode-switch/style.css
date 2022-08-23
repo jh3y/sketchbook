@@ -4,11 +4,37 @@
 	box-sizing: border-box;
 }
 
+:root {
+	--step: 0.25s;
+	--dark-mode: 0;
+	--surface: hsl(
+		210
+		calc((17 - var(--dark-mode) * 6) * 1%)
+		calc((98 - var(--dark-mode) * 83) * 1%)
+	);
+	--color: hsl(
+		210
+		calc((9 + var(--dark-mode) * 5) * 1%)
+		calc((31 + var(--dark-mode) * 52) *1%)
+	);
+	--hover: hsl(
+		210
+		calc((16 - var(--dark-mode) * 6) * 1%)
+		calc((93 - var(--dark-mode) * 60) * 1%)
+	);
+}
+
+:root:has([aria-pressed="true"]) {
+	--dark-mode: 1;
+}
+
 body {
 	display: grid;
 	place-items: center;
 	min-height: 100vh;
 	font-family:  'Google Sans', sans-serif, system-ui;
+	background: var(--surface);
+	transition: background var(--step);
 }
 
 .sr-only {
@@ -24,17 +50,58 @@ body {
 }
 
 button {
-	height: calc(48 * 10px);
+  --size: calc(2 * 48px);
+	--distance: calc(1 - var(--dark-mode, 0));
+	--position: calc((40 + (var(--dark-mode, 0) * 70)) * 1%);
+	--ray-position: calc(var(--dark-mode, 0) * 150%) 0;
+	--step: 0.25s;
+	--bg: var(--surface);
 	aspect-ratio: 1;
 	padding: 0;
 	display: grid;
 	place-items: center;
+  background: var(--bg);
+  width: var(--size);
+  aspect-ratio: 1;
+  padding: 1%;
+  border-radius: calc(var(--size) * 0.2);
+  border: 1px solid hsl(0 0% 50%);
+  overflow: hidden;
+  transition: transform var(--step) var(--ease-elastic-5), box-shadow var(--step) var(--ease-elastic-5), background var(--step);
+  transform: translateY(var(--elevate, 0)) scale(var(--scale, 1));
+  box-shadow:
+    calc(var(--size) * var(--shadow-x, 0.05))
+    calc(var(--size) * var(--shadow-y, 0.05))
+    0
+    calc(var(--size) * var(--spread, 0)); 
 }
 
-@keyframes set {
-	50% {
-		transform: translate(100px, -100px);
-	}
+button:focus-visible {
+	outline-color: hsl(0 0% 50%);
+  transition: transform var(--step) var(--ease-elastic-5),
+  	box-shadow var(--step) var(--ease-elastic-5),
+  	background var(--step);
+}
+
+button:hover {
+  background: var(--hover);
+}
+
+button:active {
+  --shadow: 0;
+  --elevate: 5%;
+  --scale: 0.9;
+  --shadow-x: 0;
+  --shadow-y: 0;
+}
+
+[aria-pressed="true"],
+[aria-pressed="true"]:is(:hover, :active) {
+  --shadow: 0;
+  --elevate: 5%;
+  --scale: 0.9;
+  --shadow-x: 0;
+  --shadow-y: 0;
 }
 
 button span {
@@ -47,33 +114,57 @@ button span {
 	display: grid;
 	place-items: center;
 	position: relative;
-	/*filter: drop-shadow(0 0 10px red) brightness(2);*/
 }
 
 .body {
-	height: 50%;
+	height: 40%;
 	aspect-ratio: 1;
-	background: yellow;
+	background: var(--color);
 	border-radius: 50%;
-	mask: radial-gradient(circle at bottom center, transparent 25%, black 25.5%) var(--position, 50% 40%) / 200% 200% no-repeat;
-	transition: all 0.25s ease;
-	transform: rotate(225deg);
+	mask: radial-gradient(circle at right center, transparent 25%, #000 25.5%) var(--position, 40% 50%) / 200% 200% no-repeat;
+	transition: all var(--step);
+	transform: rotate(-45deg) scale(calc(1.5 - (var(--distance, 1) * 0.5)));
+}
+
+.star {
+	width: 10%;
+	aspect-ratio: 1;
+	background: var(--color);
+	border-radius: 50%;
+	position: absolute;
+	top: 20%;
+	left: 55%;
+	transition: transform var(--step) var(--ease-elastic-5);
+	transform: translate(-50%, -50%) translate(calc(var(--index) * 250%), calc(var(--index) * 220%)) scale(calc((1 + (var(--index) * 1)) * (1 - var(--distance, 1))));
+}
+
+
+.rays {
+	position: absolute;
+	inset: 0;
+	transition: all var(--step);
+	transform: rotate(-45deg);
+	mask: linear-gradient(90deg, #000 50%, transparent 75%) var(--ray-position, 0 0) / 200% 200% no-repeat;
 }
 
 .ray {
 	width: 10%;
 	aspect-ratio: 1;
-	background: yellow;
+	background: var(--color);
 	border-radius: 50%;
 	position: absolute;
 	top: 50%;
 	left: 50%;
-	transition: all 0.25s calc(var(--index) * 0.05s) ease;
-	opacity: var(--distance);
-	transform: translate(-50%, -50%) rotate(calc((360 / 8) * var(--index) * 1deg)) translateX(calc(var(--distance, 1) * 400%));
+	transition: transform var(--step) calc((var(--step) * 0.5) + ((var(--entry) * var(--step)) * 0.25)) var(--ease-elastic-5);
+	transform: translate(-50%, -50%)
+		rotate(calc((360 / 8) * var(--index) * 1deg))
+		translateX(calc(var(--distance, 1) * 350%));
 }
 
-[aria-pressed="true"] {
-	--distance: 0;
-	--position: 50% 110%;
+[aria-pressed="true"] .ray {
+	transition: transform 0s var(--step);
+}
+
+[aria-pressed="true"] .star {
+	transition: transform var(--step) calc(var(--step) + (var(--index) * var(--step))) var(--ease-elastic-5);
 }

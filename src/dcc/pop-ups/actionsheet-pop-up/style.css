@@ -1,0 +1,26 @@
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+:where([popup]) {
+	margin: auto;
+	border-width: initial;
+	border-style: solid;
+}
+
+#sheet-pop-up {
+	position: fixed;
+	top: 0;
+	left: 50%;
+	/*transform: translate(-50%, 0);*/
+	display: block !important;
+}
+
+/*body {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	font-family:  'Google Sans', sans-serif, system-ui;
+}*/

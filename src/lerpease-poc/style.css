@@ -23,6 +23,7 @@ body {
 	display: grid;
 	place-items: center;
 	z-index: var(--index);
+	position: relative;
 }
 
 .block__item {
@@ -33,6 +34,7 @@ body {
 	transition: all 0.1s ease;
 	overflow: hidden;
 }
+
 .blocks:not(.blocks--hover) .block__item {
 	transform: translateY(calc(var(--lerp, 0) * -300%)) scale(calc(1 + (var(--lerp, 0) * 2)));
 }
@@ -43,7 +45,27 @@ body {
 
 .blocks--hover .block:hover {
 	z-index: var(--blocks);
+	background: red;
 }
+
+.blocks--hover .block:after {
+	content: '';
+	position: absolute;
+	bottom: 100%;
+	left: 50%;
+	transform: translate(-50%, 0) scaleY(var(--show, 0));
+	transform-origin: 50% 100%;
+	width: 100%;
+	aspect-ratio: 1 / 2;
+	background: purple;
+	z-index: -1;
+	transition: transform 0.1s;
+}
+
+.blocks--hover:hover {
+	--show: 1;
+}
+
 .blocks--hover .block:has(+ .block:hover),
 .blocks--hover .block:hover + .block {
 	z-index: calc(var(--blocks) - 1);
@@ -61,6 +83,11 @@ body {
 .blocks--hover .block:has(+ .block:not(:hover) + .block:hover) .block__item,
 .blocks--hover .block:hover + .block:not(:hover) + .block .block__item {
 	--active-lerp: var(--lerp-2);
+}
+
+.blocks--hover .block:has(+ .block:not(:hover) + .block:not(:hover) + .block:hover) .block__item,
+.blocks--hover .block:hover + .block:not(:hover) + .block:not(:hover) + .block .block__item {
+	--active-lerp: var(--lerp-3);
 }
 
 .block__item:after {

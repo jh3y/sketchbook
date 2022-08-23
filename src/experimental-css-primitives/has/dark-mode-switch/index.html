@@ -7,6 +7,7 @@
     <title>experimental-css-primitives/has/dark-mode-switch</title>
     <link rel="stylesheet" href="npm:normalize.css" />
     <link rel="stylesheet" href="npm:open-props/normalize.min.css" />
+    <link rel="stylesheet" href="npm:open-props/open-props.min.css" />
     <!-- Purposely set to the wrong place to enforce putting things in an experimental subdir -->
     <link rel="stylesheet" href="../../../../net/experimental-web-platform/style.css" />
     <link rel="stylesheet" href="./style.css" />
@@ -16,36 +17,20 @@
     <button aria-pressed="false">
       <span class="sr-only">Toggle Dark Mode</span>
       <span class="sun-and-moon">
-        <span class="ray" style="--index: 0;"></span>
-        <span class="ray" style="--index: 1;"></span>
-        <span class="ray" style="--index: 2;"></span>
-        <span class="ray" style="--index: 3;"></span>
-        <span class="ray" style="--index: 4;"></span>
-        <span class="ray" style="--index: 5;"></span>
-        <span class="ray" style="--index: 6;"></span>
-        <span class="ray" style="--index: 7;"></span>
+        <span class="rays">
+          <span class="ray" style="--index: 0; --entry: 0; --exit: 1;"></span>
+          <span class="ray" style="--index: 1; --entry: 1; --exit: 2;"></span>
+          <span class="ray" style="--index: 2; --entry: 0; --exit: 3;"></span>
+          <span class="ray" style="--index: 3; --entry: 1; --exit: 4;"></span>
+          <span class="ray" style="--index: 4; --entry: 0; --exit: 3;"></span>
+          <span class="ray" style="--index: 5; --entry: 1; --exit: 2;"></span>
+          <span class="ray" style="--index: 6; --entry: 0; --exit: 1;"></span>
+          <span class="ray" style="--index: 7; --entry: 1; --exit: 0;"></span>
+        </span>
+        <span class="star" style="--index: 0;"></span>
+        <span class="star" style="--index: 1;"></span>
         <span class="body"></span>
       </span>
-      <!-- <svg width="400" height="400" aria-hidden="true" role="img" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <clipPath id="clip">
-          <circle cx="200" cy="200" r="100.5" fill="#D9D9D9"/>
-        </clipPath>
-        <circle cx="200" cy="200" r="100" fill="#E12D2D"/>
-        <g clip-path="url(#clip)">
-          <circle id="clipper" clip-path="url(#clip)" cx="250" cy="150" r="100" fill="#D9D9D9"/>
-        </g>
-        <ellipse cx="347.512" cy="200" rx="20.4878" ry="20" fill="#E8F17A"/>
-        <ellipse cx="52.4878" cy="200" rx="20.4878" ry="20" fill="#E8F17A"/>
-        <ellipse cx="200" cy="347.512" rx="20.4878" ry="20" transform="rotate(90 200 347.512)" fill="#E8F17A"/>
-        <ellipse cx="200" cy="52.4878" rx="20.4878" ry="20" transform="rotate(90 200 52.4878)" fill="#E8F17A"/>
-        <ellipse cx="304.307" cy="304.307" rx="20.4878" ry="20" transform="rotate(45 304.307 304.307)" fill="#E8F17A"/>
-        <ellipse cx="95.6931" cy="95.6931" rx="20.4878" ry="20" transform="rotate(45 95.6931 95.6931)" fill="#E8F17A"/>
-        <ellipse cx="95.6931" cy="304.307" rx="20.4878" ry="20" transform="rotate(135 95.6931 304.307)" fill="#E8F17A"/>
-        <ellipse cx="304.307" cy="95.6931" rx="20.4878" ry="20" transform="rotate(135 304.307 95.6931)" fill="#E8F17A"/>
-        <circle cx="272" cy="70" r="12" fill="#A50A0A"/>
-        <circle cx="233" cy="123" r="18" fill="#A50A0A"/>
-        <circle cx="309" cy="165" r="24" fill="#A50A0A"/>
-      </svg> -->
     </button>
     <!-- Purposely set to the wrong place to enforce putting things in an experimental subdir -->
     <script src="../../../../net/experimental-web-platform/script.js"></script>

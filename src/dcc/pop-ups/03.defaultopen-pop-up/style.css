@@ -73,6 +73,7 @@ article > p + p {
 	top: 50%;
 	left: 50%;
 	margin: 0;
+	overflow: hidden;
 	transform-style: preserve-3d;
 	transform: translate3d(-50%, -50%, 100vmin)
 		translateX(calc(var(--progress-x, 0) * 10%))
