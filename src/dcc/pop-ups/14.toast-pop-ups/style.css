@@ -1,0 +1,123 @@
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+:where([popup]) {
+	margin: auto;
+	border-width: initial;
+	border-style: solid;
+}
+
+body {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	font-family:  'Google Sans', sans-serif, system-ui;
+	background: var(--surface-2);
+}
+
+.toasts {
+  /* You can't use these as you need to use top and left...*/
+  /*   bottom: 0;
+    right: 0; */
+  left: 100%;
+  top: 100%;
+  transform: translate(-100%, -100%);
+  padding: var(--size-4);
+  border: 0;
+  overflow: auto;
+  margin: 0;
+  max-height: 100vh;
+  background: 0;
+  overflow-x: hidden;
+}
+
+.toasts__slice {
+	list-style-type: none;
+	margin: 0;
+	animation: enter 250ms;
+	transition: transform 0.2s;
+	padding: 0;
+}
+
+.toasts__slice-control {
+  background: var(--surface-1);
+  white-space: nowrap;
+  box-shadow: var(--shadow-3);
+  border: 0;
+  color: var(--gray-9);
+  border-left: var(--size-2) solid var(--border, var(--green-3));
+  border-radius: var(--radius-2);
+  text-align: left;
+  background: var(--background, var(--green-0));
+  display: flex;
+  align-items: center;
+  gap: 1ch;
+  max-width: 75vw;
+  min-width: 275px;
+	position: relative;
+	padding: var(--size-4);
+	outline-color: var(--border);
+}
+
+@keyframes enter {
+	0% {
+		transform: scale(0);
+	}
+}
+
+.toasts__slice:is(:hover, :focus) {
+	transform: translateY(-5%);
+}
+
+.toasts__slice:active {
+	transform: translateY(5%);
+}
+
+.toasts__slice--success {
+	--background: var(--green-0);
+	--border: var(--green-3);
+}
+.toasts__slice--destructive {
+	--background: var(--red-0);
+	--border: var(--red-3);
+}
+.toasts__slice--warning {
+	--background: var(--yellow-0);
+	--border: var(--yellow-3);
+}
+.toasts__slice--info {
+	--background: var(--blue-0);
+	--border: var(--blue-3);
+}
+.toasts__slice--timed {
+	--background: var(--indigo-0);
+	--border: var(--indigo-3);
+}
+
+.toasts__slice svg {
+	fill: var(--border);
+	stroke: 0;
+	width: 3ch;
+	min-width: 3ch;
+	aspect-ratio: 1;
+}
+
+.toast__close {
+	width: 1ch;
+	aspect-ratio: 1;
+	min-width: 1ch;
+}
+
+.toast__text {
+	white-space: normal;
+	flex: 1;
+}
+
+.toasts__drawer {
+  display: grid;
+  gap: var(--size-4);
+  padding: 0;
+}

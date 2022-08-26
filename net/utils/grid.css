@@ -1,0 +1,5 @@
+.autofit-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(var(--column-width, 10vmin), 1fr));
+  gap: var(--grid-gap, 1vmin);
+}

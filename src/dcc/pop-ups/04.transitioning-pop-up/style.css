@@ -18,25 +18,6 @@ body {
 	border-style: solid;
 }
 
-[popup] {
-  --hide: 1;
-  transition: transform 0.2s;
-  box-shadow: var(--shadow-5);
-  transform: translateY(calc(var(--hide) * -100vh))
-            scale(calc(1 - var(--hide)));
-}
-
-[popup]::backdrop {
-	background: hsl(0 0% 25% / 0.5);
-  transition: opacity 0.2s;
-  opacity: calc(1 - var(--hide, 1));
-}
-
-[popup]:top-layer,
-[popup]:top-layer::backdrop  {
-  --hide: 0;
-}
-
 code {
 	background: var(--gray-2);
 	color: var(--md-sys-color-primary);
@@ -51,3 +32,23 @@ article {
 article p {
 	margin-bottom: var(--size-4);
 }
+
+[popup] {
+  --hide: 1;
+  transition: transform 0.2s;
+  box-shadow: var(--shadow-5);
+  transform: translateY(calc(var(--hide) * -100vh))
+            scale(calc(1 - var(--hide)));
+}
+
+[popup]::backdrop {
+	background: hsl(0 0% 25% / 0.5);
+  transition: opacity 0.2s;
+  opacity: calc(1 - var(--hide, 1));
+}
+
+[popup]:open,
+[popup]:open::backdrop  {
+  --hide: 0;
+}
+

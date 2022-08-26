@@ -80,7 +80,7 @@ article > p + p {
 		translateY(calc(var(--progress-y, 0) * 10%));
 }
 
-[popup]:top-layer {
+[popup]:open {
 	display: flex;
 }
 

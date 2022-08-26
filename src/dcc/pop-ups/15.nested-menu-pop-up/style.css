@@ -1,0 +1,83 @@
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+:where([popup]) {
+	margin: auto;
+	border-width: initial;
+	border-style: solid;
+}
+
+:root {
+	--offset-x: 0;
+}
+
+body {
+	min-height: 200vh;
+	background: var(--gradient-7);
+	font-family:  'Google Sans', sans-serif, system-ui;
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding-top: 25vh;
+	height: 100vh;
+	overflow: auto;
+}
+
+main {
+	height: 200vh;
+	width: 100vw;
+}
+
+.anchor {
+	anchor-name: --anchor;
+	width: max(48px, 10vmin);
+	aspect-ratio: 1;
+	display: grid;
+	place-items: center;
+	background: red;
+	/*margin-left: -1000px;*/
+}
+.anchor, #anchored {
+	translate: var(--offset-x, 0) 0;
+}
+
+main {
+	display: grid;
+	place-items: center;
+	height: 100vh;
+}
+
+.anchor svg {
+	width: 100%;
+	fill: var(--gray-3);
+}
+
+#anchored {
+	position: absolute;
+	position-fallback: --top-to-bottom;
+	/*left: anchor(--anchor left);
+	top: anchor(--anchor top);*/
+	/*anchor-scroll: --anchor;*/
+	margin: 0;
+	background: purple;
+	color: var(--gray-0);
+	padding: var(--size-4);
+	/* Assumptions */
+	/*transform: translateX(calc(anchor-size(--anchor width) * 1px);*/
+}
+
+
+/**
+ * Anchoring.
+ * 1. Anchoring element must be position: static;
+ * 2. Give it an anchor-name: --anchor or --whatever;
+ * 3. The anchored element uses this for top, right, bottom, left positions.
+ * 4. Set with anchor(--anchor top/right/bottom/left);
+ * 
+ * The anchor function takes three possible arguments of which two are required.
+ * The third value 
+ * */

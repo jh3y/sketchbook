@@ -7,36 +7,67 @@
     <title>lerpease-poc</title>
     <link rel="stylesheet" href="npm:normalize.css" />
     <link rel="stylesheet" href="npm:open-props/open-props.min.css" />
+    <!-- <link rel="stylesheet" href="npm:open-props/normalize.min.css" /> -->
+    <link rel="stylesheet" href="npm:prismjs/plugins/toolbar/prism-toolbar.min.css" />
+    <link rel="stylesheet" href="npm:prism-themes/themes/prism-night-owl.css" />
     <link rel="stylesheet" href="./style.css" />
+    <style id="lerp-hatch"></style>
   </head>
   <body>
-    <input type="checkbox" id="mirror" checked>
-    <input type="range" min="3" max="10" value="5" step="1" id="items">
-    <select name="curve" id="curve">
-      <option value="none">none</option>
-      <option value="bounce.in">bounce.in</option>
-      <option value="bounce.out">bounce.out</option>
-      <option value="bounce.inOut">bounce.inOut</option>
-      <option value="elastic.out">elastic.out</option>
-      <option value="elastic.in">elastic.in</option>
-      <option value="elastic.inOut">elastic.inOut</option>
-      <option value="sine.out">sine.out</option>
-      <option value="sine.in">sine.in</option>
-      <option value="sine.inOut">sine.inOut</option>
-      <option value="power1.out">power1.out</option>
-      <option value="power1.in">power1.in</option>
-      <option value="power1.inOut">power1.inOut</option>
-      <option value="power2.out">power2.out</option>
-      <option value="power2.in">power2.in</option>
-      <option value="power2.inOut">power2.inOut</option>
-      <option value="power3.out">power3.out</option>
-      <option value="power3.in">power3.in</option>
-      <option value="power3.inOut">power3.inOut</option>
-      <option value="power4.out">power4.out</option>
-      <option value="power4.in">power4.in</option>
-      <option value="power4.inOut">power4.inOut</option>
-    </select>
     <div class="blocks"></div>
+    <div class="configurator">
+      <dl>
+        <!-- <input type="checkbox" id="mirror" checked> -->
+        <dt>
+          <label for="items">Number</label>
+        </dt>
+        <dd>
+          <input type="range" min="3" max="10" value="5" step="1" id="items">
+        </dd>
+        <dt>
+          <label for="curve">Ease</label>
+        </dt>
+        <dd>
+          <select name="curve" id="curve">
+            <option value="none">none</option>
+            <option value="bounce.in">bounce.in</option>
+            <option value="bounce.out">bounce.out</option>
+            <option value="bounce.inOut">bounce.inOut</option>
+            <option value="elastic.out">elastic.out</option>
+            <option value="elastic.in">elastic.in</option>
+            <option value="elastic.inOut">elastic.inOut</option>
+            <option value="sine.out">sine.out</option>
+            <option value="sine.in">sine.in</option>
+            <option value="sine.inOut">sine.inOut</option>
+            <option value="power1.out">power1.out</option>
+            <option value="power1.in">power1.in</option>
+            <option value="power1.inOut">power1.inOut</option>
+            <option value="power2.out">power2.out</option>
+            <option value="power2.in">power2.in</option>
+            <option value="power2.inOut">power2.inOut</option>
+            <option value="power3.out">power3.out</option>
+            <option value="power3.in">power3.in</option>
+            <option value="power3.inOut">power3.inOut</option>
+            <option value="power4.out">power4.out</option>
+            <option value="power4.in">power4.in</option>
+            <option value="power4.inOut">power4.inOut</option>
+          </select>
+        </dd>
+        <dt>
+          <label for="translation">Translation</label>
+        </dt>
+        <dd>
+          <input type="range" min="50" max="500" value="200" step="1" id="translation">
+        </dd>
+      </dl>
+      <pre>
+        <code class="language-css" data-prismjs-copy="Copy"></code>
+      </pre>
+    </div>
+    <!-- Prism Stuff -->
+    <script src="npm:prismjs/prism.js"></script>
+    <script src="npm:prismjs/plugins/toolbar/prism-toolbar.min.js"></script>
+    <script src="npm:prismjs/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
     <script type="module" src="./script.js"></script>
   </body>
 </html>

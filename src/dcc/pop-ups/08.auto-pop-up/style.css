@@ -23,6 +23,11 @@ body {
 	border-style: solid;
 }
 
+main {
+  display: flex;
+  gap: var(--size-4);
+}
+
 [popup] {
 	transform: translate(-50%, -50%)
     translateX(calc(var(--offset-x, 0) * 50%))
@@ -39,8 +44,8 @@ body {
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .red[popup]:has(~ .red[popup]:top-layer),
-  .blue[popup]:has(~ .blue[popup]:top-layer) {
+  .red[popup]:has(~ .red[popup]:open),
+  .blue[popup]:has(~ .blue[popup]:open) {
     transition: transform 0.2s;
   }
 }
@@ -74,8 +79,8 @@ body {
   backdrop-filter: blur(2px);
 }
 
-.red[popup]:has(~ .red[popup]:top-layer):hover,
-.blue[popup]:has(~ .blue[popup]:top-layer):hover {
+.red[popup]:has(~ .red[popup]:open):hover,
+.blue[popup]:has(~ .blue[popup]:open):hover {
   --slide-x: 1;
 }
 
@@ -95,11 +100,6 @@ body {
 
 .red svg {
   color: var(--red-4);
-}
-
-main {
-  display: flex;
-  gap: var(--size-4);
 }
 
 .card.elevated {

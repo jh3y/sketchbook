@@ -5,13 +5,18 @@ let hoverBlocks
 const MIRROR_CHECK = document.querySelector('#mirror')
 const ITEM_RANGE = document.querySelector('#items')
 const EASE_SELECTOR = document.querySelector('#curve')
+const TRANSLATOR = document.querySelector('#translation')
+const LERP_HATCH = document.querySelector('#lerp-hatch')
+const CODE = document.querySelector('code')
 
 const BLOCKS = document.querySelector('.blocks')
 
 const STATE = {
-	mirror: MIRROR_CHECK.checked,
+	// mirror: MIRROR_CHECK.checked,
+	mirror: true,
 	items: parseInt(ITEM_RANGE.value, 10),
 	ease: EASE_SELECTOR.value,
+	injectPlayground: false,
 }
 
 const setLerpease = () => {
@@ -25,11 +30,73 @@ const setLerpease = () => {
 
 const LERPS = []
 
-const injectLerps = lerps => {
-	document.documentElement.style = ''
-	for (let l = 0; l < lerps.length; l++) {
-		document.documentElement.style.setProperty(`--lerp-${l}`, lerps[l])
+const getBlocks = (amount, has) => {
+	let blocks = ''
+	if (has) {
+		for (let b = 0; b < amount; b++) {
+			blocks += b !== amount - 1 ? ' + .block' : ' + .block:hover'
+		}
+	} else {
+		for (let b = 0; b < amount; b++) {
+			blocks += ' + .block'
+		}
 	}
+	return blocks
+}
+
+const injectLerps = lerps => {
+	let css = `
+:root {\n`
+	// document.documentElement.style = ''
+	for (let l = 0; l < lerps.length; l++) {
+		css += `  --lerp-${l}: ${lerps[l]};\n`
+		// document.documentElement.style.setProperty(`--lerp-${l}`, lerps[l])
+	}
+	css += '}\n'
+	// Then based on the number, I need to create the lerping mirror for styles...
+
+
+	// 	.blocks--hover .block:hover {
+	// 	--active-lerp: var(--lerp-0);
+	// 	z-index: 4;
+	// }
+
+	// .blocks--hover .block:has(+ .block:hover),
+	// .blocks--hover .block:hover + .block {
+	// 	--active-lerp: var(--lerp-1);
+	// 	z-index: 3;
+	// }
+
+	// .blocks--hover .block:has(+ .block:not(:hover) + .block:hover),
+	// .blocks--hover .block:hover + .block:not(:hover) + .block {
+	// 	--active-lerp: var(--lerp-2);
+	// 	z-index: 2;
+	// }
+
+	// .blocks--hover .block:has(+ .block:not(:hover) + .block:not(:hover) + .block:hover),
+	// .blocks--hover .block:hover + .block:not(:hover) + .block:not(:hover) + .block {
+	// 	--active-lerp: var(--lerp-3);
+	// 	z-index: 1;
+	// }
+	for (let b = 0; b < lerps.length; b++) {
+		let rule = ''
+		if (b === 0) {
+			rule += '.block:hover {\n'
+		} else {
+			rule += `.block:has(${getBlocks(b, true)}),\n`
+			rule += `.block:hover${getBlocks(b, false)} {\n`
+		}
+		rule += `  --active-lerp: var(--lerp-${b});\n`
+		rule += `  z-index: ${lerps.length - b};\n`
+		rule += `}\n`
+		css += rule
+	}
+
+
+	// Here we are going to instead come up with a way to set all of the lerps etc. in CSS
+	LERP_HATCH.innerHTML = css.replaceAll('<br>', '')
+	CODE.innerHTML = css
+	Prism.highlightAll()
 }
 
 const refreshBlocks = (e) => {
@@ -95,12 +162,15 @@ const generateBlocks = () => {
 			generateBlock(LERP, m - 1)
 		}
 	}
+	// At this point you can set the code in the pre.
 	injectLerps(LERPS.reverse())
 	// Clone the blocks as hover blocks
-	if (hoverBlocks) hoverBlocks.remove()
-	hoverBlocks = BLOCKS.cloneNode(true)
-	hoverBlocks.classList.add('blocks--hover')
-	document.body.appendChild(hoverBlocks)
+	if (STATE.injectPlayground) {
+		if (hoverBlocks) hoverBlocks.remove()
+		hoverBlocks = BLOCKS.cloneNode(true)
+		hoverBlocks.classList.add('blocks--hover')
+		document.body.appendChild(hoverBlocks)
+	}
 }
 
 const build = () => {
@@ -115,7 +185,8 @@ ITEM_RANGE.addEventListener('change', (e) => {
 	STATE.items = parseInt(e.target.value)
 	build()
 })
-MIRROR_CHECK.addEventListener('change', (e) => {
-	STATE.mirror = e.target.checked
-	build()
-})
+// MIRROR_CHECK.addEventListener('change', (e) => {
+// 	STATE.mirror = e.target.checked
+// 	build()
+// })
+TRANSLATOR.addEventListener('input', e => document.documentElement.style.setProperty('--translation', e.target.value))

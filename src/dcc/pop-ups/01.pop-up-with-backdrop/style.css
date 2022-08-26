@@ -66,7 +66,7 @@ h1 {
 	fill: var(--md-sys-color-on-primary-container);
 }
 
-[popup]:top-layer::backdrop {
+[popup]:open::backdrop {
   background: hsl(0 0% 10% / 0.5);
   backdrop-filter: blur(2px);
 }

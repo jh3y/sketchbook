@@ -24,6 +24,21 @@ body {
 	border-style: solid;
 }
 
+code {
+  background: var(--gray-2);
+  color: var(--md-sys-color-primary);
+  font-weight: var(--font-weight-9);
+}
+
+article {
+  padding: var(--size-4);
+  max-inline-size: var(--size-content-2);
+}
+
+article p {
+  margin-bottom: var(--size-4);
+}
+
 [popup] {
   animation: exit-animation 250ms ease-out both;
 	transform: translate(-50%, -50%) translateX(0) scale(1);
@@ -34,8 +49,19 @@ body {
   margin: 0;
 }
 
-[popup]:top-layer {
+[popup]:open {
   animation: entry-animation 250ms ease-in both;
+}
+
+[popup]::backdrop {
+  background: hsl(0 10% 10%/ 0.35);
+  opacity: 0;
+  transition: all 250ms;
+  backdrop-filter: blur(2px);
+}
+
+[popup]:open::backdrop {
+	opacity: 1;
 }
 
 @keyframes exit-animation {
@@ -50,40 +76,12 @@ body {
 	}
 }
 
-[popup]::backdrop {
-  background: hsl(0 10% 10%/ 0.35);
-  opacity: 0;
-  transition: all 250ms;
-  backdrop-filter: blur(2px);
-}
-
-[popup]:top-layer::backdrop {
-	opacity: 1;
-}
-
-code {
-	background: var(--gray-2);
-	color: var(--md-sys-color-primary);
-	font-weight: var(--font-weight-9);
-}
-
-article {
-	padding: var(--size-4);
-	max-inline-size: var(--size-content-2);
-}
-
-article p {
-	margin-bottom: var(--size-4);
-}
-
 .balloon {
   overflow: visible;
-  /*width: var(--size);*/
   aspect-ratio: 0.8 / 1;
   height: auto;
   background: var(--primary-color);
   border-radius: 50% 50% 50% 50% / 45% 45% 55% 55%;
-  /*animation: float calc(var(--d, 1) * 1s) calc(var(--delay, 0) * -1s) infinite linear both;*/
 }
 
 .balloon:before {

@@ -18,6 +18,10 @@ body {
 	align-content: center;
 }
 
+input {
+	color: var(--text-1);
+}
+
 [popup] {
 	background: none;
 	border: 0;
@@ -35,9 +39,6 @@ body {
 	margin-top: var(--size-4);
 }
 
-input {
-	color: var(--text-1);
-}
 
 .actions {
 	display: flex;

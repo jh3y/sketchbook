@@ -24,6 +24,11 @@ body {
 	border-style: solid;
 }
 
+div {
+  font-size: var(--font-size-4);
+  font-weight: var(--font-weight-9);
+}
+
 [popup] {
   --hide: 1;
 	transform: translate(-50%, calc(
@@ -73,19 +78,17 @@ body {
   pop-up-hide-delay: 1s;
 }
 
-[popup]:top-layer,
-[popup]:top-layer::backdrop  {
+[popup]:open,
+[popup]:open::backdrop  {
   --hide: 0;
 }
 
-
-
 @media (prefers-reduced-motion: no-preference) {
-  [popup]:top-layer .hovercraft {
+  [popup]:open .hovercraft {
     animation: hover 0.25s infinite linear;
   }
 
-  [popup]:top-layer .hovercraft__stream {
+  [popup]:open .hovercraft__stream {
     animation: stream 1s infinite;
   }
 
@@ -112,9 +115,4 @@ body {
   50% {
     transform: translateY(-20%);
   }
-}
-
-div {
-  font-size: var(--font-size-4);
-  font-weight: var(--font-weight-9);
 }

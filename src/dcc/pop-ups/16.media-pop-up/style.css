@@ -19,6 +19,31 @@ body {
 	font-family:  'Google Sans', sans-serif, system-ui;
 }
 
+figcaption {
+	color: var(--gray-9);
+	font-weight: var(--font-weight-6);
+}
+
+h1 {
+	font-size: var(--font-size-8);
+	margin: 0;
+}
+
+h1, h2 {
+	text-align: center;
+}
+
+video {
+	max-width: 100%;
+	aspect-ratio: 16/9;
+	height: auto;
+	width: 100%;
+}
+
+body > * + * {
+	margin-top: var(--size-4);
+}
+
 .sr-only {
   position: absolute;
   width: 1px;
@@ -71,10 +96,6 @@ body > .video-placeholder {
 	margin: var(--size-4) 0;
 }
 
-body > * + * {
-	margin-top: var(--size-4);
-}
-
 .video-placeholder {
 	width: 100%;
 	aspect-ratio: 16 / 10.8;
@@ -84,19 +105,12 @@ body > * + * {
 	place-items: center;
 }
 
-video {
-	max-width: 100%;
-	aspect-ratio: 16/9;
-	height: auto;
-	width: 100%;
-}
-
 [popup]::backdrop {
 	background: hsl(0 0% 90% / 0.9);
 	backdrop-filter: blur(6px);
 }
 
-[popup]:top-layer {
+[popup]:open {
 	position: fixed;
 	top: 50%;
 	left: 50%;
@@ -105,15 +119,10 @@ video {
 	aspect-ratio: 16/10;
 }
 
-[popup]:top-layer [popuphidetarget] {
+[popup]:open [popuphidetarget] {
 	display: block;
 }
 
-
-figcaption {
-	color: var(--gray-9);
-	font-weight: var(--font-weight-6);
-}
 
 @media(prefers-color-scheme: dark) {
 	figcaption {
@@ -122,13 +131,4 @@ figcaption {
 	[popup]::backdrop {
 		background: hsl(0 0% 10% / 0.9);
 	}
-}
-
-h1 {
-	font-size: var(--font-size-8);
-	margin: 0;
-}
-
-h1, h2 {
-	text-align: center;
 }

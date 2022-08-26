@@ -10,17 +10,6 @@
 	border-style: solid;
 }
 
-[popup] {
-	display: block;
-	transition: all 0.2s;
-	box-shadow: var(--shadow-1);
-}
-
-[popup]:top-layer {
-	transform: translateY(-100%) scale(1.5);
-	box-shadow: var(--shadow-4);
-}
-
 body {
 	display: grid;
 	place-items: center;
@@ -29,6 +18,21 @@ body {
 
 .button {
 	transform: translateY(200%);
+}
+
+[popup] {
+	display: block;
+	transition: all 0.2s;
+	box-shadow: var(--shadow-1);
+}
+
+[popup]:open {
+	transform: translateY(-100%) scale(1.5);
+	box-shadow: var(--shadow-4);
+}
+
+[popup]:open::backdrop {
+	opacity: 1;
 }
 
 [popup]::backdrop {
@@ -53,8 +57,4 @@ body {
 			150vw 75vh,
 			250vw 100vh;
 	}
-}
-
-[popup]:top-layer::backdrop {
-	opacity: 1;
 }

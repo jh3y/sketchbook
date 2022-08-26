@@ -1,0 +1,178 @@
+:root {
+	--lerp-0: 1;
+  --lerp-1: 0.5625;
+  --lerp-2: 0.25;
+  --lerp-3: 0.0625;
+  --lerp-4: 0;
+}
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	font-family:  'Google Sans', sans-serif, system-ui;
+	background: var(--gradient-1);
+	transition: all 0.2s;
+}
+
+:root {
+  --lerp-0: 1;
+  --lerp-1: 0.5625;
+  --lerp-2: 0.25;
+  --lerp-3: 0.0625;
+  --lerp-4: 0;
+}
+
+.blocks {
+	display: flex;
+	list-style-type: none;
+	padding: var(--size-2);
+	border-radius: var(--radius-3);
+	gap: var(--size-4);
+	background: hsl(0 0% 100% / 0.5);
+	align-items: center;
+	justify-content: center;
+	align-content: center;
+	backdrop-filter: blur(10px);
+}
+
+.blocks:hover {
+	--show: 1;
+}
+
+.block {
+	width: 48px;
+	height: 48px;
+	display: grid;
+	place-items: center;
+	align-content: center;
+	transition: flex 0.2s;
+	flex: calc(0.2 + (var(--lerp, 0) * 1.5));
+	position: relative;
+}
+
+.block:after {
+	content: '';
+	width: 5%;
+	aspect-ratio: 1;
+	background: var(--text-1);
+	position: absolute;
+	bottom: 10%;
+	left: 50%;
+	border-radius: var(--radius-3);
+	transform: translate(-50%, -50%);
+	z-index: -1;
+}
+
+.block:before {
+	content: '';
+	position: absolute;
+	width: calc(100% + var(--size-4));
+	bottom: 0;
+	aspect-ratio: 1 / 2;
+	left: 50%;
+	transition: transform 0.2s;
+	transform-origin: 50% 100%;
+	transform: translateX(-50%) scaleY(var(--show, 0));
+	z-index: -1;
+}
+
+:is(.block:hover, .block:focus-visible) .block__item {
+	outline: var(--surface-1) var(--size-1) solid;
+}
+
+body:has(a[style="--bg: var(--gradient-1)"]:focus) {
+	background: var(--gradient-1);
+}
+body:has(a[style="--bg: var(--gradient-2)"]:focus) {
+	background: var(--gradient-2);
+}
+body:has(a[style="--bg: var(--gradient-3)"]:focus) {
+	background: var(--gradient-3);
+}
+body:has(a[style="--bg: var(--gradient-4)"]:focus) {
+	background: var(--gradient-4);
+}
+body:has(a[style="--bg: var(--gradient-5)"]:focus) {
+	background: var(--gradient-5);
+}
+body:has(a[style="--bg: var(--gradient-6)"]:focus) {
+	background: var(--gradient-6);
+}
+body:has(a[style="--bg: var(--gradient-7)"]:focus) {
+	background: var(--gradient-7);
+}
+body:has(a[style="--bg: var(--gradient-8)"]:focus) {
+	background: var(--gradient-8);
+}
+body:has(a[style="--bg: var(--gradient-9)"]:focus) {
+	background: var(--gradient-9);
+}
+
+.block {
+	outline: none;
+}
+
+.block__item {
+	width: 100%;
+	aspect-ratio: 1;
+	border-radius: var(--radius-3);
+	background: var(--bg), var(--surface-1);
+	display: inline-block;
+	transition: transform 0.2s;
+	transform-origin: 50% 100%;
+	position: relative;
+	transform: translateY(calc(var(--lerp) * -75%));
+}
+
+.block__item:after {
+	content: '';
+	position: absolute;
+	height: 100%;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	aspect-ratio: 1;
+	border-left: var(--size-2) solid white;
+	border-top: var(--size-2) solid white;
+	border-radius: var(--radius-3);
+	mask: linear-gradient(135deg, black, transparent 50%);
+}
+
+@media(prefers-color-scheme: dark) {
+	.blocks {
+		background: hsl(0 0% 0% / 0.5);
+	}
+}
+
+
+:is(.block:hover, .block:focus-visible) {
+  --lerp: var(--lerp-0);
+  z-index: 5;
+}
+.block:has( + :is(.block:hover, .block:focus-visible)),
+:is(.block:hover, .block:focus-visible) + .block {
+  --lerp: var(--lerp-1);
+  z-index: 4;
+}
+.block:has( + .block + :is(.block:hover, .block:focus-visible)),
+:is(.block:hover, .block:focus-visible) + .block + .block {
+  --lerp: var(--lerp-2);
+  z-index: 3;
+}
+.block:has( + .block + .block + :is(.block:hover, .block:focus-visible)),
+:is(.block:hover, .block:focus-visible) + .block + .block + .block {
+  --lerp: var(--lerp-3);
+  z-index: 2;
+}
+.block:has( + .block + .block + .block + :is(.block:hover, .block:focus-visible)),
+:is(.block:hover, .block:focus-visible) + .block + .block + .block + .block {
+  --lerp: var(--lerp-4);
+  z-index: 1;
+}

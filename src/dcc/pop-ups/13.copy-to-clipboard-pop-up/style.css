@@ -1,0 +1,85 @@
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+:where([popup]) {
+	margin: auto;
+	border-width: initial;
+	border-style: solid;
+}
+
+body {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	font-family:  'Google Sans', sans-serif, system-ui;
+	align-content: center;
+}
+
+span {
+	white-space: nowrap;
+}
+
+svg {
+	fill: var(--gray-0);
+	width: 2ch;
+	min-width: 2ch;
+	transform: translateY(-6%);
+}
+
+input {
+	padding: var(--size-4);
+	text-align: center;
+}
+
+main {
+	display: flex;
+	gap: 1ch;
+	justify-content: center;
+	align-items: center;
+	flex-wrap: wrap;
+}
+
+
+/* Demo */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+[popup] {
+	position: fixed;
+	top: var(--size-4);
+	left: 50%;
+	padding: var(--size-4);
+	transition: transform 0.2s;
+	transform: translate(-50%, calc((200% + var(--size-4)) * -1)) translateY(calc((200% + var(--size-4)) * var(--show, 0)));
+	margin: 0;
+	box-shadow: var(--shadow-5);
+	border: 0;
+	border-radius: var(--radius-3);
+	background: var(--blue-3);
+	color: var(--gray-0);
+}
+
+[popup]:open {
+	--show: 1;
+}
+
+.popup-content {
+	display: flex;
+	align-items: center;
+	gap: 1ch;
+	font-size: var(--font-size-fluid-0);
+	font-weight: var(--font-weight-6);
+}
