@@ -10,26 +10,118 @@
 	border-style: solid;
 }
 
-:root {
-	--offset-x: 0;
-}
-
 body {
-	min-height: 200vh;
 	background: var(--gradient-7);
 	font-family:  'Google Sans', sans-serif, system-ui;
-	position: relative;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	padding-top: 25vh;
-	height: 100vh;
 	overflow: auto;
+	min-height: 100vh;
 }
 
-main {
-	height: 200vh;
-	width: 100vw;
+main h1 {
+	color: var(--gray-0);
+}
+
+.top-app-bar {
+	width: 100%;
+	grid-template-columns: 1fr;
+}
+
+.top-app-bar .title {
+	font-family:  'Google Sans', sans-serif, system-ui;
+	flex: 0 0 auto;
+	margin-right: var(--size-8);
+}
+
+nav {
+	width: 100%;
+	max-width: min(100%, var(--size-lg));
+	margin: 0 auto;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+}
+
+:is(nav, .menu) :is(a[href], button) {
+	min-height: 48px;
+  color: var(--gray-8);
+  background: none;
+  place-items: center;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin: 0;
+}
+
+[popup] {
+	opacity: var(--open, 0);
+	transform: translateY(calc((var(--size-4) * (1 - var(--open, 0)))  * -1));
+	transition: transform 0.2s, opacity 0.2s;
+}
+
+[popup]:open {
+	--open: 1;
+}
+
+#products::backdrop {
+	transition: opacity 0.2s;
+	opacity: var(--open, 0);
+}
+
+#products:open::backdrop {
+	--open: 1;
+	/* This isn't ideal but if we had it, we could use it. */
+	--nav-height: calc(48px + (2 * 16px));
+	background: hsl(0 0% 10% / 0.5);
+	backdrop-filter: blur(4px);
+	clip-path: inset(var(--nav-height) 0 0 0);
+}
+
+.menu {
+	border: 0;
+	background: var(--md-sys-color-surface);
+	padding: var(--size-4);
+	border-radius: var(--radius-2);
+}
+
+:is(a[href], button):is(:hover, :focus-visible) {
+	color: var(--blue-8);
+	text-decoration: none;
+}
+
+.menu ul {
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+}
+
+.menu li {
+	width: 100%;
+	padding: 0;
+	text-align: left;
+}
+
+.nav-links {
+	display: inline-flex;
+	gap: var(--size-4);
+	align-items: center;
+	justify-content: center;
+}
+
+#products {
+	top: calc(var(--top-app-bar-padding) + (var(--bottom, 0) * 1px));
+	left: calc(var(--left, 0) * 1px);
+	margin: 0;
+}
+
+#css {
+	top: calc(var(--top, 0) * 1px);
+	left: calc(var(--right, 0) * 1px);
+	margin: 0;
 }
 
 .anchor {
@@ -43,12 +135,6 @@ main {
 }
 .anchor, #anchored {
 	translate: var(--offset-x, 0) 0;
-}
-
-main {
-	display: grid;
-	place-items: center;
-	height: 100vh;
 }
 
 .anchor svg {

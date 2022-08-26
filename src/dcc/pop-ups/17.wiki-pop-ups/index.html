@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en" class="popup-support">
+  <head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, maximum-scale=1.0" />
+    <title>popups/entry-and-exit-pop-up</title>
+    <link rel="stylesheet" href="npm:normalize.css" />
+    <link rel="stylesheet" href="npm:open-props/open-props.min.css" />
+    <link rel="stylesheet" href="npm:open-props/normalize.min.css" />
+    <!-- Purposely set to the wrong place to enforce putting things in an experimental subdir -->
+    <link rel="stylesheet" href="../../../../net/experimental-web-platform/style.css" />
+    <link rel="stylesheet" href="../../../../net/material-design-lite/icons-fallback.css" />
+    <link rel="stylesheet" href="../../../../net/material-design-lite/icons.css" />
+    <link rel="stylesheet" href="../../../../net/material-design-lite/mdl.css" />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <main>
+      <article>
+        <header>
+          <h1>Cats</h1>
+          <i>felis catus</i>
+          <img src='./cat--resized.png' alt="cat" width="200" height="200"/>
+        </header>
+        <div class="divider"></div>
+        <p>
+          Be a <a href='#' data-popuphovertarget="nyan-cat">nyan cat</a>, feel great about it, be annoying 24/7 poop rainbows in litter box all day climb into cupboard and lick the salt off rice cakes scratch at the door then walk away
+        </p>
+        <p>
+          Mice attack curtains love you, then bite you try to hold own back foot to clean it but foot reflexively kicks you in face, go into a rage and bite own foot, hard cat mojo hide head under blanket so no one can see. Stare at ceiling scratch leg; meow for can opener to feed me bite off human's toes but lick human with sandpaper tongue and break lamps and curl up into a ball but scratch the <a href="#" data-popuphovertarget="postman">postman</a> wake up lick paw wake up owner meow meow, so sun bathe.
+        </p>
+        <p>
+          Kitty loves pigs bite plants, cattt catt cattty cat being a cat purr for no reason get video posted to <a href="#" data-popuphovertarget="internet">internet</a> for chasing red dot for eat an easter feather as if it were a bird then burp victoriously, but tender. And sometimes switches in french and say "miaou" just because well why not. Twitch tail in permanent irritation.
+        </p>
+      </article>
+    </main>
+    <div id="nyan-cat" class="elevation-1" popup="hint">
+      <picture>
+        <source media="(prefers-reduced-motion: no-preference)" srcset="./nyan-cat.gif"/>
+        <img src="./nyan-cat.png" alt="nyan cat" width="150">
+      </picture>
+      <div class="popup-text">Nyan Cat</div>
+    </div>
+    <div id="postman" class="elevation-1" popup="hint">
+      <picture>
+        <source media="(prefers-reduced-motion: no-preference)" srcset="./postman.gif"/>
+        <img src="./postman.png" alt="Postman Pat" width="150">
+      </picture>
+      <div class="popup-text">Postman</div>
+    </div>
+    <div id="internet" class="elevation-1" popup="hint">
+      <picture>
+        <source media="(prefers-reduced-motion: no-preference)" srcset="./internet.gif"/>
+        <img src="./internet.png" alt="Cat using keyboard" width="150">
+      </picture>
+      <div class="popup-text">Internet</div>
+    </div>
+    <!-- Purposely set to the wrong place to enforce putting things in an experimental subdir -->
+    <script src="../../../../net/experimental-web-platform/script.js"></script>
+    <script type="module" src="./script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,67 @@
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+	min-height: 100vh;
+	font-family:  'Google Sans', sans-serif, system-ui;
+	background: var(--gradient-15);
+}
+
+:where([popup]) {
+	margin: auto;
+	border-width: initial;
+	border-style: solid;
+}
+
+.top-app-bar {
+
+}
+
+[popup] {
+	top: 0;
+	left: 0;
+	margin: 0;
+	height: 100vh;
+	box-shadow: var(--shadow-3);
+	border: 0;
+	transition: transform 0.2s;
+	transform: translateX(calc((1 - var(--open, 0)) * -100%));
+	background: var(--md-sys-color-surface);
+}
+
+[popup]::backdrop {
+	transition: opacity 0.2s;
+	background: hsl(0 0% 10% / 0.25);
+	opacity: var(--open, 0);
+}
+
+[popup]:open,
+[popup]:open::backdrop {
+	--open: 1;
+}
+
+nav {
+	display: flex;
+	flex-direction: column;
+	padding: var(--size-4);
+}
+
+nav a[href] {
+	display: block;
+	width: 100%;
+	white-space: nowrap;
+	padding: var(--size-4);
+	transition: background 0.2s;
+	color: var(--gray-9);
+}
+
+a[href]:visited {
+	color: var(--gray-9);
+}
+
+nav a:hover {
+	background: var(--gray-2);
+}

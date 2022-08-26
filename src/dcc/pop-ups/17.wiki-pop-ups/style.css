@@ -1,0 +1,89 @@
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	font-family:  'Google Sans', sans-serif, system-ui;
+}
+
+:where([popup]) {
+	margin: auto;
+	border-width: initial;
+	border-style: solid;
+}
+
+span {
+	display: inline-block;
+	translate: 0 60%;
+}
+
+
+header {
+	display: grid;
+	grid-template-columns: 1fr 100px;
+	grid-template-rows: 1fr 1fr;
+	align-content: center;
+	justify-content: center;
+}
+
+header img {
+	grid-column: 2;
+	grid-row: 1 / -1;
+	object-fit: cover;
+	height: 100%;
+}
+
+
+article > * + * {
+	margin-top: var(--size-4);
+}
+
+h1 {
+	margin: 0;
+	align-self: end;
+}
+
+article {
+	padding: var(--size-4);
+}
+
+.divider {
+	background: var(--text-2);
+}
+
+[popup] {
+	top: calc(var(--bottom) * 1px);
+	background: var(--text-2);
+	margin: 0;
+	border: 0;
+	padding: 0;
+	overflow: hidden;
+	border-radius: var(--radius-2);
+	transition: opacity 0.2s, transform 0.2s;
+	opacity: var(--open, 0);
+	box-shadow: var(--shadow-4);
+	transform: translateX(calc(var(--width) * var(--offset))) translateY(calc((1 - var(--open, 0)) * 5%));
+}
+
+.popup-text {
+	padding: var(--size-4);
+	font-weight: var(--font-weight-6);
+}
+
+[popup]:open {
+	--open: 1;
+}
+
+[popup].left {
+	--offset: -0.25px;
+	left: calc(var(--right) * 1px);
+}
+[popup].right {
+	--offset: -0.75px;
+	left: calc(var(--left) * 1px);
+}

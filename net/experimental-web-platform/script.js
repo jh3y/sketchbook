@@ -22,13 +22,17 @@ const SUPPORT_MESSAGES = [
   {
     modifier: 'set',
     message: 'This browser is not supported... yet. The "Shared Element Transitions" API is currently supported in Chrome Canary with the "Experimental Web Platform Features" and "Document Transition" flags enabled.',
+  },
+  {
+    modifier: 'anchoring',
+    message: 'This browser is not supported... yet. CSS anchoring can be experimented with in Chrome Canary with the "Experimental Web Platform Features" flag enabled.'
   }
 ]
 
 
 
 const generateWarnings = () => {
-  const CONTAINER = document.createElement('messages')
+  const CONTAINER = document.createElement('div')
   CONTAINER.className = 'support-warnings'
   for (const {modifier, message} of SUPPORT_MESSAGES) {
     const WARNING = document.createElement('div')

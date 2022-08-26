@@ -27,7 +27,8 @@
 .popup-support .support-warning--popup,
 .houdini-support .support-warning--houdini,
 .set-support .support-warning--set,
-.object-view-box-support .support-warning--object-view-box {
+.object-view-box-support .support-warning--object-view-box,
+.anchoring-support .support-warning--anchoring {
   display: inline-block;
 }
 
@@ -44,6 +45,9 @@
 }
 @supports (animation-timeline: works) {
   .scroll-timeline-support .support-warning--scroll-timeline { display: none; }
+}
+@supports (anchor-name: --anchor) {
+  .anchoring-support .support-warning--anchoring { display: none; }
 }
 
 .set-supported .support-warning--set,
