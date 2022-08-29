@@ -1,0 +1,97 @@
+:root {
+	--bg: var(--gray-9);
+	--primary: var(--red-6);
+}
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+body {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	background: var(--bg);
+	font-family:  'Google Sans', sans-serif, system-ui;
+}
+
+:where([popup]) {
+	margin: auto;
+	border-width: initial;
+	border-style: solid;
+}
+
+.og {
+	transform: translate(calc(var(--transformed-x, 0) * 1px), calc(var(--transformed-y, 0) * 1px))
+		translate(calc(var(--translate-x, 0) * 1px), calc(var(--translate-y, 0) * 1px));
+}
+
+.trail {
+	transform: translate(calc(var(--translation-x, 0) * 1px), calc(var(--translation-y, 0) * 1px));
+}
+
+.popup {
+	padding: 0;
+	background: var(--bg);
+	border-color: var(--primary);
+	overflow: hidden;
+	color: var(--primary);
+	border-width: 2px;
+}
+
+.popup__content {
+	display: flex;
+	gap: var(--size-4);
+	align-items: center;
+}
+
+.popup__bar {
+	background: var(--primary);
+	display: flex;
+	justify-content: flex-end;
+	border-bottom: 2px solid var(--primary);
+}
+
+.popup__content {
+	padding: var(--size-8);
+}
+
+.info-icon {
+	width: 2ch;
+	aspect-ratio: 1;
+	fill: var(--primary);
+}
+
+.close-icon {
+	width: 100%;
+	aspect-ratio: 1;
+	fill: var(--fill);
+}
+
+button {
+	--fill: var(--bg);
+	--background: transparent;
+	background: var(--background);
+	width: 24px;
+	aspect-ratio: 1;
+	padding: 0;
+}
+
+button:is(:active, :hover) {
+	--fill: var(--primary);
+	--background: var(--bg);
+}

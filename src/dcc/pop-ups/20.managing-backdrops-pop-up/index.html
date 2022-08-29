@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en" class="popup-support">
+  <head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, maximum-scale=1.0" />
+    <title>popups/first-pop-up</title>
+    <link rel="stylesheet" href="npm:normalize.css" />
+    <!-- <link rel="stylesheet" href="npm:open-props/open-props.min.css" />
+    <link rel="stylesheet" href="npm:open-props/normalize.min.css" /> -->
+    <!-- Purposely set to the wrong place to enforce putting things in an experimental subdir -->
+    <link rel="stylesheet" href="../../../../net/experimental-web-platform/style.css" />
+    <!-- <link rel="stylesheet" href="../../../../net/material-design-lite/mdl.css" /> -->
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div popup="manual" defaultOpen class="window popup og">
+      <div class="title-bar">
+        <div class="title-bar-text">OG Pop-up</div>
+      </div>
+      <div class="window-body">
+        <p>Using this pop-up, generate lots of other pop-ups.</p>
+        <p>We're using JavaScript to manage which pop-ups get a <code>::backdrop</code>.<br>
+          In this case, we only ever want one <code>::backdrop</code>.
+        </p>
+        <section class="field-row">
+          <button data-popup-generator="true">Generate pop-up</button>
+        </section>
+      </div>
+    </div>
+    <!-- Purposely set to the wrong place to enforce putting things in an experimental subdir -->
+    <script src="../../../../net/experimental-web-platform/script.js"></script>
+    <script type="module" src="./script.js"></script>
+  </body>
+</html>

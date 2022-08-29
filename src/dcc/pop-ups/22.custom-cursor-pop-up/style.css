@@ -1,0 +1,85 @@
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+	/*cursor: none;*/
+}
+
+body {
+	min-height: 100vh;
+	background: var(--surface-1);
+	font-family:  'Google Sans', sans-serif, system-ui;
+}
+
+:where([popup]) {
+	margin: auto;
+	border-width: 0;
+	border-style: none;
+	background: transparent;
+}
+
+canvas {
+	height: 100vh;
+	width: 100vw;
+	pointer-events: none;
+	display: none;
+	position: fixed;
+}
+
+canvas:open {
+	display: block;
+}
+
+h1 {
+	margin: 0;
+	color: var(--gray-0);
+}
+
+.button {
+	/*cursor: none;*/
+}
+
+header {
+	height: 25vmin;
+	min-height: 200px;
+	background: var(--gradient-23);
+	display: grid;
+	place-items: center;
+	color: var(--gray-0);
+	padding: var(--size-4);
+}
+
+main {
+	margin: 0 auto;
+}
+
+article {
+	padding: var(--size-4);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+article > * + * {
+	margin-top: var(--size-4);
+}
+
+#overlay-pop-up{
+	border: 0;
+	background: none;
+	max-width: calc(100% - (2 * var(--size-4)));
+	min-width: 0;
+}
+
+#overlay-pop-up::backdrop {
+	background: hsl(0 0% 0% / 0.25);
+	backdrop-filter: blur(4px);
+}
+
+#overlay-pop-up .card {
+	padding: var(--size-4);
+	display: block;
+	min-width: 0;
+	line-height: 1.5;
+	background: var(--surface-1);
+}

@@ -1,0 +1,63 @@
+@import url('https://unpkg.com/xp.css');
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	font-family:  'Google Sans', sans-serif, system-ui;
+}
+
+:where([popup]) {
+	margin: auto;
+	border-width: initial;
+	border-style: solid;
+}
+
+button[popup] {
+	top: 50%;
+	left: 50%;
+	translate: -50% -50%;
+	scale: 1.25;
+	margin: 0;
+}
+
+.popup {
+	transform: translate(-50%, -50%);
+	text-align: center;
+	position: fixed;
+	left: calc(var(--x, 50) * 1%);
+	top: calc(var(--y, 50) * 1%);
+  white-space: nowrap;
+  margin: 0;
+  border: 0;
+}
+
+.popup[data-hasbackdrop]::backdrop {
+  background: hsl(0 10% 10%/ 0.35);
+  backdrop-filter: blur(2px);
+}
+
+.popup[data-hasbackdrop]:open::backdrop {
+	opacity: 1;
+}
+
+.window-body {
+  display: flex;
+  flex-direction: column;
+}
+
+.title-bar {
+  height: auto;
+}
+
+.field-row {
+	justify-content: flex-end;
+}
+
+
