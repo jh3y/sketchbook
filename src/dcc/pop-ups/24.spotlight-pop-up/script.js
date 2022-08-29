@@ -180,6 +180,3 @@ SEARCH.addEventListener('click', e => {
   // Don't want the click on the input to close the popup
   OPTIONS.showPopUp()
 })
-
-renderOptions('')
-onOptionsOpen()

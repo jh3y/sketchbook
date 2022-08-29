@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en" class="popup-support light-theme">
+  <head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, maximum-scale=1.0" />
+    <title>popups/first-pop-up</title>
+    <link rel="stylesheet" href="npm:normalize.css" />
+    <link rel="stylesheet" href="npm:open-props/open-props.min.css" />
+    <link rel="stylesheet" href="npm:open-props/normalize.min.css" />
+    <!-- Purposely set to the wrong place to enforce putting things in an experimental subdir -->
+    <link rel="stylesheet" href="../../../../net/experimental-web-platform/style.css" />
+    <link rel="stylesheet" href="../../../../net/material-design-lite/icons-fallback.css" />
+    <link rel="stylesheet" href="../../../../net/material-design-lite/icons.css" />
+    <link rel="stylesheet" href="../../../../net/material-design-lite/mdl.css" />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <svg class="inactivity-ring" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="25" cy="25" r="20" stroke-width="10" stroke-linejoin="round"/>
+    </svg>
+    <main>
+      <header>
+        <h1>Inactivity Pop-up</h1>
+      </header>
+      <article>
+        <p>
+          <strong>
+            In this demo, leave the page inactive for 4 seconds, and a pop-up will appear. Inactivity pop-ups are often seen in apps that display secure information. They often tell the user they'll get logged out if the inactivity continues.
+          </strong>
+        </p>
+        <p>Lorem ipsum, dolor, sit amet consectetur adipisicing elit. Repellat illo eum hic possimus, libero voluptates, facere nihil deserunt similique error sunt vero minima enim cupiditate quis velit rem ab repellendus.</p>
+        <p>Neque hic veniam cum voluptates quae magnam quisquam saepe. Dolorum quasi amet officiis vero aliquid pariatur commodi repellendus. Quos iure nobis doloremque ipsum facere nostrum neque adipisci hic labore voluptates?</p>
+        <p>Mollitia beatae, repellat est laboriosam officiis? Earum veritatis incidunt explicabo id tempora perspiciatis non doloribus natus nisi asperiores quia error autem laudantium, amet doloremque, vitae quos. Soluta unde numquam id.</p>
+        <p>Recusandae facere esse quod dolorum maxime corrupti ex quam iure id quis eius cumque fugiat, consequatur autem, excepturi molestias libero velit illo a quo. Sed quae aut inventore quia, ipsa.</p>
+        <p>Eius id laboriosam, quas iure laborum corrupti optio corporis tempore odit laudantium similique, accusamus, vel! Perspiciatis sed saepe rem. Nihil explicabo ea at vitae rerum eum, corrupti ipsam suscipit, id!</p>
+        <p>Voluptate pariatur, cum praesentium, veniam tenetur distinctio totam voluptates ea beatae, dicta voluptatum illum sit! Earum harum odio natus perspiciatis. Magni eos temporibus harum quas laborum aspernatur, minus, sunt illum.</p>
+        <p>Ducimus nobis, libero illum commodi aliquid. Molestias beatae ducimus ratione quod, quis itaque ipsum, illum amet labore, nostrum quisquam enim. Sint aperiam qui nihil eaque id quam odio? Repudiandae, sint!</p>
+        <p>In rem tenetur accusamus accusantium id, officia quaerat atque, placeat architecto nihil unde, sit cupiditate minima tempore! Magni, atque labore. Dolor voluptatum eius incidunt, enim? Asperiores similique, ut amet atque?</p>
+        <p>Illum, quam fugiat, veniam officia totam nihil aut dolore quo! Officiis ipsa harum vero voluptatibus eaque repudiandae amet eligendi ducimus laboriosam ab maiores labore, odit, voluptas quos illo sint nulla.</p>
+        <p>Eius earum nihil officiis, inventore accusantium consequuntur dolor reprehenderit in esse quos eos iste nemo amet facere, mollitia, assumenda cum provident quam. Ipsam, vitae! Excepturi quos possimus enim, quia distinctio.</p>
+      </article>
+    </main>
+    <div id="inactivity-pop-up" popup>
+      <div class="card elevated">
+        <div class="title">You've barely touched your HTML</div>
+        <div class="subtitle">It'll self-destruct in <span class="seconds"></span> seconds unless you interact.</div>
+        <div class="actions">
+          <button class="button filled ripple" popuphidetarget="inactivity-pop-up">Keep it</button>
+          <button class="button destructive ripple">Destroy it</button>
+        </div>
+      </div>
+    </div>
+    <!-- Purposely set to the wrong place to enforce putting things in an experimental subdir -->
+    <script src="../../../../net/experimental-web-platform/script.js"></script>
+    <script type="module" src="./script.js"></script>
+  </body>
+</html>

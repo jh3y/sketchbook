@@ -1,0 +1,116 @@
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+	/*cursor: none;*/
+	touch-action: none;
+}
+
+body {
+	min-height: 100vh;
+	font-family:  'Google Sans', sans-serif, system-ui;
+}
+
+:where([popup]) {
+	margin: auto;
+	border-width: 0;
+	border-style: none;
+	background: transparent;
+}
+
+h1 {
+	margin: 0;
+	color: var(--gray-0);
+}
+
+header {
+	height: 25vmin;
+	min-height: 200px;
+	background: var(--gradient-2);
+	display: grid;
+	place-items: center;
+	color: var(--gray-0);
+	padding: var(--size-4);
+}
+
+main {
+	margin: 0 auto;
+}
+
+article {
+	padding: var(--size-4);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+article > * + * {
+	margin-top: var(--size-4);
+}
+
+[popup] {
+	transition: transform 0.2s;
+	transform: scale(var(--open, 0));
+	max-width: calc(100% - (2 * var(--size-4)));
+	overflow: visible;
+}
+
+[popup]:open,
+[popup]:open::backdrop {
+	--open: 1;
+}
+
+[popup]::backdrop {
+	transition: opacity 0.2s;
+	opacity: var(--open, 0);
+	background: hsl(0 0% 10% / 0.5);
+}
+
+.seconds {
+	font-weight: var(--font-weight-9);
+}
+
+.card {
+	min-width: 0;
+}
+
+.inactivity-ring {
+	fill: none;
+	position: fixed;
+	top: var(--size-4);
+	right: var(--size-4);
+	color: var(--red-6);
+	width: 40px;
+	aspect-ratio: 1;
+	stroke-dasharray: 130;
+	stroke-dashoffset: 130;
+	transform: rotate(-90deg);
+}
+
+.card .actions {
+	justify-content: flex-end;
+	gap: 1ch;
+}
+
+.inactivity-ring circle {
+	stroke: currentColor;
+}
+
+.timing .inactivity-ring {
+	animation: load calc(var(--threshold) * 1ms) linear;
+}
+
+.button.destructive {
+	background: var(--md-sys-color-error);
+	color: var(--md-sys-color-surface);
+}
+
+.button.destructive:is(:hover, :focus) {
+	background: rgba(var(--md-sys-color-error-rgb), .4);
+}
+
+@keyframes load {
+	to {
+		stroke-dashoffset: 0;
+	}
+}
