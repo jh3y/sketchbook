@@ -1,0 +1,85 @@
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+	min-height: 100vh;
+	display: grid;
+	place-items: center;	
+	font-family:  'Google Sans', sans-serif, system-ui;
+}
+
+:where([popup]) {
+	margin: auto;
+	border-width: 0;
+	border-style: solid;
+	padding: 0;
+	overflow: visible;
+	background: none;
+}
+
+.banner {
+	background-color: var(--surface-3);
+	border-radius: var(--radius-4);
+	box-shadow: var(--shadow-4);
+	color: var(--text-1);
+	top: 100%;
+	left: 50%;
+	transform: translate(-50%, calc(-100% - var(--size-4)))
+		translate(calc(var(--translate-x, 0) * 1px), calc(var(--translate-y, 0) * 1px));
+	margin: 0;
+	width: var(--size-content-3);
+	max-width: calc(100% - (2 * var(--size-4)));
+}
+
+.banner__content {
+	display: flex;
+	align-items: center;
+	gap: var(--size-2) var(--size-4);
+	padding: var(--size-4);
+	flex-wrap: wrap;
+	justify-content: center;
+}
+
+@media(min-width: 768px) {
+	.banner__content { flex-wrap: nowrap; }
+}
+
+.banner__text {
+	text-align: center;
+	max-inline-size: 100%;
+}
+
+.banner__icon {
+	width: var(--size-9);
+	min-width: var(--size-9);
+	fill: hsl(25 40% 60%);
+	stroke: none;
+}
+
+.banner__actions {
+	display: flex;
+}
+
+.banner__actions button {
+	background: transparent;
+	color: var(--text-1);
+	border: 1px solid var(--text-1);
+	box-shadow: none;
+}
+
+.banner__actions button:hover {
+	background: var(--surface-2);
+}
+
+.banner__decline {
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+}
+
+.banner__accept {
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+}
