@@ -74,6 +74,11 @@ article > * + * {
 	min-width: 0;
 }
 
+.card .actions {
+	justify-content: flex-end;
+	gap: 1ch;
+}
+
 .inactivity-ring {
 	fill: none;
 	position: fixed;
@@ -85,11 +90,6 @@ article > * + * {
 	stroke-dasharray: 130;
 	stroke-dashoffset: 130;
 	transform: rotate(-90deg);
-}
-
-.card .actions {
-	justify-content: flex-end;
-	gap: 1ch;
 }
 
 .inactivity-ring circle {

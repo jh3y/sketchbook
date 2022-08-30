@@ -1,0 +1,96 @@
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+	min-height: 100vh;
+	display: grid;
+	place-items: center;
+	align-content: center;
+	justify-content: center;
+	font-family:  'Google Sans', sans-serif, system-ui;
+}
+
+main {
+	display: grid;
+	place-items: center;
+	gap: var(--size-4) 0;
+}
+
+p {
+	line-height: 1.5;
+}
+
+:where([popup]) {
+	margin: auto;
+	border-width: 0;
+	border-style: solid;
+	padding: 0;
+	overflow: visible;
+	background: none;
+}
+
+main {
+	max-width: calc(100% - (2 * var(--size-4)));
+}
+
+[popup] svg {
+	stroke: none;
+	fill: var(--fill, #000);
+	filter: drop-shadow(0 0 var(--size-1) var(--fill));
+	width: clamp(4rem, 14vmin, 14rem);
+	animation: show 0.2s both var(--ease-elastic-2);
+	transform: translate(var(--offset-x, 0), var(--offset-y, 0)) scale(1) rotate(0deg)
+}
+
+.card.elevated {
+	background: var(--surface-1);
+	display: grid;
+	place-items: center;
+	align-content: center;
+	border-radius: 50%;
+	aspect-ratio: 1;
+}
+
+#horn svg {
+	--fill: var(--red-6);
+	--offset-x: 10%;
+	--rotation: -45deg;
+}
+
+#duck svg {
+	--fill: var(--yellow-4);
+	--offset-x: 4%;
+	--rotation: 45deg;
+}
+
+.options {
+	display: flex;
+	gap: var(--size-4);
+}
+
+.option {
+	display: flex;
+	gap: var(--size-2);
+	align-items: center;
+}
+
+[popup]:open,
+[popup]:open::backdrop {
+	--open: 1;
+}
+
+[popup]::backdrop {
+	transition: opacity 0.2s;
+	opacity: var(--open);
+	backdrop-filter: blur(4px);
+	background: hsl(0 0% 10% / 0.5);
+}
+
+@keyframes show {
+	0% {
+		transform: translate(var(--offset-x, 0), var(--offset-y, 0)) scale(0) rotate(var(--rotation, 0deg));
+	}
+}
