@@ -1,0 +1,43 @@
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+	display: grid;
+	place-items: center;
+	align-content: center;
+	min-height: 100vh;
+	font-family:  'Google Sans', sans-serif, system-ui;
+}
+
+h1 {
+	font-size: var(--font-size-fluid-3);
+	font-weight: var(--font-weight-9);
+}
+
+h1 span {
+	background: var(--gradient-1);
+	-webkit-background-clip: text;
+	color: var(--color, var(--text-1));
+	display: inline-block;
+	transition: color 0.2s;
+	animation: jump calc(var(--speed, 0) * 1s) calc(var(--index, 0) * 0.1s) infinite ease;
+}
+
+@keyframes jump {
+	50% {
+		transform: translateY(-50%);
+	}
+}
+
+header:modal {
+	display: grid;
+	place-items: center;
+}
+
+header:modal span {
+	--speed: 0.75;
+	--color: transparent;
+}

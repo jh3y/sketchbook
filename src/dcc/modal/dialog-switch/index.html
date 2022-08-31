@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, maximum-scale=1.0" />
+    <title>dcc/modal/dialog-switch</title>
+    <link rel="stylesheet" href="npm:normalize.css" />
+    <link rel="stylesheet" href="npm:open-props/open-props.min.css" />
+    <link rel="stylesheet" href="npm:open-props/normalize.min.css" />
+    <!-- Purposely set to the wrong place to enforce putting things in an experimental subdir -->
+    <link rel="stylesheet" href="../../../../net/material-design-lite/mdl.css" />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <dialog>
+      <p>I'm a Dialog</p>
+      <button>Close</button>
+    </dialog>
+    <div class="actions">
+      <button data-modal="true">Open Modal</button>
+      <button data-modal="false">Open Non-modal</button>
+    </div>
+    <script type="module" src="./script.js"></script>
+  </body>
+</html>
