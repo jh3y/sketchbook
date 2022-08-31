@@ -31,7 +31,9 @@ body {
 		translate(calc(var(--translate-x, 0) * 1px), calc(var(--translate-y, 0) * 1px));
 	margin: 0;
 	width: var(--size-content-3);
+	transition: transform calc(var(--speed, 0) * 1s) var(--ease-elastic-2);
 	max-width: calc(100% - (2 * var(--size-4)));
+	cursor: -webkit-grab;
 }
 
 .banner__content {
@@ -47,9 +49,14 @@ body {
 	.banner__content { flex-wrap: nowrap; }
 }
 
+p button {
+	display: inline-block;
+}
+
 .banner__text {
 	text-align: center;
 	max-inline-size: 100%;
+	user-select: none;
 }
 
 .banner__icon {
