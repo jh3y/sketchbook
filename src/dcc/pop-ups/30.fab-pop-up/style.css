@@ -1,0 +1,92 @@
+:root {
+	--step: 0.075s;
+	--transition: 0.15s;
+	--fab-size: calc(56 * 1.25px);
+}
+:root:has(#menu:open) {
+	--twist: 1;
+}
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+	min-height: 100vh;
+	display: grid;
+	place-items: center;
+	gap: var(--size-4);
+	font-family:  'Google Sans', sans-serif, system-ui;
+}
+
+:where([popup]) {
+	margin: auto;
+	border-width: initial;
+	border-style: solid;
+}
+
+.fab[popup] {
+	height: var(--fab-size);
+	width: var(--fab-size);
+	border-radius: 50%;
+	top: 100%;
+	left: 100%;
+	transition: transform var(--transition);
+	transform: translate(-150%, -150%) rotate(calc(var(--twist, 0) * 45deg));
+	padding: 0;
+	border: 0;
+	margin: 0;
+	background: var(--text-1);
+	color: var(--surface-1);
+}
+
+main {
+	display: grid;
+	gap: var(--size-4);
+	line-height: 1.5;
+}
+
+#menu {
+	top: 50%;
+	left: calc(100% - var(--fab-size));
+	top: calc(100% - var(--fab-size));
+	margin: 0;
+	padding: 0;
+	border: 0;
+	transform: translate(-50%, calc(-100% - (var(--fab-size) * 0.5)));
+	overflow: visible;
+	background: transparent;
+	padding: var(--size-6) 0;
+}
+
+#menu:open {
+	--open: 1;
+}
+
+.fab__menu-items {
+	gap: var(--size-4);
+	list-style-type: none;
+	display: grid;
+	padding: 0;
+	margin: 0;
+}
+
+.fab__menu-item {
+	padding: 0;
+}
+
+#menu button {
+	--tint-color: transparent;
+	color: var(--text-2);
+	background: var(--surface-2);
+	outline-color: var(--text-2);
+	border-radius: 50%;
+	transition: transform var(--transition) calc(var(--index) * var(--step));
+	transform: scale(var(--open, 0));
+}
+
+#menu:open button {
+	transition-delay: calc((var(--count) - var(--index)) * var(--step));
+}

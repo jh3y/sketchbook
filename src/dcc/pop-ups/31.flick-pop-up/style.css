@@ -1,0 +1,183 @@
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+:where([popup]) {
+	margin: auto;
+	border-width: initial;
+	border-style: solid;
+}
+
+body {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	font-family:  'Google Sans', sans-serif, system-ui;
+	background: var(--surface-2);
+}
+
+.toasts {
+  /* You can't use these as you need to use top and left...*/
+  /*   bottom: 0;
+    right: 0; */
+  left: 100%;
+  top: 100%;
+  transform: translate(-100%, -100%);
+  padding: var(--size-4);
+  border: 0;
+  overflow: auto;
+  margin: 0;
+  max-height: 100vh;
+  background: 0;
+  overflow: visible;
+}
+
+.toasts__drawer {
+  transform-style: preserve-3d;
+  perspective: 600px;
+  display: grid;
+  gap: var(--size-4);
+  padding: 0;
+}
+
+.toasts__slice * {
+	transform-style: preserve-3d;
+}
+
+.toasts__slice {
+	list-style-type: none;
+	margin: 0;
+	transition: transform 0.2s;
+	padding: 0;
+}
+
+.toasts__slice {
+	--translate-step: -5%;
+	--depth-step: -4px;
+	--cursor: grab;
+	cursor: var(--cursor);
+  transform-style: preserve-3d;
+	position: absolute;
+	bottom: var(--size-4);
+	right: var(--size-4);
+	transform:
+		translate3d(
+			0,
+			calc(var(--index) * var(--translate-step)),
+			calc(var(--index, 0) * var(--depth-step))
+		)
+		scale(max(0, calc(1 - (var(--index) * 0.02))))
+		translateY(calc(var(--select, 0) * -75%))
+		rotate(calc(var(--select, 0) * 5deg));
+}
+
+.toasts:not(.toasts--animating) .toasts__slice:not(:last-of-type):is(:hover, :has(button:focus)) {
+	--select: 1;
+}
+
+
+.toasts__slice-control {
+	--tint-color: transparent;
+	cursor: var(--cursor);
+  background: transparent;
+  white-space: nowrap;
+  box-shadow: var(--shadow-3);
+  border: 0;
+  color: var(--gray-9);
+  border-radius: var(--radius-3);
+  text-align: left;
+  width: 225px;
+  aspect-ratio: 300 / 210;
+	position: relative;
+	outline-color: var(--secondary);
+	height: auto;
+	animation: enter 250ms;
+	display: block;
+}
+.toasts__slice-spinner {
+	transition: transform calc(var(--speed, 0.2) * 1s);
+	transform: translate(calc(var(--translate-x, 0) * 1px), calc(var(--translate-y, 0) * 1px));
+}
+
+.toasts__slice-folder {
+	position: absolute;
+	inset: 0;
+	background: var(--secondary, var(--green-0));
+	z-index: 1;
+	border-radius: var(--radius-3);
+	overflow: hidden;
+}
+
+.toasts__slice-folder:after {
+	position: absolute;
+	inset: 0;
+	clip-path: polygon(0 0, 20% 0, 25% 10%, 100% 10%, 100% 100%, 0 100%);
+	content: "";
+	background: var(--primary);
+	z-index: 2;
+}
+
+.toasts__slice-folder:before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	height: 90%;
+	width: 90%;
+	background: var(--gray-0);
+	z-index: 1;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+@keyframes enter {
+	0% {
+		transform: translateY(200%);
+	}
+}
+
+:root {
+	--blue: hsl(216, 89%, 69%);
+	--blue-accent: hsl(215, 69%, 59%);
+	--indigo: hsl(237, 44%, 88%);
+	--indigo-accent: hsl(242, 29%, 72%);
+	--pink: hsl(334, 68%, 72%);
+	--pink-accent: hsl(333, 54%, 66%);
+	--green: hsl(54, 40%, 79%);
+	--green-accent: hsl(53, 26%, 67%);
+}
+
+.toasts__slice--success {
+	--primary: var(--green);
+	--secondary: var(--green-accent);
+}
+.toasts__slice--destructive {
+	--primary: var(--pink);
+	--secondary: var(--pink-accent);
+}
+.toasts__slice--warning {
+	--primary: var(--blue);
+	--secondary: var(--blue-accent);
+}
+.toasts__slice--info {
+	--primary: var(--indigo);
+	--secondary: var(--indigo-accent);
+}
+
+.toast__close {
+	width: 1ch;
+	aspect-ratio: 1;
+	min-width: 1ch;
+}
+
+.toast__text {
+	background: var(--secondary);
+	height: 12%;
+	aspect-ratio: 5 / 1;
+	position: absolute;
+	bottom: var(--size-4);
+	left: var(--size-4);
+	z-index: 2;
+}

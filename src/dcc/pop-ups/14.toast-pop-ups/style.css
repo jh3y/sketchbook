@@ -56,10 +56,11 @@ body {
   align-items: center;
   gap: 1ch;
   max-width: 75vw;
-  min-width: 275px;
+  min-width: 285px;
 	position: relative;
 	padding: var(--size-4);
 	outline-color: var(--border);
+	height: auto;
 }
 
 @keyframes enter {
@@ -114,6 +115,7 @@ body {
 .toast__text {
 	white-space: normal;
 	flex: 1;
+	text-align: center;
 }
 
 .toasts__drawer {

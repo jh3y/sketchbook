@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en" class="popup-support">
+  <head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, maximum-scale=1.0" />
+    <title>popups/first-pop-up</title>
+    <link rel="stylesheet" href="npm:normalize.css" />
+    <link rel="stylesheet" href="npm:open-props/open-props.min.css" />
+    <link rel="stylesheet" href="npm:open-props/normalize.min.css" />
+    <!-- Purposely set to the wrong place to enforce putting things in an experimental subdir -->
+    <link rel="stylesheet" href="../../../../net/experimental-web-platform/style.css" />
+    <link rel="stylesheet" href="../../../../net/material-design-lite/icons-fallback.css" />
+    <link rel="stylesheet" href="../../../../net/material-design-lite/icons.css" />
+    <link rel="stylesheet" href="../../../../net/material-design-lite/mdl.css" />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <main>
+      <p>Floating action buttons as pop-ups. A button with <code>popup=manual</code> and <code>defaultopen</code> as the container button.</p>
+      <ul>
+        <li>Menu is opened with <code>popuptoggletarget</code>.</li>
+        <li>Use <code>autofocus</code> to focus the first menu item on open.</li>
+        <li>Use <code>:has()</code> to twist the icon on open.</li>
+      </ul>
+    </main>
+    <button class="fab secondary" popup="manual" defaultopen popuptoggletarget="menu">
+      <i class="material-icons">add</i>
+    </button>
+    <div id="menu" class="fab__menu" popup="auto" style="--count: 3;">
+      <ul class="fab__menu-items">
+        <li class="fab__menu-item">
+          <button autofocus class="fab" style="--index: 0;" popuphidetarget="menu">
+            <i class="material-icons">chat</i>
+          </button>
+        </li>
+        <li class="fab__menu-item">
+          <button autofocus class="fab" style="--index: 1;" popuphidetarget="menu">
+            <i class="material-icons">photo_camera</i>
+          </button>
+        </li>
+        <li class="fab__menu-item">
+          <button autofocus class="fab" style="--index: 2;" popuphidetarget="menu">
+            <i class="material-icons">pin_drop</i>
+          </button>
+        </li>
+      </ul>
+    </div>
+    <!-- Purposely set to the wrong place to enforce putting things in an experimental subdir -->
+    <script src="../../../../net/experimental-web-platform/script.js"></script>
+    <script type="module" src="./script.js"></script>
+  </body>
+</html>
