@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en" class="anchoring-support">
+  <head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, maximum-scale=1.0" />
+    <title>experimental-css-primitives/anchoring/anchor-compass</title>
+    <link rel="stylesheet" href="npm:normalize.css" />
+    <link rel="stylesheet" href="npm:open-props/open-props.min.css" />
+    <link rel="stylesheet" href="npm:open-props/colors-hsl.min.css" />
+    <link rel="stylesheet" href="npm:open-props/normalize.min.css" />
+    <!-- Purposely set to the wrong place to enforce putting things in an experimental subdir -->
+    <link rel="stylesheet" href="../../../../net/experimental-web-platform/style.css" />
+    <link rel="stylesheet" href="../../../../net/material-design-lite/mdl.css" />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div class="anchored">
+      <svg class="boat" viewBox="0 0 236 236" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path class="boat__wave" d="M206.107 226.167C195.683 226.167 185.85 223.708 176.607 218.792C158.513 228.625 135.798 228.625 117.705 218.792C99.6117 228.625 76.8967 228.625 59 218.792C46.905 225.577 33.04 226.658 19.6667 226.167V206.5C33.5317 206.992 46.905 205.517 59 196.667C76.11 208.958 100.398 208.958 117.705 196.667C135.11 208.958 159.3 208.958 176.607 196.667C188.505 205.517 201.977 206.992 215.743 206.5V226.167H206.107Z"/>
+        <path class="boat__body" d="M207.483 167.953C203.452 174.247 198.732 179.655 193.225 184.277C186.833 181.425 181.13 177 176.607 172.083C161.955 191.062 132.357 191.062 117.705 172.083C103.25 191.062 73.455 191.062 59 172.083C54.0833 177 48.675 181.425 42.2833 184.277C31.0733 175.033 22.6167 161.857 19.6667 147.5H215.743C214.17 154.875 211.417 161.66 207.483 167.953Z" />
+        <path class="boat__sail" d="M29.5 132.75L108.167 19.9616V132.75H29.5ZM122.917 132.75C136.192 95.875 134.422 46.315 122.917 9.83331C169.723 24.9766 205.517 82.6 206.107 132.75H122.917Z" />
+      </svg>
+    </div>
+    <main>
+      <div class="anchor">
+        <svg class="boat-anchor" viewBox="0 0 576 512" title="anchor">
+          <path d="M12.971 352h32.394C67.172 454.735 181.944 512 288 512c106.229 0 220.853-57.38 242.635-160h32.394c10.691 0 16.045-12.926 8.485-20.485l-67.029-67.029c-4.686-4.686-12.284-4.686-16.971 0l-67.029 67.029c-7.56 7.56-2.206 20.485 8.485 20.485h35.146c-20.29 54.317-84.963 86.588-144.117 94.015V256h52c6.627 0 12-5.373 12-12v-40c0-6.627-5.373-12-12-12h-52v-5.47c37.281-13.178 63.995-48.725 64-90.518C384.005 43.772 341.605.738 289.37.01 235.723-.739 192 42.525 192 96c0 41.798 26.716 77.35 64 90.53V192h-52c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h52v190.015c-58.936-7.399-123.82-39.679-144.117-94.015h35.146c10.691 0 16.045-12.926 8.485-20.485l-67.029-67.029c-4.686-4.686-12.284-4.686-16.971 0L4.485 331.515C-3.074 339.074 2.28 352 12.971 352zM288 64c17.645 0 32 14.355 32 32s-14.355 32-32 32-32-14.355-32-32 14.355-32 32-32z" />
+        </svg>
+      </div>
+      <div class="controls card">
+        <label for="c">Center</label>
+        <input id="c"  value="c"  type="radio" name="anchor" checked>
+        <label for="n">North</label>
+        <input id="n"  value="n"  type="radio" name="anchor">
+        <label for="ne">North East</label>
+        <input id="ne"  value="ne"  type="radio" name="anchor">
+        <label for="e">East</label>
+        <input id="e"  value="e"  type="radio" name="anchor">
+        <label for="se">South East</label>
+        <input id="se"  value="se"  type="radio" name="anchor">
+        <label for="s">South</label>
+        <input id="s"  value="s"  type="radio" name="anchor">
+        <label for="sw">South West</label>
+        <input id="sw"  value="sw"  type="radio" name="anchor">
+        <label for="w">West</label>
+        <input id="w"  value="w"  type="radio" name="anchor">
+        <label for="nw">North West</label>
+        <input id="nw"  value="nw"  type="radio" name="anchor">
+      </div>
+    </main>
+    <!-- Purposely set to the wrong place to enforce putting things in an experimental subdir -->
+    <script src="../../../../net/experimental-web-platform/script.js"></script>
+    <script type="module" src="./script.js"></script>
+  </body>
+</html>

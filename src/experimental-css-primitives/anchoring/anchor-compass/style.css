@@ -1,0 +1,176 @@
+:root {
+	--anchor-size: 50px;
+	--anchored-size: 250px;
+}
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	font-family:  'Google Sans', sans-serif, system-ui;
+	background: var(--gradient-7);
+	position: relative;
+	overflow: hidden;
+}
+
+.controls {
+	display: grid;
+	grid-template-columns: auto auto;
+	gap: var(--size-2) var(--size-4);
+	min-width: 0;
+	padding: var(--size-4);
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	transition: all 0.2s ease;
+}
+
+main {
+	height: 100vh;
+	width: 100vw;
+	display: grid;
+	transition: all 0.2s ease;
+}
+
+:root:has(#c:checked) main {
+	--rotation: -60deg;
+	--coefficient: 0.5;
+	align-items: center;
+	justify-content: center;
+}
+:root:has(#n:checked) main {
+	--rotation: -160deg;
+	--coefficient: 1;
+	align-items: start;
+	justify-content: center;
+}
+:root:has(#ne:checked) main {
+	place-items: start;
+	justify-content: end;
+}
+:root:has(#e:checked) main {
+	--rotation: -60deg;
+	--coefficient: 0.5;
+	align-items: center;
+	justify-content: end;
+}
+:root:has(#se:checked) main {
+	--rotation: -60deg;
+	--coefficient: 0.5;
+	align-items: end;
+	justify-content: end;
+}
+:root:has(#s:checked) main {
+	--rotation: -60deg;
+	--coefficient: 0.5;
+	align-items: end;
+	justify-content: center;
+}
+:root:has(#s:checked) main {
+	align-items: end;
+	justify-content: center;
+}
+:root:has(#sw:checked) main {
+	--rotation: 60deg;
+	--coefficient: 0.5;
+	align-items: end;
+	justify-content: start;
+}
+:root:has(#w:checked) main {
+	--rotation: 60deg;
+	--coefficient: 0.5;
+	align-items: center;
+	justify-content: start;
+}
+:root:has(#nw:checked) main {
+	--rotation: 160deg;
+	--coefficient: 1;
+	align-items: start;
+	justify-content: start;
+}
+
+:root:has(#c:checked) .controls {
+	left: 100%;
+	transform: translate(-150%, -50%);
+}
+
+label {
+	white-space: nowrap;
+	opacity: 0.25;
+	transition: all 0.2s ease;
+	font-weight: var(--font-weight-9);
+}
+
+label:has(+ :checked) {
+	opacity: 1;
+}
+
+.anchor {
+  anchor-name: --anchor;
+	width: var(--anchor-size);
+	aspect-ratio: 1;
+	transition: all 0.2s ease;
+	position: relative;
+}
+
+.anchor:after {
+	content: "";
+	position: absolute;
+	height: calc(var(--anchored-size) * var(--coefficient, 1));
+	width: 2px;
+	background: var(--yellow-8);
+	bottom: 80%;
+	left: 50%;
+	transform-origin: 50% 100%;
+	transform: translate(-50%, 0) rotate(var(--rotation, -160deg));
+	animation: swing 1s infinite ease-in-out;
+}
+
+@keyframes swing {
+	50% {
+		transform: translate(-50%, 0) rotate(calc(var(--rotation, -160deg) * (0.99 - (0.08 * (1 - var(--coefficient, 1))))));
+	}
+}
+
+.anchored {
+	position: absolute;
+	position-fallback: --compass;
+	width: var(--anchored-size);
+	aspect-ratio: 1;
+	transition: all 0.2s ease;
+	animation: bob 1s infinite ease-in-out;
+}
+
+@keyframes bob {
+	50% {
+		transform: translateY(-2%);
+	}
+}
+
+svg {
+	width: 100%;
+	height: 100%;
+}
+
+.boat-anchor {
+	fill: var(--gray-5);
+}
+.boat {
+	fill: none;
+}
+.boat__sail {
+	fill: var(--gray-1);
+}
+.boat__wave {
+	fill: var(--blue-3);
+}
+.boat__body {
+	fill: hsl(45 70% 30%);
+}
