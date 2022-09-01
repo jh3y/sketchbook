@@ -82,4 +82,5 @@ article > * + * {
 	min-width: 0;
 	line-height: 1.5;
 	background: var(--surface-1);
+	color: var(--text-1);
 }

@@ -14,11 +14,29 @@ body {
   min-height: 100vh;
 }
 
+:where([popup]) {
+  margin: auto;
+  border-width: initial;
+  border-style: solid;
+}
+body {
+  margin: 0;
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+article {
+  padding-bottom: var(--size-4);
+}
+
 h1 {
   margin: 0;
 }
 
 article {
+  margin: 0 var(--size-4);
   padding-bottom: var(--size-4);
 }
 
@@ -28,11 +46,11 @@ article > p + p {
 
 main > header {
   margin-bottom: var(--size-4);
-  padding-inline: var(--size-10);
+  max-width: 100vw;
 }
 
 main {
-  width: var(--size-content-3);
+  max-width: var(--size-content-3);
 }
 
 header {
@@ -51,8 +69,8 @@ header {
 }
 
 h1 {
-	position: sticky;
-	top: 0;
+  position: sticky;
+  top: 0;
 }
 
 .button.fab {
@@ -63,7 +81,11 @@ h1 {
 }
 
 .fab svg {
-	fill: var(--md-sys-color-on-primary-container);
+  fill: var(--md-sys-color-on-primary-container);
+}
+
+[popup] {
+  padding: var(--size-4);
 }
 
 [popup]:open::backdrop {

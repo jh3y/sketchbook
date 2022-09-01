@@ -54,6 +54,15 @@ button[popup] {
 
 .title-bar {
   height: auto;
+  min-height: 28px;
+}
+
+.title-bar-controls button {
+  height: 21px;
+}
+
+code {
+	color: var(--text-1);
 }
 
 .field-row {

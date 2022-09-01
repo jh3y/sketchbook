@@ -137,9 +137,18 @@ nav {
 	translate: var(--offset-x, 0) 0;
 }
 
+main {
+	padding: var(--size-4);
+}
+
 .anchor svg {
 	width: 100%;
 	fill: var(--gray-3);
+}
+
+button[popuptoggletarget] {
+  box-shadow: none;
+  font-size: inherit;
 }
 
 #anchored {

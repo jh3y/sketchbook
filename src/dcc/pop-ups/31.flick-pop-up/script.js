@@ -38,7 +38,7 @@ const deactivateDrag = el => ({ type, x, y, movementX, movementY }) => {
     if (velocity > VELOCITY_THRESHOLD) {
       spinner.style.setProperty('--speed', 0)
       removeSlice(slice, false, 300)()
-    } else if (distance.y >= height * 0.9) {
+    } else if (distance.y >= height * 0.4) {
       spinner.style.setProperty('--speed', 0)
       removeSlice(slice, false, 400)()
     } else {
@@ -70,7 +70,7 @@ const handleDrag = el => ({ x, y, movementX, movementY }) => {
     y: movementY
   }
   // The limit is 10vmin in either direction.
-  const translateY = clamp(-height, height, y - spinner.dismiss.y)
+  const translateY = clamp(-height, height * 0.5, y - spinner.dismiss.y)
   // Set that via a custom property
   spinner.style.setProperty('--translate-y', translateY)
 }
@@ -111,7 +111,8 @@ const removeSlice = (slice, boring, distance = 300) => () => {
   if (boring) {
     animation = slice.querySelector('.toasts__slice-jumper').animate([
       {
-        transform: 'translateX(100%) scale(0)'
+        transform: 'translateX(200%) scale(0.5)',
+        opacity: 0,
       }
     ], {
       duration: 250,

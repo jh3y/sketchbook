@@ -77,6 +77,14 @@ body {
 	--select: 1;
 }
 
+.toasts__slice:has(button:active) ~ .toasts__slice {
+	pointer-events: none;
+}
+
+/*.toasts__slice:has(~ .toasts__slice button:active) button{
+	background: red;
+}*/
+
 
 .toasts__slice-control {
 	--tint-color: transparent;

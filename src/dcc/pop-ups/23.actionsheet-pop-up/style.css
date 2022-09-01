@@ -128,6 +128,9 @@ article > * + * {
 	width: 100%;
 	padding: var(--size-4);
 	background: var(--surface-1);
+   box-shadow: none;
+  color: var(--text-1);
+  border-radius: 0;
 }
 
 .actionsheet button {
@@ -144,6 +147,7 @@ article > * + * {
 	top: calc(var(--size-4) * 0.5);
 	left: 50%;
 	transform: translateX(-50%);
+	pointer-events: none;
 }
 
 .actionsheet__header [popuptoggletarget] {

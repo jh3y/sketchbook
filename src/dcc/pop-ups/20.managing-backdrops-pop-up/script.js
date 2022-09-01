@@ -1,5 +1,6 @@
 const OG_POP = document.querySelector('.og[popup]')
 const ADDER = document.querySelector('button[data-popup-generator]')
+const CLEARER = document.querySelector('button[data-popup-clearer]')
 const BACKDROP_ATTRIBUTE = 'data-hasbackdrop'
 
 let popUps = []
@@ -67,4 +68,12 @@ const createPopUp = () => {
   OG_POP.showPopUp()
 }
 
+const clearPopUps = () => {
+  const POPS = document.querySelectorAll('[popup]:not(.og)')
+  for (const POP of POPS) {
+    POP.hidePopUp()
+  }
+}
+
 ADDER.addEventListener('click', createPopUp)
+CLEARER.addEventListener('click', clearPopUps)

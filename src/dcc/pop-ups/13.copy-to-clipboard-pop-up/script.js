@@ -3,7 +3,7 @@ const POPUP = document.querySelector('[popup]')
 const BUTTON = document.querySelector('button')
 
 const copyToClipboard = () => {
-  if (!POPUP.matches(':top-layer')) {
+  if (!POPUP.matches(':open')) {
     // Grab the text and use the clipboard API
     navigator.clipboard.writeText(INPUT.value)
       .then(() => {

@@ -83,12 +83,16 @@ body {
 }
 
 button {
-	--fill: var(--bg);
-	--background: transparent;
-	background: var(--background);
-	width: 24px;
-	aspect-ratio: 1;
-	padding: 0;
+  --fill: var(--bg);
+  --background: transparent;
+  background: var(--background);
+  width: 24px;
+  aspect-ratio: 1;
+  padding: 0;
+  box-shadow: none;
+  height: 24px;
+  overflow: hidden;
+  border-radius: 0;
 }
 
 button:is(:active, :hover) {
