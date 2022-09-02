@@ -167,7 +167,11 @@ const removeSlice = (slice, boring, distance = 300) => () => {
         transform: 'rotate(0deg)'
       },
       {
-        transform: 'rotate(360deg)'
+        transform: 'rotate(360deg)',
+        offset: 0.8
+      },
+      {
+        transform: 'rotate(360deg)',
       }
     ], {
       duration: 500,
@@ -196,7 +200,7 @@ const removeSlice = (slice, boring, distance = 300) => () => {
       if (DRAWER.children.length === 0 && TOASTS.matches(':open')) TOASTS.hidePopUp()
     } else {
       slice.querySelector('.toasts__slice-spinner').velocity = false
-      DRAWER.insertBefore(slice, DRAWER.firstChild)
+      if (DRAWER.children.length > 1) DRAWER.insertBefore(slice, DRAWER.firstChild)
       syncDrawer()
     }
   })

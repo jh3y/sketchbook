@@ -1,7 +1,7 @@
 const SUPPORT_MESSAGES = [
   {
     modifier: 'has',
-    message: 'This browser is not supported... yet. :has is currently supported in Chrome Canary with the "Experimental Web Platform Features" flag enabled or Safari.',
+    message: 'This browser is not supported... yet. :has is currently supported in Chrome v105+, Chrome Canary with the "Experimental Web Platform Features" flag enabled or Safari.',
   },
   {
     modifier: 'popup',
