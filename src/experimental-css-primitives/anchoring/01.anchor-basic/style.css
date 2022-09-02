@@ -1,0 +1,86 @@
+:root {
+	--anchor-size: 50px;
+	--anchored-size: 250px;
+}
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	font-family:  'Google Sans', sans-serif, system-ui;
+	background: var(--gradient-7);
+	position: relative;
+	overflow: hidden;
+}
+
+main {
+	height: 100vh;
+	width: 100vw;
+	display: grid;
+	place-items: center;
+}
+
+.anchor {
+  anchor-name: --anchor;
+	width: var(--anchor-size);
+	aspect-ratio: 1;
+	transition: all 0.2s ease;
+	position: relative;
+	background: var(--blue-1);
+}
+
+.anchored {
+	position: absolute;
+	transform: translateX(var(--offset-x, -50%)) translateY(0);
+	width: var(--anchored-size);
+	aspect-ratio: 1;
+	animation: bob 1s infinite ease-in-out;
+	background: var(--blue-6);
+}
+.anchored-one {
+	--offset-x:  -50%;
+	/* No anchor-size(--anchor width) * 0.5 */
+	left: calc(anchor(--anchor left) + (
+		(anchor(--anchor right) - anchor(--anchor left)) * 0.5)
+	);
+	bottom: anchor(--anchor top);
+}
+.anchored-two {
+	--offset-x: 0;
+	--anchored-size: 150px;
+	top: anchor(--anchor bottom);
+	left: anchor(--anchor right);
+}
+
+@keyframes bob {
+	50% {
+		transform: translateX(var(--offset-x, -50%)) translateY(-2%);
+	}
+}
+
+svg {
+	width: 100%;
+	height: 100%;
+}
+
+.boat-anchor {
+	fill: var(--gray-5);
+}
+.boat {
+	fill: none;
+}
+.boat__sail {
+	fill: var(--gray-1);
+}
+.boat__wave {
+	fill: var(--blue-3);
+}
+.boat__body {
+	fill: hsl(45 70% 30%);
+}

@@ -13,6 +13,33 @@
     <link rel="stylesheet" href="../../../../net/experimental-web-platform/style.css" />
     <link rel="stylesheet" href="../../../../net/material-design-lite/mdl.css" />
     <link rel="stylesheet" href="./style.css" />
+    <script>
+      const injectStyles = styles => document.head.append(Object.assign(document.createElement('style'), {
+        innerHTML: styles
+      }))
+
+
+      injectStyles(`
+        @position-fallback --compass {
+          @try {
+            bottom: anchor(--anchor top);
+            right: anchor(--anchor left);
+          }
+          @try {
+            bottom: anchor(--anchor top);
+            left: anchor(--anchor right);
+          }
+          @try {
+            top: anchor(--anchor bottom);
+            right: anchor(--anchor left);
+          }
+          @try {
+            top: anchor(--anchor bottom);
+            left: anchor(--anchor right);
+          }
+        }
+      `)
+    </script>
   </head>
   <body>
     <div class="anchored">
