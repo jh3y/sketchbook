@@ -122,8 +122,6 @@ const removeSlice = (slice, boring, distance = 300) => () => {
   } else {
 
     // Read the current translation
-    slice.querySelector('.toasts__slice-spinner').style.setProperty('--translate-y', 0)
-    
     animation = slice.animate([
       {
         transform: `
@@ -189,6 +187,7 @@ const removeSlice = (slice, boring, distance = 300) => () => {
 
   animation.finished.then(() => {
     TOASTS.classList.remove('toasts--animating')
+    slice.querySelector('.toasts__slice-spinner').style.setProperty('--translate-y', 0)
     if (boring) {
       slice.remove()
       syncDrawer()
