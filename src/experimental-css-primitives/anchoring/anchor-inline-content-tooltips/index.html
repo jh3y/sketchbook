@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en" class="anchoring-support">
+  <head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, maximum-scale=1.0" />
+    <title>experimental-css-primitives/anchoring/anchor-compass</title>
+    <link rel="stylesheet" href="npm:normalize.css" />
+    <link rel="stylesheet" href="npm:open-props/open-props.min.css" />
+    <link rel="stylesheet" href="npm:open-props/colors-hsl.min.css" />
+    <link rel="stylesheet" href="npm:open-props/normalize.min.css" />
+    <!-- Purposely set to the wrong place to enforce putting things in an experimental subdir -->
+    <link rel="stylesheet" href="../../../../net/experimental-web-platform/style.css" />
+    <link rel="stylesheet" href="../../../../net/material-design-lite/mdl.css" />
+    <link rel="stylesheet" href="./style.css" />
+    <script>
+      const injectStyles = styles => document.head.append(Object.assign(document.createElement('style'), {
+        innerHTML: styles
+      }))
+
+      let styles = '';
+      ['fish', 'tuxedo', 'pigs', 'ipad', 'piano', 'sun'].forEach(item => styles += `
+        @position-fallback --${item}-set {
+          @try {
+            bottom: anchor(--${item} top);
+            right: anchor(--${item} left);
+          }
+          @try {
+            bottom: anchor(--${item} top);
+            left: anchor(--${item} right);
+          }
+          @try {
+            top: anchor(--${item} bottom);
+            right: anchor(--${item} left);
+          }
+          @try {
+            top: anchor(--${item} bottom);
+            left: anchor(--${item} right);
+          }
+        }
+      `)
+      injectStyles(styles)
+    </script>
+  </head>
+  <body>
+    <dialog id="fish" class="dialog" style="--position-fallback: --fish-set; --anchor: --fish;">Wet slippery thing.</dialog>
+    <dialog id="tuxedo" class="dialog" style="--position-fallback: --tuxedo-set; --anchor: --tuxedo;">Formal attire. 007?</dialog>
+    <dialog id="pigs" class="dialog" style="--position-fallback: --pigs-set; --anchor: --pigs;">They can't fly.</dialog>
+    <dialog id="ipad" class="dialog" style="--position-fallback: --ipad-set; --anchor: --ipad;">Big phone.</dialog>
+    <dialog id="piano" class="dialog" style="--position-fallback: --piano-set; --anchor: --piano;">Bigger keyboard.</dialog>
+    <dialog id="sun" class="dialog" style="--position-fallback: --sun-set; --anchor: --sun;">Big flaming ball.</dialog>
+    <main>
+      <article>
+        <header>
+          <h1>Eat fish on floor</h1>
+          <h2>Time to go zooooom jump off balcony, onto stranger's head</h2>
+        </header>
+        <p>Love <a data-tooltip="fish" style="--anchor-name: --fish;" href="#">fish</a> sleep, yet meowing chowing and wowing lick face hiss at owner, pee a lot, and meow repeatedly scratch at fence purrrrrr eat muffins and poutine until owner comes back. Chill on the couch table attack curtains or funny little cat chirrup noise shaking upright tail when standing next to you morning beauty routine of licking self destroy the blinds cat ass trophy. Waffles steal the warm chair right after you get up, for ask to go outside and ask to come inside and ask to go outside and ask to come inside but missing until dinner time. Scratch x, this cat happen now, it was too purr-fect!!! <a data-tooltip="tuxedo" href="#" style="--anchor-name: --tuxedo;">tuxedo</a> cats always looking dapper chase little red dot someday it will be mine! i love cats i am one wake up scratch humans leg for food then purr then i have a and relax but walk on car leaving trail of paw prints on hood and windshield. Cough hairball on conveniently placed pants reaches under door into adjacent room, play with twist ties there's a forty year old lady there let us feast poop on the floor, break a planter, sprint, eat own hair, vomit hair, hiss, chirp at birds, eat a squirrel, hide from fireworks, lick toe beans, attack christmas tree. Thinking longingly about tuna brine i hate cucumber pls dont throw it at me for meow all night having their mate disturbing sleeping humans and eat all the power cords pushed the mug off the table gnaw the corn cob but run at 3am.</p>
+        <p>Meow in empty rooms scratch and love and crusty butthole, find empty spot in cupboard and sleep all day. Flop over stares at human while pushing stuff off a table sleep in the bathroom sink. Thinking longingly about tuna brine. With tail in the air kitty loves <a style="--anchor-name: --pigs;" data-tooltip="pigs" href="#">pigs</a>. Hide when guests come over hiss and stare at nothing then run suddenly away fart in owners food jump around on couch, meow constantly until given food, but meow. I vomit in the bed in the middle of the night ooh, are those your $250 dollar sandals? lemme use that as my litter box for white cat sleeps on a black shirt kitty time attack feet. Purrr purr littel cat, little cat purr purr carrying out surveillance on the neighbour's dog so cats are cute i could pee on this if i had the energy find box a little too small and curl up with fur hanging out terrorize the hundred-and-twenty-pound rottweiler and steal his bed, not sorry but get suspicious of own shadow then go play with toilette paper. Fish i must find my red catnip fishy fish this is the day poop on grasses yet poop in litter box, scratch the walls stuff and things so get scared by doggo also cucumerro scoot butt on the rug. Chew <a href="#" style="--anchor-name: --ipad;" data-tooltip="ipad">iPad</a> power cord attack curtains. Poop in litter box, scratch the walls kitty scratches couch bad kitty. Commence midnight zoomies try to jump onto window and fall while scratching at wall push your water glass on the floor or floof tum, tickle bum, jellybean footies curly toes spend six hours per day washing, but still have a crusty butthole.</p>
+        <p>Cats are the world throw down all the stuff in the kitchen yet i want to go outside let me go outside nevermind inside is better. Small kitty warm kitty little balls of fur chew the plant or the dog smells bad or stare out cat door then go back inside. Do doodoo in the litter-box, clickityclack on the <a style="--anchor-name: --piano;" data-tooltip="piano" href="#">piano</a>, be frumpygrumpy. Catch mouse and gave it as a present swat turds around the house. Meow meow you are my owner so here is a dead rat attack like a vicious monster for curl into a furry donut, but roll over and <a style="--anchor-name: --sun;" data-tooltip="sun" href="#">sun</a> my belly. Prance along on top of the garden fence, annoy the neighbor's dog and make it bark try to jump onto window and fall while scratching at wall am in trouble, roll over, too cute for human to get mad. Be superior. Human is washing you why halp oh the horror flee scratch hiss bite meow and walk away and headbutt owner's knee.</p>
+      </article>
+    </main>
+    <footer>Note: If this one crashes the browser. Change the anchor-scroll property and refresh.</footer>    
+    <!-- Purposely set to the wrong place to enforce putting things in an experimental subdir -->
+    <script src="../../../../net/experimental-web-platform/script.js"></script>
+    <script type="module" src="./script.js"></script>
+  </body>
+</html>

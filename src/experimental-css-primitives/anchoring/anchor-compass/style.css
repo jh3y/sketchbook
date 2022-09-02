@@ -1,6 +1,6 @@
 :root {
-	--anchor-size: 50px;
-	--anchored-size: 250px;
+	--anchor-size: 5vmin;
+	--anchored-size: 25vmin;
 }
 
 *,

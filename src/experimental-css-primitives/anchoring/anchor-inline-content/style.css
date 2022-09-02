@@ -1,0 +1,91 @@
+:root {
+	--anchor-size: 50px;
+	--anchored-size: 250px;
+}
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	font-family:  'Google Sans', sans-serif, system-ui;
+	position: relative;
+	overflow: hidden;
+}
+
+h1 {
+	font-size: var(--font-size-8);
+	margin-bottom: var(--size-2);
+	line-height: 1;
+}
+h2 {
+	font-size: var(--font-size-4);
+	max-inline-size: 100%;
+}
+
+dialog::backdrop {
+	backdrop-filter: blur(0);
+}
+
+main {
+	resize: both;
+	overflow-x: hidden;
+	background: var(--surface-2);
+	padding: var(--size-4);
+	width: 50vw;
+	height: 50vh;
+	min-width: 300px;
+	min-height: 300px;
+}
+article {
+	width: 100%;
+	position: relative;
+}
+p {
+	max-inline-size: 100%;
+}
+header {
+	margin-bottom: var(--size-6);
+}
+article > p + p {
+	margin-top: var(--size-4);
+}
+
+a {
+	anchor-name: var(--anchor-name);
+	display: inline-block;
+}
+
+footer {
+	display: none;
+	position: fixed;
+	padding: var(--size-4);
+	background: var(--gray-0);
+	bottom: var(--size-2);
+	left: 50%;
+	font-size: var(--font-size-0);
+	transform: translateX(-50%);
+	box-shadow: var(--shadow-3);
+	border-radius: var(--radius-2);
+}
+
+.dialog {
+	position: absolute;
+	inset-inline-start: auto;
+	inset-inline-end: auto;
+	position-fallback: var(--position-fallback);
+	margin: 0;
+	white-space: nowrap;
+	/*anchor-scroll: var(--anchor);*/
+	display: block;
+	min-width: 0;
+	max-width: 100%;
+	align-items: start;
+	z-index: 2;
+	justify-content: end;
+}
