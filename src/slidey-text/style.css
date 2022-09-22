@@ -1,0 +1,92 @@
+@import "normalize.css";
+
+:root {
+  --count: 6;
+  --slide-count: 4;
+  --slide-duration: 0s;
+  --slide-step: (var(--slide-duration) / var(--count));
+  --distance: calc(50vw + 100%);
+  --color: hsl(0 0% 10%);
+  --bg: hsl(0 0% 98%);
+}
+
+@media(prefers-reduced-motion: no-preference) {
+  :root {
+    --slide-duration: 0.65s;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  overflow-x: hidden;
+  background: var(--bg);
+}
+
+h1 {
+  font-size: clamp(2rem, 10vmin, 10rem);
+  font-style: italic;
+  text-transform: uppercase;
+  position: relative;
+  margin: 0;
+  color: var(--color);
+}
+
+h1 span {
+  line-height: 0.85;
+}
+
+h1 span:not([aria-hidden]) {
+  color: transparent;
+  animation: fill 0s calc(calc(var(--count) * var(--slide-step)) + (var(--slide-duration) * var(--slide-count))) both;
+}
+
+@keyframes fill {
+  to {
+    color: var(--color);
+  }
+}
+
+h1 span[aria-hidden] {
+  --delay: calc(var(--index) * var(--slide-step));
+  position: absolute;
+  display: inline-block;
+  animation:
+    slide var(--slide-duration) var(--delay) var(--slide-count) backwards ease-in,
+    slide-to calc(var(--slide-duration) * 0.5) calc(var(--delay) + (var(--slide-duration) * var(--slide-count))) forwards cubic-bezier(.87,1.4,.87,1.4);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  /*    */
+  --block: calc(100% / var(--count));
+  clip-path: inset(
+    calc(var(--index) * (var(--block)))
+    -50%
+    calc(100% - ((var(--index) * var(--block)) + var(--block)))
+    -50%);
+}
+
+h1 span:nth-of-type(even) {
+  --distance: calc(-50vw - 100%);
+}
+
+@keyframes slide {
+  0% {
+    transform: translate(-50%, -50%) translateX(calc(var(--distance) * -1));
+  }
+  100% {
+    transform: translate(-50%, -50%) translateX(var(--distance));
+  }
+}
+
+@keyframes slide-to {
+  0% {
+    transform: translate(-50%, -50%) translateX(calc(var(--distance) * -1));
+  }
+}
+

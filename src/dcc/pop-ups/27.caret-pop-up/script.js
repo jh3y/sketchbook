@@ -1,3 +1,4 @@
+import "../../../../net/experimental-web-platform/script.js";
 /**
  * Utility methods from https://github.com/jh3y/use-caret-position
  * */

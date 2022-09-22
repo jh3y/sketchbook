@@ -1,0 +1,143 @@
+@import "normalize.css" layer(normalize);
+@import "open-props/style" layer(open-props);
+@import "open-props/normalize" layer(open-props);
+@import "../../../../net/experimental-web-platform/style.css";
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  display: grid;
+  min-height: 100vh;
+  background: var(--gradient-13);
+}
+
+html {
+  scroll-snap-type: y mandatory;
+}
+
+.ptr {
+  height: 35vh;
+/*   background: hsl(210 80% 50%);
+  border: 4px dashed hsl(10 0% 100%); */
+  view-timeline-name: --ptr;
+}
+
+main {
+  top: 0;
+  width: 100%;
+  position: relative;
+}
+
+.island-container {
+  width: 180px;
+  height: 44px;
+  top: 8px;
+  left: 50%;
+  position: fixed;
+  transform: translate(-50%, 0);
+  z-index: 2;
+  background: hsl(0 0% 15%);
+  border-radius: 22px;
+}
+
+.island {
+  height: 100%;
+  width: 100%;
+  position: relative;
+  filter: url(#fancy-goo);
+}
+
+.island__bar {
+  height: 100%;
+  width: 100%;
+  border-radius: 22px;
+  background: hsl(0 0% 15%);
+  position: absolute;
+  z-index: 2;
+}
+
+.island__ball {
+  height: 100%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: hsl(0 0% 15%);
+  position: absolute;
+  left: 50%;
+  top:0;
+  transform: translateX(-50%) translateY(0) scale(1);
+  display: grid;
+  place-items: center;
+  padding: 4px;
+}
+
+.island__ball:not(.island__ball--refreshing) {
+  animation: pull both reverse var(--ease-elastic-2);
+  animation-timeline: --ptr;
+/*   animation-time-range: exit 0% 100%; */
+  animation-delay: exit 0%;
+  animation-end-delay: exit 100%;
+}
+
+@keyframes pull {
+  to {
+    transform: translateX(-50%) translateY(200%) scale(1.25);
+  }
+}
+
+.island__ball svg {
+  fill: white;
+  height: 40%;
+  width: 40%;
+  animation: scale both reverse;
+  animation-timeline: --ptr;
+  animation-delay: exit 0%;
+  animation-end-delay: exit 100%;
+  scale: 0;
+}
+
+@keyframes scale {
+  to {
+    scale: 1;
+  }
+}
+
+.island__notch {
+  background: hsl(0 0% 8%);
+  height: 50%;
+  width: 60%;
+  border-radius: calc(44px * 0.3);
+  position: absolute;
+  z-index: 3;
+  top: 50%;
+  right: 50px;
+  transform: translate(0, -50%);
+}
+
+.island__lens {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0.5;
+  height: 28px;
+  z-index: 3;
+  filter: saturate(0.25);
+}
+
+.ptr {
+  position: relative;
+}
+
+.ender {
+  height: 10vh;
+  border: 4px dashed hsl(10 0% 100%);
+  background: hsl(210 80% 50%);
+  scroll-snap-align: end;
+}
+
+.content {
+  scroll-snap-align: start;
+  min-height: 400vh;
+}

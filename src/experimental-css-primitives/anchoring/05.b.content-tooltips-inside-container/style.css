@@ -1,0 +1,223 @@
+@import "normalize.css" layer(normalize);
+@import "open-props/style" layer(open-props);
+@import "open-props/colors-hsl" layer(open-props);
+@import "open-props/normalize" layer(open-props);
+@import "../../../../net/material-design-lite/mdl.css";
+@import "../../../../net/experimental-web-platform/style.css";
+
+@layer normalize, open-props, base, demo;
+
+@layer demo {
+  a {
+    anchor-name: var(--anchor-name);
+  }
+  dialog {
+    position-fallback: var(--position-fallback);
+  }
+
+  @position-fallback --fish-set {
+    @try {
+      bottom: anchor(--fish top);
+      right: anchor(--fish left);
+    }
+    @try {
+      bottom: anchor(--fish top);
+      left: anchor(--fish right);
+    }
+    @try {
+      top: anchor(--fish bottom);
+      right: anchor(--fish left);
+    }
+    @try {
+      top: anchor(--fish bottom);
+      left: anchor(--fish right);
+    }
+  }
+
+  @position-fallback --tuxedo-set {
+    @try {
+      bottom: anchor(--tuxedo top);
+      right: anchor(--tuxedo left);
+    }
+    @try {
+      bottom: anchor(--tuxedo top);
+      left: anchor(--tuxedo right);
+    }
+    @try {
+      top: anchor(--tuxedo bottom);
+      right: anchor(--tuxedo left);
+    }
+    @try {
+      top: anchor(--tuxedo bottom);
+      left: anchor(--tuxedo right);
+    }
+  }
+
+  @position-fallback --pigs-set {
+    @try {
+      bottom: anchor(--pigs top);
+      right: anchor(--pigs left);
+    }
+    @try {
+      bottom: anchor(--pigs top);
+      left: anchor(--pigs right);
+    }
+    @try {
+      top: anchor(--pigs bottom);
+      right: anchor(--pigs left);
+    }
+    @try {
+      top: anchor(--pigs bottom);
+      left: anchor(--pigs right);
+    }
+  }
+
+  @position-fallback --ipad-set {
+    @try {
+      bottom: anchor(--ipad top);
+      right: anchor(--ipad left);
+    }
+    @try {
+      bottom: anchor(--ipad top);
+      left: anchor(--ipad right);
+    }
+    @try {
+      top: anchor(--ipad bottom);
+      right: anchor(--ipad left);
+    }
+    @try {
+      top: anchor(--ipad bottom);
+      left: anchor(--ipad right);
+    }
+  }
+
+  @position-fallback --piano-set {
+    @try {
+      bottom: anchor(--piano top);
+      right: anchor(--piano left);
+    }
+    @try {
+      bottom: anchor(--piano top);
+      left: anchor(--piano right);
+    }
+    @try {
+      top: anchor(--piano bottom);
+      right: anchor(--piano left);
+    }
+    @try {
+      top: anchor(--piano bottom);
+      left: anchor(--piano right);
+    }
+  }
+
+  @position-fallback --sun-set {
+    @try {
+      bottom: anchor(--sun top);
+      right: anchor(--sun left);
+    }
+    @try {
+      bottom: anchor(--sun top);
+      left: anchor(--sun right);
+    }
+    @try {
+      top: anchor(--sun bottom);
+      right: anchor(--sun left);
+    }
+    @try {
+      top: anchor(--sun bottom);
+      left: anchor(--sun right);
+    }
+  }
+}
+@layer base {
+  :root {
+    --anchor-size: 50px;
+    --anchored-size: 250px;
+  }
+
+  *,
+  *:after,
+  *:before {
+    box-sizing: border-box;
+  }
+
+  body {
+    display: grid;
+    place-items: center;
+    min-height: 100vh;
+    font-family: "Google Sans", sans-serif, system-ui;
+    position: relative;
+    overflow: hidden;
+  }
+
+  h1 {
+    font-size: var(--font-size-8);
+    margin-bottom: var(--size-2);
+    line-height: 1;
+  }
+  h2 {
+    font-size: var(--font-size-4);
+    max-inline-size: 100%;
+  }
+
+  dialog::backdrop {
+    backdrop-filter: blur(0);
+  }
+
+  main {
+    resize: both;
+    overflow-x: hidden;
+    background: var(--surface-2);
+    padding: var(--size-4);
+    width: 50vw;
+    height: 50vh;
+    min-width: 300px;
+    min-height: 300px;
+    position: relative;
+  }
+  article {
+    width: 100%;
+    position: relative;
+  }
+  p {
+    max-inline-size: 100%;
+  }
+  header {
+    margin-bottom: var(--size-6);
+  }
+  article > p + p {
+    margin-top: var(--size-4);
+  }
+
+  a {
+    display: inline-block;
+  }
+
+  footer {
+    display: none;
+    position: fixed;
+    padding: var(--size-4);
+    background: var(--gray-0);
+    bottom: var(--size-2);
+    left: 50%;
+    font-size: var(--font-size-0);
+    transform: translateX(-50%);
+    box-shadow: var(--shadow-3);
+    border-radius: var(--radius-2);
+  }
+
+  .dialog {
+    position: absolute;
+    inset-inline-start: auto;
+    inset-inline-end: auto;
+    margin: 0;
+    white-space: nowrap;
+    /*anchor-scroll: var(--anchor);*/
+    display: block;
+    min-width: 0;
+    max-width: 100%;
+    align-items: start;
+    z-index: 2;
+    justify-content: end;
+  }
+}

@@ -1,0 +1,77 @@
+@import url('https://fonts.googleapis.com/css2?family=Nabla:EDPT,EHLT@0,24&display=swap');
+@import "normalize.css" layer(normalize);
+@import "open-props/style" layer(open-props);
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  background: var(--bg);
+  font-family: 'Nabla', cursive;
+}
+
+@font-palette-values --0 {
+  font-family: Nabla;
+  base-palette: 0;
+}
+
+@font-palette-values --1 {
+  font-family: Nabla;
+  base-palette: 1;
+}
+
+@font-palette-values --2 {
+  font-family: Nabla;
+  base-palette: 2;
+}
+
+@font-palette-values --3 {
+  font-family: Nabla;
+  base-palette: 3;
+}
+
+@font-palette-values --4 {
+  font-family: Nabla;
+  base-palette: 4;
+}
+
+@font-palette-values --5 {
+  font-family: Nabla;
+  base-palette: 5;
+}
+
+@font-palette-values --6 {
+  font-family: Nabla;
+  base-palette: 6;
+}
+
+h1 {
+  --palette: --0;
+  --depth: 100;
+  --highlight: 10;
+  font-size: 20vmin;
+  color: red;
+  font-palette: var(--palette);
+  font-variation-settings: "EDPT" var(--depth), "EHLT" var(--highlight);
+}
+
+.char {
+  display: inline-block;
+  animation: jump 0.25s calc(var(--char-index) * 0.1s) both var(--ease-elastic-2);
+}
+
+@keyframes jump {
+  0% {
+    scale: 0;
+    translate: 0 100%;
+    opacity: 0;
+  }
+}
+
+.tp-dfwv {
+  width: 300px;
+}

@@ -1,3 +1,5 @@
+import "../../../../net/experimental-web-platform/script.js";
+
 const clamp = (min, max, value) => Math.min(Math.max(value, min), max)
 
 const HEADER = document.querySelector('.actionsheet__header')

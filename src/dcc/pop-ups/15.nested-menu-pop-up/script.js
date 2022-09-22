@@ -1,3 +1,5 @@
+import "../../../../net/experimental-web-platform/script.js";
+
 // const injectStyles = styles => document.querySelector('#escape-hatch').innerHTML = styles
 
 // injectStyles(`

@@ -1,1 +1,1 @@
-console.info({ hello: 'world' });
+import "../../../../net/experimental-web-platform/script.js";

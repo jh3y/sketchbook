@@ -1,3 +1,9 @@
+@import "normalize.css";
+@import "open-props/style";
+@import "open-props/normalize";
+@import "open-props/colors-hsl";
+@import "open-props/buttons";
+
 :root {
 	--blur: 30px;
 	--surface-1: 0 0% 94%;

@@ -1,4 +1,4 @@
-// Polyfill
+import "../../../../net/experimental-web-platform/script.js";
 
 const HOVER_TRIGGERS = document.querySelectorAll("[popuphovertarget]");
 

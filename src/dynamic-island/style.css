@@ -1,0 +1,208 @@
+@import "normalize.css" layer(normalize);
+@import "open-props/style" layer(open-props);
+@import "open-props/normalize" layer(open-props);
+
+main {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  background: var(--gradient-11);
+}
+button {
+  padding: var(--size-2) var(--size-4);
+  border-radius: var(--radius-3);
+}
+
+.dynamic-island {
+  --height: 36px;
+  --font-size: calc(var(--height) * 0.35);
+  --camera-size: calc(3.6 * var(--height));
+  position: fixed;
+  top: var(--size-4);
+  left: 50%;
+  transform: translateX(-50%);
+  /*min-width: var(--size-10);*/
+  min-height: var(--height);
+  transition: all 0.2s ease;
+  display: inline-flex;
+  /*gap: var(--size-4);*/
+  justify-content: center;
+  align-items: center;
+  font-size: var(--font-size-1);
+  font-size: var(--font-size);
+  color: var(--gray-0);
+  /*background: grey;*/
+  /*opacity: 0.5;*/
+  display: grid;
+  align-items: center;
+  grid-template-columns: var(--auxiliary-width, 1fr) var(--camera-size) var(--auxiliary-width, 1fr);
+  grid-template-rows: var(--height) 1fr;
+}
+@media(min-width: 768px) {
+  .dynamic-island { --height: 50px; }
+}
+
+.dynamic-island:after {
+  content: "";
+  min-height: var(--height);
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, 0) scaleX(var(--scale-x, 1));
+  border-radius: calc(var(--font-size) + var(--size-2));
+  min-width: var(--camera-size);
+  width: calc(var(--width-imposed, 40) * 1px);
+  height: calc(var(--height-imposed, 40) * 1px);
+  background: var(--gray-9);
+  transition: width 0.2s var(--ease-elastic-2), height 0.2s var(--ease-elastic-2);
+  z-index: -1;
+  /*opacity: 0.8;*/
+}
+
+.dynamic-island__media {
+  display: flex;
+  animation: enter-media 0.2s 0.1s both;
+  white-space: nowrap;
+}
+
+.dynamic-island__stage--camera {
+  width: var(--camera-size);
+  display: flex;
+  justify-content: flex-end;
+  padding-right: var(--size-4);
+}
+
+.dynamic-island__lens {
+  height: calc(var(--height) * 0.5);
+  opacity: 0.5;
+  aspect-ratio: 1;
+}
+
+.dynamic-island__stage--center {
+  grid-column: 1 / -1;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+#player {
+  max-width: 100%;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+}
+
+.dynamic-island__center {
+  padding: var(--size-4);
+  animation: enter-info 0.2s 0.1s both;
+  width: 100%;
+}
+
+.dynamic-island__info {
+  padding-left: var(--size-4);
+  white-space: nowrap;
+  animation: enter-info 0.2s 0.1s both;
+}
+
+.dynamic-island__media {
+  padding-right: var(--size-4);
+  display: flex;
+  justify-content: flex-end;
+}
+
+@keyframes enter-info {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes enter-media {
+  from {
+    transform: scale(0);
+  }
+}
+
+.template {
+  display: none;
+  position: fixed;
+  opacity: 0.2;
+  transform: translate(0, -19%);
+}
+
+.battery {
+  display: flex;
+}
+
+.globe {
+  display: inline-block;
+  position: relative;
+}
+
+.globes {
+  position: relative;
+  overflow: hidden;
+  clip-path: inset(0 0 0 0);
+}
+
+.battery__icon--lightning {
+  display: inline-block;
+  animation: lightning 1s infinite;
+}
+
+@keyframes lightning {
+  0%, 10%, 20% {
+    transform:  skew(15deg);
+  }
+  5%, 15%, 25% {
+    transform:  skew(-15deg);
+  }
+  30%, 100% {
+    transform:  skew(0deg);
+  }
+}
+
+.globes__placeholder {
+  color: transparent;
+}
+
+.loader {
+  height: calc(var(--height) * 0.6);
+  aspect-ratio: 1;
+  position: relative;
+  display: grid;
+  place-items: center;
+  animation: load 1s infinite steps(var(--count));
+}
+
+@keyframes load {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loader > span {
+  width: 25%;
+  height: 10%;
+  background: white;
+  position: absolute;
+  transform: rotate(calc((360 / var(--count)) * var(--index) * 1deg)) translateX(150%);
+  opacity: calc(1 / var(--count) * var(--index));
+}
+
+.globes__translater {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  display: inline-block;
+  transform: translate(0, -50%);
+  white-space: nowrap;
+  animation: globe-spin 0.5s infinite both steps(3);
+}
+
+@keyframes globe-spin {
+  to {
+    transform: translate(-100%, -50%);
+  }
+}

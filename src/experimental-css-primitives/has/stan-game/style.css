@@ -1,4 +1,7 @@
-/*@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap");*/
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap");
+@import "normalize.css" layer(normalize);
+@import "open-props/style" layer(open-props);
+@import "../../../../net/experimental-web-platform/style.css";
 
 @property --ms-tens {
   initial-value: 0;

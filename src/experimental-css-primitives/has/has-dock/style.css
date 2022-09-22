@@ -1,3 +1,7 @@
+@import "normalize.css" layer(normalize);
+@import "open-props/style" layer(open-props);
+@import "../../../../net/experimental-web-platform/style.css";
+
 :root {
 	--lerp-0: 1;
   --lerp-1: 0.5625;

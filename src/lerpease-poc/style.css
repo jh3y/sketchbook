@@ -1,3 +1,8 @@
+@import "normalize.css";
+@import "open-props/style";
+@import "prismjs/plugins/toolbar/prism-toolbar.min.css";
+@import "prism-themes/themes/prism-night-owl.css";
+
 *,
 *:after,
 *:before {

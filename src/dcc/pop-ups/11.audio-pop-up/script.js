@@ -1,3 +1,5 @@
+import "../../../../net/experimental-web-platform/script.js";
+
 const AUDIO_POP = new Audio(new URL('./pop.mp3', import.meta.url))
 const WORD = 'Pop-up'
 const START_INDEX = WORD.length / -2 + 0.5

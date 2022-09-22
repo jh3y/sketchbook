@@ -1,0 +1,125 @@
+@import "normalize.css" layer(normalize);
+@import "open-props/style" layer(open-props);
+@import "open-props/colors-hsl" layer(open-props);
+@import "open-props/normalize" layer(open-props);
+@import "../../../../net/experimental-web-platform/style.css";
+@import "../../../../net/material-design-lite/mdl.css";
+
+@layer normalize, open-props, base, demo;
+
+@layer demo {
+  .chart__bar:nth-of-type(1) {
+    anchor-name: --anchor-1;
+  }
+
+  .chart__bar:nth-of-type(2) {
+    anchor-name: --anchor-2;
+  }
+
+  .chart__bar:nth-of-type(3) {
+    anchor-name: --anchor-3;
+  }
+
+  .chart {
+    anchor-name: --chart;
+  }
+
+  .chart__tooltip--max {
+    position: absolute;
+    left: anchor(--chart right);
+    bottom: max(
+      anchor(--anchor-1 top),
+      anchor(--anchor-2 top),
+      anchor(--anchor-3 top)
+    );
+    translate: 0 50%;
+  }
+  .chart__tooltip--min {
+    position: absolute;
+    right: calc(anchor(--chart left) + 1rem);
+    bottom: min(
+      anchor(--anchor-1 top),
+      anchor(--anchor-2 top),
+      anchor(--anchor-3 top)
+    );
+    translate: 0 50%;
+  }
+}
+@layer base {
+  :root {
+    --anchor-size: 50px;
+    --anchored-size: 250px;
+  }
+
+  *,
+  *:after,
+  *:before {
+    box-sizing: border-box;
+  }
+
+  body {
+    display: grid;
+    place-items: center;
+    align-content: center;
+    gap: 1rem;
+    min-height: 100vh;
+    font-family: "Google Sans", sans-serif, system-ui;
+    background: var(--gray-1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .actions {
+    width: 60vmin;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 1rem;
+    padding: 1rem;
+  }
+
+  input {
+    min-width: 0;
+  }
+
+  .chart {
+    width: 60vmin;
+    aspect-ratio: 4 / 3;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    padding: 1rem;
+    align-items: end;
+    border-left: 4px solid var(--gray-9);
+    border-bottom: 4px solid var(--gray-9);
+  }
+
+  .chart__bar {
+    background: var(--bg, var(--indigo-4));
+    height: calc(var(--height, 100) * 1%);
+  }
+
+  .chart__bar:nth-of-type(1) {
+    anchor-name: --anchor-1;
+    --bg: var(--blue-4);
+    height: 90%;
+  }
+
+  .chart__bar:nth-of-type(2) {
+    anchor-name: --anchor-2;
+    --bg: var(--green-4);
+    height: 25%;
+  }
+
+  .chart__bar:nth-of-type(3) {
+    anchor-name: --anchor-3;
+    --bg: var(--red-4);
+    height: 75%;
+  }
+
+  .chart__tooltip {
+    padding: var(--size-4);
+    background: var(--surface-1);
+    box-shadow: var(--shadow-4);
+    border-radius: var(--radius-2);
+  }
+}

@@ -1,3 +1,5 @@
+import "../../../../net/experimental-web-platform/script.js";
+
 const POPUP = document.querySelector("#inactivity-pop-up");
 const RING = document.querySelector("svg");
 const BUTTON = document.querySelector('button.destructive')

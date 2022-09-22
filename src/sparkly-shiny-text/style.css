@@ -1,3 +1,8 @@
+@import "normalize.css" layer(normalize);
+@import "open-props/style" layer(open-props);
+@import "open-props/colors-hsl" layer(open-props);
+@import "open-props/normalize" layer(open-props);
+
 :root {
   --color: var(--yellow-5);
   --shadow: var(--yellow-8);

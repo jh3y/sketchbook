@@ -1,3 +1,6 @@
+import "prismjs/prism.js";
+import "prismjs/plugins/toolbar/prism-toolbar.min.js";
+import "prismjs/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js";
 import { gsap } from 'gsap'
 
 let lerpease

@@ -1,0 +1,29 @@
+@import "normalize.css";
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+}
+
+h1 {
+  margin: 0;
+  opacity: 0.5;
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  font-family: sans-serif;
+  z-index: 10;
+}
+
+svg {
+  width: 25vmin;
+  aspect-ratio: 1;
+  background: white;
+  fill: hsl(299 100% 69%);
+  background: hsl(0 0% 15%);
+}

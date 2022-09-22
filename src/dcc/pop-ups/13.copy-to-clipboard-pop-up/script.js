@@ -1,3 +1,5 @@
+import "../../../../net/experimental-web-platform/script.js";
+
 const INPUT = document.querySelector('input')
 const POPUP = document.querySelector('[popup]')
 const BUTTON = document.querySelector('button')

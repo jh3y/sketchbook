@@ -1,3 +1,5 @@
+import "../../../../net/experimental-web-platform/script.js";
+
 const NAV_CONTROL = document.querySelector('button')
 
 const CONTROL_NAV = () => {

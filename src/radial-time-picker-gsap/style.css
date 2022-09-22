@@ -1,0 +1,140 @@
+@import "normalize.css" layer(normalize);
+@import "open-props/style" layer(open-props);
+
+*,
+*:after,
+*:before {
+  box-sizing: border-box;
+}
+
+body {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  font-family: "Google Sans", sans-serif, system-ui;
+  transition: background 0.25s;
+}
+
+.radial {
+  --border-width: 12px;
+  --diameter: 30vmin;
+  --handle-size: 48px;
+  width: var(--diameter);
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  position: relative;
+}
+
+.radial__ring {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
+
+.radial__handle {
+  width: var(--handle-size);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% - (var(--border-width) * 0.5));
+  transform: translate(-50%, 50%);
+  box-shadow: var(--shadow-6);
+  padding: 0;
+  border: 2px solid hsl(0 0% 85%);
+  background: var(--gray-0);
+  display: grid;
+  place-items: center;
+}
+
+.radial__handle svg {
+  width: 70%;
+  aspect-ratio: 1;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: background 0.25s;
+}
+
+.radial__handle [title=sun] {
+  fill: var(--yellow-4);
+}
+
+.radial__handle [title=moon] {
+  width: 45%;
+  fill: var(--gray-4);
+  transform: translate(-50%, -50%) scale(0);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.radial__track {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  background:
+    conic-gradient(from 270deg, var(--yellow-4) calc(var(--sun-stop, 0) * 1%), transparent calc(var(--sun-stop, 0) * 1%)),
+    conic-gradient(from 90deg, var(--gray-7) calc(var(--moon-stop, 0) * 1%), transparent calc(var(--moon-stop, 0) * 1%)),
+    var(--surface-2);
+  border-radius: 50%;
+  --stop: calc(var(--diameter) * 0.5 - var(--border-width));
+  mask: radial-gradient(transparent var(--stop), black var(--stop));
+}
+
+.radial__indicators {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+}
+
+.radial__indicator {
+  width: 48px;
+  aspect-ratio: 1;
+  position: absolute;
+  background: var(--gray-0);
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  border: 2px solid var(--gray-4);
+}
+
+.radial__indicator:first-of-type {
+  --fill: var(--yellow-4);
+  top: 50%;
+  right: 100%;
+  transform: translate(calc(50% + (var(--border-width) * 0.5)), -50%);
+}
+
+.radial__indicator:last-of-type {
+  --fill: var(--gray-4);
+  top: 50%;
+  left: 100%;
+  transform: translate(calc(-50% - (var(--border-width) * 0.5)), -50%);
+}
+
+.radial__indicator svg {
+  fill: var(--fill);
+  width: 55%;
+}
+
+.radial__time {
+  transition: color 0.25s;
+  font-variant: tabular-nums;
+}
+
+.radial__track circle {
+  stroke-width: 12px;
+  stroke: red;
+}

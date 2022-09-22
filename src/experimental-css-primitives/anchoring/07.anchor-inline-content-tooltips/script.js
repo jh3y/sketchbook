@@ -1,3 +1,5 @@
+import "../../../../net/experimental-web-platform/script.js";
+
 const ANCHORS = document.querySelectorAll('a')
 const DIALOGS = document.querySelectorAll('dialog')
 

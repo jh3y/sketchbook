@@ -6,6 +6,7 @@ const randomInRange = (min, max) =>
 		Math.random() * (Math.floor(max) - Math.ceil(min) + 1) + Math.ceil(min)
 	)
 
+// Used the randomize the order of the panels. Remove for development.
 const PANEL_CONTAINER = document.querySelector('ul')
 const PANELS = [...document.querySelectorAll('li')].sort((a, b) => {
 	if (
@@ -24,9 +25,24 @@ PANELS.forEach((panel) => PANEL_CONTAINER.appendChild(panel))
 Splitting()
 
 ScrollOut({
-	targets: ['.word', '.falling', '.scrolled', '.glare'],
+	targets: ['.word', '.falling', '.scrolled', '.glare', '.stream'],
 	scrollingElement: 'ul',
 })
+
+// Set of characters we can use to glitch through
+const GLITCH_CHARS = '`¡™£¢∞§¶•ªº–≠åß∂ƒ©˙∆˚¬…æ≈ç√∫˜µ≤≥÷/?░▒▓<>/'.split('')
+// Loop through our Splitting results and apply CSS variables.
+// The results contain an Array of spans that are the characters.
+const CHARS = document.querySelectorAll('.glitchy .char')
+for (let c = 0; c < CHARS.length; c++) {
+  // We are going to inline 10 CSS variables
+  for (let g = 0; g < 10; g++) {
+    CHARS[c].style.setProperty(
+      `--char-${g}`,
+      `"${GLITCH_CHARS[Math.floor(Math.random() * GLITCH_CHARS.length)]}"`
+    )
+  }
+}
 
 // Assign random position for random chars
 const RANDOM_CHARS = document.querySelectorAll('.random .char')

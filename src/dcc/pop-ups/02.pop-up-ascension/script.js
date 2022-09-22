@@ -1,3 +1,5 @@
+import "../../../../net/experimental-web-platform/script.js";
+
 const POPUP = document.querySelector('[popup]')
 
 POPUP.addEventListener('show', () => POPUP.innerHTML = '<del>Not</del> In top layer')

@@ -1,0 +1,51 @@
+@import "normalize.css" layer(normalize);
+@import "open-props/style" layer(open-props);
+@import "open-props/normalize" layer(open-props);
+@import "open-props/colors-hsl" layer(open-props);
+@import "../../../../net/experimental-web-platform/style.css";
+@import "../../../../net/material-design-lite/mdl.css";
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Google Sans", sans-serif;
+  min-height: 100vh;
+  background: var(--surface-2);
+}
+
+:root {
+  --anchor-width: 120px;
+  --anchor-top: 40vh;
+  --anchor-left: 20vmin;
+}
+.anchor {
+  position: absolute;
+  top: var(--anchor-top);
+  left: var(--anchor-left);
+  width: var(--anchor-width);
+}
+.tooltip {
+  position: absolute;
+  top: calc(var(--anchor-top));
+  left: calc((var(--anchor-width) * 0.5) + var(--anchor-left));
+  transform: translate(-50%, calc(-100% - 10px));
+}
+
+.tooltip {
+  box-shadow: var(--shadow-4);
+  padding: var(--size-4);
+  white-space: nowrap;
+  border-radius: var(--radius-2);
+  font-weight: var(--font-weight-6);
+  background: var(--surface-1);
+}
+
+.anchor {
+  background: var(--blue-2);
+  text-align: center;
+  font-weight: bold;
+  border-radius: var(--radius-2);
+  padding: var(--size-2);
+}

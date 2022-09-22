@@ -1,6 +1,127 @@
+@import "normalize.css" layer(normalize);
+@import "open-props/style" layer(open-props);
+@import "open-props/normalize" layer(open-props);
+@import "open-props/colors-hsl" layer(open-props);
+@import "../../../../net/experimental-web-platform/style.css";
+@import "../../../../net/material-design-lite/mdl.css";
+
 :root {
 	--anchor-size: 50px;
 	--anchored-size: 250px;
+}
+
+@position-fallback --fish-set {
+  @try {
+    bottom: anchor(--fish top);
+    right: anchor(--fish left);
+  }
+  @try {
+    bottom: anchor(--fish top);
+    left: anchor(--fish right);
+  }
+  @try {
+    top: anchor(--fish bottom);
+    right: anchor(--fish left);
+  }
+  @try {
+    top: anchor(--fish bottom);
+    left: anchor(--fish right);
+  }
+}
+
+@position-fallback --tuxedo-set {
+  @try {
+    bottom: anchor(--tuxedo top);
+    right: anchor(--tuxedo left);
+  }
+  @try {
+    bottom: anchor(--tuxedo top);
+    left: anchor(--tuxedo right);
+  }
+  @try {
+    top: anchor(--tuxedo bottom);
+    right: anchor(--tuxedo left);
+  }
+  @try {
+    top: anchor(--tuxedo bottom);
+    left: anchor(--tuxedo right);
+  }
+}
+
+@position-fallback --pigs-set {
+  @try {
+    bottom: anchor(--pigs top);
+    right: anchor(--pigs left);
+  }
+  @try {
+    bottom: anchor(--pigs top);
+    left: anchor(--pigs right);
+  }
+  @try {
+    top: anchor(--pigs bottom);
+    right: anchor(--pigs left);
+  }
+  @try {
+    top: anchor(--pigs bottom);
+    left: anchor(--pigs right);
+  }
+}
+
+@position-fallback --ipad-set {
+  @try {
+    bottom: anchor(--ipad top);
+    right: anchor(--ipad left);
+  }
+  @try {
+    bottom: anchor(--ipad top);
+    left: anchor(--ipad right);
+  }
+  @try {
+    top: anchor(--ipad bottom);
+    right: anchor(--ipad left);
+  }
+  @try {
+    top: anchor(--ipad bottom);
+    left: anchor(--ipad right);
+  }
+}
+
+@position-fallback --piano-set {
+  @try {
+    bottom: anchor(--piano top);
+    right: anchor(--piano left);
+  }
+  @try {
+    bottom: anchor(--piano top);
+    left: anchor(--piano right);
+  }
+  @try {
+    top: anchor(--piano bottom);
+    right: anchor(--piano left);
+  }
+  @try {
+    top: anchor(--piano bottom);
+    left: anchor(--piano right);
+  }
+}
+
+@position-fallback --sun-set {
+  @try {
+    bottom: anchor(--sun top);
+    right: anchor(--sun left);
+  }
+  @try {
+    bottom: anchor(--sun top);
+    left: anchor(--sun right);
+  }
+  @try {
+    top: anchor(--sun bottom);
+    right: anchor(--sun left);
+  }
+  @try {
+    top: anchor(--sun bottom);
+    left: anchor(--sun right);
+  }
 }
 
 *,

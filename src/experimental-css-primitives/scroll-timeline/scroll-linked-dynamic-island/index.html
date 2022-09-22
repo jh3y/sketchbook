@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-timeline-support has-support houdini-support">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, user-scalable=0, maximum-scale=1.0"
+    />
+    <title>experimental-css-primitives/scroll-timeline/scrolly-book</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div class="island-container">
+      <div class="island">
+        <div class="island__notch"></div>
+        <img
+          class="island__lens"
+          src="https://assets.codepen.io/605876/lens.png"
+          alt=""
+        />
+        <div class="island__bar"></div>
+        <div class="island__ball">
+          <svg viewBox="0 0 512 512" title="redo">
+            <path
+              d="M500.33 0h-47.41a12 12 0 0 0-12 12.57l4 82.76A247.42 247.42 0 0 0 256 8C119.34 8 7.9 119.53 8 256.19 8.1 393.07 119.1 504 256 504a247.1 247.1 0 0 0 166.18-63.91 12 12 0 0 0 .48-17.43l-34-34a12 12 0 0 0-16.38-.55A176 176 0 1 1 402.1 157.8l-101.53-4.87a12 12 0 0 0-12.57 12v47.41a12 12 0 0 0 12 12h200.33a12 12 0 0 0 12-12V12a12 12 0 0 0-12-12z"
+            />
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <main>
+      <div class="ptr"></div>
+      <div class="content"></div>
+      <div class="ender"></div>
+    </main>
+
+    <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+      <defs>
+        <filter id="old-goo">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
+          <feColorMatrix
+            in="blur"
+            mode="matrix"
+            values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7"
+            result="goo"
+          />
+          <feBlend in="SourceGraphic" in2="goo" />
+        </filter>
+        <filter id="fancy-goo">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
+          <feColorMatrix
+            in="blur"
+            mode="matrix"
+            values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9"
+            result="goo"
+          />
+          <feComposite in="SourceGraphic" in2="goo" operator="atop" />
+        </filter>
+      </defs>
+    </svg>
+    <script src="https://flackr.github.io/scroll-timeline/dist/scroll-timeline.js"></script>
+    <script type="module" src="./script.js"></script>
+  </body>
+</html>

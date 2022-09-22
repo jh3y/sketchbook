@@ -1,3 +1,5 @@
+import "../../../../net/experimental-web-platform/script.js";
+
 const DRAGGER = document.querySelector('button')
 const OG_POP = document.querySelector('[popup].og')
 

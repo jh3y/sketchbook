@@ -1,3 +1,13 @@
+@import "normalize.css" layer(normalize);
+@import "open-props/style" layer(open-props);
+@import "open-props/normalize" layer(open-props);
+@import "open-props/colors-hsl" layer(open-props);
+@import "../../../../net/experimental-web-platform/style.css";
+@import "../../../../net/material-design-lite/mdl.css";
+
+@import "../../../../net/material-design-lite/icons-fallback.css";
+@import "../../../../net/material-design-lite/icons.css";
+
 :root {
 	--step: 0.075s;
 	--transition: 0.15s;

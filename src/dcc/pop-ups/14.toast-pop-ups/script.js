@@ -1,3 +1,5 @@
+import "../../../../net/experimental-web-platform/script.js";
+
 const TOASTER = document.querySelector('button')
 
 const TOASTS = document.querySelector('.toasts')
@@ -87,7 +89,7 @@ const makeToast = () => {
   DRAWER.appendChild(slice)
   TOASTS.scrollTo({ left: 0, top: DRAWER.scrollHeight, behavior: 'smooth'})
   // Show the drawer
-  if (!TOASTS.matches(':top-layer')) TOASTS.showPopUp()
+  if (!TOASTS.matches(':open')) TOASTS.showPopUp()
   // Dummy types
   let timeoutId
   if (type === TOAST_TYPES.TIMED) {

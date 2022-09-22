@@ -1,3 +1,5 @@
+import "../../../../net/experimental-web-platform/script.js";
+
 const TOASTER = document.querySelector('button')
 
 const TOASTS = document.querySelector('.toasts')

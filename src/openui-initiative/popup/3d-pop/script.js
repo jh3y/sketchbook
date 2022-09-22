@@ -1,3 +1,5 @@
+import "../../../../net/experimental-web-platform/script.js";
+
 const mapRange = (inputLower, inputUpper, outputLower, outputUpper) => {
   const INPUT_RANGE = inputUpper - inputLower
   const OUTPUT_RANGE = outputUpper - outputLower

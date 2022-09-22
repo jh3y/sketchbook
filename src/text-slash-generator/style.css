@@ -1,0 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@800&display=swap');
+@import "normalize.css";
+
+body {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+}
+
+:root {
+  --font-size: clamp(2rem, 12vmin, 16rem);
+}
+
+h1 {
+  --size: calc(var(--gap, 10) * 1%);
+  line-height: 0.74;
+  letter-spacing: calc(var(--font-size) * -0.05);
+  font-family: 'Montserrat', sans-serif;
+  text-transform: uppercase;
+  margin: 0;
+  font-size: var(--font-size);
+  mask: linear-gradient(#0000 var(--size), #000 var(--size)) 0 calc(var(--font-size) * (var(--position, 0.1)));
+}
+
+
+#gap, #position {
+  width: var(--font-size);
+  position: absolute;
+  accent-color: #000;
+  top: 50%;
+  opacity: 0.25;
+}
+
+:is(#gap, #position):hover {
+  opacity: 1;
+}
+
+.font-container {
+  position: relative;
+}
+
+#gap {
+  right: calc(100% + 2rem);
+  transform: translateY(-50%) rotate(90deg) translateX(50%);
+  transform-origin: 100% 50%;
+}
+
+#position {
+  left: calc(100% + 2rem);
+  transform: translateY(-50%) rotate(90deg) translateX(-50%);
+  transform-origin: 0% 50%;
+}

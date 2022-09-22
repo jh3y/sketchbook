@@ -1,3 +1,5 @@
+import "../../../../net/experimental-web-platform/script.js";
+
 const OG_POP = document.querySelector('.og[popup]')
 const ADDER = document.querySelector('button[data-popup-generator]')
 const CLEARER = document.querySelector('button[data-popup-clearer]')

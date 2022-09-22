@@ -1,50 +1,221 @@
+@import "normalize.css" layer(normalize);
+@import "open-props/style" layer(open-props);
+@import "open-props/normalize" layer(open-props);
+@import "../../../../net/experimental-web-platform/style.css";
+
+:root {
+  --page: hsl(40 100% 98%);
+  --line: hsl(0 0% 0% / 0.1);
+  --cover: hsl(24 30% 14%);
+  --spine: hsl(10 50% 6%);
+}
+
 *,
 *:after,
 *:before {
-	box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 body {
-	min-height: 100vh;
-	font-family:  'Google Sans', sans-serif, system-ui;
-	width: 100vw;
+  margin: 0;
+  height: 100vh;
+  width: 100vw;
+  display: grid;
+  overflow: auto;
+  background: var(--gray-8);
+}
+
+.logo {
+  position: absolute;
+  bottom: 10%;
+  right: 10%;
+  height: 15%;
+  rotate: -25deg;
+  opacity: 0.65;
+}
+
+li {
+  padding: 0;
+  list-style-type: none;
+  position: relative;
+}
+
+body > li {
+  border: 2px dashed var(--gray-6);
+  background: var(--gray-8);
+}
+
+html.inline {
+  scroll-snap-type: x mandatory;
+}
+body.inline-body {
+  grid-template-columns: repeat(21, auto);
+  scroll-snap-type: x mandatory;
+  overflow-y: hidden;
+  overflow-x: scroll;
+  display: grid;
+}
+body.inline-body > li {
+  height: 100vh;
+  width: clamp(10rem, 10vw, 300px);
+}
+
+html.block {
+  scroll-snap-type: y mandatory;
+}
+body.block-body {
+  grid-template-rows: repeat(21, auto);
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+body.block-body > li {
+  width: 100vw;
+  height: clamp(10rem, 10vw, 300px);
+}
+
+body > li:not(:last-of-type) {
+  max-width: 100%;
+  scroll-snap-align: end;
+}
+
+body > li:last-of-type {
+  scroll-snap-align: start;
+  position: relative;
+}
+
+h2 {
+  position: absolute;
+  white-space: nowrap;
+  top: 50%;
+  left: 100%;
+  transform: translate(-50%, -50%) rotate(-90deg) translateY(-100%);
+  color: var(--gray-6);
+  opacity: 0.5;
+}
+
+body > li:is(:first-of-type, :last-of-type) {
+  height: 100vh;
+  width: 100vw;
+}
+
+body > li:nth-of-type(odd) {
+  /*background: var(--blue-2);*/
+}
+
+.book-placeholder {
+  --size: 30vmin;
+  position: fixed;
+  height: var(--size);
+  aspect-ratio: 3 / 4;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  perspective: 2500px;
+  transform-style: preserve-3d;
+  z-index: 2;
 }
 
 .book {
-	width: 50vmin;
-	aspect-ratio: 5.7 / 8.3;
-	background: var(--gray-8);
-	position: fixed;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	z-index: 2;
+  height: 100%;
+  width: 100%;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  transform-style: preserve-3d;
+  perspective: 2500px;
+  perspective-origin: -25% 50%;
+  scale: 0.25;
 }
 
-.ghost-track {
-	list-style-type: none;
-	padding: 0;
-	margin: 0;
-	position: absolute;
-	height: 100vh;
-	top: 0;
-	left: 0;
-	display: grid;
-	width: 100vw;
-	overflow: auto;
-	scroll-snap-type: x mandatory;
-	grid-template-columns: repeat(20, auto);
+.book__page {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  transform-style: preserve-3d;
+  max-inline-size: 100%;
+  padding: 0;
 }
 
-.ghost-track > li {
-	height: 100vh;
-	width: 100vw;
-	max-width: 100%;
-	background: var(--red-8);
-	scroll-snap-align: center;
+.book__page:not(.page--cover) {
+  height: 96%;
+  width: 96%;
+  left: 0;
+  top: 2%;
 }
 
-.ghost-track > li:nth-of-type(even) {
-	background: var(--indigo-4);
+.page--cover:after {
+  content: "";
+  top: 0;
+  height: 100%;
+  width: 4px;
+  background: var(--spine);
+  position: absolute;
 }
 
+.page--cover-back:after {
+  right: calc(100% - 2px);
+}
+
+.page--cover-front:after {
+  right: calc(100% - 2px);
+}
+
+.page__paper {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  transform-origin: 0 50%;
+  transform-style: preserve-3d;
+}
+
+.page__side {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  --start: 4.5%;
+  --end: 5%;
+  background: repeating-linear-gradient(
+        transparent var(--start),
+        var(--line) var(--start) var(--end),
+        transparent var(--end) calc(var(--end) + var(--start))
+      )
+      50% 50% / 80% 80% no-repeat,
+    var(--page, var(--gray-0));
+  backface-visibility: hidden;
+  transform: rotateY(var(--offset, 0deg));
+}
+
+.page--cover-front .page__side--front,
+.page--cover-back .page__side--back {
+  background: var(--cover);
+}
+
+.page--cover-front .page__side--back {
+  background: linear-gradient(var(--page), var(--page)) 100% 50% / 96% 96%
+      no-repeat,
+    var(--cover);
+}
+.page--cover-back .page__side--front {
+  background: linear-gradient(var(--page), var(--page)) 0% 50% / 96% 96%
+      no-repeat,
+    var(--cover);
+}
+
+.page__side--back {
+  --offset: 180deg;
+}
+
+.page__side--back .page__number {
+  left: 2%;
+}
+.page__side--front .page__number {
+  right: 2%;
+}
+
+.page__number {
+  font-family: monospace;
+  position: absolute;
+  bottom: 2%;
+  font-size: calc(var(--size) * 0.025);
+  color: hsl(0 0% 0% / 0.3);
+}

@@ -1,5 +1,8 @@
 // import Prism from 'prismjs'
 // import 'prismjs/plugins/show-invisibles/prism-show-invisibles'
+import "prismjs/prism.js";
+import "prismjs/plugins/show-invisibles/prism-show-invisibles.min.js";
+
 Prism.manual = true
 const CODE = document.querySelector('code')
 Prism.highlightElement(CODE, false, () => {

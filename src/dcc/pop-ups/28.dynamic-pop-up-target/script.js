@@ -1,3 +1,5 @@
+import "../../../../net/experimental-web-platform/script.js";
+
 const AUDIO = {
   horn: new Audio(new URL('./mlg-airhorn.mp3', import.meta.url)),
   duck: new Audio(new URL('./duck.mp3', import.meta.url)),

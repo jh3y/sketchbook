@@ -1,64 +1,130 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en" class="scroll-timeline-support has-support houdini-support">
   <head>
-    <meta charset="utf-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, maximum-scale=1.0" />
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, user-scalable=0, maximum-scale=1.0"
+    />
     <title>experimental-css-primitives/scroll-timeline/scrolly-book</title>
-    <link rel="stylesheet" href="npm:normalize.css" />
-    <link rel="stylesheet" href="npm:open-props/normalize.min.css" />
-    <link rel="stylesheet" href="npm:open-props/open-props.min.css" />
-    <!-- Purposely set to the wrong place to enforce putting things in an experimental subdir -->
-    <link rel="stylesheet" href="../../../../net/experimental-web-platform/style.css" />
     <link rel="stylesheet" href="./style.css" />
   </head>
   <body>
-    <ul class="ghost-track" aria-hidden>
-      <ul class="book">
-        <li class="book__page page">Random Page</li>
-        <li class="book__page page">Random Page</li>
-        <li class="book__page page">Random Page</li>
-        <li class="book__page page">Random Page</li>
-        <li class="book__page page">Random Page</li>
-        <li class="book__page page">Random Page</li>
-        <li class="book__page page">Random Page</li>
-        <li class="book__page page">Random Page</li>
-        <li class="book__page page">Random Page</li>
-        <li class="book__page page">Random Page</li>
-        <li class="book__page page">Random Page</li>
-        <li class="book__page page">Random Page</li>
-        <li class="book__page page">Random Page</li>
-        <li class="book__page page">Random Page</li>
-        <li class="book__page page">Random Page</li>
-        <li class="book__page page">Random Page</li>
-        <li class="book__page page">Random Page</li>
-        <li class="book__page page">Random Page</li>
-        <li class="book__page page">Random Page</li>
-        <li class="book__page page">Random Page</li>
+    <div class="book-placeholder">
+      <ul class="book" style="--count: 7">
+        <li
+          class="book__page page page--cover page--cover-front"
+          data-scroll-target="1"
+          style="--index: 0"
+        >
+          <div class="page__paper">
+            <div class="page__side page__side--front">
+              <img
+                class="logo"
+                src="https://assets.codepen.io/605876/bear-2022--white.png"
+                alt=""
+              />
+            </div>
+            <div class="page__side page__side--back"></div>
+          </div>
+        </li>
+        <li class="book__page page" data-scroll-target="2" style="--index: 1">
+          <div class="page__paper">
+            <div class="page__side page__side--front">
+              <div class="page__number">1</div>
+            </div>
+            <div class="page__side page__side--back">
+              <div class="page__number">2</div>
+            </div>
+          </div>
+        </li>
+        <li class="book__page page" data-scroll-target="3" style="--index: 2">
+          <div class="page__paper">
+            <div class="page__side page__side--front">
+              <div class="page__number">3</div>
+            </div>
+            <div class="page__side page__side--back">
+              <div class="page__number">4</div>
+            </div>
+          </div>
+        </li>
+        <li class="book__page page" data-scroll-target="4" style="--index: 3">
+          <div class="page__paper">
+            <div class="page__side page__side--front">
+              <div class="page__number">5</div>
+            </div>
+            <div class="page__side page__side--back">
+              <div class="page__number">6</div>
+            </div>
+          </div>
+        </li>
+        <li class="book__page page" data-scroll-target="5" style="--index: 4">
+          <div class="page__paper">
+            <div class="page__side page__side--front">
+              <div class="page__number">7</div>
+            </div>
+            <div class="page__side page__side--back">
+              <div class="page__number">8</div>
+            </div>
+          </div>
+        </li>
+        <li class="book__page page" data-scroll-target="6" style="--index: 5">
+          <div class="page__paper">
+            <div class="page__side page__side--front">
+              <div class="page__number">9</div>
+            </div>
+            <div class="page__side page__side--back">
+              <div class="page__number">10</div>
+            </div>
+          </div>
+        </li>
+        <li
+          class="book__page page page--cover page--cover-back"
+          data-scroll-target="7"
+          style="--index: 6"
+        >
+          <div class="page__paper">
+            <div class="page__side page__side--front"></div>
+            <div class="page__side page__side--back"></div>
+          </div>
+        </li>
       </ul>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-    </ul>
-    <!-- Purposely set to the wrong place to enforce putting things in an experimental subdir -->
-    <script src="../../../../net/experimental-web-platform/script.js"></script>
+    </div>
+    <li>
+      <h2>intro spacer</h2>
+    </li>
+    <li data-scroll-intro>
+      <h2>scale trigger</h2>
+    </li>
+    <li data-scroll-trigger="1">
+      <h2>page trigger</h2>
+    </li>
+    <li data-scroll-trigger="2">
+      <h2>page trigger</h2>
+    </li>
+    <li data-scroll-trigger="3">
+      <h2>page trigger</h2>
+    </li>
+    <li data-scroll-trigger="4">
+      <h2>page trigger</h2>
+    </li>
+    <li data-scroll-trigger="5">
+      <h2>page trigger</h2>
+    </li>
+    <li data-scroll-trigger="6">
+      <h2>page trigger</h2>
+    </li>
+    <li data-scroll-trigger="7">
+      <h2>page trigger</h2>
+    </li>
+    <li data-scroll-outro>
+      <h2>translate trigger</h2>
+    </li>
+    <li>
+      <h2>Thanks for checking this out!</h2>
+    </li>
+    <script src="https://flackr.github.io/scroll-timeline/dist/scroll-timeline.js"></script>
     <script type="module" src="./script.js"></script>
   </body>
 </html>

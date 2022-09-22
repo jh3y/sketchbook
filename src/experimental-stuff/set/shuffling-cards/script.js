@@ -1,3 +1,5 @@
+import "../../../../net/experimental-web-platform/script.js";
+
 const ESCAPE_HATCH = document.querySelector('#escape-hatch')
 
 const ADD_PAGE_TRANSITION_SPEED = (id, speed, delay = '0s') => {

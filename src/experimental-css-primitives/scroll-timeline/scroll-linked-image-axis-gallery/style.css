@@ -1,0 +1,96 @@
+@import "normalize.css" layer(normalize);
+@import "open-props/style" layer(open-props);
+@import "open-props/normalize" layer(open-props);
+@import "../../../../net/experimental-web-platform/style.css";
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  background: var(--gradient-13);
+  position: relative;
+  overflow: hidden;
+}
+
+section {
+  scroll-snap-align: center;
+  height: 100vh;
+}
+
+main {
+  view-timeline-name: --main;
+  overflow-x: hidden;
+  overflow-y: auto;
+  display: grid;
+  height: 100vh;
+  scroll-snap-type: y mandatory;
+}
+
+.snapper {
+  height: 100vh;
+  width: 100vw;
+  scroll-snap-align: start;
+}
+
+.progress {
+  height: 44px;
+  aspect-ratio: 1;
+  background: var(--indigo-6);
+  position: fixed;
+  top: var(--size-6);
+  right: var(--size-6);
+  animation: progress both linear;
+  animation-timeline: --progress;
+  animation-delay: enter -400%;
+  animation-end-delay: enter 100%;
+  z-index: 2;
+}
+
+section:last-of-type {
+  view-timeline-name: --progress;
+}
+
+@keyframes progress {
+  to {
+    rotate: 360deg;
+  }
+}
+
+section:nth-of-type(2) {
+  view-timeline-name: --horizontal;
+  height: 400vh;
+  scroll-snap-align: start;
+}
+
+article {
+  position: sticky;
+  font-size: 4rem;
+  width: 400vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  display: flex;
+  animation: faux-scroll both linear;
+  animation-timeline: --horizontal;
+  animation-delay: enter 100%;
+  animation-end-delay: exit 0%;
+}
+
+@keyframes faux-scroll {
+  to {
+    transform: translateX(calc(-100% + 100vw));
+  }
+}
+
+.article__content {
+  height: 100%;
+  width: 100%;
+}
+
+img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}

@@ -1,3 +1,8 @@
+@import "normalize.css";
+@import "open-props/normalize";
+@import "open-props/style";
+@import "prism-themes/themes/prism-night-owl.css";
+
 :root {
 	--bg: #282a36;
 }

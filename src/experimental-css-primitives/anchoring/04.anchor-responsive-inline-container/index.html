@@ -5,31 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, maximum-scale=1.0" />
     <title>experimental-css-primitives/anchoring/anchor-compass</title>
-    <link rel="stylesheet" href="npm:normalize.css" />
-    <link rel="stylesheet" href="npm:open-props/open-props.min.css" />
-    <link rel="stylesheet" href="npm:open-props/colors-hsl.min.css" />
-    <link rel="stylesheet" href="npm:open-props/normalize.min.css" />
-    <!-- Purposely set to the wrong place to enforce putting things in an experimental subdir -->
-    <link rel="stylesheet" href="../../../../net/experimental-web-platform/style.css" />
-    <link rel="stylesheet" href="../../../../net/material-design-lite/mdl.css" />
     <link rel="stylesheet" href="./style.css" />
-    <script>
-      const injectStyles = styles => document.head.append(Object.assign(document.createElement('style'), {
-        innerHTML: styles
-      }))
-      injectStyles(`
-        @position-fallback --top-to-bottom {
-          @try {
-            bottom: anchor(--anchor top);
-            left: anchor(--anchor right);
-          }
-          @try {
-            top: anchor(--anchor bottom);
-            left: anchor(--anchor right);
-          }
-        }
-      `)
-    </script>
   </head>
   <body>
     <main>
@@ -49,8 +25,6 @@
         </div>
       </div>
     </main>
-    <!-- Purposely set to the wrong place to enforce putting things in an experimental subdir -->
-    <script src="../../../../net/experimental-web-platform/script.js"></script>
     <script type="module" src="./script.js"></script>
   </body>
 </html>

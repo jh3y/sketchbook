@@ -1,0 +1,13 @@
+@import "normalize.css";
+
+svg {
+  width: 25vmin;
+  aspect-ratio: 1;
+  overflow: visible !important;
+}
+
+body {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+}

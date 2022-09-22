@@ -1,0 +1,176 @@
+@import "normalize.css" layer(normalize);
+@import "open-props/style" layer(open-props);
+@import "open-props/normalize" layer(open-props);
+@import "open-props/colors-hsl" layer(open-props);
+@import "../../../../net/experimental-web-platform/style.css";
+
+:root {
+  --size: 40vmin;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+/*   scroll-snap-type: y mandatory; */
+  height: 100vh;
+  width: 100vw;
+  overflow: auto;
+}
+
+li {
+  height: 100vh;
+  width: 100vw;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  max-inline-size: 100%;
+/*   scroll-snap-align: center; */
+}
+
+h1 {
+  max-inline-size: 100%;
+/*   white-space: nowrap; */
+}
+
+img {
+  border-radius: var(--radius-3);
+  width: var(--size);
+  aspect-ratio: 1;
+  object-fit: cover;
+}
+
+li:nth-of-type(2) {
+  view-timeline-name: circle;
+}
+
+li:nth-of-type(2) img {
+  animation: bloom both linear;
+  animation-timeline: circle;
+  animation-delay: cover 30%;
+  animation-end-delay: cover 50%;
+  clip-path: circle(0% at center);
+}
+
+@keyframes bloom {
+  to {
+    clip-path: circle(100% at center);
+  }
+}
+
+li:nth-of-type(3) {
+  view-timeline-name: curtain;
+}
+
+li:nth-of-type(3) img {
+  animation: curtains both linear;
+  animation-timeline: curtain;
+  animation-delay: cover 30%;
+  animation-end-delay: cover 50%;
+  mask: linear-gradient(45deg, transparent 50%, black 50%);
+  mask-repeat: no-repeat;
+  mask-size: 200% 200%;
+  mask-position: -100% 0;
+}
+
+@keyframes curtains {
+  to {
+    mask-position: 100% 0;
+  }
+}
+
+li:nth-of-type(4) {
+  view-timeline-name: fader;
+}
+
+li:nth-of-type(4) img {
+  animation: fade-across both linear;
+  animation-timeline: fader;
+  animation-delay: cover 30%;
+  animation-end-delay: cover 50%;
+  mask: linear-gradient(transparent 50%, black 75%);
+  mask-size: 400% 400%;
+  mask-repeat: no-repeat;
+  mask-position: 0% 0%;
+}
+
+@keyframes fade-across {
+  to {
+    mask-position: 0 calc(var(--size) * -3);
+  }
+}
+
+li:nth-of-type(5) {
+  view-timeline-name: drape;
+}
+
+li:nth-of-type(5) img {
+  animation: drape-over both linear;
+  animation-timeline: drape;
+  animation-delay: cover 30%;
+  animation-end-delay: cover 50%;
+  mask: linear-gradient(45deg, transparent 50%, black 75%);
+  mask-size: 400% 400%;
+  mask-repeat: no-repeat;
+  mask-position: var(--size) 0;
+}
+
+@keyframes drape-over {
+  to {
+    mask-position: calc(var(--size) * -3) 0;
+  }
+}
+
+li:nth-of-type(6) {
+  view-timeline-name: slide;
+}
+
+li:nth-of-type(6) img {
+  animation: slides both linear;
+  animation-timeline: slide;
+  animation-delay: cover 30%;
+  animation-end-delay: cover 50%;
+  mask:
+    linear-gradient(90deg, transparent 50%, black 50%),
+    linear-gradient(90deg, black 50%, transparent 50%),
+    linear-gradient(90deg, transparent 50%, black 50%),
+    linear-gradient(90deg, black 50%, transparent 50%),
+    linear-gradient(90deg, transparent 50%, black 50%);
+  mask-size: 200% calc(var(--size) * 0.21);
+  mask-repeat: no-repeat;
+  mask-position: /* 50 -> 0 and -100 -> -50*/
+    calc(var(--size) * -2) 0vmin,
+    var(--size) calc(var(--size) * 0.2),
+    calc(var(--size) * -2) calc(var(--size) * 0.4), 
+    var(--size) calc(var(--size) * 0.6),
+    calc(var(--size) * -2) calc(var(--size) * 0.8);
+}
+
+@keyframes slides {
+  to {
+    mask-position: /* 50 -> 0 and -100 -> -50*/
+    calc(var(--size) * -1) 0vmin,
+    0vmin calc(var(--size) * 0.2),
+    calc(var(--size) * -1) calc(var(--size) * 0.4), 
+    0vmin calc(var(--size) * 0.6),
+    calc(var(--size) * -1) calc(var(--size) * 0.8);
+  }
+}
+
+li:nth-of-type(7) {
+  view-timeline-name: box;
+}
+
+li:nth-of-type(7) img {
+  animation: box-fill both linear;
+  animation-timeline: box;
+  animation-delay: cover 30%;
+  animation-end-delay: cover 50%;
+  clip-path: inset(0 100% 100% 0 round var(--radius-3));
+}
+
+@keyframes box-fill {
+  to {
+    clip-path: inset(0 0 0 0 round var(--radius-3));
+  }
+}

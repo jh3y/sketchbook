@@ -1,0 +1,177 @@
+@import "normalize.css" layer(normalize);
+@import "open-props/style" layer(open-props);
+@import "open-props/colors-hsl" layer(open-props);
+@import "open-props/normalize" layer(open-props);
+@import "../../../../net/experimental-web-platform/style.css";
+@import "../../../../net/material-design-lite/mdl.css" layer(mdl);
+@import "../../../../net/material-design-lite/icons-fallback.css" layer(mdl);
+@import "../../../../net/material-design-lite/icons.css" layer(mdl);
+
+@layer normalize, open-props, mdl, base, demo;
+
+@layer demo {
+  dialog {
+    margin: 0;
+  }
+
+  button[popuptoggletarget] {
+    box-shadow: none;
+    font-size: inherit;
+  }
+
+  .menu {
+    border: 0;
+    background: var(--md-sys-color-surface);
+    padding: var(--size-4);
+    border-radius: var(--radius-2);
+  }
+
+  :is(a[href], button):is(:hover, :focus-visible) {
+    color: var(--blue-8);
+    text-decoration: none;
+  }
+
+  .menu ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .menu li {
+    width: 100%;
+    padding: 0;
+    text-align: left;
+  }
+
+  .nav-links {
+    display: inline-flex;
+    gap: var(--size-4);
+    align-items: center;
+    justify-content: center;
+  }
+
+  nav,
+  header {
+    position: relative;
+  }
+
+  [popuptoggletarget="products"] {
+    anchor-name: --products;
+  }
+
+  [popuptoggletarget="css"] {
+    anchor-name: --css;
+  }
+
+  #css {
+    position: absolute;
+    top: anchor(--css top);
+    left: anchor(--css right);
+  }
+
+  #products {
+    position: absolute;
+    left: anchor(--products left);
+    top: anchor(--products bottom);
+    margin: 0;
+  }
+
+  .anchor {
+    anchor-name: --anchor;
+    width: max(48px, 10vmin);
+    aspect-ratio: 1;
+    display: grid;
+    place-items: center;
+    background: red;
+    /*margin-left: -1000px;*/
+  }
+  .anchor,
+  #anchored {
+    translate: var(--offset-x, 0) 0;
+  }
+
+  .anchor svg {
+    width: 100%;
+    fill: var(--gray-3);
+  }
+
+  #anchored {
+    position: absolute;
+    position-fallback: --top-to-bottom;
+    /*left: anchor(--anchor left);
+	top: anchor(--anchor top);*/
+    /*anchor-scroll: --anchor;*/
+    margin: 0;
+    background: purple;
+    color: var(--gray-0);
+    padding: var(--size-4);
+    /* Assumptions */
+    /*transform: translateX(calc(anchor-size(--anchor width) * 1px);*/
+  }
+}
+
+@layer base {
+  *,
+  *:after,
+  *:before {
+    box-sizing: border-box;
+  }
+
+  :where([popup]) {
+    margin: auto;
+    border-width: initial;
+    border-style: solid;
+  }
+
+  body {
+    background: var(--gradient-7);
+    font-family: "Google Sans", sans-serif, system-ui;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: auto;
+    min-height: 100vh;
+  }
+
+  main h1 {
+    color: var(--gray-0);
+    max-inline-size: 100%;
+  }
+
+  main {
+    padding: var(--size-4);
+  }
+
+  .top-app-bar {
+    width: 100%;
+    grid-template-columns: 1fr;
+  }
+
+  .top-app-bar .title {
+    font-family: "Google Sans", sans-serif, system-ui;
+    flex: 0 0 auto;
+    margin-right: var(--size-8);
+  }
+
+  nav {
+    width: 100%;
+    max-width: min(100%, var(--size-lg));
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  :is(nav, .menu) :is(a[href], button) {
+    min-height: 48px;
+    color: var(--gray-8);
+    background: none;
+    place-items: center;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin: 0;
+  }
+}

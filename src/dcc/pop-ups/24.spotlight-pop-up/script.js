@@ -1,3 +1,5 @@
+import "../../../../net/experimental-web-platform/script.js";
+
 const POPUP = document.querySelector('#spotlight')
 
 // Keys are 91 && 74.

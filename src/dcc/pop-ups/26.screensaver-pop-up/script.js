@@ -1,35 +1,4 @@
-// var windowRatio = 1;
-// function setDimensions() {
-//   // Set animation duration with window ratio to get a 45° angle
-//   document.querySelector('.x-bounce').style.animationDuration = `${(4 + 2*Math.random()) * window.innerWidth / window.innerHeight}s`;
-//   document.querySelector('.y-bounce').style.animationDuration = `${4 + 2*Math.random()}s`;
-//   // Hack to deal with vh going offscreen
-//   document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
-// }
-// setDimensions();
-// window.addEventListener('resize', setDimensions);
-
-// function randomStart(e) {
-//   // Get time in seconds and chop tailing s
-//   const duration = parseFloat(e.target.style.animationDuration.slice(0, -1));
-//   // Random point in the duration * 1000 for milliseconds * 2 for alterating animation
-//   e.target.getAnimations()[0].currentTime = Math.random() * duration * 1000 * 2;
-// }
-// document.querySelector('.x-bounce').addEventListener('animationstart', randomStart);
-// document.querySelector('.y-bounce').addEventListener('animationstart', randomStart);
-
-// // Select a random color for the logo
-// const colors = ['red', 'orange', 'yellow', 'green', 'cyan', 'blue', 'purple', 'magenta'];
-// var current = Math.floor(Math.random() * (colors.length - 1));
-
-// // Change the logo color on each bounce
-// function randomColor() {
-//   const next = Math.floor(Math.random() * (colors.length - 1));
-//   current = (current === next) ? (next + 1) % (colors.length - 1) : next;
-//   document.querySelector('.logo>path').style.fill = colors[current];
-// }
-// randomColor();
-// document.querySelector('.x-bounce').addEventListener('animationiteration', randomColor);
+import "../../../../net/experimental-web-platform/script.js";
 
 const randomInRange = (min, max) =>
   Math.floor(

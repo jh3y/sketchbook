@@ -1,3 +1,5 @@
+@import "normalize.css";
+
 @property --ring-reveal {
   inherits: true;
   initial-value: 0%;

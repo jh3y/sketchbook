@@ -1,3 +1,5 @@
+import "../../../../net/experimental-web-platform/script.js";
+
 const mapRange = (inputLower, inputUpper, outputLower, outputUpper) => {
   const INPUT_RANGE = inputUpper - inputLower
   const OUTPUT_RANGE = outputUpper - outputLower
@@ -35,7 +37,7 @@ const createBlock = ({ x, y, movementX, movementY }) => {
 }
 
 const drawBlocks = () => {
-  context.clearRect(0, 0, window.innerWidth, window.innerHeight)
+  context.clearRect(0, 0, canvas.width, canvas.height)
   for (const block of blocks.filter(block => block.active)) {
     
     context.strokeStyle = context.fillStyle = `hsl(${block.hue}, 80%, 80%)`
@@ -71,3 +73,9 @@ const setUp = () => {
 }
 
 setUp()
+window.addEventListener('resize', () => {
+  if (canvas) {
+    canvas.width = window.innerWidth
+    canvas.height = window.innerHeight
+  }
+})

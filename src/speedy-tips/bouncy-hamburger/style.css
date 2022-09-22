@@ -1,7 +1,9 @@
-@layer normalize, base, utils, button;
+@import "normalize.css" layer(normalize);
+@import "open-props/style" layer(open-props);
+@import "open-props/colors-hsl" layer(open-props);
+@import "open-props/normalize" layer(open-props);
 
-/*@import 'npm:normalize.css' layer(normalize);*/
-
+@layer normalize, open-props, base, utils, button;
 
 @layer base {
   body {

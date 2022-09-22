@@ -1,3 +1,5 @@
+import "../../../../net/experimental-web-platform/script.js";
+
 const ADDER = document.querySelector('[data-addpopup]')
 const BACKDROP_ATTRIBUTE = 'data-hasbackdrop'
 

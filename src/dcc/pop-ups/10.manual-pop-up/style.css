@@ -1,7 +1,8 @@
-/* Imports for CodePen */
-/*@import 'https://unpkg.com/open-props/open-props.min.css';
-@import 'https://unpkg.com/open-props/normalize.min.css';
-@import 'https://rodydavis.github.io/material-design-lite/css/mdl.css';*/
+@import "normalize.css" layer(normalize);
+@import "open-props/style" layer(open-props);
+@import "open-props/normalize" layer(open-props);
+@import "open-props/colors-hsl" layer(open-props);
+@import "../../../../net/experimental-web-platform/style.css";
 
 @import url('https://unpkg.com/xp.css');
 

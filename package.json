@@ -31,21 +31,14 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "init": "mkcert -install && mkcert localhost",
-    "dev": "rm -rf dist && parcel --no-source-maps --port 1987 --https --cert ./localhost.pem --key ./localhost-key.pem",
+    "dev": "rm -rf dist && vite --config ./vite.config.js",
     "create": "plop"
-  },
-  "@parcel/transformer-css": {
-    "errorRecovery": true
   },
   "browserslist": "> 0.5%, chrome 95, last 2 versions, not dead",
   "devDependencies": {
     "98.css": "0.1.11",
     "@faker-js/faker": "^7.3.0",
-    "@parcel/transformer-pug": "2.7.0",
-    "@parcel/transformer-sass": "^2.7.0",
-    "@parcel/transformer-stylus": "^2.7.0",
     "color": "^4.2.3",
-    "parcel": "2.7.0",
     "plop": "^3.1.1",
     "prettier": "^2.7.1",
     "prism-themes": "^1.9.0",
@@ -57,12 +50,16 @@
     "use-caret-position": "^0.0.2"
   },
   "dependencies": {
+    "@svgdotjs/svg.filter.js": "^3.0.8",
+    "@svgdotjs/svg.js": "^3.1.2",
     "canvas-confetti": "^1.5.1",
     "dat.gui": "^0.7.9",
-    "gsap": "npm:@gsap/member",
+    "gsap": "^3.11.1",
     "normalize.css": "^8.0.1",
     "open-props": "^1.4.1",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "tweakpane": "^3.1.0",
+    "vite": "^3.1.3"
   }
 }

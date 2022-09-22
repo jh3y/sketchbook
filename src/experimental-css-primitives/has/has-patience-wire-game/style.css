@@ -1,3 +1,9 @@
+@import "normalize.css" layer(normalize);
+@import "open-props/style" layer(open-props);
+@import "open-props/normalize" layer(open-props);
+@import "open-props/colors-hsl" layer(open-props);
+@import "../../../../net/experimental-web-platform/style.css";
+
 :root {
 	--bg: var(--blue-1);
 	--size: 80vmin;

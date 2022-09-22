@@ -1,3 +1,7 @@
+@import "normalize.css" layer(normalize);
+@import "open-props/style" layer(open-props);
+@import "open-props/colors-hsl" layer(open-props);
+
 :root {
   --size: clamp(200px, 40vmin, 50rem);
 }

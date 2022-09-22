@@ -1,3 +1,7 @@
+@import "normalize.css";
+@import "open-props/style";
+@import "open-props/normalize";
+
 *,
 *:after,
 *:before {
