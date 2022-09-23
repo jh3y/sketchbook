@@ -1,2 +1,2 @@
-import "../../../../net/experimental-web-platform/script.js";
-import "../../../../net/polyfills/scroll-timeline.js";
+import "./style.css";
+import "https://flackr.github.io/scroll-timeline/dist/scroll-timeline.js";

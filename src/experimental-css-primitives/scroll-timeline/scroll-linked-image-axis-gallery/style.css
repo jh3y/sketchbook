@@ -1,7 +1,6 @@
 @import "normalize.css" layer(normalize);
 @import "open-props/style" layer(open-props);
 @import "open-props/normalize" layer(open-props);
-@import "../../../../net/experimental-web-platform/style.css";
 
 * {
   box-sizing: border-box;
