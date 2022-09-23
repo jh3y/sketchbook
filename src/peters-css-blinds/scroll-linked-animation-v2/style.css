@@ -1,0 +1,414 @@
+@import 'https://unpkg.com/normalize.css';
+
+@font-face {
+  font-family: Impact;
+  src: url(https://assets.codepen.io/605876/impact.ttf);
+}
+
+* {
+  box-sizing: border-box;
+  transform-style: preserve-3d;
+}
+:root {
+  --height: 300px;
+  --width: calc(0.6 * var(--height));
+  --glass: rgba(207, 229, 252, 0.5);
+  --shimmer: rgba(255, 255, 255, 0.95);
+  --w-1: #546043;
+  --w-2: #373c2f;
+  --f-1: #251b0e;
+  --f-2: #372915;
+  --f-3: #5c4424;
+  --f-4: #6e522b;
+  --i-1: #574638;
+  --b-1: #b5bea7;
+  --b-4: #bfc7b3;
+  --b-2: #6a7557;
+  --b-3: #353b2b;
+}
+h1 {
+  font-size: 100px;
+  text-align: center;
+  color: hsl(0 0% 100%);
+  letter-spacing: -1px;
+  position: absolute;
+  width: 100%;
+  top: 100%;
+  margin: 0;
+}
+body {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: rgba(255, 230, 153, 0.5);
+  font-family: 'Impact', sans-serif;
+}
+.cuboid {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  pointer-events: none;
+}
+.cuboid__side {
+  pointer-events: none;
+}
+.cuboid__side:nth-of-type(1) {
+  height: calc(var(--thickness) * 1px);
+  width: 100%;
+  position: absolute;
+  top: 0;
+  transform: translate(0, -50%) rotateX(90deg);
+}
+.cuboid__side:nth-of-type(2) {
+  height: 100%;
+  width: calc(var(--thickness) * 1px);
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translate(50%, -50%) rotateY(90deg);
+}
+.cuboid__side:nth-of-type(3) {
+  width: 100%;
+  height: calc(var(--thickness) * 1px);
+  position: absolute;
+  bottom: 0;
+  transform: translate(0%, 50%) rotateX(90deg);
+}
+.cuboid__side:nth-of-type(4) {
+  height: 100%;
+  width: calc(var(--thickness) * 1px);
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translate(-50%, -50%) rotateY(90deg);
+}
+.cuboid__side:nth-of-type(5) {
+  height: 100%;
+  width: 100%;
+  transform: translate3d(0, 0, calc(var(--thickness) * 0.5px));
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.cuboid__side:nth-of-type(6) {
+  height: 100%;
+  width: 100%;
+  transform: translate3d(0, 0, calc(var(--thickness) * -0.5px)) rotateY(180deg);
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.scene {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate3d(-50%, -50%, 100vmin) rotateX(-24deg) rotateY(24deg);
+}
+.window {
+  height: var(--height);
+  width: var(--width);
+  position: relative;
+}
+.glass {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: linear-gradient(var(--i-1), var(--i-1)) 0 0/100% 5% no-repeat,
+    linear-gradient(var(--i-1), var(--i-1)) 0 0/5% 100% no-repeat,
+    linear-gradient(var(--i-1), var(--i-1)) 100% 0/5% 100% no-repeat,
+    linear-gradient(var(--i-1), var(--i-1)) 0 100%/100% 5% no-repeat,
+    linear-gradient(var(--i-1), var(--i-1)) 0 64%/100% 8% no-repeat,
+    linear-gradient(
+      130deg,
+      transparent 0 15%,
+      var(--shimmer) 16% 35%,
+      transparent 36% 40%,
+      var(--shimmer) 41% 44%,
+      transparent 45%
+    ),
+    var(--glass);
+}
+.frame {
+  position: absolute;
+}
+.frame--top {
+  width: 130%;
+  height: 5%;
+  bottom: 100%;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
+.frame--sill {
+  width: 120%;
+  height: 5%;
+  top: 100%;
+  left: 50%;
+  background: var(--f-4);
+  transform: translate3d(-50%, 0, 12px);
+}
+.frame--left {
+  width: 10%;
+  height: 100%;
+  right: 100%;
+  top: 0;
+}
+.frame--right {
+  width: 10%;
+  height: 100%;
+  left: 100%;
+  top: 0;
+}
+.wall {
+  position: absolute;
+  height: 200vmax;
+  width: 200vmax;
+  background: linear-gradient(
+      var(--w-1) 52%,
+      var(--f-1) 52% 53%,
+      var(--w-2) 53% 100%
+    ),
+    var(--w-1);
+}
+.wall--top {
+  bottom: calc(50% + (var(--height) * 0.5));
+  left: 50%;
+  transform: translate3d(-50%, 0, 10px);
+  background: var(--w-1);
+}
+.wall--bottom {
+  top: calc(50% + (var(--height) * 0.5));
+  left: 50%;
+  transform: translate3d(-50%, 0, 10px);
+  background: var(--w-2);
+}
+.wall--left {
+  right: calc(50% + (var(--width) * 0.5));
+  top: 50%;
+  transform: translate3d(0, -50%, 10px);
+}
+.wall--right {
+  left: calc(50% + (var(--width) * 0.5));
+  top: 50%;
+  transform: translate3d(0, -50%, 10px);
+}
+.blinds {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.container {
+  height: 100%;
+  width: 100%;
+  transform: translate3d(0, 0, 12px) scale(1);
+  position: relative;
+  transform-origin: 100% 0;
+}
+.blind {
+  width: 100%;
+  height: 2.5%;
+  background: linear-gradient(
+    var(--b-3) 0 10%,
+    var(--b-1) 10% 90%,
+    var(--b-3) 90% 100%
+  );
+  transform: translate(
+    0,
+    calc(((-95 * (var(--index, 0))) * var(--open, 0.95)) * 1%)
+  );
+}
+/* .peter {
+  position: absolute;
+  top: 100%;
+  height: 140px;
+  right: 0%;
+} */
+
+.peter__container {
+  width:  var(--width);
+  aspect-ratio:  1;
+  position: fixed;
+  bottom: 50%;
+  left: 50%;
+  transform: translate3d(75%, 50%, 120vmin);
+}
+
+.peter,
+.peter__hat {
+  overflow: visible !important;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  height: 120px;
+  width: 120px;
+  transform: translate(-50%, -50%);
+}
+.peter__hat {
+  animation: drop both;
+  animation-timeline: --trigger;
+  animation-delay: enter 50%;
+  animation-end-delay: enter 100%;
+  opacity: 0;
+  transform: translate(-50%, -150%);
+}
+
+@keyframes drop {
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.peter__border {
+  stroke: #b3b3b3;
+}
+.peter__backdrop {
+  fill: #b8e0b8;
+}
+
+.cord {
+  position: absolute;
+  top: 0;
+  right: 16px;
+  width: calc(var(--width) * 0.02);
+  transform: translate3d(50%, 0, 1vmin);
+  background: #fafafa;
+  height: 150%;
+}
+.cord--dummy {
+  background: #dbdbdb;
+  right: 12px;
+  height: calc(var(--height) * 0.84);
+}
+.cord__handle {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform-origin: 50% 100%;
+  transform: translate(-54%, 4%) scale(0.65);
+  height: 40px;
+  width: 24px;
+  clip-path: polygon(0 100%, 100% 100%, 80% 0, 20% 0);
+  -webkit-clip-path: polygon(0 100%, 100% 100%, 80% 0, 20% 0);
+  pointer-events: none;
+  background: var(--b-3);
+}
+.cord__handle:after {
+  clip-path: polygon(0 100%, 100% 100%, 80% 0, 20% 0);
+  -webkit-clip-path: polygon(0 100%, 100% 100%, 80% 0, 20% 0);
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: var(--b-2);
+  transform: scale(0.75);
+}
+
+.window-frame div {
+  background: var(--f-1);
+}
+.window-frame div:nth-of-type(1) {
+  background: var(--f-1);
+}
+.window-frame div:nth-of-type(2) {
+  background: var(--f-2);
+}
+.window-frame div:nth-of-type(3) {
+  background: var(--f-3);
+}
+.window-frame div:nth-of-type(4) {
+  background: var(--f-2);
+}
+.window-frame div:nth-of-type(5) {
+  background: var(--f-3);
+}
+.window-frame div:nth-of-type(6) {
+  background: var(--f-1);
+}
+.window-frame--top {
+  --thickness: 50;
+}
+.window-frame--right {
+  --thickness: 40;
+}
+.window-frame--left {
+  --thickness: 40;
+}
+.window-frame--bottom {
+  --thickness: 40;
+}
+.window-frame--sill {
+  --thickness: 60;
+}
+
+/* Scroll stuff */
+/* Map this to a view-timeline */
+.peter {
+  animation: peek both;
+  animation-timeline: --trigger;
+  animation-delay: enter 0%;
+  animation-end-delay: enter 50%;
+  transform: translate(-50%, -50%) scale(0);
+}
+
+@keyframes peek {
+  to {
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+.cord:not(.cord--dummy) {
+  height: 50%;
+  animation: draw both;
+  animation-timeline: --trigger;
+  animation-delay: enter 0%;
+  animation-end-delay: enter 100%;
+}
+
+@keyframes draw {
+  to {
+    height: 96%;
+  }
+}
+
+.blind {
+  transform: translate(
+    0,
+    calc(((-95 * (var(--index, 0))) * 0) * 1%)
+  );
+  animation: slide both;
+  animation-timeline: --trigger;
+  animation-delay: enter 0%;
+  animation-end-delay: enter 100%;
+}
+
+@keyframes slide {
+  to {
+    transform: translate(
+      0,
+      calc(((-95 * (var(--index, 0))) * 1) * 1%)
+    );
+  }
+}
+
+/* An overlaid window element on the window frame */
+.scroll-trigger {
+  position: absolute;
+  height: 100vh;
+  width: 100vw;
+  overflow: auto;
+  z-index: 2;
+}
+.scroll-trigger__content {
+  view-timeline-name: --trigger;
+  margin-top: 100vh;
+  height: 100vh;
+  width: 100%;
+}
