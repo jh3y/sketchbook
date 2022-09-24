@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, user-scalable=0, maximum-scale=1.0"
+    />
+    <title>experimental-css-primitives/scroll-timeline/scrolly-book</title>
+  </head>
+  <body>
+    <header>
+      <a href="#">
+        <picture>
+          <source srcset="./bear--light.svg" media="(prefers-color-scheme: dark)"/>
+          <img class="logo" src="./bear--dark.svg" alt="" />
+        </picture>
+      </a>
+      <button class="material-icons">
+        <span>shopping_cart</span>
+      </button>
+    </header>
+    <div class="search-wrapper">
+      <div class="search-bar">
+        <div class="search-controls">
+          <button class="magnifier material-icons">
+            <span>search</span>
+          </button>
+          <input type="text" placeholder="Search for anything">
+          <button class="camera material-icons">
+            <span>photo_camera</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <main>
+      <ul>
+        <li class="skeleton">
+          <div class="skeleton__block">
+            <img src="https://images.unsplash.com/photo-1446482972539-0ed52b3e9520?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=500&ixid=MnwxfDB8MXxyYW5kb218MHx8bGFuZHNjYXBlfHx8fHx8MTY2NDA0NjcxMg&ixlib=rb-1.2.1&q=80&utm_campaign=api-credit&utm_medium=referral&utm_source=unsplash_source&w=500" alt="">
+          </div>
+          <div class="skeleton__block"></div>
+          <div class="skeleton__block"></div>
+        </li>
+        <li class="skeleton">
+          <div class="skeleton__block">
+            <img src="https://images.unsplash.com/photo-1559827291-72ee739d0d9a?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=500&ixid=MnwxfDB8MXxyYW5kb218MHx8bGFuZHNjYXBlfHx8fHx8MTY2NDA0NjcxNQ&ixlib=rb-1.2.1&q=80&utm_campaign=api-credit&utm_medium=referral&utm_source=unsplash_source&w=500" alt="">
+          </div>
+          <div class="skeleton__block"></div>
+          <div class="skeleton__block"></div>
+        </li>
+        <li class="skeleton">
+          <div class="skeleton__block">
+            <img src="https://images.unsplash.com/photo-1446482972539-0ed52b3e9520?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=500&ixid=MnwxfDB8MXxyYW5kb218MHx8bGFuZHNjYXBlfHx8fHx8MTY2NDA0NjcxNw&ixlib=rb-1.2.1&q=80&utm_campaign=api-credit&utm_medium=referral&utm_source=unsplash_source&w=500" alt="">
+          </div>
+          <div class="skeleton__block"></div>
+          <div class="skeleton__block"></div>
+        </li>
+        <li class="skeleton">
+          <div class="skeleton__block">
+            <img src="https://images.unsplash.com/reserve/O7A9fAvYSXC7NTdz8gLQ_IMGP1039.jpg?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=500&ixid=MnwxfDB8MXxyYW5kb218MHx8bGFuZHNjYXBlfHx8fHx8MTY2NDA0NjcxOA&ixlib=rb-1.2.1&q=80&utm_campaign=api-credit&utm_medium=referral&utm_source=unsplash_source&w=500" alt="">
+          </div>
+          <div class="skeleton__block"></div>
+          <div class="skeleton__block"></div>
+        </li>
+        <li class="skeleton">
+          <div class="skeleton__block">
+            <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=500&ixid=MnwxfDB8MXxyYW5kb218MHx8bGFuZHNjYXBlfHx8fHx8MTY2NDA0NjcyMA&ixlib=rb-1.2.1&q=80&utm_campaign=api-credit&utm_medium=referral&utm_source=unsplash_source&w=500" alt="">
+          </div>
+          <div class="skeleton__block"></div>
+          <div class="skeleton__block"></div>
+        </li>
+      </ul>
+    </main>
+    <script src="https://flackr.github.io/scroll-timeline/dist/scroll-timeline.js"></script>
+    <script type="module" src="./script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,207 @@
+@import "normalize.css" layer(normalize);
+@import "open-props/style" layer(open-props);
+@import "open-props/normalize" layer(open-props);
+@import "open-props/colors-hsl" layer(open-props);
+
+@import "../../../../net/material-design-lite/icons-fallback.css";
+@import "../../../../net/material-design-lite/icons.css";
+
+body {
+  background: var(--surface-1);
+  min-height: 200vh;
+  overflow-x: hidden;
+}
+
+:root {
+  --header-height: 80px;
+}
+
+header {
+  /* background: var(--surface-2); */
+  max-width: 100%;
+  width: var(--size-md);
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  view-timeline-name: --header;
+  height: var(--header-height);
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin: 0 auto;
+}
+
+header button {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--surface-2);
+  color: var(--text-1);
+}
+
+a img {
+  width: 64px;
+  aspect-ratio: 1;
+}
+
+body {
+  padding-top: var(--header-height);
+}
+
+header a {
+  padding: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: fade both;
+  animation-timeline: --search-bar;
+  animation-delay: exit -100%;
+  animation-end-delay: exit -50%;
+}
+
+@keyframes fade {
+  to {
+    opacity: 0;
+  }
+}
+
+.search-bar {
+  z-index: 2;
+  height: var(--header-height);
+  background: var(--surface-1);
+  width: var(--size-md);
+  view-timeline-name: --search-bar;
+}
+
+@keyframes shrink {
+  to {
+    width: calc(100% - 48px - 0.5rem);
+  }
+}
+
+.search-wrapper {
+  position: sticky;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  background: var(--surface-1);
+  max-width: calc(100vw);
+  animation: shadow both;
+  animation-timeline: --main;
+  animation-delay: exit -50%;
+  animation-end-delay: exit 10%;
+}
+
+@keyframes shadow {
+  to {
+    box-shadow: var(--shadow-3);
+  }
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  max-width: calc(100vw);
+}
+
+.search-controls {
+  width: 100%;
+  position: relative;
+  animation: shrink both ease-in-out;
+  animation-timeline: --search-bar;
+  animation-delay: exit -100%;
+  animation-end-delay: exit -40%;
+}
+
+.search-controls button {
+  background: transparent;
+  color: var(--text-1);
+}
+
+.magnifier {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  width: 48px;
+  height: 48px;
+  display: inline-block;
+  transform: translateY(-50%);
+}
+
+.camera {
+  top: 50%;
+  position: absolute;
+  right: 1rem;
+  width: 48px;
+  height: 48px;
+  display: inline-block;
+  transform: translateY(-50%);
+}
+
+input {
+  width: 100%;
+  height: 48px;
+  border-radius: 24px;
+  line-height: 48px;
+  border: 4px solid var(--text-1);
+  padding: 0 calc(48px + 1rem);
+  background: var(--surface-2);
+}
+
+main {
+  width: var(--size-md);
+  max-width: 100%;
+  margin: 0 auto;
+}
+li:first-of-type {
+  view-timeline-name: --main;
+}
+
+@keyframes shadow {
+  to {
+    box-shadow: var(--shadow-3);
+  }
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+ul {
+  padding-top: var(--size-8);
+  display: grid;
+  gap: var(--size-4);
+}
+
+.skeleton {
+  --surface: var(--surface-2);
+  --block: var(--surface-3);
+  --padding: var(--size-4);
+  padding: var(--padding);
+  gap: var(--padding);
+  width: 100%;
+  display: grid;
+  grid-template: 1fr 1fr / 25% 1fr;
+  background: var(--surface);
+  max-inline-size: 100%;
+}
+
+.skeleton__block {
+  background: var(--block);
+}
+
+.skeleton__block:first-of-type {
+  grid-row: 1 / -1;
+  aspect-ratio: 1;
+}
+
+.skeleton__block:last-of-type {
+  width: 65%;
+}
