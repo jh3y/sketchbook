@@ -1,0 +1,147 @@
+@import "normalize.css" layer(normalize);
+@import "open-props/style" layer(open-props);
+@import "open-props/normalize" layer(open-props);
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+	max-inline-size: 100%;
+}
+
+body {
+	display: grid;
+	place-items: center;
+	height: 100vh;
+	overflow: auto;
+	font-family:  'Google Sans', sans-serif, system-ui;
+}
+
+ul {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+
+li {
+	height: 100vh;
+	width: 100vw;
+	padding: 0;
+}
+
+ul.backdrops {
+	position: fixed;
+	inset: 0;
+	z-index: -1;
+}
+
+ul.contents {
+	height: 100vh;
+	scroll-snap-type: y mandatory;
+	overflow: auto;
+}
+
+/* Set up the ViewTimelines */
+.contents > li:nth-of-type(1) {
+	view-timeline-name: --one;
+}
+.contents > li:nth-of-type(2) {
+	view-timeline-name: --two;
+}
+.contents > li:nth-of-type(3) {
+	view-timeline-name: --three;
+}
+.contents > li:nth-of-type(4) {
+	view-timeline-name: --four;
+}
+
+.contents > li {
+	display: grid;
+	place-items: center;
+	scroll-snap-align: center;
+}
+
+h2 {
+	font-size: var(--font-size-fluid-3);
+	color: var(--gray-0);
+	/* display: none; */
+	background: hsl(0 0% 0% / 0.75);
+	padding: 1rem;
+}
+
+img {
+	height: 100%;
+	width: 100%;
+	object-fit: cover;
+	filter: grayscale(0.5);
+}
+
+.backdrops li {
+	position: absolute;
+	inset: 0;
+}
+
+.backdrops li:not(:first-of-type) img {
+	transform: translateY(100%);
+}
+
+.scroller {
+	--radius: -2.25rem;
+	text-transform: uppercase;
+	color: var(--gray-0);
+	font-weight: bold;
+	position: fixed;
+	top: 1rem;
+	right: 1rem;
+	aspect-ratio: 1;
+	width: 6rem;
+}
+
+.scroller:before {
+	content: "";
+	position: absolute;
+	display: block;
+	inset: 0;
+	border-radius: 50%;
+	border: 1.5rem solid hsl(0 0% 0% / 0.75);
+}
+
+.scroller .char {
+	display: inline-block;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%) rotate(calc((360 / var(--char-total)) * var(--char-index) * 1deg)) translateY(var(--radius));
+}
+
+/* Do I need to build different timelines but apply to
+ * different elements to get things working?
+*/
+
+/* .backdrops > li:nth-of-type(1) img {
+	animation: exit both;
+	animation-timeline: --one;
+	animation-delay: exit 0%;
+	animation-end-delay: exit 100%;
+}
+
+.backdrops > li:nth-of-type(2) img {
+	animation: enter both, exit both;
+	animation-timeline: --one, --two;
+	animation-delay: exit 0%, exit 0%;
+	animation-end-delay: exit 75%, exit 100%;
+}
+
+
+
+@keyframes exit {
+	100% {
+		transform: translateY(-100%);
+	}
+}
+
+@keyframes enter {
+	100% {
+		transform: translateY(0%);
+	}
+} */
