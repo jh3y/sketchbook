@@ -1,0 +1,110 @@
+- const COLUMNS = 7
+- const CELLS = 6
+- const DISCS = COLUMNS * CELLS
+form
+  .land-of-three
+    button.game-reset.faux-button(type="reset" title="Reset")
+      svg(class="reset" viewBox="0 0 24 24")
+        path(d="M17.65,6.35C16.2,4.9 14.21,4 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20C15.73,20 18.84,17.45 19.73,14H17.65C16.83,16.33 14.61,18 12,18A6,6 0 0,1 6,12A6,6 0 0,1 12,6C13.66,6 15.14,6.69 16.22,7.78L13,11H20V4L17.65,6.35Z")
+    .screen.screen--intro
+      .dialog
+        .dialog__content.dialog__content--intro
+          h1 :has Connect 4?
+          p.
+            You know the drill!
+          label.faux-button(for="dismiss") Start Game
+    .board-container
+      .board(style=`--rows: ${CELLS}; --columns: ${COLUMNS}; --disc-count: ${DISCS};`)
+        .board__aesthetics
+          .board__cage
+            .cuboid
+              .cuboid__side
+              .cuboid__side
+              .cuboid__side
+              .cuboid__side
+              .cuboid__side
+              .cuboid__side
+          .board__leg.board__leg--left
+            .leg
+              .leg__upright
+                .cuboid
+                  .cuboid__side
+                  .cuboid__side
+                  .cuboid__side
+              .leg__foot
+                .cuboid
+                  .cuboid__side
+                  .cuboid__side
+                  .cuboid__side
+          .board__leg.board__leg--right
+            .leg
+              .leg__upright
+                .cuboid
+                  .cuboid__side
+                  .cuboid__side
+                  .cuboid__side
+              .leg__foot
+                .cuboid
+                  .cuboid__side
+                  .cuboid__side
+                  .cuboid__side
+        - let c = 0
+        while c < COLUMNS
+          .board__column
+            - let i = CELLS
+            <!-- I tells you the row or the distance being travelled -->
+            while i > 0
+              - const INDEX = c * CELLS + i
+              .board__cell(class=`move-${INDEX}` style=`--row: ${(CELLS + 1) - i};`)
+                input(type='checkbox' id=`s-${INDEX}` data-row=`s-${(CELLS + 1) - i}` data-column=`s-${c + 1}`)
+                input(type='checkbox' id=`p-${INDEX}` data-row=`p-${(CELLS + 1) - i}` data-column=`p-${c + 1}`)
+                .board__disc.disc
+                  .disc__piece
+                    .cuboid
+                      - let pr = 0
+                      while pr < 3
+                        .cuboid__side
+                        - pr++
+              - i--
+            - c++
+        .win
+          .screen
+            .dialog
+              .dialog__content.dialog__content--win
+                h1 Winner! <span class="winner">🎉</span>
+                .win-disc
+                button.faux-button(type="reset" title="Reset Board") Play again
+              .dialog__content.dialog__content--draw
+                h1 Really?
+                button.faux-button(type="reset" title="Reset Board") Replay
+        .board__controls
+          .controls
+            - let d = 0
+            while d < COLUMNS
+              .board__column
+                .board__disc.disc.disc--ghost
+                  .disc__piece
+                    - let g = 0
+                    .cuboid
+                      while g < 3
+                        .cuboid__side
+                        - g++
+                - let f = CELLS
+                <!-- I tells you the row or the distance being travelled -->
+                while f > 0
+                  - const INDEX = d * CELLS + f
+                  .board__labels(data-for=`move-${INDEX}` class=`move-${INDEX}` style=`--row: ${(CELLS + 1) - f};`)
+                    .cuboid
+                      - let t = 0
+                      while t < 3
+                        .cuboid__side
+                            if t === 2
+                              .move-controls
+                                label.board__move(for=`s-${INDEX}`)
+                                label.board__move(for=`p-${INDEX}`)
+                        - t++
+                        
+                    - f--
+              - d++
+  button(type="reset") Reset
+input(type="checkbox" id="dismiss")
