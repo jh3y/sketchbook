@@ -137,6 +137,43 @@ tr:hover ~ tr:has([id*=from]:checked)
 	--color: 0 0% 100%;
 }
 
+/* When you have a "to" and "from" but you hover something before "to" */
+/* Updating "to" */
+/* All the cells on rows between checked "to" and :hover */
+:root:has([id*=from]:checked):has([id*=to]:checked):has(.calendar__cell:hover)
+tr:has([id*=to]:checked) ~ tr:not(:hover):has(~ tr:hover)
+.calendar__cell,
+/* All the cells on the hover row after the "to" */
+:root:has([id*=from]:checked):has([id*=to]:checked):has(.calendar__cell:hover)
+tr:has([id*=to]:checked):hover
+.calendar__cell:has([id*=to]:checked) ~ .calendar__cell:not(:hover):has(~ .calendar__cell:hover),
+/* All cells preceding the :hover on a non-selected row */
+:root:has([id*=from]:checked):has([id*=to]:checked):has(.calendar__cell:hover)
+tr:has([id*=to]:checked) ~ tr:hover
+.calendar__cell:not(:hover):has(~ .calendar__cell:hover),
+/* All cells after the "to" when a succeeding row is hovered */
+:root:has([id*=from]:checked):has([id*=to]:checked):has(.calendar__cell:hover)
+tr:has([id*=to]:checked):has(~ tr:hover)
+.calendar__cell:has([id*=to]:checked) ~ .calendar__cell
+/* All cells on succeeding rows that don't contain the "from" */
+/* :root:has([id*=from]:checked):has([id*=to]:checked):has(.calendar__cell:hover)
+tr:hover ~ tr:has(~ tr [id*=from]:checked)
+.calendar__cell, */
+/* All cells preceding the "from" on the checked row */
+/* :root:has([id*=from]:checked):has([id*=to]:checked):has(.calendar__cell:hover)
+tr:hover:has([id*=from]:checked)
+.calendar__cell:hover:has(~ .calendar__cell > :checked) ~
+.calendar__cell:has(~ .calendar__cell > :checked), */
+/* Also need to select cells preceding the "from" on the checked row when another is hovered... */
+/* :root:has([id*=from]:checked):has([id*=to]:checked):has(.calendar__cell:hover)
+tr:hover ~ tr:has([id*=from]:checked)
+.calendar__cell:has(~ .calendar__cell > :checked) */
+{
+	--bbg: 5 100% 50%;
+	--alpha: 1;
+	--color: 0 0% 100%;
+}
+
 /* All the selected range goes here */
 /* Cells that succeed the "from" point  and not the "to" point. Don't ask how that last line works... */
 :root:has([id*=from]:checked):has([id*=to]:checked)
