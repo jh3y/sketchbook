@@ -108,9 +108,9 @@ tr:has([id*=from]:checked):has(~ tr:hover)
 }
 
 /* These rules prevent it from going purple past the :hover cell */
-:root:has([id*=from]:checked):not(:has([id*=to]:checked)):has(.calendar__cell:hover)
+/* :root:has([id*=from]:checked):not(:has([id*=to]:checked)):has(.calendar__cell:hover)
 tr:has([id*=from]:checked) ~
-tr .calendar__cell:not(:hover),
+tr .calendar__cell:not(:hover), */
 :root:has([id*=from]:checked):not(:has([id*=to]:checked)):has(.calendar__cell:hover)
 tr:has([id*=from]:checked) ~
 tr:not(:has(:checked))
@@ -119,6 +119,17 @@ tr:not(:has(:checked))
 tr:has(.calendar__cell:hover) ~
 tr:not(:has(:checked)) .calendar__cell:not(:hover) {
 	--bbg: 10 80% 80%;
+	--color: 0 0% 10%;
+}
+
+:root:has([id*=from]:checked):not(:has([id*=to]:checked)):has(.calendar__cell:hover)
+tr:has([id*=from]:checked) ~
+tr:not(:has(:checked))
+.calendar__cell:hover ~ .calendar__cell:not(:hover):has([id*="-09-"], [id*="-11-"]),
+:root:has([id*=from]:checked):not(:has([id*=to]:checked)):has(.calendar__cell:hover)
+tr:has(.calendar__cell:hover) ~
+tr:not(:has(:checked)) .calendar__cell:not(:hover):has([id*="-09-"], [id*="-11-"]) {
+	--alpha: 0.5;
 }
 
 
