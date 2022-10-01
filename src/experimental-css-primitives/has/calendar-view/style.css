@@ -71,9 +71,29 @@ tr {
 	grid-auto-flow: column;
 }
 
-[for*=from] {
-	z-index: 2;
+
+/* By default, hide all the "to" radio */
+[id*=to], [for*=to] {
+	display: none;
 }
+
+.calendar:has([id*=from]:checked) tr:has([id*=from]:checked) ~ tr :is([id*=to], [for*=to]),
+.calendar:has([id*=from]:checked) tr:has([id*=from]:checked) .calendar__cell:has([id*=from]:checked) ~ .calendar__cell :is([id*=to], [for*=to]) {
+	display: inline-block;
+}
+
+.calendar:has([id*=to]:checked)
+tr:has([id*=to]:checked)
+.calendar__cell:has([id*=to]:checked) ~
+.calendar__cell :is([id*=from]),
+.calendar:has([id*=to]:checked)
+.calendar__cell:has([id*=to]:checked) :is([id*=from]),
+.calendar:has([id*=to]:checked)
+tr:has([id*=to]:checked) ~ tr .calendar__cell :is([id*=from])
+{
+	display: none;
+}
+
 
 .calendar__number {
 	color: hsl(var(--color, 0 0% 10%));
@@ -183,6 +203,8 @@ tr:has([id*=from]:checked):has([id*=to]:checked)
 {
 	--bbg: 290 100% 50%;
 }
+
+/* TODO:: Let's push the envelope by hiding all "from" that precede :checked "from", etc. */
 
 /* When you have a "to" and "from" but you hover something before "to" */
 /* Updating "to" */
