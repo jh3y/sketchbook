@@ -323,9 +323,9 @@ tr:has([id*=from]:checked) ~ tr .calendar__cell [for*=to] {
 }
 
 /* Border radius for the different edges based on opener or closer */
-/* .calendar__cell:has([id*=from]:checked) {
+.calendar__cell:has([id*=from]:checked) {
 	--radius: 50% 0 0 50%;
 }
 .calendar__cell:has([id*=to]:checked) {
 	--radius: 0 50% 50% 0;
-} */
+}
