@@ -10,199 +10,142 @@
     <title>peters-css-blinds/scroll-linked-animation</title>
   </head>
   <body>
-    <div class="scene">
-      <div class="window">
-        <div class="frame frame--top">
-          <div class="cuboid window-frame window-frame--top">
-            <div class="cuboid__side"></div>
-            <div class="cuboid__side"></div>
-            <div class="cuboid__side"></div>
-            <div class="cuboid__side"></div>
-            <div class="cuboid__side"></div>
-            <div class="cuboid__side"></div>
+    <main>
+      <div class="scroll-trigger">
+      </div>
+      <div class="scene">
+        <div class="scene-sandbox">
+          <div class="window">
+            <div class="frame frame--top">
+              <div class="cuboid window-frame window-frame--top">
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+              </div>
+            </div>
+            <div class="frame frame--right">
+              <div class="cuboid window-frame window-frame--right">
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+              </div>
+            </div>
+            <div class="frame frame--left">
+              <div class="cuboid window-frame window-frame--left">
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+              </div>
+            </div>
+            <div class="frame frame--sill">
+              <div class="cuboid window-frame window-frame--right">
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+                <div class="cuboid__side"></div>
+              </div>
+            </div>
+            <div class="container">
+              <div class="peter__container">
+                <svg class="peter" viewBox="0 0 228 237" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                  <!-- <circle class="peter__backdrop" cx="114" cy="123" r="110" fill="#C4C4C4"/> -->
+                  <mask id="a" mask-type="alpha" maskUnits="userSpaceOnUse" x="4" y="13" width="220" height="220">
+                    <circle cx="114" cy="123" r="110" fill="#C4C4C4" />
+                  </mask>
+                  <g mask="url(#a)">
+                    <rect width="201" height="226" transform="matrix(-1 0 0 1 210 37)" fill="url(#b)" />
+                    <rect x="171" y="169.378" width="18" height="18" transform="rotate(-17.384 171 169.378)" fill="url(#c)" style="mix-blend-mode: soft-light" />
+                  </g>
+                  <g class="peter__shades" transform="rotate(6.523 33.947 63)">
+                    <rect clip-path="url(#shadeClip)" x="33.947" y="63" width="181" height="25" fill="url(#d)" />
+                  </g>
+                  <defs>
+                    <clipPath id="shadeClip">
+                      <rect x="33.947" y="63" width="181" height="24" fill="url(#d)" />
+                    </clipPath>
+                    <pattern id="d" patternContentUnits="objectBoundingBox" width="1" height="1">
+                      <use xlink:href="#g" transform="scale(.00286 .02)" />
+                    </pattern>
+                    <pattern id="b" patternContentUnits="objectBoundingBox" width="1" height="1">
+                      <use xlink:href="#e" transform="scale(.0008)" />
+                    </pattern>
+                    <image id="g" width="350" height="50" xlink:href="https://assets.codepen.io/605876/thug-shades.png?format=auto" />
+                    <image id="e" width="1243" height="1396" xlink:href="https://assets.codepen.io/605876/peter-griffin-head-optimized.png?format=auto&quality=2" />
+                  </defs>
+                </svg>
+              </div>
+              <div class="glass"></div>
+              <div class="blinds">
+                <div class="blind" style="--index: 0"></div>
+                <div class="blind" style="--index: 1"></div>
+                <div class="blind" style="--index: 2"></div>
+                <div class="blind" style="--index: 3"></div>
+                <div class="blind" style="--index: 4"></div>
+                <div class="blind" style="--index: 5"></div>
+                <div class="blind" style="--index: 6"></div>
+                <div class="blind" style="--index: 7"></div>
+                <div class="blind" style="--index: 8"></div>
+                <div class="blind" style="--index: 9"></div>
+                <div class="blind" style="--index: 10"></div>
+                <div class="blind" style="--index: 11"></div>
+                <div class="blind" style="--index: 12"></div>
+                <div class="blind" style="--index: 13"></div>
+                <div class="blind" style="--index: 14"></div>
+                <div class="blind" style="--index: 15"></div>
+                <div class="blind" style="--index: 16"></div>
+                <div class="blind" style="--index: 17"></div>
+                <div class="blind" style="--index: 18"></div>
+                <div class="blind" style="--index: 19"></div>
+                <div class="blind" style="--index: 20"></div>
+                <div class="blind" style="--index: 21"></div>
+                <div class="blind" style="--index: 22"></div>
+                <div class="blind" style="--index: 23"></div>
+                <div class="blind" style="--index: 24"></div>
+                <div class="blind" style="--index: 25"></div>
+                <div class="blind" style="--index: 26"></div>
+                <div class="blind" style="--index: 27"></div>
+                <div class="blind" style="--index: 28"></div>
+                <div class="blind" style="--index: 29"></div>
+                <div class="blind" style="--index: 30"></div>
+                <div class="blind" style="--index: 31"></div>
+                <div class="blind" style="--index: 32"></div>
+                <div class="blind" style="--index: 33"></div>
+                <div class="blind" style="--index: 34"></div>
+                <div class="blind" style="--index: 35"></div>
+                <div class="blind" style="--index: 36"></div>
+                <div class="blind" style="--index: 37"></div>
+                <div class="blind" style="--index: 38"></div>
+                <div class="blind" style="--index: 39"></div>
+              </div>
+              <div class="cord cord--dummy">
+                <div class="cord__handle"></div>
+              </div>
+              <div class="cord">
+                <div class="cord__handle"></div>
+              </div>
+            </div>
           </div>
-        </div>
-        <div class="frame frame--right">
-          <div class="cuboid window-frame window-frame--right">
-            <div class="cuboid__side"></div>
-            <div class="cuboid__side"></div>
-            <div class="cuboid__side"></div>
-            <div class="cuboid__side"></div>
-            <div class="cuboid__side"></div>
-            <div class="cuboid__side"></div>
+          <div class="wall wall--top"></div>
+          <div class="wall wall--bottom">
+            <!--     <h1>CSS</h1> -->
           </div>
-        </div>
-        <div class="frame frame--left">
-          <div class="cuboid window-frame window-frame--left">
-            <div class="cuboid__side"></div>
-            <div class="cuboid__side"></div>
-            <div class="cuboid__side"></div>
-            <div class="cuboid__side"></div>
-            <div class="cuboid__side"></div>
-            <div class="cuboid__side"></div>
-          </div>
-        </div>
-        <div class="frame frame--sill">
-          <div class="cuboid window-frame window-frame--right">
-            <div class="cuboid__side"></div>
-            <div class="cuboid__side"></div>
-            <div class="cuboid__side"></div>
-            <div class="cuboid__side"></div>
-            <div class="cuboid__side"></div>
-            <div class="cuboid__side"></div>
-          </div>
-        </div>
-        <div class="container">
-          <div class="peter__container">
-            <svg
-              class="peter"
-              viewBox="0 0 228 237"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              xmlns:xlink="http://www.w3.org/1999/xlink"
-            >
-              <!-- <circle class="peter__backdrop" cx="114" cy="123" r="110" fill="#C4C4C4"/> -->
-              <mask
-                id="a"
-                mask-type="alpha"
-                maskUnits="userSpaceOnUse"
-                x="4"
-                y="13"
-                width="220"
-                height="220"
-              >
-                <circle cx="114" cy="123" r="110" fill="#C4C4C4" />
-              </mask>
-              <g mask="url(#a)">
-                <rect
-                  width="201"
-                  height="226"
-                  transform="matrix(-1 0 0 1 210 37)"
-                  fill="url(#b)"
-                />
-                <rect
-                  x="171"
-                  y="169.378"
-                  width="18"
-                  height="18"
-                  transform="rotate(-17.384 171 169.378)"
-                  fill="url(#c)"
-                  style="mix-blend-mode: soft-light"
-                />
-              </g>
-              <g class="peter__shades" transform="rotate(6.523 33.947 63)">
-                <rect
-                  clip-path="url(#shadeClip)"
-                  x="33.947"
-                  y="63"
-                  width="181"
-                  height="25"
-                  fill="url(#d)"
-                />
-              </g>
-              <defs>
-                <clipPath id="shadeClip">
-                  <rect
-                    x="33.947"
-                    y="63"
-                    width="181"
-                    height="24"
-                    fill="url(#d)"
-                  />
-                </clipPath>
-                <pattern
-                  id="d"
-                  patternContentUnits="objectBoundingBox"
-                  width="1"
-                  height="1"
-                >
-                  <use xlink:href="#g" transform="scale(.00286 .02)" />
-                </pattern>
-                <pattern
-                  id="b"
-                  patternContentUnits="objectBoundingBox"
-                  width="1"
-                  height="1"
-                >
-                  <use xlink:href="#e" transform="scale(.0008)" />
-                </pattern>
-                <image
-                  id="g"
-                  width="350"
-                  height="50"
-                  xlink:href="https://assets.codepen.io/605876/thug-shades.png?format=auto"
-                />
-                <image
-                  id="e"
-                  width="1243"
-                  height="1396"
-                  xlink:href="https://assets.codepen.io/605876/peter-griffin-head-optimized.png?format=auto&quality=2"
-                />
-              </defs>
-            </svg>
-          </div>
-          <div class="glass"></div>
-          <div class="blinds">
-            <div class="blind" style="--index: 0"></div>
-            <div class="blind" style="--index: 1"></div>
-            <div class="blind" style="--index: 2"></div>
-            <div class="blind" style="--index: 3"></div>
-            <div class="blind" style="--index: 4"></div>
-            <div class="blind" style="--index: 5"></div>
-            <div class="blind" style="--index: 6"></div>
-            <div class="blind" style="--index: 7"></div>
-            <div class="blind" style="--index: 8"></div>
-            <div class="blind" style="--index: 9"></div>
-            <div class="blind" style="--index: 10"></div>
-            <div class="blind" style="--index: 11"></div>
-            <div class="blind" style="--index: 12"></div>
-            <div class="blind" style="--index: 13"></div>
-            <div class="blind" style="--index: 14"></div>
-            <div class="blind" style="--index: 15"></div>
-            <div class="blind" style="--index: 16"></div>
-            <div class="blind" style="--index: 17"></div>
-            <div class="blind" style="--index: 18"></div>
-            <div class="blind" style="--index: 19"></div>
-            <div class="blind" style="--index: 20"></div>
-            <div class="blind" style="--index: 21"></div>
-            <div class="blind" style="--index: 22"></div>
-            <div class="blind" style="--index: 23"></div>
-            <div class="blind" style="--index: 24"></div>
-            <div class="blind" style="--index: 25"></div>
-            <div class="blind" style="--index: 26"></div>
-            <div class="blind" style="--index: 27"></div>
-            <div class="blind" style="--index: 28"></div>
-            <div class="blind" style="--index: 29"></div>
-            <div class="blind" style="--index: 30"></div>
-            <div class="blind" style="--index: 31"></div>
-            <div class="blind" style="--index: 32"></div>
-            <div class="blind" style="--index: 33"></div>
-            <div class="blind" style="--index: 34"></div>
-            <div class="blind" style="--index: 35"></div>
-            <div class="blind" style="--index: 36"></div>
-            <div class="blind" style="--index: 37"></div>
-            <div class="blind" style="--index: 38"></div>
-            <div class="blind" style="--index: 39"></div>
-          </div>
-          <div class="cord cord--dummy">
-            <div class="cord__handle"></div>
-          </div>
-          <div class="cord">
-            <div class="cord__handle"></div>
-          </div>
+          <div class="wall wall--right"></div>
+          <div class="wall wall--left"></div>
         </div>
       </div>
-      <div class="wall wall--top"></div>
-      <div class="wall wall--bottom">
-        <!--     <h1>CSS</h1> -->
-      </div>
-      <div class="wall wall--right"></div>
-      <div class="wall wall--left"></div>
-    </div>
-    <h1>CSS</h1>
-    <div class="scroll-trigger">
-      <div class="scroll-trigger__content"></div>
-    </div>
+      <h1>CSS</h1>
+    </main>
     <script type="module" src="./script.js"></script>
   </body>
 </html>
