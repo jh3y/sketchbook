@@ -1,0 +1,77 @@
+@import "normalize.css";
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+html {
+	view-timeline-name: --main;
+}
+
+:root {
+	--gap: 1rem;
+	--card-width: clamp(280px, 20vw, 100vw);
+	--card-aspect-ratio: 5 / 7;
+	--card-height: calc(var(--card-width) * (7 / 5));
+}
+
+body {
+	display: grid;
+	place-items: center;
+	height: 300vh;
+	font-family:  'Google Sans', sans-serif, system-ui;
+}
+
+.grid {
+	display: grid;
+	grid-template-columns: repeat(5, var(--card-width));
+	gap: 1rem;
+	position: fixed;
+	top: 0%;
+	left: 50%;
+	transform: translate(-50%, 0%);
+	min-width: 100vw;
+	min-height: 100vh;
+	justify-content: center;
+}
+
+.column {
+	display: grid;
+	gap: 1rem;
+	animation: scale 1s linear;
+	animation-timeline: scroll();
+}
+
+/* The distance is the number of cards minus 100vh */
+.column:nth-of-type(3) {
+	--origin: 0%;
+	--destination: calc(-100% + 100vh);
+}
+.column:is(:nth-of-type(2), :nth-of-type(4)) {
+	--origin: calc(var(--gap) * -1);
+	--destination: calc(-100% + 100vh + (var(--card-height) * 0.75));
+}
+.column:is(:nth-of-type(1), :nth-of-type(5)) {
+	--origin: calc(var(--gap) * -2);
+	--destination: calc(-100% + 100vh + (var(--card-height) * 0.25));
+}
+
+@keyframes scale {
+	0% {
+		transform: translateY(var(--origin, 0%));
+	}
+	100% {
+		transform: translateY(var(--destination, -50%));
+	}
+}
+
+img {
+	max-width: 100%;
+	border: 0;
+	padding: 0;
+	max-height: 100%;
+	width: 100%;
+	aspect-ratio: 5 / 7;
+}
