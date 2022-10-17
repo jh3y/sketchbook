@@ -46,11 +46,11 @@ body {
 /* The distance is the number of cards minus 100vh */
 .column:is(:nth-of-type(2), :nth-of-type(4)) {
 	--origin: calc(var(--gap) * -1);
-	--destination: calc(var(--card-height) * 0.5);
+	--destination: calc(var(--card-height) * 1 - var(--gap));
 }
 .column:is(:nth-of-type(1), :nth-of-type(5)) {
 	--origin: calc(var(--gap) * -2);
-	--destination: calc(var(--card-height) * -0.05);
+	--destination: calc(var(--card-height) * 2 - var(--gap));
 }
 
 @keyframes scale {
@@ -69,4 +69,5 @@ img {
 	max-height: 100%;
 	width: 100%;
 	aspect-ratio: 5 / 7;
+	background: hsl(0 0% 80%);
 }
