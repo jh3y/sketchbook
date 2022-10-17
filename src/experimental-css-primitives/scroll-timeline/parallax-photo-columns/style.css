@@ -6,10 +6,6 @@
 	box-sizing: border-box;
 }
 
-html {
-	view-timeline-name: --main;
-}
-
 :root {
 	--gap: 1rem;
 	--card-width: clamp(280px, 20vw, 100vw);
@@ -20,42 +16,41 @@ html {
 body {
 	display: grid;
 	place-items: center;
-	height: 300vh;
 	font-family:  'Google Sans', sans-serif, system-ui;
+	overflow-x: hidden;
+	justify-content: center;
+	min-height: 100vh;
 }
 
 .grid {
 	display: grid;
+	justify-content: center;
 	grid-template-columns: repeat(5, var(--card-width));
 	gap: 1rem;
-	position: fixed;
-	top: 0%;
-	left: 50%;
-	transform: translate(-50%, 0%);
-	min-width: 100vw;
-	min-height: 100vh;
-	justify-content: center;
+}
+
+.grid-wrapper {
+	/* overflow: hidden; */
 }
 
 .column {
 	display: grid;
 	gap: 1rem;
+}
+
+.column:not(:nth-of-type(3)) {
 	animation: scale 1s linear;
 	animation-timeline: scroll();
 }
 
 /* The distance is the number of cards minus 100vh */
-.column:nth-of-type(3) {
-	--origin: 0%;
-	--destination: calc(-100% + 100vh);
-}
 .column:is(:nth-of-type(2), :nth-of-type(4)) {
 	--origin: calc(var(--gap) * -1);
-	--destination: calc(-100% + 100vh + (var(--card-height) * 0.75));
+	--destination: calc(var(--card-height) * 0.5);
 }
 .column:is(:nth-of-type(1), :nth-of-type(5)) {
 	--origin: calc(var(--gap) * -2);
-	--destination: calc(-100% + 100vh + (var(--card-height) * 0.25));
+	--destination: calc(var(--card-height) * -0.05);
 }
 
 @keyframes scale {
