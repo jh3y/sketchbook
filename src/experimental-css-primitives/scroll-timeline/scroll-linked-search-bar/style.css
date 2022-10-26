@@ -57,9 +57,9 @@ header a {
   left: 50%;
   transform: translate(-50%, -50%);
   animation: fade both;
-  animation-timeline: --search-bar;
-  animation-delay: exit -100%;
-  animation-end-delay: exit -50%;
+  animation-timeline: --header;
+  animation-delay: exit 0%;
+  animation-end-delay: exit 50%;
 }
 
 @keyframes fade {
@@ -92,9 +92,9 @@ header a {
   background: var(--surface-1);
   max-width: calc(100vw);
   animation: shadow both;
-  animation-timeline: --main;
-  animation-delay: exit -50%;
-  animation-end-delay: exit 10%;
+  animation-timeline: --header;
+  animation-delay: exit 50%;
+  animation-end-delay: exit 100%;
 }
 
 @keyframes shadow {
