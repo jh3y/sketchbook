@@ -1,0 +1,165 @@
+@import "normalize.css" layer(normalize);
+@import "open-props/style" layer(open-props);
+@import "open-props/normalize" layer(open-props);
+@import "open-props/colors-hsl" layer(open-props);
+
+@import "../../../../net/material-design-lite/icons-fallback.css";
+@import "../../../../net/material-design-lite/icons.css";
+
+:root {
+	--aspect-width: 4;
+	--aspect-height: 3;
+}
+
+body {
+  background: var(--surface-1);
+  min-height: 200vh;
+  overflow-x: hidden;
+}
+
+:where(footer, header) {
+	height: 50vh;
+	min-height: 600px;
+	display: grid;
+	place-items: center;
+}
+
+header {
+	background: url('https://picsum.photos/1920/1080?random=header');
+	background-size: cover;
+	background-position: center;
+	object-fit: cover;
+	position: sticky;
+	top: 0;
+	height: 40vh;
+	z-index: 2;
+	animation: shrink both linear;
+	animation-timeline: --main;
+	animation-delay: contain 0%;
+	animation-end-delay: contain 15%;
+	min-height: 80px;
+}
+
+@keyframes shrink {
+	100% {
+		height: 120px;
+	}
+}
+
+h1 {
+	padding: var(--size-4);
+	color: var(--surface-1);
+	background: var(--text-1);
+	border-radius: var(--radius-3);
+}
+
+:where(h1, h2) {
+	font-family: 'Impact', sans-serif;
+	text-transform: uppercase;
+}
+
+section:nth-of-type(odd) {
+	background: var(--surface-2);
+	padding: var(--size-4);
+	display: grid;
+	place-items: center;
+}
+
+section {
+	min-height: 60vh;
+}
+
+.tiles__row {
+	display: flex;
+	width: 100vw;
+}
+
+img {
+	width: 20vw;
+	aspect-ratio: var(--aspect-width) / var(--aspect-height);
+	object-fit: cover;
+}
+
+/* ViewTimeline Debugging */
+main {
+	view-timeline-name: --main;
+}
+.indicators {
+  position: fixed;
+  width: 16vw;
+  left: 8vw;
+  display: grid;
+  top: 50%;
+  gap: 2rem;
+  transform: translate(0, -50%);
+  justify-items: center;
+  opacity: 1;
+  z-index: 10;
+}
+
+.indicators:hover {
+	opacity: 1;
+}
+
+.progress {
+  height: 2.5rem;
+  width: 100%;
+  background: var(--gray-8);
+  position: relative;
+  border-radius: var(--radius-3);
+  overflow: hidden;
+}
+
+.progress__bar {
+  background: var(--indigo-6);
+  width: 100%;
+  height: 100%;
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+}
+
+.progress:nth-of-type(even) .progress__bar {
+  background: var(--orange-6);
+}
+
+.progress__label {
+  position: absolute;
+  inset: 0;
+  text-align: center;
+  font-weight: bold;
+  display: grid;
+  place-items: center;
+  font-size: 1.25rem;
+  color: var(--gray-0);
+}
+
+.progress--enter .progress__bar {
+  animation: indicate both linear;
+  animation-timeline: --main;
+  animation-delay: enter 0%;
+  animation-end-delay: enter 100%;
+}
+.progress--exit .progress__bar {
+  animation: indicate both linear;
+  animation-timeline: --main;
+  animation-delay: exit 0%;
+  animation-end-delay: exit 100%;
+}
+.progress--cover .progress__bar {
+  animation: indicate both linear;
+  animation-timeline: --main;
+  animation-delay: cover 0%;
+  animation-end-delay: cover 100%;
+}
+.progress--contain .progress__bar {
+  animation: indicate both linear;
+  animation-timeline: --main;
+  animation-delay: contain 0%;
+  animation-end-delay: contain 100%;
+}
+
+@keyframes indicate {
+  to {
+    transform: scaleX(1);
+  }
+}
