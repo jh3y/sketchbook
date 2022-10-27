@@ -1,0 +1,26 @@
+@import "normalize.css";
+@import "open-props/style";
+@import "open-props/normalize";
+
+body {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+}
+
+.portrait {
+  width: 50vmin;
+  filter: drop-shadow(1vmin 2vmin 1vmin var(--gray-7));
+}
+
+.portrait__eye--mover {
+  transition: translate 0.2s;
+}
+.portrait__eye--mover.portrait__eye--left {
+  translate: clamp(-10px, var(--lx, 0) * 1px, 4px)
+    clamp(-4px, var(--ly, 0) * 0.5px, 10px);
+}
+.portrait__eye--mover.portrait__eye--right {
+  translate: clamp(-4px, var(--rx, 0) * 1px, 10px)
+    clamp(-4px, var(--ry, 0) * 0.5px, 10px);
+}

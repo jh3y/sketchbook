@@ -1,0 +1,97 @@
+@import "normalize.css" layer(normalize);
+@import "open-props/style" layer(open-props);
+@import "open-props/normalize" layer(open-props);
+@import "open-props/colors-hsl" layer(open-props);
+
+*,
+*:after,
+*:before {
+  box-sizing: border-box;
+}
+
+body {
+  display: grid;
+  place-items: start;
+  min-height: 100vh;
+  font-family:  'Google Sans', sans-serif, system-ui;
+  padding: var(--size-4);
+}
+
+html {
+  scroll-snap-type: x mandatory;
+  overflow: hidden;
+  overflow-x: scroll;
+
+}
+
+h1 {
+  position: fixed;
+  justify-self: start;
+  left: var(--size-4);
+}
+
+.timeline {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translate(0, -50%);
+  height: 100vh;
+}
+
+ul {
+  margin: 0 var(--size-4);
+  padding: 0;
+  display:grid;
+  grid-template-columns: repeat(var(--count), minmax(200px, 50vmin));
+  gap: 0 100px;
+  grid-template-rows: repeat(3, auto);
+  width: 100%;
+  justify-items: center;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+li {
+  list-style-type: none;
+  grid-row: var(--row, 1);
+  grid-column: var(--index, 1);
+  display: grid;
+  place-items: center;
+  width: 100%;
+  aspect-ratio: 1;
+  scroll-snap-align: center;
+}
+
+.content__box {
+  height: 80%;
+  width: 80%;
+  background: var(--bg, var(--blue-6));
+  display: grid;
+  place-items: center;
+	view-timeline-name: --box;
+	view-timeline-axis: inline;
+  animation: reveal both;
+  animation-timeline: --box;
+  animation-delay: cover 40%;
+  animation-end-delay: cover 50%;
+  scale: 0;
+  background: var(--red-8);
+  font-size: clamp(2rem, 10vmin, 6rem);
+  font-weight: bold;
+  rotate: calc(var(--rotation, 0) * 1deg);
+}
+
+.content__filler .content__box {
+	animation: none;
+	scale: 1;
+	rotate: 0deg;
+	background: var(--indigo-3);
+}
+
+@keyframes reveal {
+	100% {
+		scale: 1;
+		rotate: 0deg;
+	}
+}

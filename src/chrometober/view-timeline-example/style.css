@@ -1,0 +1,60 @@
+@import "normalize.css";
+@import "open-props/style" layer(open-props);
+@import "open-props/normalize" layer(open-props);
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+	display: grid;
+	place-items: center;
+	height: 200vh;
+	font-family:  'Google Sans', sans-serif, system-ui;
+}
+
+.element-moving-in-viewport {
+  view-timeline-name: foo;
+  view-timeline-axis: block;
+}
+
+.element-scroll-linked {
+  animation: rotate both linear;
+  animation-timeline: foo;
+  animation-delay: enter 0%;
+  animation-end-delay: cover 50%;
+}
+
+@keyframes rotate {
+ to {
+   transform: translate(5%, -50%) rotate(360deg);
+ }
+}
+
+
+div {
+	height: 25vmin;
+	aspect-ratio: 1;
+	font-size: clamp(1rem, 4vmin, 4rem);
+	background: var(--green-4);
+	display: grid;
+	place-items: center;
+	font-weight: var(--font-weight-9);
+	border-radius: var(--radius-3);
+}
+
+div:first-of-type {
+	position: absolute;
+	top: calc(150vh - 12.5vmin);
+	transform: translate(-55%, 0);
+}
+
+div:last-of-type {
+	background: var(--indigo-4);
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(5%, -50%);
+}
