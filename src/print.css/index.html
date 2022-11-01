@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, maximum-scale=1.0" />
+    <title>print.css</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div class="scene">
+      <div class="printer">
+        <div class="printer__side printer__side--left">
+          <div class="cuboid cuboid--side">
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+          </div>
+        </div>
+        <div class="printer__side printer__side--right">
+          <div class="cuboid cuboid--side">
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side">
+              <div class="light progress-light"></div>
+              <div class="light standby-light"></div>
+              <button class="print-button">
+                <div class="button">
+                  <div class="cuboid cuboid--button">
+                    <div class="cuboid__side"></div>
+                    <div class="cuboid__side"></div>
+                    <div class="cuboid__side"></div>
+                    <div class="cuboid__side"></div>
+                    <div class="cuboid__side"></div>
+                    <div class="cuboid__side"></div>
+                  </div>
+                </div>
+              </button>
+            </div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+          </div>
+        </div>
+        <div class="printer__tray printer__tray--bottom">
+          <div class="cuboid cuboid--tray">
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+          </div>
+        </div>
+        <div class="printer__tray printer__tray--top">
+          <div class="cuboid cuboid--tray">
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+          </div>
+        </div>
+        <div class="printer__top">
+          <div class="cuboid cuboid--top">
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side">
+              <div class="screen">
+                <div class="screen__preview"><img class="screen__preview-img"/></div>
+              </div>
+            </div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+          </div>
+        </div>
+        <div class="printer__back">
+          <div class="cuboid cuboid--back">
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+          </div>
+        </div>
+        <div class="paper-stack paper-stack--bottom">
+          <div class="cuboid cuboid--paper">
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+          </div>
+        </div>
+        <div class="paper-stack paper-stack--top">
+          <div class="cuboid cuboid--paper">
+            <div class="cuboid__side">
+              <div class="paper">
+                <div class="paper__flyer"></div>
+              </div>
+            </div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <form class="customer-form">
+      <label for="print">Print URL</label>
+      <input id="print" type="url" required="required" placeholder="URL for Printing"/>
+      <input type="submit" value="Print"/>
+    </form>
+    <script type="module" src="./script.js"></script>
+  </body>
+</html>
