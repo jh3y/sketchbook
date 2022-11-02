@@ -26,6 +26,10 @@ const SUPPORT_MESSAGES = [
   {
     modifier: 'anchoring',
     message: 'This browser is not supported... yet. CSS anchoring can be experimented with in Chrome Canary with the "Experimental Web Platform Features" flag enabled.'
+  },
+  {
+    modifier: 'selectmenu',
+    message: 'This browser is not supported... yet. SelectMenu can be experimented with in Chrome Canary with the "Experimental Web Platform Features" flag enabled.'
   }
 ]
 
@@ -46,8 +50,18 @@ const generateWarnings = () => {
 generateWarnings()
 
 // For JavaScript APIs
-if (Element.prototype.hasOwnProperty("popUp"))
+if (Element.prototype.hasOwnProperty("popUp")) {
+  document.documentElement.classList.remove('popup-support')
   document.documentElement.classList.add('popup-supported')
+}
 
-if ('createDocumentTransition' in document)
+if (typeof HTMLSelectMenuElement === 'function') {
+  document.documentElement.classList.remove('selectmenu-support')
+  document.documentElement.classList.add('selectmenu-supported')
+}
+
+if ('createDocumentTransition' in document) {
+  document.documentElement.classList.remove('set-support')
   document.documentElement.classList.add('set-supported')
+}
+

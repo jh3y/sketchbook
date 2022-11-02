@@ -25,6 +25,7 @@
 .has-support .support-warning--has,
 .scroll-timeline-support .support-warning--scroll-timeline,
 .popup-support .support-warning--popup,
+.selectmenu-support .support-warning--selectmenu,
 .houdini-support .support-warning--houdini,
 .set-support .support-warning--set,
 .object-view-box-support .support-warning--object-view-box,
@@ -51,6 +52,7 @@
 }
 
 .set-supported .support-warning--set,
-.popup-supported .support-warning--popup {
+.popup-supported .support-warning--popup
+.selectmenu-supported .support-warning--selectmenu {
   display: none;
 }

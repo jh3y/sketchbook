@@ -1,0 +1,108 @@
+/* @import "normalize.css"; */
+@import "../../../../net/experimental-web-platform/style.css";
+@import "open-props/style";
+@import "open-props/normalize";
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+	display: grid;
+	place-items: center;
+	align-content: center;
+	min-height: 100vh;
+	gap: var(--size-6);
+	font-family:  'Google Sans', sans-serif, system-ui;
+	position: relative;
+}
+
+
+/* selectmenu {
+	anchor-name: --menu;
+}
+
+[popup]:open {
+	top: anchor(--menu bottom);
+} */
+
+selectmenu::part(button) {
+	padding: var(--size-2) var(--size-4);
+	font-size: var(--font-size-2);
+	font-family: "Google Sans", sans-serif;
+	min-width: 180px;
+	display: flex;
+	justify-content: space-between;
+}
+
+:where(span, option) {
+	font-size: var(--font-size, var(--font-size-1));
+	font-weight: var(--font-weight, var(--font-weight-4));
+}
+
+option {
+	display: flex;
+	gap: var(--size-4);
+	color: var(--text-1);
+}
+
+option svg {
+	width: var(--size-4);
+	fill: var(--text-1);
+	opacity: 0.6;
+	visibility: hidden;
+}
+
+[popup] {
+	box-shadow: var(--shadow-3);
+	transform: translate(0, 5%) scale(var(--open, 0));
+	transform-origin: 0 0;
+	overflow: visible;
+}
+
+[popup] option + option {
+	border-top: 1px solid var(--gray-4);
+}
+
+option {
+	padding: var(--size-2) var(--size-4);
+}
+
+option:checked svg{
+	visibility: visible;
+}
+
+option:is(:hover, :focus) {
+	background: var(--surface-2);
+}
+
+[popup]:open {
+	transition: transform 0.2s;
+	--open: 1;
+}
+
+option[value=title],
+body:has([value=title]:checked) {
+	--font-size: var(--font-size-8);
+	--font-weight: var(--font-weight-9);
+}
+
+option[value=subtitle],
+body:has([value=subtitle]:checked) {
+	--font-size: var(--font-size-6);
+	--font-weight: var(--font-weight-5);
+}
+
+option[value=normal],
+body:has([value=normal]:checked) {
+	--font-size: var(--font-size-2);
+	--font-weight: var(--font-weight-4);
+}
+
+option[value=footnote],
+body:has([value=footnote]:checked) {
+	--font-size: var(--font-size-0);
+	--font-weight: var(--font-weight-2);
+}
