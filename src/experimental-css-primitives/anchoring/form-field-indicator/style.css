@@ -1,0 +1,331 @@
+@import "normalize.css";
+@import "open-props/style";
+@import "open-props/normalize";
+@import "../../../../net/experimental-web-platform/style.css";
+
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --red: hsl(18 100% 50%);
+  --green: hsl(130 52% 46%);
+  --yellow: hsl(44 83% 53%);
+  --blue: hsl(215 100% 53%);
+  --grey: hsl(0 0% 45%);
+  --text: var(--gray-5);
+  --transition: 0.2s;
+  --valid: var(--green);
+  --invalid: var(--red);
+  --focus: var(--yellow);
+  --blur: var(--gray-0);
+  --disabled: var(--grey);
+}
+
+.whitespace {
+	width: 0.5ch;
+}
+
+:where(html) {
+  background-color: transparent;
+  color-scheme: none;
+}
+
+body {
+  display: grid;
+  min-height: 100vh;
+  place-items: center;
+  overflow:  hidden;
+  margin: 0;
+  background-color: var(--gray-9);
+  font-size: 1rem;
+}
+
+form {
+  display: grid;
+  grid-gap: 1rem;
+  place-items: center;
+}
+
+.form-groups {
+	display: grid;
+	grid-gap: 1rem;
+	grid-auto-flow: var(--flow);
+}
+
+.form-actions {
+	width: 100%;
+}
+
+.radio-groups {
+	display: grid;
+	grid-template-columns: auto 1fr;
+	align-items: center;
+	justify-content: center;
+	gap: 0.5rem;
+}
+
+.radio-groups label {
+	font-weight: 300;
+	font-size: 1rem;
+}
+
+.radio-groups * {
+	display: inline-block;
+}
+
+
+:root:has(#vertical:checked) {
+	--flow: row;
+}
+
+:root:has(#horizontal:checked) {
+	--flow: column;
+	--twist: 1;
+}
+
+:root:has(#stagger:checked) {
+	--stagger: 1;
+}
+
+
+.form-group,
+.form-actions {
+  --color: var(--blur);
+  display: grid;
+  grid-auto-flow: column;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.form-group {
+	position: relative;
+	left: calc((var(--stagger, 0) * var(--index)) * 4rem);
+}
+
+.form-group:nth-of-type(1) {
+	--index: 0;
+}
+
+.form-group:nth-of-type(2) {
+	--index: 1;
+}
+
+.form-group:nth-of-type(3) {
+	--index: 2;
+}
+
+label {
+  font-family: sans-serif;
+  display: flex;
+  font-weight: bold;
+  padding-right: 1rem;
+  transform-style: preserve-3d;
+  transition: color var(--transition);
+  color: var(--color);
+  font-size: 1.25rem;
+}
+
+.form-group label {
+	grid-row:  1;
+}
+input:not([type=radio]) {
+  grid-row: 1;
+  border: 4px solid var(--blur);
+  background: var(--blur);
+  border-radius: 4px;
+  padding: 1rem 2rem;
+  font-weight: 400;
+  transition: border-color var(--transition);
+  outline: transparent;
+}
+
+:root {
+	--active-anchor: --name;
+	--active-left: anchor(var(--active-anchor) right);
+	--active-top: calc(
+		anchor(var(--active-anchor) top) +
+		(
+			(
+				anchor(var(--active-anchor) bottom) -
+				anchor(var(--active-anchor) top)
+			) * 0.5
+		)
+	);
+}
+
+:root:has(.form-group:focus-within) {
+	--anchor-scale: 1;
+	--anchor-transition: top 0.2s, left 0.2s, transform 0.2s;
+}
+
+#email {
+	anchor-name: --email;
+}
+#name {
+	anchor-name: --name;
+}
+#password {
+	anchor-name: --password;
+}
+
+:root:has(#email:focus) {
+	--active-anchor: --email;
+}
+:root:has(#name:focus) {
+	--active-anchor: --name;
+}
+:root:has(#password:focus) {
+	--active-anchor: --password;
+}
+
+:root:has(#horizontal:checked) {
+	--active-translate-x: -50%;
+	--active-translate-y: -150%;
+	--active-left: calc(
+		anchor(var(--active-anchor) left) +
+		(
+			(
+				anchor(var(--active-anchor) right) -
+				anchor(var(--active-anchor) left)
+			) * 0.5
+		)
+	);
+	--active-top: calc(
+		anchor(var(--active-anchor) top) +
+		(
+			(
+				anchor(var(--active-anchor) bottom) -
+				anchor(var(--active-anchor) top)
+			) * 0.5
+		)
+	);
+}
+
+.form-indicator {
+	left: var(--active-left);
+	top: var(--active-top);
+	transform:
+		translate(var(--active-translate-x, 1rem), var(--active-translate-y, -50%))
+		scale(var(--anchor-scale, 0))
+		rotate(calc(var(--twist, 0) * -90deg));
+	transition: var(--anchor-transition, top 0.2s 0.2s, left 0.2s 0.2s, transform 0.2s);
+	font-size: 4rem;
+	background: none;
+}
+
+input:focus-visible {
+  outline-color: var(--color);
+}
+
+input::placeholder {
+  color: transparent;
+}
+
+button {
+  padding: 1rem 2rem;
+  border-radius: 4px;
+  border: 0;
+  cursor: pointer;
+  background: var(--disabled);
+  font-weight: bold;
+  font-size: 1.25rem;
+  color: var(--gray-5);
+  transition: color var(--transition), background var(--transition);
+}
+
+input:not([type=radio]), button, .radio-groups {
+	width:  250px;
+}
+
+.form-group:has(:invalid) {
+  --color: var(--invalid);
+}
+
+.form-group:has(:focus) {
+  --color: var(--focus);
+}
+
+.form-group:has(:valid) {
+  --color: var(--valid);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .form-group:has(:valid) label span {
+    display: inline-block;
+    animation: jump 0.25s calc(var(--char-index) * 0.05s);
+  }
+  @keyframes jump {
+    50% {
+      transform: translateY(-50%);
+    }
+  }
+  .form-group:has(:invalid:not(:focus):not(:placeholder-shown)) {
+    animation: shake 0.2s;
+  }
+  @keyframes shake {
+    0%, 100% {
+      transform: translateX(0);
+    } 
+    20%, 40%, 60%, 80% {
+      transform: translateX(-2%);
+    }
+    10%, 30%, 50%, 70%, 90% {
+      transform: translateX(2%);
+    }
+  }
+}
+
+.form-group:has(:placeholder-shown:not(:focus)) label span {
+  animation: none;
+}
+
+.form-group:has(:placeholder-shown) {
+  --color: var(--blur);
+}
+
+.form-group:has(:invalid:not(:focus):not(:placeholder-shown)) .form-group__error {
+  display: block;
+}
+
+.form-group__input {
+  position: relative;
+}
+
+.form-group__error {
+  display: none;
+  white-space: nowrap;
+  color: var(--red);
+  font-size: var(--font-size-0);
+  grid-row: 2;
+  grid-column: 2;
+  padding: var(--size-2);
+  text-align: center;
+}
+
+
+label span {
+  display: inline-block;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/*.form-group:has(:valid) ~ .form-group:has(:valid) ~ [type="submit"] {
+  background: var(--valid);
+  color: var(--gray-1);
+}*/
+
+form:valid [type="submit"] {
+  background: var(--valid);
+  color: var(--gray-1);
+}

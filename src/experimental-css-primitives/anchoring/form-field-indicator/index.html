@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en" class="anchoring-support">
+  <head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, maximum-scale=1.0" />
+    <title>experimental-css-primitives/anchoring/form-field-indicator</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <form onsubmit="e => preventDefault()">
+      <div class="form-groups">
+        <div class="form-group">
+          <label for="name" class="form-group__label">
+            Name
+          </label>
+          <input
+            required=""
+            type="text"
+            id="name"
+            class="form-input"
+            placeholder="Name"
+            title="Name must be at least 2 characters"
+            pattern=".{2,}"
+          />
+        </div>
+        <div class="form-group">
+          <label for="email" class="form-group__label">
+            Email
+          </label>
+          <input
+            required
+            type="email"
+            id="email"
+            class="form-input"
+            title="Enter valid email address"
+            placeholder="Email"
+          />
+        </div>
+        <div class="form-group">
+          <label for="password" class="form-group__label">
+            Password
+          </label>
+          <input
+            required=""
+            type="password"
+            id="password"
+            class="form-input"
+            placeholder="Password"
+            title="Password must be at least 8 characters"
+            pattern=".{8,}"
+          />
+        </div>
+      </div>
+      <div class="form-actions">
+        <label>Layout</label>
+        <div class="radio-groups">
+          <input type="radio" name=orientation checked id=vertical />
+          <label for=vertical>Vertical</label>
+          <input type="radio" name=orientation id=stagger />
+          <label for=stagger>Staggered</label>
+          <input type="radio" name=orientation id=horizontal />
+          <label for=horizontal>Horizontal</label>
+        </div>
+      </div>
+      <div class="form-actions">
+        <label></label>
+        <button type="submit">Sign up</button>
+      </div>
+
+    </form>
+    <div class="form-indicator" popover="manual" defaultopen="">👈</div>
+    <script type="module" src="./script.js"></script>
+  </body>
+</html>

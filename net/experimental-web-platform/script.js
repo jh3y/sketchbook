@@ -50,7 +50,7 @@ const generateWarnings = () => {
 generateWarnings()
 
 // For JavaScript APIs
-if (Element.prototype.hasOwnProperty("popUp")) {
+if (HTMLElement.prototype.hasOwnProperty("popover")) {
   document.documentElement.classList.remove('popup-support')
   document.documentElement.classList.add('popup-supported')
 }
