@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en" class="popup-support selectmenu-support">
+  <head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, maximum-scale=1.0" />
+    <title>openui-initiative/selectmenu/material-icon-font-clone</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <selectmenu>
+      <div slot="button">
+        <button behavior="button">
+          <span behavior="selected-value" slot="selected-value"></span>
+        </button>
+      </div>
+      <div slot="listbox">
+        <div popover behavior=listbox>
+          <option value=soccer>
+            <i class=material-symbols-outlined>sports_soccer</i> Soccer
+          </option>
+          <option value=tennis>
+            <i class=material-symbols-outlined>sports_tennis</i> Tennis
+          </option>
+          <option value=baseball>
+            <i class=material-symbols-outlined>sports_baseball</i> Baseball
+          </option>
+          <option value=football>
+            <i class=material-symbols-outlined>sports_football</i> Football
+          </option>
+          <option value=basketball>
+            <i class=material-symbols-outlined>sports_basketball</i> Basketball
+          </option>
+        </div>  
+      </div>
+    </selectmenu>
+    <script type="module" src="./script.js"></script>
+  </body>
+</html>

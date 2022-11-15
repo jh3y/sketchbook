@@ -1,0 +1,83 @@
+@import "normalize.css";
+@import "../../../../net/experimental-web-platform/style.css";
+@import "open-props/style";
+@import "open-props/normalize";
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	font-family:  'Google Sans', sans-serif, system-ui;
+	background: var(--surface-2);
+}
+
+selectmenu {
+	anchor-name: --menu;
+}
+
+[behavior=button] {
+	padding: var(--size-4);
+	width: 240px;
+	display: flex;
+	justify-content: space-between;
+	border-radius: var(--radius-2);
+	border: 0;
+	box-shadow: var(--shadow-2);
+	background: var(--surface-1);
+}
+
+selectmenu [popover] {
+	overflow: visible;
+	border-radius: var(--radius-2);
+	top: anchor(--menu bottom);
+	opacity: var(--open, 0);
+	translate: 0 calc(var(--open, 0) * var(--size-2));
+	box-shadow: var(--shadow-5);
+	overflow: auto;
+	height: 30vh;
+}
+
+selectmenu [popover] option:first-of-type {
+	opacity: 0.25;
+}
+
+selectmenu [behavior=selected-value] {
+	display: block;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+
+selectmenu [popover]:open {
+	transition: opacity 0.2s, translate 0.2s;
+	--open: 1;
+}
+
+selectmenu option + option {
+	border-top: solid 1px var(--gray-2);
+}
+
+selectmenu option {
+	display: grid;
+	align-items: center;
+	gap: var(--size-1);
+	padding: var(--size-2) var(--size-4);
+}
+
+selectmenu option span:last-of-type {
+	opacity: 0.5;
+	font-size: var(--font-size-0);
+}
+
+selectmenu option:hover {
+	background-color: var(--surface-2);
+}
+
+selectmenu option:checked:not(:hover) {
+	background: var(--surface-3);
+}

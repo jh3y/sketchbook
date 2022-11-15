@@ -37,7 +37,7 @@
   "browserslist": "> 0.5%, chrome 95, last 2 versions, not dead",
   "devDependencies": {
     "98.css": "0.1.11",
-    "@faker-js/faker": "^7.3.0",
+    "@faker-js/faker": "^7.6.0",
     "color": "^4.2.3",
     "plop": "^3.1.1",
     "prettier": "^2.7.1",

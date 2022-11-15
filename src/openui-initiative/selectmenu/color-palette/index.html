@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en" class="popup-support selectmenu-support">
+  <head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, maximum-scale=1.0" />
+    <title>openui-initiative/selectmenu/font-weight-selector</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DynaPuff:wdth,wght@75,400;100,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <selectmenu>
+      <div slot="button">
+        <button behavior="button">
+          <span data-color></span>
+          <span behavior="selected-value" slot="selected-value"></span>
+        </button>
+      </div>
+      <div slot="listbox">
+        <div popover behavior=listbox style="--count: 7;">
+          <div class="palette">
+            <option style="--index: 0;" value=red title=Red>
+              <span class=sr-only>Red</span>
+            </option>
+            <option style="--index: 1;" value=orange title=Orange>
+              <span class=sr-only>Orange</span>
+            </option>
+            <option style="--index: 2;" value=yellow title=Yellow>
+              <span class=sr-only>Yellow</span>
+            </option>
+            <option style="--index: 3;" value=green title=Green>
+              <span class=sr-only>Green</span>
+            </option>
+            <option style="--index: 4;" value=blue title=Blue>
+              <span class=sr-only>Blue</span>
+            </option>
+            <option style="--index: 5;" value=indigo title=Indigo>
+              <span class=sr-only>Indigo</span>
+            </option>
+            <option style="--index: 6;" value=violet title=Violet>
+              <span class=sr-only>Violet</span>
+            </option>
+          </div>
+        </div>  
+      </div>
+    </selectmenu>
+    <script type="module" src="./script.js"></script>
+  </body>
+</html>

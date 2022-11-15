@@ -1,0 +1,202 @@
+@import "normalize.css";
+@import "../../../../net/material-design-lite/icons.css";
+@import "../../../../net/experimental-web-platform/style.css";
+@import "open-props/style";
+@import "open-props/normalize";
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+:root {
+	--red: hsl;
+}
+
+body {
+	display: grid;
+	place-items: center;
+	align-content: center;
+	min-height: 100vh;
+	font-family:  'Google Sans', sans-serif, system-ui;
+	background: var(--surface-2);
+	gap: var(--size-4);
+}
+selectmenu {
+	--padding: var(--size-4);
+	--font-size: var(--font-size-2);
+	--height: calc((var(--padding) * 2) + var(--font-size));
+	--width: 160px;
+}
+
+selectmenu [behavior=button] {
+	padding: var(--padding);
+	font-size: var(--font-size);
+	line-height: 1;
+	width: var(--width);
+	height: var(--height);
+	display: flex;
+	gap: var(--size-4);
+	border-radius: var(--radius-2);
+	border: 0;
+	box-shadow: var(--shadow-2);
+	background: var(--surface-1);
+	outline-color: var(--color);
+}
+
+[data-color] {
+	height: var(--font-size-2);
+	aspect-ratio: 1;
+	background: var(--color, --red-2);
+	border-radius: 50%;
+}
+
+selectmenu [popover] {
+	overflow: visible;
+	border-radius: var(--radius-2);
+	margin: auto;
+/* 	box-shadow: var(--shadow-5); */
+	aspect-ratio: 1;
+	width: 400px;
+	left: 50%;
+	aspect-ratio: 1;
+	transform:
+		/* Into the center then translate	*/
+		translate(calc(var(--width) * 0.5), calc(var(--height) * -0.5))
+		translate(-50%, -50%);
+	position: relative;
+	border-radius: 50%;
+	background: transparent;
+
+}
+
+.palette {
+	height: 100%;
+	width: 100%;
+	border-radius: 50%;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%) scale(var(--open, 0));
+	/* mask:
+		linear-gradient(black, transparent)
+		50% 50% / var(--width) var(--height) no-repeat; */
+
+}
+
+selectmenu [popover]:open option {
+	transition:
+		transform 0.2s calc(var(--index, 0) * 0.05s),
+		outline-offset 0.2s,
+		opacity 0.2s calc(var(--index, 0) * 0.05s);
+}
+
+.sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border-width: 0;
+	top: 50%;
+	left: 50%;
+}
+
+selectmenu option {
+	width: 75px;
+	aspect-ratio: 1;
+	position: absolute;
+	margin: 0;
+	padding: 0;
+	top: 50%;
+	left: 50%;
+	opacity: var(--open, 0);
+	background: var(--color);
+	transform:
+		translate(-50%, -50%)
+		rotate(calc(((360 / var(--count)) * var(--index)) * 1deg))
+		translateY(calc(var(--open, 0) * 200%))
+		scale(var(--open, 0))
+		rotate(calc(((360 / var(--count)) * var(--index)) * -1deg));
+	border-radius: 50%;
+	box-shadow:
+		0 0 var(--size-4) var(--shadow) inset,
+		var(--shadow-5);
+}
+
+selectmenu option:after {
+	content: "";
+	height: 90%;
+	width: 90%;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	border: var(--size-1) solid var(--gray-0);
+	border-radius: 50%;
+	opacity: var(--highlight, 0);
+	transition: opacity 0.2s;
+	overflow: hidden;
+}
+
+selectmenu option {
+	outline-offset: 0;
+}
+
+selectmenu option:focus-visible {
+	outline: var(--size-1) solid var(--color);
+	outline-offset: var(--size-1);
+}
+
+selectmenu [popover]:open {
+	--open: 1;
+}
+
+selectmenu option:hover {
+	--highlight: 0.75;
+}
+
+selectmenu option:checked {
+	--highlight: 1;
+}
+
+
+:root:has([value=red]:checked),
+[value=red] {
+	--color: var(--red-5);
+	--shadow: var(--red-7);
+}
+:root:has([value=orange]:checked),
+[value=orange] {
+	--color: var(--orange-5);
+	--shadow: var(--orange-7);
+}
+:root:has([value=yellow]:checked),
+[value=yellow] {
+	--color: var(--yellow-5);
+	--shadow: var(--yellow-7);
+}
+:root:has([value=green]:checked),
+[value=green] {
+	--color: var(--green-5);
+	--shadow: var(--green-7);
+}
+:root:has([value=blue]:checked),
+[value=blue] {
+	--color: var(--blue-5);
+	--shadow: var(--blue-7);
+}
+:root:has([value=indigo]:checked),
+[value=indigo] {
+	--color: var(--indigo-5);
+	--shadow: var(--indigo-7);
+}
+:root:has([value=violet]:checked),
+[value=violet] {
+	--color: var(--violet-5);
+	--shadow: var(--violet-7);
+}
