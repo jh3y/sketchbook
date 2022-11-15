@@ -1,0 +1,473 @@
+@import "normalize.css";
+@import "../../../../net/experimental-web-platform/style.css";
+@import "https://unpkg.com/open-props/open-props.min.css";
+@import "https://unpkg.com/open-props/normalize.min.css";
+
+* {
+  box-sizing: border-box;
+}
+:root {
+  --digit: var(--red);
+  --state: paused;
+  --stan-win: 0;
+  --stan-star-scale: 0;
+  --stan-star-rotate: 0;
+  --red: #ff4d00;
+  --yellow: #ebb624;
+  --green: #38b24d;
+  --blue: #0f73ff;
+  --screen-hide: 0;
+  --screen-delay: 0;
+  --show-results: 0;
+  --deck: hsl(210 34% 10%);
+}
+
+h1 {
+	color: var(--gray-0);
+}
+
+body {
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  min-height: 100vh;
+  font-family: 'Google Sans', sans-serif;
+  background: var(--gradient-9);
+}
+form {
+  margin: 0;
+  position: relative;
+}
+.game-state-controls {
+  justify-self: end;
+}
+.game__controls {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  align-items: center;
+  justify-items: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: calc(var(--columns) * 5.25vmin);
+  transform: translate(-50%, calc(-50% - ((var(--columns) * 0.65) * 5vmin)));
+}
+svg {
+  fill: currentColor;
+}
+.board {
+  background: var(--gray-6);
+  border: 0.4vmin solid var(--gray-6);
+  display: grid;
+  grid-template-columns: repeat(var(--columns), 5vmin);
+  grid-template-rows: repeat(var(--rows), 5vmin);
+  grid-gap: 0.2vmin;
+}
+.board__cell {
+  display: grid;
+  place-items: center;
+  color: hsl(var(--hue, 210) 100% 40% / 1);
+  font-weight: bold;
+  position: relative;
+  font-family: sans-serif;
+  font-size: 3vmin;
+  background: var(--gray-2);
+}
+.board__cell--exploder {
+  background: var(--red-8);
+}
+.board__group-controls {
+  position: absolute;
+}
+.board__flag-toggle {
+  position: absolute;
+  top: 110%;
+  right: 0;
+  min-height: 5vmin;
+  min-width: 5vmin;
+}
+.board__cell label {
+  background: var(--gray-2);
+  border: var(--size-2) solid var(--gray-0);
+  border-right-color: var(--gray-5);
+  border-bottom-color: var(--gray-5);
+}
+.board__cell :where(label,
+span) {
+  position: absolute;
+  inset: 0;
+  display: inline-block;
+  display: grid;
+  place-items: center;
+}
+:root:has(#flag-toggle:checked) {
+  --flagging: 1;
+}
+:root:has(#flag-toggle:checked) .board__cell:has([id*="flag--"]:checked) [for*="flag--"],
+:root:has(#flag-toggle:not(:checked)) .board__cell:has([id*="flag--"]:checked) [for*="flag--"] {
+  display: block;
+  z-index: 2;
+}
+body {
+  counter-reset: flag var(--mine-count);
+}
+[id*=flag--]:checked {
+  counter-increment: flag -1;
+}
+.mine-count:after {
+  color: var(--text-1);
+  content: counter(flag);
+}
+.board__cell:has(:checked:not([id*="flag"])) label {
+  opacity: 0;
+  z-index: -1;
+}
+.board__cell:has(:checked[id*="flag"]) label[for*="flag"]:after {
+  content: "⛳️";
+  position: absolute;
+  inset: 0;
+  font-size: 3vmin;
+}
+.board__cell:has(:checked[id*="flag"]) span {
+  cursor: not-allowed;
+}
+label {
+  opacity: calc(1 - var(--show-fail, 0));
+  z-index: 1;
+}
+label[for*="flag"],
+label[for*="defuse"] {
+  z-index: calc(1 + var(--flagging, 0));
+}
+.timer {
+  color: var(--digit);
+  display: inline-flex;
+  font-size: 6vmin;
+  padding: 1.75vmin;
+  background: #000;
+}
+@property --ms-tens {
+  initial-value: 0;
+  inherits: false;
+  syntax: '<integer>';
+}
+@property --ms-singles {
+  initial-value: 0;
+  inherits: false;
+  syntax: '<integer>';
+}
+@property --s-tens {
+  initial-value: 0;
+  inherits: false;
+  syntax: '<integer>';
+}
+@property --s-singles {
+  initial-value: 0;
+  inherits: false;
+  syntax: '<integer>';
+}
+@property --m-tens {
+  initial-value: 0;
+  inherits: false;
+  syntax: '<integer>';
+}
+@property --m-singles {
+  initial-value: 0;
+  inherits: false;
+  syntax: '<integer>';
+}
+.digit {
+  position: relative;
+  color: transparent;
+  font-family: 'Orbitron', 'Google Sans', sans-serif;
+  counter-reset: var(--counter-name) var(--counter-variable);
+  -webkit-animation: var(--name, none) var(--duration, 1s) infinite steps(var(--steps)) var(--state);
+          animation: var(--name, none) var(--duration, 1s) infinite steps(var(--steps)) var(--state);
+}
+.digit:after {
+  content: counter(var(--counter-name));
+  font-variant: tabular-nums;
+  color: var(--digit);
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+:root:has(#start-game:checked) {
+  --state: running;
+}
+:root:has(#start-game:checked) .ms--tens {
+  --name: ms-tens;
+}
+:root:has(#start-game:checked) .ms--singles {
+  --name: ms-singles;
+}
+:root:has(#start-game:checked) .s--tens {
+  --name: s-tens;
+}
+:root:has(#start-game:checked) .s--singles {
+  --name: s-singles;
+}
+:root:has(#start-game:checked) .m--tens {
+  --name: m-tens;
+}
+:root:has(#start-game:checked) .m--singles {
+  --name: m-singles;
+}
+.game-timer {
+  font-size: 3vmin;
+  padding: 1vmin;
+}
+.game-timer .ms {
+  font-size: 2vmin;
+}
+.ms {
+  font-size: 4vmin;
+  transform: translate(0, -6%);
+}
+.ms--tens {
+  --duration: 1s;
+  --steps: 10;
+  --counter-name: ms-tens;
+  --counter-variable: var(--ms-tens);
+}
+.ms--singles {
+  --duration: 0.1s;
+  --steps: 10;
+  --counter-name: ms-singles;
+  --counter-variable: var(--ms-singles);
+}
+.s--tens {
+  --duration: 60s;
+  --steps: 6;
+  --counter-name: s-tens;
+  --counter-variable: var(--s-tens);
+}
+.s--singles {
+  --duration: 10s;
+  --steps: 10;
+  --counter-name: s-singles;
+  --counter-variable: var(--s-singles);
+}
+.m--tens {
+  --duration: 3600s;
+  --steps: 6;
+  --counter-name: m-tens;
+  --counter-variable: var(--m-tens);
+}
+.m--singles {
+  --duration: 600s;
+  --steps: 10;
+  --counter-name: m-singles;
+  --counter-variable: var(--m-singles);
+}
+@property --screen-hide {
+  initial-value: 0;
+  inherits: true;
+  syntax: '<number>';
+}
+@property --screen-y {
+  initial-value: 0;
+  inherits: true;
+  syntax: '<length>';
+}
+@property --screen-scale {
+  initial-value: 1;
+  inherits: true;
+  syntax: '<number>';
+}
+.screen {
+  height: 100vh;
+  width: 100vw;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) translateY(calc(var(--screen-y, 0))) scale(var(--screen-scale, 0)) translateY(calc(var(--screen-hide, 0) * 100vh));
+  z-index: 5;
+  display: grid;
+  place-items: center;
+  transition: --screen-hide 0.2s;
+}
+.dialog {
+  height: 40vmin;
+  aspect-ratio: 1.5/1;
+  font-family: 'Google Sans', sans-serif;
+  font-size: clamp(1rem, 2vmin, 2rem);
+  backdrop-filter: blur(10px) saturate(0.75);
+  color: var(--gray-0);
+  background: hsl(210 29% 20% / 0.8);
+  position: absolute;
+  box-shadow: var(--shadow-6);
+  text-align: center;
+  border-style: solid;
+  border-top-color: var(--red);
+  border-right-color: var(--green);
+  border-bottom-color: var(--yellow);
+  border-left-color: var(--blue);
+  border-width: var(--size-2);
+}
+.dialog__content {
+  padding: var(--size-4);
+  inset: 0;
+  display: grid;
+  place-items: center;
+  position: absolute;
+  inset: 0;
+}
+:root:has(#start-game:checked) {
+  --screen-hide: 1;
+}
+:root:has([id*="bomb"]:checked) body {
+  --show-fail: 1;
+  --screen-hide: 0;
+  --state: paused;
+}
+:root:has([id*="bomb"]:checked) :where(.dialog__content--lose) {
+  --opacity: 1;
+  --z: 2;
+}
+:root:has([id*="bomb"]:checked) :where(.dialog__content--intro,
+.dialog__content--win),
+.dialog__content--win,
+.dialog__content--lose {
+  --opacity: 0;
+  --z: -1;
+}
+.dialog__content {
+  opacity: var(--opacity, 1);
+  z-index: var(--z, 2);
+}
+p + * {
+  margin-top: var(--size-4);
+}
+.faux-button {
+  --bg: var(--gray-9);
+  box-sizing: border-box;
+  font-size: var(--font-size-fluid-1);
+  padding: var(--size-4) var(--size-6);
+  background: var(--bg);
+  color: var(--gray-0);
+  font-weight: bold;
+  font-family: 'Google Sans', sans-serif;
+  border: var(--size-2) solid var(--gray-0);
+  display: inline-block;
+  transform: translateY(calc(var(--y, 0) * 1%)) scale(var(--s));
+  transition: transform 0.1s, background 0.1s;
+}
+.faux-button:hover {
+  --bg: #000;
+  --y: -5;
+  --s: 1.1;
+}
+.faux-button:active {
+  --bg: #000;
+  --y: 5;
+  --s: 0.9;
+}
+h1 {
+  text-align: center;
+}
+p {
+  margin: 0;
+}
+[type="checkbox"] {
+  opacity: 0;
+  position: fixed;
+}
+.board__flag-toggle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, calc(-50% + ((var(--columns) * 0.65) * 5vmin)));
+}
+.toggle {
+  --checked: -1;
+  height: 2vmin;
+  aspect-ratio: 2/1;
+  border-radius: 4vmin;
+  background: var(--gray-4);
+}
+.toggle:after {
+  content: "⛳️";
+  right: 0;
+  transform: translate(120%, -50%);
+}
+.toggle:before {
+  content: "👊";
+  left: 0;
+  transform: translate(-120%, -50%);
+}
+.toggle:before,
+.toggle:after {
+  position: absolute;
+  top: 50%;
+  font-size: 4vmin;
+}
+.toggle:has(:checked) {
+  --checked: 1;
+}
+.toggle__thumb {
+  height: 4vmin;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--gray-2);
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  border: 0.5vmin solid var(--gray-0);
+  border-right-color: var(--gray-5);
+  border-bottom-color: var(--gray-5);
+  transition: transform 0.2s;
+  transform: translate(-50%, -50%) translateX(calc(60% * var(--checked, -1)));
+}
+.toggle__control {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  z-index: 2;
+  background: none;
+}
+.game-reset {
+  background: none;
+  color: var(--gray-8);
+  height: 48px;
+  aspect-ratio: 1;
+  padding: 0;
+  justify-self: flex-end;
+  border: none;
+}
+.flag-controls {
+  color: var(--gray-8);
+  font-size: 4vmin;
+  font-weight: bold;
+  justify-self: start;
+}
+@keyframes ms-tens {
+  to {
+    --ms-tens: 10;
+  }
+}
+@keyframes ms-singles {
+  to {
+    --ms-singles: 10;
+  }
+}
+@keyframes s-tens {
+  to {
+    --s-tens: 6;
+  }
+}
+@keyframes s-singles {
+  to {
+    --s-singles: 10;
+  }
+}
+@keyframes m-tens {
+  to {
+    --m-tens: 6;
+  }
+}
+@keyframes m-singles {
+  to {
+    --m-singles: 10;
+  }
+}
