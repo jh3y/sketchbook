@@ -1,0 +1,56 @@
+@import "normalize.css";
+@import "open-props/style";
+@import "open-props/normalize";
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	font-family:  'Google Sans', sans-serif, system-ui;
+	height: 300vh;
+}
+
+.apple {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+h1 {
+	font-size: var(--font-size-fluid-3);
+	clip-path: inset(0 100% 0 0);
+	animation: reveal 1s both;
+	animation-timeline: scroll(root);
+}
+
+@keyframes reveal {
+	10%, 100% {
+		clip-path: inset(0 0 0 0);
+	}
+}
+
+img {
+	width: 40vmin;
+	aspect-ratio: 1000 / 667;
+	object-fit: cover;
+	object-position: 0 0;
+	animation: stop-motion 1s both steps(21);
+	animation-timeline: scroll(root);
+}
+
+@keyframes stop-motion {
+	0%, 10% {
+		object-position: 0 0;
+	}
+	90%, 100% {
+		object-position: 100% 0;
+	}
+}
+
