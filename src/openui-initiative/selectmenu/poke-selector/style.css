@@ -1,0 +1,134 @@
+@import "normalize.css";
+@import "../../../../net/experimental-web-platform/style.css";
+@import "open-props/style";
+@import "open-props/normalize";
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	font-family:  'Google Sans', sans-serif, system-ui;
+	background: var(--surface-2);
+}
+
+selectmenu {
+	anchor-name: --menu;
+}
+
+[behavior=button] {
+	padding: var(--size-4);
+	display: grid;
+	grid-template-columns: auto 1fr auto;
+	justify-content: space-between;
+	border-radius: var(--radius-2);
+	border: 0;
+	box-shadow: var(--shadow-2);
+	background: var(--surface-1);
+	align-items: center;
+	gap: var(--size-4);
+	text-align: left;
+	width: 280px;
+}
+
+:where(.pokeselect__avatar, .pokeselect__ball, .pokeselect__choose) {
+	width: 48px;
+}
+
+[title=angle-down] {
+	width: 1rem;
+	fill: var(--text-2);
+}
+
+selectmenu [popover] {
+	overflow: visible;
+	border-radius: var(--radius-2);
+	top: anchor(--menu bottom);
+	opacity: var(--open, 0);
+	translate: 0 calc(var(--open, 0) * var(--size-2));
+	box-shadow: var(--shadow-5);
+	padding: var(--size-2);
+	overflow: auto;
+	height: 30vh;
+}
+
+.pokeselect__image-placeholder {
+	height: 48px;
+	aspect-ratio: 1;
+}
+
+.pokeselect__ball {
+	animation: load 0.65s infinite;
+	display: inline-block;
+}
+
+@keyframes load {
+	50% {
+		translate: 0 -50%;
+	}
+	100% {
+		rotate: -360deg;
+	}
+}
+
+
+[behavior="button"][disabled] :is(.pokeselect__placeholder, svg) {
+	opacity: 0.2;
+}
+
+[popover] option img {
+	grid-column: 1;
+	grid-row: 1 / -1;
+}
+
+[popover] optgroup {
+	margin: var(--size-2) 0;
+	color: var(--text-2);
+}
+
+selectmenu [popover]:open {
+	transition: opacity 0.2s, translate 0.2s;
+	--open: 1;
+}
+
+selectmenu [popover] option + option {
+	border-top: solid 1px var(--gray-2);
+}
+
+.pokeselect__details {
+	display: grid;
+	gap: var(--size-2);
+}
+
+.pokeselect__stats {
+	display: flex;
+	gap: var(--size-2);
+}
+
+.pokeselect__title {
+	font-weight: var(--font-weight-9);
+}
+
+selectmenu option {
+	color: var(--text-1);
+	display: grid;
+	align-items: center;
+	gap: var(--size-1);
+	padding: var(--size-2);
+	grid-template-columns: auto 1fr;
+	align-items: center;
+	justify-content: center;
+}
+
+selectmenu option:hover {
+	background-color: var(--surface-2);
+}
+
+selectmenu option:checked:not(:hover) {
+	background: var(--surface-3);
+}

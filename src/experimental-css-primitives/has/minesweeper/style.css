@@ -30,9 +30,11 @@ body {
   display: grid;
   place-items: center;
   overflow: hidden;
-  min-height: 100vh;
+  height: 100vh;
+  width: 100vw;
   font-family: 'Google Sans', sans-serif;
   background: var(--gradient-9);
+  clip-path: inset(0 0 0 0);
 }
 form {
   margin: 0;
@@ -288,8 +290,9 @@ label[for*="defuse"] {
   transition: --screen-hide 0.2s;
 }
 .dialog {
-  height: 40vmin;
-  aspect-ratio: 1.5/1;
+  display: grid;
+  grid-template-columns: auto;
+  grid-template-rows: auto;
   font-family: 'Google Sans', sans-serif;
   font-size: clamp(1rem, 2vmin, 2rem);
   backdrop-filter: blur(10px) saturate(0.75);
@@ -310,8 +313,12 @@ label[for*="defuse"] {
   inset: 0;
   display: grid;
   place-items: center;
-  position: absolute;
-  inset: 0;
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.dialog__content .timer {
+  margin-bottom: 1rem;
 }
 :root:has(#start-game:checked) {
   --screen-hide: 1;

@@ -15,12 +15,12 @@
             <h1>MineCSSweeper</h1>
             <p>An old classic! Try and open all the cells without tripping a mine.</p>
             <label for="start-game" class="faux-button">Start Game</label>
-            <input type="checkbox" id="start-game">
+            <input tabindex=-1 type="checkbox" id="start-game">
           </div>
           <div class="dialog__content dialog__content--lose">
             <h1>Uh Oh!</h1>
             <p>Looks like you tripped a mine!</p>
-            <button class="faux-button" type="reset" title="Reset Board">Replay</button>
+            <button tabindex=-1 class="faux-button" type="reset" title="Reset Board">Replay</button>
           </div>
           <div class="dialog__content dialog__content--win">
             <h1>Well Done!</h1>
@@ -34,7 +34,7 @@
               <div class="digit digit--small ms ms--tens">0</div>
               <div class="digit digit--small ms ms--singles">0</div>
             </div>
-            <button class="faux-button" type="reset" title="Reset Board">Replay</button>
+            <button tabindex=-1 class="faux-button" type="reset" title="Reset Board">Replay</button>
           </div>
         </div>
       </div>

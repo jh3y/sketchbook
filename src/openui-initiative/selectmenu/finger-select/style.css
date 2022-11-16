@@ -1,0 +1,113 @@
+/* @import "normalize.css"; */
+@import "../../../../net/experimental-web-platform/style.css";
+@import "open-props/style";
+@import "open-props/normalize";
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+	display: grid;
+	place-items: center;
+	align-content: center;
+	min-height: 100vh;
+	gap: var(--size-6);
+	background: var(--surface-2);
+	font-family:  'Google Sans', sans-serif, system-ui;
+	position: relative;
+}
+
+
+/* selectmenu {
+	anchor-name: --menu;
+}
+
+[popover]:open {
+	top: anchor(--menu bottom);
+} */
+
+[behavior=button] {
+	padding: var(--size-2) var(--size-4);
+	width: 180px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	border-radius: var(--radius-2);
+	border: 0;
+	box-shadow: var(--shadow-2);
+	background: var(--surface-1);
+}
+
+:where(span, option) {
+	font-size: var(--font-size, var(--font-size-1));
+	font-weight: var(--font-weight, var(--font-weight-4));
+}
+
+option {
+	display: flex;
+	gap: var(--size-4);
+	color: var(--text-1);
+	align-items: center;
+}
+
+option .👉 {
+	visibility: hidden;
+}
+
+.👆, .👉 {
+	font-size:  2rem;
+}
+
+.👆 {
+	transform: rotate(var(--rotate, var(--base-rotate, 0deg)));
+	transition: transform 0.35s var(--ease-elastic-1);
+}
+
+selectmenu:has([popover]:open) .👆 {
+	--rotate: 540deg;
+}
+
+[popover] {
+	box-shadow: var(--shadow-3);
+	opacity: var(--open, 0);
+	transform: translate(0, calc(var(--open, 0) * 5%));
+	transform-origin: 50% 0;
+	overflow: visible;
+}
+
+[popover] option + option {
+	border-top: 1px solid var(--gray-2);
+}
+
+option {
+	padding: var(--size-2) var(--size-4);
+}
+
+option:checked .👉 {
+	visibility: visible;
+}
+
+option:is(:hover, :focus) {
+	background: var(--surface-2);
+}
+
+[popover]:open {
+	transition: transform 0.2s, opacity 0.2s;
+	--open: 1;
+}
+
+selectmenu:has([value=top]:checked) {
+	--base-rotate: 0deg;
+}
+selectmenu:has([value=right]:checked) {
+	--base-rotate: 90deg;
+}
+selectmenu:has([value=bottom]:checked) {
+	--base-rotate: 180deg;
+}
+selectmenu:has([value=left]:checked) {
+	--base-rotate: 270deg;
+}
