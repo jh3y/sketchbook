@@ -1,0 +1,22 @@
+@layer normalize, base, bootstrap, components;
+
+@import "normalize.css" layer(normalize);
+@import "bootstrap";
+@import "./button.css";
+
+
+@layer base {
+	*,
+	*:after,
+	*:before {
+		box-sizing: border-box;
+	}
+
+	body {
+		display: grid;
+		place-items: center;
+		align-content: start;
+		min-height: 100vh;
+		font-family:  'Google Sans', sans-serif, system-ui;
+	}
+}

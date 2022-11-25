@@ -1,0 +1,62 @@
+@import "normalize.css";
+@import "open-props/style";
+@import "open-props/normalize";
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+:root {
+	accent-color: var(--accent-color, hsl(280 80% 10%));
+}
+
+body {
+	display: grid;
+	place-items: center;
+	align-content: center;
+	min-height: 100vh;
+	gap: 3rem;
+	font-family:  'Google Sans', sans-serif, system-ui;
+}
+
+#accent {
+	color: var(--accent-color);
+}
+
+dl {
+	display: grid;
+	grid-template-columns: auto 1fr;
+	align-items: center;
+	justify-items: left;
+	align-content: center;
+	gap: 2rem 2rem;
+}
+
+dt {
+	margin: 0;
+}
+
+dd {
+	justify-self: center;
+}
+
+:where(progress, [type=range]) {
+	width: 140px;
+}
+
+pre {
+	font-weight: var(--font-weight-9);
+	background: var(--surface-2);
+	color: var(--text-1);
+	padding: 2rem;
+	border-radius: var(--radius-3);
+	display: grid;
+}
+
+fieldset {
+	display: grid;
+	grid-template-columns: auto 1fr;
+	gap: 1rem 2rem;
+}

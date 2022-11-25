@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, maximum-scale=1.0" />
+    <title>accent-color-playground</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <pre>
+      <code>:root { accent-color: <span id=accent>red</span>; }</code>
+    </pre>
+    <dl>
+      <dt>
+        <label for="check">Checkbox</label>
+      </dt>
+      <dd>
+        <input type=checkbox id=check checked>
+      </dd>
+      <dt>
+        <label for=radio-one>Radio Buttons</label> 
+      </dt>
+      <dd>
+        <input type=radio name=radio id=radio-one checked>
+        <input type=radio name=radio id=radio-two>
+        <input type=radio name=radio id=radio-three>
+      </dd>
+      <dt>
+        <label for="progress">Progress Element</label>
+      </dt>
+      <dd>
+        <progress id="progress" max=100 value=35></progress>
+      </dd>
+      <dt>
+        <label for="range">Range Input</label>
+      </dt>
+      <dd>
+        <input type="range" id="range" value="40" min="0" max="100" step="1">
+      </dd>
+    </dl>
+    <fieldset>
+      <legend>Change accent-color</legend>
+      <label for=hue>Hue</label>
+      <input id=hue type=range min=0 max=360 step=1 value=5>
+      <label for=saturation>Saturation</label>
+      <input id=saturation type=range min=0 max=100 step=1 value=69>
+      <label for=lightness>Lightness</label>
+      <input id=lightness type=range min=0 max=100 step=1 value=54>
+    </fieldset>
+    <script type="module" src="./script.js"></script>
+  </body>
+</html>

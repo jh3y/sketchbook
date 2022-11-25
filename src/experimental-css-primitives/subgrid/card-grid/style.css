@@ -1,0 +1,64 @@
+@import "open-props/style";
+@import "open-props/normalize";
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	background: var(--surface-2);
+	font-family: 'Google Sans', sans-serif, system-ui;
+}
+
+main {
+	padding: 1rem 0;
+	display: grid;
+	width: min(calc(100% - 2rem), 1280px);
+	grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+article {
+	box-shadow: var(--shadow-4);
+	background: var(--surface-1);
+	border-radius: var(--radius-2);
+	overflow: hidden;
+	padding-bottom: 1rem;
+}
+
+:where(h2) {
+	margin: 0;
+	line-height: 1;
+}
+
+article :where(h2, p, a) {
+	padding: 0 1rem;
+	display: block;
+}
+
+article a {
+	text-align: center;
+}
+
+article img {
+	aspect-ratio: 16 / 9;
+	width: 100%;
+	object-fit: cover;
+}
+
+/* The magic */
+main {
+	gap: 1rem;
+}
+article img {
+	height: 100%;
+}
+article {
+	display: grid;
+	grid-row: span 4;
+	grid-template-rows: subgrid;
+}

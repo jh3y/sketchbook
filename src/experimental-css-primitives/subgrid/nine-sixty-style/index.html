@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, maximum-scale=1.0" />
+    <title>experimental-css-primitives/subgrid/nine-sixty-style</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Subgrid is rad!</h1>
+      <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Architecto vel cumque eum deserunt nostrum sequi libero incidunt mollitia officiis facere, nihil! Reprehenderit possimus iusto modi, nihil labore neque, ratione quis.</p>
+    </header>
+    <main>
+      <img src="https://picsum.photos/1920/1080?random=2" alt="">
+      <section>
+        <article style="--split: grid-5;">
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing, elit. Voluptate, aliquam harum pariatur natus laborum, quae, sunt quidem obcaecati voluptatum consequuntur nesciunt voluptatibus adipisci explicabo recusandae delectus possimus suscipit accusamus aperiam!</p>
+          <img src="https://picsum.photos/300/300?random=1" alt="">
+        </article>
+        <article style="--split: grid-6;">
+          <img src="https://picsum.photos/300/300?random=4" alt="">
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing, elit. Voluptate, aliquam harum pariatur natus laborum, quae, sunt quidem obcaecati voluptatum consequuntur nesciunt voluptatibus adipisci explicabo recusandae delectus possimus suscipit accusamus aperiam!</p>
+        </article>
+        <article style="--split: grid-7;">
+          <img src="https://picsum.photos/300/300?random=14" alt="">
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing, elit. Voluptate, aliquam harum pariatur natus laborum, quae, sunt quidem obcaecati voluptatum consequuntur nesciunt voluptatibus adipisci explicabo recusandae delectus possimus suscipit accusamus aperiam!</p>
+        </article>
+      </section>
+      <img src="https://picsum.photos/1920/1080?random=12" alt="">
+      <section>
+        <img style="--start: 6; --end: 10;" src="https://picsum.photos/400/300?random=51" alt="">
+        <img style="--start: 2; --end: 8;" src="https://picsum.photos/400/300?random=52" alt="">
+        <img style="--start: 6; --end: -1;" src="https://picsum.photos/400/300?random=53" alt="">
+        <img style="--start: 1; --end: 11;" src="https://picsum.photos/400/300?random=54" alt="">
+      </section>
+    </main>
+    <footer>
+      <h2>See ya!</h2>
+    </footer>
+    <script type="module" src="./script.js"></script>
+  </body>
+</html>

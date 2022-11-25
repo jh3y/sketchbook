@@ -53,6 +53,7 @@
     "@svgdotjs/svg.filter.js": "^3.0.8",
     "@svgdotjs/svg.js": "^3.1.2",
     "autoprefixer": "^10.4.12",
+    "bootstrap": "5.2.3",
     "canvas-confetti": "^1.5.1",
     "dat.gui": "^0.7.9",
     "gsap": "^3.11.1",

@@ -1,0 +1,135 @@
+@import "open-props/style";
+@import "open-props/normalize";
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	background: var(--surface-2);
+	grid-template-columns: [fullbleed-start] auto [main-start] min(calc(100% - 2rem), 1280px) [main-end] auto [fullbleed-end];
+	font-family: 'Google Sans', sans-serif, system-ui;
+}
+
+header {
+	grid-column: fullbleed;
+	display: grid;
+	grid-template-columns: subgrid;
+}
+
+header :where(:not(img)) {
+	grid-column: main;
+}
+
+main p {
+	grid-column: 1 / -1;
+}
+
+article + p {
+	margin-top: 3rem;
+}
+
+p {
+	max-inline-size: 100%;
+	margin-bottom: 1rem;
+}
+
+h1 {
+	margin-top: 2rem;
+}
+
+cite {
+	border: 0;
+	margin-bottom: 2rem;
+}
+
+header img {
+	grid-column: fullbleed;
+	max-height: 300px;
+	width: 100%;
+	object-fit: cover;
+}
+
+main {
+	padding: 1rem 0;
+	display: grid;
+	grid-column: main;
+	width: min(calc(100% - 2rem), 1280px);
+	grid-template-columns: repeat(4, 1fr) [feature-start] 1fr 1fr 1fr 1fr [feature-img-end] 1fr 1fr 1fr 1fr [feature-end];
+}
+
+article {
+	box-shadow: var(--shadow-4);
+	background: var(--surface-1);
+	border-radius: var(--radius-2);
+	overflow: hidden;
+	padding-bottom: 1rem;
+}
+
+.card--featured {
+	grid-column: feature;
+	grid-template-columns: repeat(8, 1fr);
+	grid-template-columns: subgrid;
+	padding-bottom: 0;
+	grid-auto-flow: column;
+}
+
+.card--featured img {
+	grid-column: span 4;
+	grid-row: 1 / span 4;
+}
+.card--featured h2 {
+	grid-row: 2;
+}
+.card--featured > * {
+	grid-column: span 4;
+}
+
+main > article {
+	grid-column: span 4;
+}
+
+:where(h2) {
+	margin: 0;
+	line-height: 1;
+}
+
+footer {
+	grid-column: fullbleed;
+	padding: 3rem 0;
+	font-weight: var(--font-weight-9);
+	font-size: var(--font-size-fluid-2);
+}
+
+article :where(h2, p, a) {
+	padding: 0 1rem;
+	display: block;
+}
+
+article a {
+	text-align: center;
+}
+
+article img {
+	aspect-ratio: 16 / 9;
+	width: 100%;
+	object-fit: cover;
+}
+
+/* The magic */
+main {
+	gap: 1rem;
+}
+article img {
+	height: 100%;
+}
+article {
+	display: grid;
+	grid-row: span 4;
+	grid-template-rows: subgrid;
+}
