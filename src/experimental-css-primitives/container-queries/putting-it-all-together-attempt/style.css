@@ -69,12 +69,6 @@ article button {
 	container: action / inline-size;
 }
 
-@container action (max-width: 120px) {
-	.button .button__text--supplementary {
-		display: none;
-	}
-}
-
 @container action (max-width: 50px) {
 	article button .button__text {
 		display: none;
