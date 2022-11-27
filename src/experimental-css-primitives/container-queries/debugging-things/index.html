@@ -8,58 +8,39 @@
     <link rel="stylesheet" href="./style.css" />
   </head>
   <body>
-    <header>
-      <div class="header__content">
-        <button>
-          <span class="material-symbols-outlined">
-            menu
-          </span>
-        </button>
-        <h1>The Reading List</h1>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse nostrum sit, in vitae iure dolore molestias voluptatibus sapiente facilis repellat, quas, placeat, nulla modi veritatis. Iste quidem, at sit eum.</p>
-      </div>
-    </header>
-    <div class="page">
-      <main>
+    <main>
+      <div class="wrapper" data-for="article">
         <article class=card>
           <img src="https://picsum.photos/300/200?random=2" alt="">
           <div class="card__content">
-            <h2>Some</h2>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit inventore at fugiat amet necessitatibus culpa tenetur dignissimos? Recusandae saepe, obcaecati nulla! Tempore ratione assumenda incidunt, enim animi consequatur amet corporis.</p>
+            <h2>Some Article</h2>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit inventore at fugiat amet necessitatibus culpa tenetur dignissimos?</p>
             <div class="card__actions">
-              <button>Add to list<span class="material-symbols-outlined">bookmark_add</span></button>
-              <button>Read now<span class="material-symbols-outlined">import_contacts</span></button>
+              <button class="button">
+                <span class="button__text">
+                  Add<span class="button__text button__text--supplementary">&nbsp;to list</span>
+                </span>
+                <span class="button__icon material-symbols-outlined">bookmark_add</span>
+              </button>
+              <button class="button">
+                <span class="button__text">
+                  Read<span class="button__text button__text--supplementary">&nbsp;now</span>
+                </span>
+                <span class="button__icon material-symbols-outlined">import_contacts</span>
+              </button>
             </div>
           </div>
         </article>
-        <article class=card>
-          <img src="https://picsum.photos/300/200?random=4" alt="">
-          <div class="card__content">
-            <h2>Blog</h2>
-            <p>Soluta, minus velit voluptatibus odio distinctio accusantium assumenda, ea nobis error dolorem beatae, repellat? Sint explicabo, iste voluptatum enim minus aliquam magnam? Consectetur, suscipit neque soluta doloremque? Commodi totam, repellendus.</p>
-            <div class="card__actions">
-              <button>Add to list<span class="material-symbols-outlined">bookmark_add</span></button>
-              <button>Read now<span class="material-symbols-outlined">import_contacts</span></button>
-            </div>
-          </div>
-        </article>
-        <article class="card card--featured">
-          <img src="https://picsum.photos/300/200?random=14" alt="">
-          <div class="card__content">
-            <h2>Post</h2>
-            <p>Neque accusamus sequi cumque ab quam reprehenderit architecto quo recusandae suscipit nisi, facere fugiat nihil, eius a odit facilis quis repellat hic odio pariatur ullam iusto dolore. Minima, consequuntur, vero!</p>
-            <div class="card__actions">
-              <button>Add to list<span class="material-symbols-outlined">bookmark_add</span></button>
-              <button>Read now<span class="material-symbols-outlined">import_contacts</span></button>
-            </div>
-          </div>
-        </article>
-      </main>
-      <aside>
-        <h3>Your List</h3>
-        <p>You've not added anything<br>to your reading list yet.</p>
-      </aside>
-    </div>
+      </div>
+      <div class="wrapper" data-for="button">
+        <button class="button">
+          <span class="button__text">
+            Add<span class="button__text button__text--supplementary">&nbsp;to list</span>
+          </span>
+          <span class="button__icon material-symbols-outlined">bookmark_add</span>
+        </button>
+      </div>
+    </main>
     <script type="module" src="./script.js"></script>
   </body>
 </html>
