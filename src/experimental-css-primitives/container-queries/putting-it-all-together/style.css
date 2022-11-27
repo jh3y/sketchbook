@@ -23,6 +23,118 @@ main {
 	display: grid;
 }
 
+article {
+/* 	box-shadow: var(--shadow-4); */
+	background: var(--surface-1);
+	border-radius: var(--radius-3);
+	overflow: hidden;
+	display: grid;
+	gap: 1rem;
+}
+
+main {
+	container: main / inline-size;
+	width: 100%;
+}
+
+article {
+	container: card / inline-size;
+	grid-auto-columns: 1fr;
+	grid-auto-rows: auto;
+}
+/* Move this to the card by having a layout that the children span based on card width */
+/* @container main (min-width: 500px) {
+	article {
+		grid-template-columns: 1fr 1fr;
+	}
+} */
+
+article img {
+	aspect-ratio: 16 / 9;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.card__content {
+	padding: 1rem;
+	display: grid;
+	gap: 0.5rem;
+	grid-template-rows: auto 1fr auto;
+	text-align: left;
+/* 	grid-column: 2; */
+}
+
+article button {
+	container: action / inline-size;
+}
+
+@container action (max-width: 50px) {
+	article button .button__text {
+		display: none;
+	}
+}
+
+@container card (max-width: 300px) {
+	article .card__content {
+		grid-column: 2;
+	}
+	article h2 {
+		font-size: 1rem;
+	}
+
+	article .card__content {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		width: 200px;
+		padding-left: 0;
+		gap: 1rem;
+	}
+
+	article img {
+		max-width: 100px;
+	}
+
+	article button:first-of-type {
+		display: none;
+	}
+
+	article button:last-of-type {
+		width: 44px;
+		aspect-ratio: 1;
+		overflow: hidden;
+		max-width: 44px;
+	}
+
+	article p {
+		display: none;
+	}
+	article img {
+		min-width: 50px;
+	}
+}
+
+@container card (min-width: 50ch) {
+	article .card__content {
+		grid-column: 2;
+	}
+}
+
+@container card (max-width: 50ch) {
+	article button:first-of-type {
+		max-width: 48px;
+		aspect-ratio: 1;
+		position: absolute;
+		top: 1rem;
+		right: 1rem;
+	}
+	article button:last-of-type {
+		flex: 1;
+	}
+}
+
+
 .card__actions {
 	display: flex;
 	gap: 1rem;
@@ -42,26 +154,12 @@ main {
 	color: var(--gray-0);
 }
 
-article {
-/* 	box-shadow: var(--shadow-4); */
-	background: var(--surface-1);
-	border-radius: var(--radius-3);
-	overflow: hidden;
-	display: grid;
-	gap: 1rem;
-}
-
-.card__content {
-	padding: 1rem;
-	display: grid;
-	gap: 0.5rem;
-	grid-template-rows: auto 1fr auto;
-}
-
 aside {
 	display: none;
 	padding: 1rem;
-	min-width: 320px;
+	gap: 1rem;
+	align-content: start;
+	min-width: 300px;
 	background: var(--surface-1);
 	height: 100%;
 	border-radius: var(--radius-3);
@@ -112,10 +210,14 @@ header button {
 	color: var(--gray-0);
 }
 
-aside p {
+aside > p {
 	margin: 1rem 0;
 	text-align: center;
 	opacity: 0.65;
+}
+
+aside article {
+	background: var(--surface-2);
 }
 
 header img {
@@ -133,19 +235,16 @@ header img {
 	margin-bottom: 1rem;
 }
 
-@media(min-width: 780px) {
+@media(min-width: 700px) {
 	header {
 		grid-column: 1 / -1;
 	}
-	article {
-		grid-template-columns: 1fr 1fr;
-	}
 	.page {
-		grid-template-columns: 1fr auto;
+		grid-template-columns: auto 1fr;
 	}
 	aside {
 		grid-row: 1 / -1;
-		display: block;
+		display: grid;
 	}
 }
 
@@ -157,11 +256,4 @@ header img {
 article a {
 	display: block;
 	text-align: right;
-}
-
-article img {
-	aspect-ratio: 16 / 9;
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
 }
