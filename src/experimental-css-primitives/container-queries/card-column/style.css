@@ -1,0 +1,62 @@
+@import "open-props/style";
+@import "open-props/normalize";
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	background: var(--surface-2);
+	font-family: 'Google Sans', sans-serif, system-ui;
+}
+
+main {
+	padding: 1rem 0;
+	gap: 2rem;
+	display: grid;
+	width: min(calc(100% - 2rem), 1280px);
+}
+
+article {
+	box-shadow: var(--shadow-4);
+	background: var(--surface-1);
+	border-radius: var(--radius-2);
+	overflow: hidden;
+	display: grid;
+	gap: 1rem;
+}
+
+.card__content {
+	padding: 1rem;
+	display: grid;
+	gap: 0.5rem;
+	grid-template-rows: auto 1fr auto;
+}
+
+@media(min-width: 780px) {
+	article {
+		grid-template-columns: 1fr 1fr;
+	}
+}
+
+:where(h2) {
+	margin: 0;
+	line-height: 1;
+}
+
+article a {
+	display: block;
+	text-align: right;
+}
+
+article img {
+	aspect-ratio: 16 / 9;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}

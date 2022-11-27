@@ -1,0 +1,169 @@
+@import "open-props/style";
+@import "open-props/normalize";
+@import "../../../../net/material-design-lite/icons.css";
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+	display: grid;
+	place-items: center;
+	align-items: start;
+	align-content: start;
+	min-height: 100vh;
+	background: var(--surface-2);
+	font-family: 'Google Sans', sans-serif, system-ui;
+}
+
+main {
+	gap: 1rem;
+	display: grid;
+}
+
+article {
+/* 	box-shadow: var(--shadow-4); */
+	background: var(--surface-1);
+	border-radius: var(--radius-3);
+	overflow: hidden;
+	display: grid;
+	gap: 1rem;
+}
+
+main {
+	container: main / inline-size;
+	width: 100%;
+}
+
+article {
+	container: card / inline-size;
+	grid-auto-columns: 1fr;
+	grid-auto-rows: auto;
+}
+/* Move this to the card by having a layout that the children span based on card width */
+/* @container main (min-width: 500px) {
+	article {
+		grid-template-columns: 1fr 1fr;
+	}
+} */
+
+article img {
+	aspect-ratio: 16 / 9;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.card__content {
+	padding: 1rem;
+	display: grid;
+	gap: 0.5rem;
+	grid-template-rows: auto 1fr auto;
+/* 	grid-column: 2; */
+}
+
+@container card (min-width: 500px) {
+	article .card__content {
+		grid-column: 2;
+	}
+}
+
+aside {
+	display: none;
+	padding: 1rem;
+	min-width: 320px;
+	background: var(--surface-1);
+	height: 100%;
+	border-radius: var(--radius-3);
+}
+
+aside h3 {
+	text-align: center;
+	text-decoration: underline;
+}
+
+header {
+	width: 100%;
+	text-align: center;
+	position: relative;
+	display: grid;
+	min-height: 25vh;
+	margin-bottom: 1rem;
+	background: url(https://picsum.photos/1920/1080?random=23);
+	background-size: cover;
+	background-position: center;
+}
+
+header button {
+	border-radius: 50%;
+	position: absolute;
+	top: 1rem;
+	right: 1rem;
+	z-index: 2;
+	color: var(--gray-0);
+	width: 48px;
+	aspect-ratio: 1;
+	background: none;
+	display: grid;
+	place-items: center;
+	font-weight: bold;
+}
+
+.header__content {
+	display: grid;
+	place-items: center;
+	padding: 2rem;
+	z-index: 2;
+	background: hsl(0 0% 0% / 0.75);
+	height: 100%;
+}
+
+.header__content * {
+	color: var(--gray-0);
+}
+
+aside p {
+	margin: 1rem 0;
+	text-align: center;
+	opacity: 0.65;
+}
+
+header img {
+	aspect-ratio: 16 / 9;
+	width: 100%;
+	max-height: 100%;
+	object-fit: cover;
+}
+
+.page {
+	display: grid;
+	justify-items: center;
+	gap: 1rem;
+	width: min(calc(100% - 2rem), 1280px);
+	margin-bottom: 1rem;
+}
+
+@media(min-width: 700px) {
+	header {
+		grid-column: 1 / -1;
+	}
+	.page {
+		grid-template-columns: auto 1fr;
+	}
+	aside {
+		grid-row: 1 / -1;
+		display: block;
+	}
+}
+
+:where(h2) {
+	margin: 0;
+	line-height: 1;
+}
+
+article a {
+	display: block;
+	text-align: right;
+}
