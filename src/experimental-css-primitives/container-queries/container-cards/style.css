@@ -43,7 +43,7 @@ article {
 	grid-auto-rows: auto;
 }
 /* Move this to the card by having a layout that the children span based on card width */
-/* @container main (min-width: 500px) {
+/* @container main (min-width: 700px) {
 	article {
 		grid-template-columns: 1fr 1fr;
 	}
@@ -64,7 +64,7 @@ article img {
 /* 	grid-column: 2; */
 }
 
-@container card (min-width: 60ch) {
+@container card (min-width: 70ch) {
 	article .card__content {
 		grid-column: 2;
 	}

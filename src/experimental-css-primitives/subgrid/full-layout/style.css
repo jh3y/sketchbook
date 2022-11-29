@@ -59,7 +59,7 @@ main {
 	padding: 1rem 0;
 	display: grid;
 	grid-column: main;
-	width: min(calc(100% - 2rem), 1280px);
+/* 	width: min(calc(100% - 2rem), 1280px); */
 	grid-template-columns: repeat(4, 1fr) [feature-start] 1fr 1fr 1fr 1fr [feature-img-end] 1fr 1fr 1fr 1fr [feature-end];
 }
 
@@ -75,6 +75,7 @@ article {
 	grid-column: feature;
 	grid-template-columns: repeat(8, 1fr);
 	grid-template-columns: subgrid;
+	grid-template-rows: auto;
 	padding-bottom: 0;
 	grid-auto-flow: column;
 }

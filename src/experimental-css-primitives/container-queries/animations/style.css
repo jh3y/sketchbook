@@ -1,0 +1,98 @@
+@import "open-props/style";
+@import "open-props/normalize";
+@import "../../../../net/material-design-lite/icons.css";
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	background: var(--surface-1);
+	font-family: 'Google Sans', sans-serif, system-ui;
+}
+
+main {
+	gap: 2rem;
+	display: grid;
+	place-items: center;
+	resize: horizontal;
+	overflow: hidden;
+	width: 80vmin;
+	background: var(--gray-4);
+	aspect-ratio: 16 / 9;
+	position: relative;
+	container: main / inline-size;
+	grid-template-columns: repeat(10, 1fr);
+	gap: 4px;
+}
+
+section {
+	background: var(--green-8);
+	height: 100%;
+	width: 100%;
+	position: relative;
+}
+
+section:last-of-type:after {
+	content: "";
+}
+
+section:after {
+	content: "10";
+	font-style: cursive;
+	font-size: 4vmin;
+	font-weight: bold;
+	top: 1rem;
+	color: white;
+	left: 100%;
+	transform: translateX(-45%);
+	position: absolute;
+	z-index: 8;
+	font-variant: tabular-nums;
+}
+
+section:nth-of-type(5):after {
+	content: "50";
+}
+section:nth-of-type(2):after,
+section:nth-of-type(8):after {
+	content: "20";
+}
+section:nth-of-type(3):after,
+section:nth-of-type(7):after {
+	content: "30";
+}
+section:nth-of-type(4):after,
+section:nth-of-type(6):after {
+	content: "40";
+}
+
+.box {
+	height: 6vmin;
+	aspect-ratio: 1;
+	background: url(https://assets.codepen.io/605876/brian-o-conner.svg);
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: center;
+	rotate: 90deg;
+	position: absolute;
+	left: 20%;
+	animation: move 2s infinite;
+}
+
+@keyframes move {
+	to {
+		left: 70%;
+	}
+}
+
+@keyframes move {
+	to {
+		translate: 50cqi 0;
+	}
+}

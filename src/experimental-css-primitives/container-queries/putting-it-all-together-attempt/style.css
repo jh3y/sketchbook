@@ -70,7 +70,7 @@ article button {
 }
 
 @container action (max-width: 50px) {
-	article button .button__text {
+	.button__text {
 		display: none;
 	}
 }
