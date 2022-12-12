@@ -10,7 +10,7 @@ CANVAS.height = height * RATIO
 CANVAS.width = width * RATIO
 
 const GLYPHS =
-  'ラドクリフマラソンわたしワタシんょンョたばこタバコとうきょうトウキョウ0123456789±!@#$%^&*()_+'.split('')
+  'ラドクリフマラソンわたしワタシんょンョたばこタバコとうきょうトウキョウ0123456789±!@#$%^&*()_+ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')
 
 const COLUMNS = 40
 const SIZE = Math.ceil(CANVAS.width / COLUMNS)
@@ -48,7 +48,8 @@ const renderMatrix = () => {
     
     // On the first row, let's bump the index
     // We could do this before we loop and go through and increment them all
-    if (y === 0) {
+    // if (y === 0 && Math.random() > 0.5) {
+    if (y === 0 && Math.random() > 0.1) {
       column.row += 1
     }
     const row = column.row
@@ -67,7 +68,7 @@ const renderMatrix = () => {
       )
     }
     if (row > (ROWS + column.len)) {
-      column.len = gsap.utils.random(6, ROWS)
+      column.len = gsap.utils.random(6, ROWS, 1)
       column.chars.last = [...column.chars.current]
       column.chars.current = new Array(ROWS).fill().map(() => gsap.utils.wrap(GLYPHS, gsap.utils.random(0, GLYPHS.length)))
       columnWatcher[x].row = gsap.utils.random(-ROWS, -1, 1)
