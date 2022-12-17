@@ -5,7 +5,7 @@ console.clear()
 const CANVAS = document.querySelector('#rain')
 
 const DEFAULT_OPTIONS = {
-  size: () => window.innerWidth * 0.05,
+  size: () => window.innerWidth * 0.025,
   family: 'JetBrains Mono, monospace',
   fps: 24,
   hue: 120,
