@@ -1,0 +1,199 @@
+@import "open-props/style";
+@import "open-props/normalize";
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	font-family:  'Google Sans', sans-serif, system-ui;
+  width: 100vw;
+  overflow-x: hidden;
+}
+
+ul {
+	--width: 100vw;
+	width: var(--width);
+	height: 100vh;
+	padding: 0;
+	margin: 0;
+	list-style-type: none;
+	display: grid;
+	place-items: center;
+	grid-auto-flow: column;
+	gap: 1rem;
+	overflow: auto;
+	scroll-snap-type: x mandatory;
+	padding: 0 calc((var(--width, 80vw) * 0.5) - (var(--card-size, 300px) * 0.5));
+	scroll-timeline: --rad;
+	scroll-timeline-axis: inline;
+}
+
+li {
+	view-timeline: --item inline;
+	scroll-snap-align: center;
+}
+
+article {
+	width: var(--card-size, 300px);
+	aspect-ratio: 3 / 4;
+	border-radius: var(--radius-3);
+	background: var(--surface-4);
+	position: relative;
+	overflow: hidden;
+	scale: 0.8;
+	animation-timeline: --item;
+	animation: scalify both ease-in-out;
+	animation-delay: cover 40%;
+	animation-end-delay: cover 60%;
+}
+
+@keyframes scalify {
+	50% {
+		scale: 1;
+		background-position: 100% 100%;
+	}
+}
+
+.backdrop {
+	position: absolute;
+	inset: 0;
+	filter: grayscale(1);
+	background-image: var(--bg);
+	background-size: 200% 200%;
+	background-position: 0% 50%;
+	animation-timeline: --item;
+	animation: colorify both ease-in-out, shift-bg both linear;
+	animation-delay: cover 40%, contain 0%;
+	animation-end-delay: cover 60%, contain 100%;
+}
+
+
+@keyframes colorify {
+	50% {
+		filter: grayscale(0);
+	}
+}
+
+@keyframes shift-bg {
+	0% {
+		background-position: 0% 50%;
+	}
+	100% {
+		background-position: 100% 50%;
+	}
+}
+
+.word {
+	clip-path: inset(0 0 0 0);
+}
+
+span > span {
+	display: inline-block;
+	translate: 0 100%;
+	animation-timeline: --item;
+	animation: move-on-up both ease-in-out;
+	animation-delay: cover 40%;
+	animation-end-delay: cover 60%;
+}
+
+@keyframes move-on-up {
+	0% {
+		translate: 0 100%;
+	}
+	50% {
+		translate: 0 0;
+	}
+	100% {
+		translate: 0 -100%;
+	}
+}
+
+/* char:nth-of-type(1) {
+	animation-timeline: --item;
+	animation: move-up both, move-out both;
+	animation-delay: cover calc(50% - 300px), cover 50%;
+	animation-end-delay: cover 50%, cover 70%;
+}
+.char:nth-of-type(2) {
+	animation-timeline: --item;
+	animation: move-up both, move-out both;
+	animation-delay: cover 31%, cover 51%;
+	animation-end-delay: cover 50%, cover 71%;
+}
+.char:nth-of-type(3) {
+	animation-timeline: --item;
+	animation: move-up both, move-out both;
+	animation-delay: cover 32%, cover 52%;
+	animation-end-delay: cover 50%, cover 72%;
+}
+.char:nth-of-type(4) {
+	animation-timeline: --item;
+	animation: move-up both, move-out both;
+	animation-delay: cover 33%, cover 53%;
+	animation-end-delay: cover 50%, cover 73%;
+}
+.char:nth-of-type(5) {
+	animation-timeline: --item;
+	animation: move-up both, move-out both;
+	animation-delay: cover 34%, cover 54%;
+	animation-end-delay: cover 50%, cover 74%;
+}
+.char:nth-of-type(6) {
+	animation-timeline: --item;
+	animation: move-up both, move-out both;
+	animation-delay: cover 35%, cover 55%;
+	animation-end-delay: cover 50%, cover 75%;
+}
+.char:nth-of-type(7) {
+	animation-timeline: --item;
+	animation: move-up both, move-out both;
+	animation-delay: cover 36%, cover 56%;
+	animation-end-delay: cover 50%, cover 76%;
+} */
+
+/* @keyframes move-up {
+	to {
+		translate: 0 0;
+	}
+}
+@keyframes move-out {
+	to {
+		translate: 0 -100%;
+	}
+} */
+
+
+
+a > span {
+	background: hsl(0 0% 0% / 0.4);
+	position: absolute;
+	inset: 0;
+	display: grid;
+	place-items: center;
+}
+
+span {
+	font-size: 2.5rem;
+	font-weight: 300;
+	letter-spacing: 0.5rem;
+	text-transform: uppercase;
+	color: var(--gray-0);
+}
+
+.sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border-width: 0;
+}
