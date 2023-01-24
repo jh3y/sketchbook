@@ -2,6 +2,7 @@ import React from 'react'
 import { createRoot } from 'react-dom/client'
 import confetti from 'canvas-confetti'
 import Color from 'color'
+import './style.css'
 // import useCaretPosition from 'use-caret-position'
 
 /**
@@ -133,7 +134,7 @@ const genPalette = (seedHsl) => {
 }
 genPalette('hsl(0 90% 50%)')
 
-const App = () => {
+const PowerInput = ({ colors, ...props }) => {
 	const powerInputRef = React.useRef(null)
 	const bumpRef = React.useRef(null)
 	const { x, y, getPosition } = useCaretPosition(powerInputRef)
@@ -160,10 +161,10 @@ const App = () => {
 			drift: 0,
 			angle: 90,
 			spread: 45,
-			startVelocity: randomInRange(2, 15),
-			ticks: randomInRange(20, 80),
+			startVelocity: randomInRange(2, 25),
+			ticks: randomInRange(20, 100),
 			// colors: ['#e74c2c'],
-			colors,
+			// colors,
 			zIndex: -1,
 		})
 		if (bumpRef.current) clearTimeout(bumpRef.current)
@@ -174,7 +175,10 @@ const App = () => {
 	const fire = (e) => {
 		if (
 			e.type !== 'focus' &&
-			window.matchMedia('(prefers-reduced-motion: no-preference)').matches
+			window.matchMedia('(prefers-reduced-motion: no-preference)').matches &&
+			e.keyCode !== 8 &&
+			e.keyCode !== 32 &&
+			e.keyCode !== 13
 		) {
 			const pos = getPosition(powerInputRef)
 			resetInput()
@@ -183,15 +187,27 @@ const App = () => {
 	}
 
 	return (
+		<input
+			ref={powerInputRef}
+			onFocus={fire}
+			onKeyDown={fire}
+			{...props}
+		/>
+	)
+}
+
+const App = () => {
+	return (
 		<>
-			<label htmlFor="coupon">Coupon Code</label>
-			<input
-				id="coupon"
-				ref={powerInputRef}
-				type="text"
-				onFocus={fire}
-				onInput={fire}
-			/>
+			<h1>You're a winner!</h1>
+			<p>Please enter your email address.</p>
+			<form>
+				<label className="sr-only" htmlFor="email">Email</label>
+				<PowerInput
+					id="email"
+					type="text"
+				/>
+			</form>
 		</>
 	)
 }
