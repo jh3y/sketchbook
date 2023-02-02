@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en" class="selectmenu-support">
+  <head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, maximum-scale=1.0" />
+    <title>openui-initiative/selectmenu/passport-autofill</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <form action="#">
+      <fieldset>
+        <legend>Speaker information</legend>
+        <div class="form-field">
+          <label for="name">Name</label>
+          <input name="name" type="text" id="name">
+        </div>
+        <div class="form-field">
+          <label for="email">Email</label>
+          <input name="email" type="email" id="email">
+        </div>
+        <div class="form-field">
+          <label for=country>Country</label>
+          <selectmenu id=country name=country>
+            <div slot="button">
+              <button behavior="button" type="button" disabled>
+                <span behavior=selected-value slot=selected-value>
+                  Loading...
+                </span>
+                <span behavior=marker>
+                  <svg viewBox="0 0 320 512" title="angle-down">
+                    <path d="M143 352.3L7 216.3c-9.4-9.4-9.4-24.6 0-33.9l22.6-22.6c9.4-9.4 24.6-9.4 33.9 0l96.4 96.4 96.4-96.4c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9l-136 136c-9.2 9.4-24.4 9.4-33.8 0z" />
+                  </svg>
+                </span>
+              </button>
+            </div>
+            <div slot="listbox">
+              <div popover behavior="listbox">
+              </div>
+            </div>
+          </selectmenu>
+        </div>
+        <button type=submit>Submit</button>
+      </fieldset>
+    </form>
+    <script type="module" src="./script.js"></script>
+  </body>
+</html>

@@ -32,6 +32,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "init": "mkcert -install && mkcert localhost",
     "dev": "rm -rf dist && vite --config ./vite.config.js",
+    "build": "rm -rf dist && vite build --config ./vite.config.js",
     "create": "plop"
   },
   "browserslist": "> 0.5%, chrome 95, last 2 versions, not dead",
