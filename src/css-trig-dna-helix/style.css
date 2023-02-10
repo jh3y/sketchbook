@@ -1,0 +1,122 @@
+@import "normalize.css";
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	font-family:  'Google Sans', sans-serif, system-ui;
+	transform-style: preserve-3d;
+	perspective: 100vmin;
+	background: hsl(210 80% 12%);
+}
+
+.dna {
+	height: 65vmin;
+	aspect-ratio: 2/5;
+	display: grid;
+	transform-style: preserve-3d;
+	transform: rotateX(0deg);
+	rotate: 30deg;
+	gap: 0.5vmin;
+	animation: rotate 14s infinite linear;
+}
+
+@keyframes spin {
+	to {
+		transform: rotateY(360deg);
+	}
+}
+
+.strand {
+	--speed: 2;
+	--delay: calc(sin((var(--index) / var(--total)) * 45deg) * var(--speed) * -1s);
+	width: 100%;
+	transform-style: preserve-3d;
+	display: flex;
+	justify-content: space-between;
+}
+
+@keyframes rotate {
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+.strand__node {
+	background: var(--bg, white);
+	height: 100%;
+	aspect-ratio: 1;
+	border-radius: 50%;
+	animation: jump calc(var(--speed) * 1s) var(--delay, 0) infinite ease-in-out;
+	border: 0.5vmin solid black;
+}
+
+.strand:before {
+	content: "";
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 94%;
+	height: 30%;
+	background: white;
+	transform: translate3d(-50%, -50%, -2px);
+	transform-origin: center;
+	animation: scale calc(var(--speed) * 1s) var(--delay, 0) infinite linear;
+	border: 0.5vmin solid black;
+}
+
+@keyframes scale {
+	25%, 75% {
+		transform: translate3d(-50%, -50%, -2px) scaleX(0);
+	}
+	0%, 50%, 100% {
+		transform: translate3d(-50%, -50%, -2px) scaleX(1);	
+	}
+}
+
+.strand__node:first-of-type {
+	--destination: calc((65vmin * (2 / 5)) - 100%);
+/* 	background: hsl(120 80% 50%); */
+}
+.strand__node:last-of-type {
+	--destination: calc((-65vmin * (2 / 5)) + 100%);
+	animation-direction: reverse;
+/* 	background: hsl(210 80% 50%); */
+}
+
+.strand__node:after {
+	content: "";
+	height: 15%;
+	aspect-ratio: 1;
+	background: var(--bg, white);
+	position: absolute;
+	border-radius: 50%;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%) rotate(0deg) translateY(450%);
+	animation: orbit calc(var(--speed) * 0.35s) var(--delay, 0) infinite linear;
+}
+
+@keyframes orbit {
+	100% {
+		transform: translate(-50%, -50%) rotate(360deg) translateY(450%);
+	}
+}
+
+@keyframes jump {
+	25% {
+		translate: 0 0 1px;
+	}
+	50% {
+		transform: translateX(var(--destination));
+	}
+	75% {
+		translate: 0 0 -1px;
+	}
+}

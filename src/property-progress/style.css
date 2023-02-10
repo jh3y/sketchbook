@@ -1,0 +1,93 @@
+@import "normalize.css";
+@import "open-props/normalize";
+@import "open-props/style";
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	font-family:  'Google Sans', sans-serif, system-ui;
+}
+
+:root {
+	--duration: 2;
+}
+
+@property --progress {
+	initial-value: 0;
+	inherits: true;
+	syntax: '<integer>';
+}
+
+main {
+	animation: show calc(var(--duration) * 0.5s) calc(var(--duration) * 1.25s) both;
+	transform-origin: 50% 75%;
+}
+
+h1 {
+	font-size: calc(var(--font-size-fluid-3) * 1.2);
+	font-weight: var(--font-weight-9);
+}
+
+.progress {
+	height: 25vmin;
+	width: 100vw;
+	position: fixed;
+	bottom: 0;
+	background: hsl(10 80% 50%);
+	counter-reset: progress var(--progress);
+	animation:
+		slide calc(var(--duration) * 1s) ease-in backwards,
+		complete calc(var(--duration) * 1s) ease-in forwards,
+		drop calc(var(--duration) * 0.5s) calc(var(--duration) * 1.25s) forwards;
+}
+
+main {
+	display: grid;
+	gap: 1rem;
+}
+
+@keyframes show {
+	0% {
+		scale: 0.9;
+		opacity: 0;
+	}
+}
+
+@keyframes drop {
+	to {
+		translate: 0 120%;
+	}
+}
+
+@keyframes slide {
+	0% {
+		translate: -100% 0;
+	}
+}
+
+@keyframes complete {
+	to {
+		--progress: 100;
+	}
+}
+
+.progress:after {
+	content: counter(progress) "%";
+	position: absolute;
+	right: 2rem;
+	font-family: sans-serif;
+	top: 50%;
+	translate: 0 -50%;
+	font-size: 14vmin;
+	color: var(--surface-1);
+	font-weight: bold;
+	font-variant: tabular-nums;
+	animation: drop calc(var(--duration) * 0.5s) calc(var(--duration) * 1.25s) forwards;
+}
