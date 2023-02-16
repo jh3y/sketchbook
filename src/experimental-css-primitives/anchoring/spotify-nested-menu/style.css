@@ -1,0 +1,306 @@
+@import "normalize.css";
+@import "open-props/style";
+@import "open-props/normalize";
+@import "../../../../net/experimental-web-platform/style.css";
+
+
+[popovertoggletarget=context] {
+	anchor-name: --context;
+}
+
+[popovertoggletarget] svg {
+	transition: rotate 0.2s, transform 0.2s;
+}
+
+:root:has(#context:open) [popovertoggletarget=context] svg {
+	rotate: 180deg;
+}
+:root:has(#share:open) [popovertoggletarget=share] svg,
+:root:has(#playlist:open) [popovertoggletarget=playlist] svg {
+	--rotate: 1;
+}
+
+[popovertoggletarget=share] {
+	anchor-name: --share;
+}
+[popovertoggletarget=playlist] {
+	anchor-name: --playlist;
+}
+
+#share {
+	anchor-default: --share;
+	position-fallback: --aligned;
+}
+
+#playlist {
+	anchor-default: --playlist;
+	position-fallback: --aligned;
+}
+
+@position-fallback --aligned {
+	@try {
+		top: anchor(top);
+		right: auto;
+		bottom: auto;
+		left: anchor(right);
+	}
+	@try {
+		top: anchor(bottom);
+		right: auto;
+		bottom: auto;
+		left: anchor(right);
+	}
+	@try {
+		top: anchor(top);
+		right: anchor(left);
+		bottom: auto;
+		left: auto;
+	}
+	@try {
+		top: auto;
+		right: auto;
+		bottom: anchor(bottom);
+		left: anchor(right);
+	}
+	@try {
+		top: auto;
+		right: anchor(left);
+		bottom: anchor(bottom);
+		left: auto;
+	}
+}
+
+@position-fallback --flip {
+  @try {
+    top: auto;
+    right: auto;
+    bottom: anchor(--context top);
+    left: anchor(--context left);
+  }
+  @try {
+    top: auto;
+    right: anchor(--context right);
+    bottom: anchor(--context top);
+    left: auto;
+  }
+  @try {
+    top: anchor(--context bottom);
+    right: auto;
+    bottom: auto;
+    left: anchor(--context left);
+  }
+  @try {
+    top: anchor(--context bottom);
+    right: anchor(--context right);
+    bottom: auto;
+    left: auto;
+  }
+}
+
+
+
+li {
+	white-space: nowrap;
+}
+
+[popover] ul {
+	font-size: var(--font-size-1);
+	color: var(--text-2);
+}
+
+[type=search] {
+	anchor-name: --search;
+}
+
+[type=search] + svg {
+	position: absolute;
+	width: var(--size-4);
+	left: anchor(--search left);
+	top: anchor(--search center);
+	translate: var(--size-2) 0%;
+}
+
+:is(button, input):focus-visible {
+	background: var(--surface-2);
+	outline-color: transparent;
+	transition: none;
+	outline-width: 0;
+}
+
+#context {
+	anchor-name: --context;
+	position: absolute;
+	left: anchor(--context left);
+	position-fallback: --flip;
+}
+
+[popover] {
+	opacity: var(--open, 0);
+	scale: calc(0.9 + (var(--open, 0) * 0.1));
+	transition: opacity 0.2s, scale 0.2s, top 0.2s, right 0.2s, left 0.2s, bottom 0.2s;
+	box-shadow: var(--shadow-5);
+}
+
+[popover]:open {
+	--open: 1;
+}
+
+li {
+	position: relative;
+}
+
+li svg {
+	width: 24px;
+	position: absolute;
+	right: var(--size-4);
+	top: 50%;
+	transition: transform 0.2s;
+	transform: translate(0, -50%) rotate(calc((var(--rotate, 0) * 180deg) + 90deg));
+}
+
+.actions li:has(button, input) {
+	padding: 0;
+}
+
+[type=search] {
+	border-radius: 0;
+	padding: var(--size-4);
+	padding-left: 2.5rem;
+}
+
+body:has([value=top]:checked) {
+	align-content: start;
+}
+body:has([value=right]:checked) {
+	justify-content: end;
+}
+body:has([value=bottom]:checked) {
+	align-content: end;
+}
+body:has([value=left]:checked) {
+	justify-content: left;
+}
+body:has([value=center]:checked) {
+	align-items: center;
+}
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	font-family:  'Google Sans', sans-serif, system-ui;
+	background: var(--surface-1);
+}
+
+.sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border-width: 0;
+}
+
+.actions > button {
+	width: 44px;
+	aspect-ratio: 1;
+	padding: 0;
+	display: grid;
+	place-items: center;
+	border-radius: var(--radius-2);
+}
+
+.actions ul {
+	list-style-type: none;
+	padding: 0;
+	display: grid;
+}
+
+ul button {
+	width: 100%;
+	text-align: left;
+	position: relative;
+	padding: var(--size-4);
+}
+
+ul button svg {
+	height: var(--size-6);
+}
+
+.actions li {
+	padding: var(--size-4);
+}
+
+.actions li:hover {
+	background: var(--surface-3);
+}
+
+hr {
+	border-top: 1px solid var(--text-2);
+	margin: var(--size-0);
+}
+
+img {
+	width: 100%;
+	object-fit: cover;
+}
+
+.playing__meta {
+	padding: var(--size-3);
+	display:  flex;
+	justify-content: space-between;
+	gap: var(--size-3);
+	align-items: center;
+}
+
+.details {
+	font-size: var(--font-size-1);
+	font-weight: var(--font-weight-9);
+	color: var(--text-1);
+	display: grid;
+	gap: var(--size-1);
+}
+
+.details div:last-of-type {
+	font-size: var(--font-size-0);
+	font-weight: var(--font-weight-2);
+	color: var(--text-2);
+}
+
+select {
+	position: fixed;
+	top: var(--size-2);
+	right: var(--size-2);
+	padding: var(--size-2);
+	z-index: 2;
+}
+
+.actions {
+	display: flex;
+}
+
+button {
+	background: none;
+}
+
+button:hover {
+	background: var(--surface-2);
+}
+
+.actions > button svg {
+	width: 65%;
+}
+
+button svg {
+	stroke: var(--text-2);
+	fill: none;
+}
