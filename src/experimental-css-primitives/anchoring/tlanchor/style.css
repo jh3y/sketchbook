@@ -1,0 +1,194 @@
+@import "normalize.css";
+@import "open-props/style";
+@import "open-props/normalize";
+@import "../../../../net/experimental-web-platform/style.css";
+
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  display: grid;
+}
+
+.remove-button {
+  background: hsl(10 60% 40%) !important;
+  color: hsl(0 0% 100%) !important;
+  font-weight: bold !important;
+}
+.add-button {
+  background: hsl(130 60% 40%) !important;
+  color: hsl(0 0% 100%) !important;
+  font-weight: bold !important;
+}
+
+.anchor {
+  anchor-name: var(--anchor-name);
+}
+
+:root {
+  --line-width: 8px;
+}
+/*
+ * Quadrants are driven by the
+ * relationship of anchor order
+*/
+.annotation div {
+  position: absolute;
+}
+/* Top left */
+.annotation div:nth-of-type(1) {
+  background: hsl(10 80% 50% / calc(var(--debug, 0) * 0.5));
+  left: calc(anchor(var(--anchor-two) center) - (var(--line-width) * 0.5));
+  right: calc(anchor(var(--anchor-one) center) - (var(--line-width) * 0.5));
+  top: calc(anchor(var(--anchor-two) center) - (var(--line-width) * 0.5));
+  bottom: calc(anchor(var(--anchor-one) center) - (var(--line-width) * 0.5));
+}
+.annotation div:nth-of-type(1):after,
+.annotation div:nth-of-type(1):before {
+  content: "";
+  position: absolute;
+  left: 0;
+  background: var(--line);
+  bottom: 0;
+}
+.annotation div:nth-of-type(1):after {
+  width: var(--line-width);
+  top: 0;
+}
+.annotation div:nth-of-type(1):before {
+  height: var(--line-width);
+  right: 0;
+}
+/* Top right */
+.annotation div:nth-of-type(2) {
+  background: hsl(210 80% 50% / calc(var(--debug, 0) * 0.5));
+  left: calc(anchor(var(--anchor-one) center) - (var(--line-width) * 0.5));
+  bottom: calc(anchor(var(--anchor-one) center) - (var(--line-width) * 0.5));
+  right: calc(anchor(var(--anchor-two) center) - (var(--line-width) * 0.5));
+  top: calc(anchor(var(--anchor-two) center) - (var(--line-width) * 0.5));
+
+/*   top: anchor(var(--anchor-two) center); */
+/*   bottom: anchor(var(--anchor-one) center); */
+}
+.annotation div:nth-of-type(2):after,
+.annotation div:nth-of-type(2):before {
+  content: "";
+  position: absolute;
+  right: 0;
+  background: var(--line);
+  bottom: 0;
+}
+.annotation div:nth-of-type(2):after {
+  width: var(--line-width);
+  right: 0;
+  top: 0;
+}
+.annotation div:nth-of-type(2):before {
+  height: var(--line-width);
+  left: 0;
+}
+/* Bottom right */
+.annotation div:nth-of-type(3) {
+  background: hsl(130 80% 50% / calc(var(--debug, 0) * 0.5));
+  left: calc(anchor(var(--anchor-two) center) - (var(--line-width) * 0.5));
+  right: calc(anchor(var(--anchor-one) center) - (var(--line-width) * 0.5));
+  top: calc(anchor(var(--anchor-one) center) - (var(--line-width) * 0.5));
+  bottom: calc(anchor(var(--anchor-two) center) - (var(--line-width) * 0.5));
+}
+.annotation div:nth-of-type(3):after,
+.annotation div:nth-of-type(3):before {
+  content: "";
+  position: absolute;
+  background: var(--line);
+  top: 0;
+}
+.annotation div:nth-of-type(3):after {
+  width: var(--line-width);
+  left: 0;
+  bottom: 0;
+}
+.annotation div:nth-of-type(3):before {
+  height: var(--line-width);
+  right: 0;
+  left: 0;
+}
+/* Bottom left */
+.annotation div:nth-of-type(4) {
+  background: hsl(320 80% 50% / calc(var(--debug, 0) * 0.5));
+  left: calc(anchor(var(--anchor-one) center) - (var(--line-width) * 0.5));
+  right: calc(anchor(var(--anchor-two) center) - (var(--line-width) * 0.5));
+  top: calc(anchor(var(--anchor-one) center) - (var(--line-width) * 0.5));
+  bottom: calc(anchor(var(--anchor-two) center) - (var(--line-width) * 0.5));
+}
+.annotation div:nth-of-type(4):after,
+.annotation div:nth-of-type(4):before {
+  content: "";
+  position: absolute;
+  background: var(--line);
+  top: 0;
+}
+.annotation div:nth-of-type(4):after {
+  width: var(--line-width);
+  right: 0;
+  bottom: 0;
+}
+.annotation div:nth-of-type(4):before {
+  height: var(--line-width);
+  right: 0;
+  left: 0;
+}
+
+.annotation div {
+  font-weight: bold;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+
+.anchor {
+  position: absolute;
+  top: var(--y, 0);
+  left: var(--x, 0);
+  min-height: 100px;
+  min-width: 100px;
+  max-width: 200px;
+  background: var(--bg, #F3E779);
+  display: grid;
+  place-items: center;
+  font-family: sans-serif;
+  font-weight: bold;
+  color: var(--surface-1);
+  box-shadow: var(--shadow-5);
+  padding: 1rem;
+  animation: pop-in 0.25s var(--ease-elastic-3);
+}
+
+@keyframes pop-in {
+  0% { scale: 0; }
+}
+
+.anchor:after {
+  content: "";
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1rem;
+  background: var(--bg);
+  filter: brightness(0.94);
+  position: absolute;
+}
+
+.container {
+  position: relative;
+}
+
+
+.annotations {
+  z-index: -1;
+  pointer-events: none;
+}
