@@ -1,0 +1,257 @@
+@import "normalize.css";
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@700&display=swap');
+
+body {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  background: #111;
+}
+
+:root {
+  --font-size: 32px;
+  --glare: hsl(0 0% 100% / 0.25);	
+  --blur: 1px;
+  --hue: 38deg;
+  --saturation: 100%;
+  --brightness: 1.35;
+  --lightness: 70%;
+  --radius: calc(var(--font-size) * 0.75);
+  --padding: calc(var(--font-size) * 1.5) calc(var(--font-size) * 2);
+}
+
+button {
+	--shadow: 0.25;
+	cursor: pointer;
+  border: none;
+  padding: var(--padding);
+  display: grid;
+  place-items: center;
+  box-sizing: content-box;
+  border-radius: var(--radius);
+  font-family: 'Libre Baskerville', serif;
+  box-shadow:
+  	calc(var(--font-size) * 0.1)
+  	calc(var(--font-size) * 0.15)
+  	calc(var(--font-size) * 0.5)
+  	calc(var(--font-size) * 0)
+  	hsl(var(--hue) var(--saturation) 34% / 1),
+  	calc(var(--font-size) * 0.65)
+  	calc(var(--font-size) * 0.5)
+  	calc(var(--font-size) * 1.5)
+  	calc(var(--font-size) * -0.15)
+  	hsl(var(--hue) var(--saturation) 30% / 1);
+  position: relative;
+  scale: var(--scale, 1);
+  transition: scale 0.1s, box-shadow 0.1s;
+  outline-color: hsl(var(--hue) var(--saturation) 75%);
+}
+
+button:is(:hover, :focus-visible) {
+	--scale: 1.1;
+	box-shadow:
+  	calc(var(--font-size) * 0.1)
+  	calc(var(--font-size) * 0.15)
+  	calc(var(--font-size) * 0.25)
+  	calc(var(--font-size) * -0.5)
+  	hsl(var(--hue) var(--saturation) 34% / 1),
+  	calc(var(--font-size) * 0.65)
+  	calc(var(--font-size) * 0.5)
+  	calc(var(--font-size) * 0.5)
+  	calc(var(--font-size) * -0.75)
+  	hsl(var(--hue) var(--saturation) 30% / 1);
+}
+button:active {
+	--scale: 1.075;
+	box-shadow:
+  	calc(var(--font-size) * 0)
+  	calc(var(--font-size) * 0)
+  	calc(var(--font-size) * 0)
+  	calc(var(--font-size) * 0)
+  	hsl(var(--hue) var(--saturation) 34% / 1),
+  	calc(var(--font-size) * 0)
+  	calc(var(--font-size) * 0)
+  	calc(var(--font-size) * 0)
+  	calc(var(--font-size) * 0)
+  	hsl(var(--hue) var(--saturation) 30% / 1);
+}
+
+video {
+/*	display: none;*/
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  filter:
+    saturate(0.2)
+    contrast(1.5)
+    brightness(1.75)
+    blur(var(--blur))
+    ;
+  position: absolute;
+  inset: 0;
+  scale: 1.2;
+}
+
+.paco-canvas {
+  overflow: hidden;
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius);
+  filter: brightness(var(--brightness));
+}
+
+.paco-canvas:after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+  	radial-gradient(ellipse at 50% 50%, hsl(var(--hue) var(--saturation) 98% / 0.98), transparent 80%) 50% 0 / 100% 6% no-repeat,
+  	radial-gradient(ellipse at 50% 50%, hsl(var(--hue) var(--saturation) 8% / 0.98), transparent 80%) 50% 100% / 100% 6% no-repeat,
+    radial-gradient(circle at bottom right, hsl(var(--hue) var(--saturation) 45% / 0.75), transparent),
+    hsl(var(--hue) var(--saturation) 70% / 0.65);
+  box-shadow:
+ 		calc(var(--font-size) * -0.2) calc(var(--font-size) * -0.2) 10px -5px inset hsl(var(--hue) var(--saturation) 25% / 0.75),
+ 		calc(var(--font-size) * 0.2) calc(var(--font-size) * 0.2) 10px -5px inset hsl(var(--hue) var(--saturation) 75% / 0.75),
+    0 0 calc(var(--font-size) * 0.25) calc(var(--font-size) * 0.25) inset hsl(var(--hue) var(--saturation) 10% / 0.3)
+    ;
+
+}
+
+.paco-text {
+  font-size: var(--font-size);
+  letter-spacing: calc(var(--font-size) * 0.25);
+  color: hsl(var(--hue) var(--saturation) 16% / 0.65);
+  text-shadow:
+    calc(var(--font-size) * -0.075) calc(var(--font-size) * -0.075) hsl(var(--hue) var(--saturation) 90% / 0.6),
+    calc(var(--font-size) * 0.075) calc(var(--font-size) * 0.075) hsl(var(--hue) var(--saturation) 10% / 0.2);
+  z-index: 2;
+  position: relative;
+  text-transform: uppercase;
+}
+
+/* Tried multiple ways of getting a nicer block of color across somehow. Not happening... */
+button:after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(
+    108deg,
+    transparent 0 55%,
+    var(--glare) 55% 60%,
+    transparent 60% 70%,
+    var(--glare) 70% 85%,
+    transparent 85%
+  ) calc(var(--pos) * -200%) 0% / 200% 100%, transparent;
+  z-index: 2;
+  border-radius: var(--radius);
+  transition: background-position 0s;
+}
+
+button:is(:hover, :focus-visible):after {
+	transition: background-position 0.75s;
+}
+
+button {
+	--pos: 0;
+}
+
+button:is(:hover, :focus-visible) {
+	--pos: 1;
+}
+
+.paco-text:before {
+  background: hsl(var(--hue) var(--saturation) 70% / 0.35);
+  content: "";
+  position: absolute;
+  filter: brightness(1.2);
+  inset: calc(var(--font-size) * -0.5);
+  border: calc(var(--font-size) * 0.1) solid hsl(var(--hue) 90% 20% / 0.5);
+  overflow: hidden;
+  z-index: -1;
+  border-radius: calc(var(--font-size) * 0.15);
+  --multiplier: 0.075;
+  box-shadow:
+    calc(var(--font-size) * var(--multiplier)) calc(var(--font-size) * var(--multiplier)) calc(var(--font-size) * var(--multiplier)) calc(var(--font-size) * var(--multiplier)) inset hsl(var(--hue) 90% 14% / 0.8),
+    calc(var(--font-size) * (var(--multiplier) * -1)) calc(var(--font-size) * (var(--multiplier) * -1)) calc(var(--font-size) * var(--multiplier)) calc(var(--font-size) * (var(--multiplier) * 0.5)) inset hsl(var(--hue) 90% 30% / 0.8);
+
+}
+
+.paco-grub {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+
+/* Handle sparkly things */
+
+.paco-sparkles {
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+}
+
+.paco-sparkles svg {
+	position: absolute;
+	z-index: 3;
+	width: calc(var(--font-size) * 0.5);
+	aspect-ratio: 1;
+}
+
+.paco-sparkles svg path {
+	fill: hsl(var(--hue) var(--saturation) 100% / 0.9);
+}
+
+/* Animation for sparkles */
+
+button:is(:hover, :focus-visible) svg {
+	animation: sparkle 0.75s calc((var(--delay-step) * var(--d)) * 1s) both;
+}
+
+@keyframes sparkle {
+	50% {
+		transform: translate(-50%, -50%) scale(var(--s, 1));
+	}
+}
+
+button svg {
+	--delay-step: 0.1;
+	top: calc(var(--y, 50) * 1%);
+	left:  calc(var(--x, 0) * 1%);
+	transform: translate(-50%, -50%) scale(0);
+}
+
+button svg:nth-of-type(1) {
+	--x: 5;
+	--y: 80;
+	--s: 1.4;
+	--d: 1;
+}
+
+button svg:nth-of-type(2) {
+	--x: 17;
+	--y: 25;
+	--s: 2;
+	--d: 2;
+}
+
+button svg:nth-of-type(3) {
+	--x: 50;
+	--y: 16;
+	--s: 2.1;
+	--d: 3;
+}
+
+button svg:nth-of-type(4) {
+	--x: 70;
+	--y: 80;
+	--s: 1.4;
+	--d: 2;
+}
+
+button svg:nth-of-type(5) {
+	--x: 95;
+	--y: 10;
+	--s: 1.8;
+	--d: 4;
+}
