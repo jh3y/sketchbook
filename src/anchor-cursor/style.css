@@ -1,0 +1,247 @@
+@import "normalize.css";
+@import "open-props/style";
+@import "open-props/normalize";
+
+:root {
+  --padding: 1rem;
+  --transition: 0.165s;
+	--magnet-threshold: 12px;
+	--width: 72ch;
+}
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+*::selection {
+	background: hotpink;
+}
+
+[magnetic-cursor],
+[magnetic-cursor] [data-anchor] {
+	cursor: none;
+}
+
+[data-anchor] {
+	font-weight: bold;
+}
+
+p:first-of-type {
+  font-weight: var(--font-weight-9);
+  border-left: 6px solid var(--yellow-5);
+  padding-left: 1rem;
+}
+
+p:nth-of-type(2) {
+  font-weight: var(--font-weight-9);
+  border-left: 6px solid var(--green-5);
+  padding-left: 1rem;
+}
+
+a {
+	color: hotpink;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+	background: var(--surface-1);
+}
+
+body {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+/*  background: var(--surface-3);*/
+  font-family: Optima, Candara, 'Noto Sans', source-sans-pro, sans-serif;
+}
+
+:is(main, header, nav) {
+	width: var(--width);
+	max-width: 100vw;
+}
+
+.eye {
+  transform-box: fill-box;
+  transform-origin: center;
+  scale: 1;
+  animation: blink 8s infinite linear;
+}
+
+@keyframes blink {
+  0%, 46%, 48%, 50%, 100% {
+    transform: scaleY(1);
+  }
+  47%, 49% {
+    transform: scaleY(0.01);
+  }
+}
+
+main {
+  display: grid;
+  align-items: center;
+  gap: 2rem;
+}
+
+svg {
+  height: 48px;
+}
+
+nav {
+  display: flex;
+  list-style-type: none;
+  position: relative;
+  margin: 0;
+  padding: 0;
+  gap: 1rem;
+  margin-block: 1rem;
+}
+
+nav a {
+  padding: var(--padding);
+  color: var(--text-2);
+  font-weight: var(--font-weight-9);
+}
+
+a:is(:hover, :focus-visible) {
+  text-underline-offset: 0.2rem;
+  text-decoration-thickness: 0.2rem;
+  text-decoration-color: currentColor;
+  outline-color: currentColor;
+}
+
+nav a:focus-visible {
+  outline-offset: calc(var(--padding) * -0.35);
+}
+
+a:visited {
+	color: var(--text-2);
+}
+
+body {
+	display: grid;
+	place-items: center;
+	align-content: start;
+	min-height: 100vh;
+	font-family:  'Google Sans', sans-serif, system-ui;
+	position: relative;
+}
+
+h1 {
+	font-weight: var(--font-weight-9);
+	font-size: var(--font-size-fluid-3);
+}
+
+.cursor {
+	position: fixed;
+	left: calc(var(--x, 0) * 1px);
+	top: calc(var(--y, 0) * 1px);
+	transition: all 0s, opacity 0.2s, scale 0.2s;
+	width: 1rem;
+	aspect-ratio: 1;
+	background: hsl(0 0% 40% / calc(0.8 - (var(--glued, 0) * 0.5)));
+	scale: var(--active, 0);
+	opacity: var(--active, 0);
+	translate: -50% -50%;
+	pointer-events: none;
+	border-radius: 50%;
+	z-index: -1;
+	max-height: var(--max-h);
+	max-width: var(--max-w);
+}
+
+@media(prefers-color-scheme: dark) {
+	.cursor {
+		background: hsl(0 0% 80% / calc(0.8 - (var(--glued, 0) * 0.5)));
+	}
+}
+
+[data-anchor] {
+	transition: translate 0.2s;
+	display: inline-block;
+}
+
+[data-anchor-active] {
+	translate: clamp(
+							calc(var(--magnet-threshold) * -1),
+							calc((var(--rx) * var(--magnet-threshold)) * 1.5),
+							var(--magnet-threshold)
+						)
+						clamp(
+							calc(var(--magnet-threshold) * -1),
+							calc((var(--ry) * var(--magnet-threshold)) * 1.5),
+							var(--magnet-threshold)
+						);
+}
+
+:root:has(:is(p:hover, h1:hover, h2:hover)):not(:has([data-anchor]:is(:hover, :focus-visible))) .cursor {
+	z-index: 2;
+	background: hotpink;
+	width: 0.35rem;
+	aspect-ratio: 1 / 6;
+	border-radius: 0;
+}
+:root:has(nav ul:hover) .cursor,
+:root:has([data-anchor]:is(:hover, :focus-visible)) .cursor {
+	--active: 1;
+	--glued: 1;
+	aspect-ratio: unset;
+	transition: all 0.2s, translate 0.1s;
+	width: auto;
+	height: auto;
+	translate: calc(var(--rx) * var(--magnet-threshold)) calc(var(--ry) * var(--magnet-threshold));
+	border-radius: 0.2rem;
+	left: var(--x1);
+	right: var(--x2);
+	top: var(--y1);
+	bottom: var(--y2);
+}
+
+:where(ul) {
+	padding: 0;
+}
+
+nav {
+	justify-content: space-between;
+}
+
+:root:focus-within .cursor {
+	--active: 1;
+	transition: all 0.2s;
+}
+
+p [data-anchor] {
+	transition: all 0.2s;
+}
+
+p [data-anchor]:is(:hover, :focus-visible) {
+	background: var(remurface-4);
+	border-radius: 0.1rem;
+}
+
+
+header {
+	margin-bottom: 2rem;
+}
+
+
+/* If we support anchor positioning, use that!  */
+/* This is the catcher. We don't wanna use x1, x2, etc. */
+@supports(anchor-name: --foo) {
+  p:first-of-type {
+    display: none;
+  }
+
+	:root:has(nav ul:hover) .cursor,
+	:root:has([data-anchor]:is(:hover, :focus-visible)) .cursor {
+		anchor-scroll: var(--anchor);
+		left: anchor(var(--anchor) left);
+		right: anchor(var(--anchor) right);
+		top: anchor(var(--anchor) top);
+		bottom: anchor(var(--anchor) bottom);
+	}
+}
