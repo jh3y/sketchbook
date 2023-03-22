@@ -7,6 +7,7 @@
 }
 :root {
 	--transition: 0.2s;
+	--spark: 2s;
 }
 
 body {
@@ -69,9 +70,9 @@ button path:nth-of-type(3) {
 button:before {
 	content: "";
 	position: absolute;
-	inset: -10px;
+	inset: -0.25em;
 	z-index: -1;
-	border: 10px solid purple;
+	border: 0.25em solid purple;
 	border-radius: 100px;
 	opacity: var(--active, 0);
 	transition: opacity var(--transition);
@@ -81,7 +82,15 @@ button:before {
 	position: absolute;
 	inset: 0;
 	border-radius: 100px;
+	rotate: 0deg;
 	mask: linear-gradient(white, transparent 50%);
+	animation: flip calc(var(--spark) * 2) infinite steps(2, end);
+}
+
+@keyframes flip {
+	to {
+		rotate: 360deg;
+	}
 }
 
 .spark:before {
@@ -92,36 +101,30 @@ button:before {
 	top: 0%;
 	left: 50%;
 	z-index: -1;
-	translate: -50% -10%;
+	translate: -50% -15%;
 	rotate: 0;
-	/*background: conic-gradient(
-		from -90deg,
-		transparent 0 calc((var(--head) - 50) * 1deg),
-		white calc(var(--head) * 1deg),
-		transparent calc(var(--head) * 1deg)
-	);*/
+	transform: rotate(-90deg);
 	background: conic-gradient(
 		from 0deg,
 		transparent 0 340deg,
 		white 360deg
 	);
-	animation: rotate 4s infinite linear;
-
-/*	animation*/
+	animation: rotate var(--spark) linear infinite both;
 }
 
 .spark:after {
 	content: "";
 	position: absolute;
-	inset: 2px;
+	inset: calc(0.05em + (var(--active) * 0.075em));
 	background: var(--bg);
 	border-radius: 100px;
+	transition: inset var(--transition);
 /*	opacity: 0.7;*/
 }
 
 @keyframes rotate {
 	to {
-		transform: rotate(360deg);
+		transform: rotate(90deg);
 	}
 }
 
@@ -145,13 +148,4 @@ button:is(:hover, :focus-visible) {
 button svg {
 	inline-size: 1.25em;
 	translate: -25% -5%;
-}
-
-img {
-	position: fixed;
-	top: 50%;
-	left: 50%;
-	translate: -50% -50%;
-	z-index: 2;
-	opacity: 0.25;
 }
