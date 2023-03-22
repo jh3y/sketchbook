@@ -1,0 +1,157 @@
+@import "normalize.css";
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+:root {
+	--transition: 0.2s;
+}
+
+body {
+	--active: 0;
+	background: hsl(
+		280
+		calc(var(--active) * 80%)
+		6%
+	);
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	font-family: system-ui, sans-serif;
+	transition: background var(--transition);
+}
+
+button {
+	--active: 0;
+	--bg: hsl(0 0% 12%);
+	background: var(--bg);
+	font-size: 2rem;
+	font-weight: 600;
+	border: 0;
+	cursor: pointer;
+	padding: 0.9em 1.3em;
+	display: flex;
+	align-items: center;
+	gap: 0.25em;
+	white-space: nowrap;
+	border-radius: 100px;
+	position: relative;
+	box-shadow: 0 0 calc(var(--active) * 6em) calc(var(--active) * 3em) purple;
+	transition: box-shadow var(--transition), scale var(--transition);
+	scale: calc(1 + (var(--active) * 0.1));
+}
+
+svg {
+	overflow: visible !important;
+}
+
+button path {
+	transform-box: fill-box;
+	transform-origin: center;
+	fill: currentColor;
+	stroke: currentColor;
+}
+
+button path:nth-of-type(1) {
+	color: hsl(0 0% 40%);
+}
+
+button path:nth-of-type(2) {
+	color: hsl(0 0% 20%);
+}
+
+button path:nth-of-type(3) {
+	color: hsl(0 0% 30%);
+}
+
+button:before {
+	content: "";
+	position: absolute;
+	inset: -10px;
+	z-index: -1;
+	border: 10px solid purple;
+	border-radius: 100px;
+	opacity: var(--active, 0);
+	transition: opacity var(--transition);
+}
+
+.spark {
+	position: absolute;
+	inset: 0;
+	border-radius: 100px;
+	mask: linear-gradient(white, transparent 50%);
+}
+
+.spark:before {
+	content: "";
+	position: absolute;
+	height: 500%;
+	aspect-ratio: 1;
+	top: 0%;
+	left: 50%;
+	z-index: -1;
+	translate: -50% -10%;
+	rotate: 0;
+	/*background: conic-gradient(
+		from -90deg,
+		transparent 0 calc((var(--head) - 50) * 1deg),
+		white calc(var(--head) * 1deg),
+		transparent calc(var(--head) * 1deg)
+	);*/
+	background: conic-gradient(
+		from 0deg,
+		transparent 0 340deg,
+		white 360deg
+	);
+	animation: rotate 4s infinite linear;
+
+/*	animation*/
+}
+
+.spark:after {
+	content: "";
+	position: absolute;
+	inset: 2px;
+	background: var(--bg);
+	border-radius: 100px;
+/*	opacity: 0.7;*/
+}
+
+@keyframes rotate {
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+body:has(button:is(:hover, :focus-visible)),
+button:is(:hover, :focus-visible) {
+	--active: 1;
+}
+
+.particle-pen {
+	position: absolute;
+}
+
+.text {
+	translate: 2% -6%;
+	letter-spacing: 0.01ch;
+	background: linear-gradient(90deg, hsl(0 0% 65%), hsl(0 0% 26%));
+	-webkit-background-clip: text;
+	color: transparent;
+}
+
+button svg {
+	inline-size: 1.25em;
+	translate: -25% -5%;
+}
+
+img {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	translate: -50% -50%;
+	z-index: 2;
+	opacity: 0.25;
+}
