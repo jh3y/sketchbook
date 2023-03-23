@@ -1,20 +1,14 @@
-// import gsap from 'gsap'
-
-// const duration = 4
-// gsap.defaults({
-// 	ease: 'power1.easeInOut'
-// })
-
-// gsap.timeline({ repeat: -1, repeatDelay: 1 })
-// 	.set('button', {
-// 		'--tail': 0,
-// 		'--head': 0,
-// 	})
-// 	.to('button', {
-// 		'--head': 360,
-// 		duration
-// 	})
-// 	.to('button', {
-// 		'--tail': 360,
-// 		duration,
-// 	}, duration * 0)
+const RANDOM = (min, max) => Math.floor(Math.random() * (max - min + 1) + min)
+const PARTICLES = document.querySelectorAll('.particle')
+PARTICLES.forEach(P => {
+	P.setAttribute('style', `
+		--x: ${RANDOM(20, 80)};
+		--y: ${RANDOM(20, 80)};
+		--duration: ${RANDOM(6, 20)};
+		--delay: ${RANDOM(1, 10)};
+		--alpha: ${RANDOM(40, 90) / 100};
+		--origin-x: ${Math.random() > 0.5 ? RANDOM(300, 800) * -1 : RANDOM(300, 800)}%;
+		--origin-y: ${Math.random() > 0.5 ? RANDOM(300, 800) * -1 : RANDOM(300, 800)}%;
+		--size: ${RANDOM(40, 90) / 100};
+	`)
+})
