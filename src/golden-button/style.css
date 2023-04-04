@@ -10,13 +10,14 @@ body {
 
 :root {
   --font-size: 32px;
-  --glare: hsl(0 0% 100% / 0.25);
+  --glare: hsl(0 0% 100% / 0.2);
   --blur: 1px;
-  --hue: 38deg;
-  --saturation: 100%;
-  --brightness: 1.35;
+  --hue: 42deg;
+  --saturation: 98%;
+  --brightness: 1.2;
   --lightness: 70%;
-  --radius: calc(var(--font-size) * 0.75);
+  --transition: 0.2s;
+  --radius: calc(var(--font-size) * 0.5);
   --padding: calc(var(--font-size) * 1.5) calc(var(--font-size) * 2);
 }
 
@@ -31,50 +32,65 @@ button {
   box-sizing: content-box;
   border-radius: var(--radius);
   font-family: 'Libre Baskerville', serif;
-  box-shadow:
-    calc(var(--font-size) * 0.1)
-    calc(var(--font-size) * 0.15)
-    calc(var(--font-size) * 0.5)
-    calc(var(--font-size) * 0)
-    hsl(var(--hue) var(--saturation) 34% / 1),
-    calc(var(--font-size) * 0.65)
-    calc(var(--font-size) * 0.5)
-    calc(var(--font-size) * 1.5)
-    calc(var(--font-size) * -0.15)
-    hsl(var(--hue) var(--saturation) 30% / 1);
   position: relative;
   scale: var(--scale, 1);
-  transition: scale 0.1s, box-shadow 0.1s;
+  transition: scale var(--transition), box-shadow var(--transition);
   outline-color: hsl(var(--hue) var(--saturation) 75%);
+  box-shadow:
+    0 0 calc(var(--active) * 8em) calc(var(--active) * 2em) hsl(var(--hue) 97% 61% / 0.65),
+    0 0.05em 0 0 hsl(var(--hue) calc(var(--active) * 97%) calc((var(--active) * 50%) + 30%)) inset,
+    0 -0.05em 0 0 hsl(var(--hue) calc(var(--active) * 97%) calc(var(--active) * 60%)) inset;
+  transition: box-shadow var(--transition), scale var(--transition), background var(--transition);
 }
 
 button:is(:hover, :focus-visible) {
+  --active: 1;
   --scale: 1.1;
-  box-shadow:
-    calc(var(--font-size) * 0.1)
-    calc(var(--font-size) * 0.15)
-    calc(var(--font-size) * 0.25)
-    calc(var(--font-size) * -0.5)
-    hsl(var(--hue) var(--saturation) 34% / 1),
-    calc(var(--font-size) * 0.65)
-    calc(var(--font-size) * 0.5)
-    calc(var(--font-size) * 0.5)
-    calc(var(--font-size) * -0.75)
-    hsl(var(--hue) var(--saturation) 30% / 1);
 }
 button:active {
   --scale: 1.075;
-  box-shadow:
-    calc(var(--font-size) * 0)
-    calc(var(--font-size) * 0)
-    calc(var(--font-size) * 0)
-    calc(var(--font-size) * 0)
-    hsl(var(--hue) var(--saturation) 34% / 1),
-    calc(var(--font-size) * 0)
-    calc(var(--font-size) * 0)
-    calc(var(--font-size) * 0)
-    calc(var(--font-size) * 0)
-    hsl(var(--hue) var(--saturation) 30% / 1);
+}
+
+button:is(:hover, :focus-visible) ~ .backdrop {
+  --active: 1;
+}
+
+.wipes {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 10vmin;
+  aspect-ratio: 58 / 110;
+  z-index: 3;
+}
+
+.container {
+  z-index: 3;
+  position: absolute;
+  inset: 0;
+}
+
+.wipe {
+  position: absolute;
+  top: 0;
+  width: 75%;
+  aspect-ratio: 1;
+  background: hsl(0 0% 96%);
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+}
+
+.backdrop {
+  background: hsl(
+    var(--hue)
+    calc(var(--active) * 97%)
+    6%
+  );
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  transition: background var(--transition);
 }
 
 video {
@@ -83,11 +99,7 @@ video {
   width: 100%;
   object-fit: cover;
   filter:
-    saturate(0.2)
-    contrast(1.5)
-    brightness(1.75)
-    blur(var(--blur))
-    ;
+    saturate(0.9);
   position: absolute;
   inset: 0;
   scale: 1.2;
@@ -98,7 +110,7 @@ video {
   position: absolute;
   inset: 0;
   border-radius: var(--radius);
-  filter: brightness(var(--brightness));
+  filter: brightness(1.15);
 }
 
 .paco-canvas:after {
@@ -106,13 +118,13 @@ video {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse at 50% 50%, hsl(var(--hue) var(--saturation) 98% / 0.98), transparent 80%) 50% 0 / 100% 6% no-repeat,
-    radial-gradient(ellipse at 50% 50%, hsl(var(--hue) var(--saturation) 8% / 0.98), transparent 80%) 50% 100% / 100% 6% no-repeat,
+    radial-gradient(ellipse at 50% 50%, hsl(var(--hue) var(--saturation) 94% / 0.98), transparent 80%) 50% 0 / 100% 6% no-repeat,
+    radial-gradient(ellipse at 50% 50%, hsl(var(--hue) var(--saturation) 18% / 0.98), transparent 80%) 50% 100% / 100% 6% no-repeat,
     radial-gradient(circle at bottom right, hsl(var(--hue) var(--saturation) 45% / 0.75), transparent),
-    hsl(var(--hue) var(--saturation) 70% / 0.65);
+    hsl(var(--hue) var(--saturation) 60% / 0.65);
   box-shadow:
-     calc(var(--font-size) * -0.2) calc(var(--font-size) * -0.2) 10px -5px inset hsl(var(--hue) var(--saturation) 25% / 0.75),
-     calc(var(--font-size) * 0.2) calc(var(--font-size) * 0.2) 10px -5px inset hsl(var(--hue) var(--saturation) 75% / 0.75),
+     calc(var(--font-size) * -0.2) calc(var(--font-size) * -0.2) 10px -5px inset hsl(var(--hue) var(--saturation) 25% / 0.5),
+     calc(var(--font-size) * 0.2) calc(var(--font-size) * 0.2) 10px -5px inset hsl(var(--hue) var(--saturation) 75% / 0.5),
     0 0 calc(var(--font-size) * 0.25) calc(var(--font-size) * 0.25) inset hsl(var(--hue) var(--saturation) 10% / 0.3)
     ;
 
@@ -133,10 +145,10 @@ video {
 .paco-text {
   font-size: var(--font-size);
   letter-spacing: calc(var(--font-size) * 0.25);
-  color: hsl(var(--hue) var(--saturation) 16% / 0.65);
+  color: hsl(var(--hue) var(--saturation) 16% / 0.75);
   text-shadow:
-    calc(var(--font-size) * -0.075) calc(var(--font-size) * -0.075) hsl(var(--hue) var(--saturation) 90% / 0.6),
-    calc(var(--font-size) * 0.075) calc(var(--font-size) * 0.075) hsl(var(--hue) var(--saturation) 10% / 0.2);
+    calc(var(--font-size) * -0.075) calc(var(--font-size) * -0.075) hsl(var(--hue) var(--saturation) 90% / 0.4),
+    calc(var(--font-size) * 0.075) calc(var(--font-size) * 0.075) hsl(var(--hue) var(--saturation) 10% / 0.4);
   z-index: 2;
   position: relative;
   text-transform: uppercase;
@@ -150,10 +162,10 @@ button:after {
   background: linear-gradient(
     108deg,
     transparent 0 55%,
-    var(--glare) 55% 60%,
-    transparent 60% 70%,
-    var(--glare) 70% 85%,
-    transparent 85%
+    var(--glare) 60% 65%,
+    transparent 70% 75%,
+    var(--glare) 80% 90%,
+    transparent 95%
   ) calc(var(--pos) * -200%) 0% / 200% 100%, transparent;
   z-index: 2;
   border-radius: var(--radius);
@@ -173,7 +185,7 @@ button:is(:hover, :focus-visible) {
 }
 
 .paco-text:before {
-  /* background: hsl(var(--hue) var(--saturation) 70% / 0.5); */
+/*   background: hsl(var(--hue) var(--saturation) 70% / 0.5); */
   content: "";
   position: absolute;
   filter: brightness(1.2);
@@ -184,8 +196,8 @@ button:is(:hover, :focus-visible) {
   border-radius: calc(var(--font-size) * 0.15);
   --multiplier: 0.075;
   box-shadow:
-    calc(var(--font-size) * var(--multiplier)) calc(var(--font-size) * var(--multiplier)) calc(var(--font-size) * var(--multiplier)) calc(var(--font-size) * var(--multiplier)) inset hsl(var(--hue) 90% 14% / 0.8),
-    calc(var(--font-size) * (var(--multiplier) * -1)) calc(var(--font-size) * (var(--multiplier) * -1)) calc(var(--font-size) * var(--multiplier)) calc(var(--font-size) * (var(--multiplier) * 0.5)) inset hsl(var(--hue) 90% 30% / 0.8);
+    calc(var(--font-size) * var(--multiplier)) calc(var(--font-size) * var(--multiplier)) calc(var(--font-size) * var(--multiplier)) calc(var(--font-size) * var(--multiplier)) inset hsl(var(--hue) 90% 14% / 0.9),
+    calc(var(--font-size) * (var(--multiplier) * -1)) calc(var(--font-size) * (var(--multiplier) * -1)) calc(var(--font-size) * var(--multiplier)) calc(var(--font-size) * (var(--multiplier) * 0.5)) inset hsl(var(--hue) 90% 30% / 0.9);
 
 }
 
@@ -193,9 +205,24 @@ button:is(:hover, :focus-visible) {
   position: absolute;
   inset: 0;
   pointer-events: none;
+  mix-blend-mode: screen;
   border-radius: var(--radius);
+  overflow: hidden;
   filter: blur(calc(var(--blur) * 3));
   clip-path: inset(calc(var(--font-size) * 0.25) calc(var(--font-size) * 0.25) calc(var(--font-size) * 0.25) calc(var(--font-size) * 0.25) round calc(var(--radius) * 0.75));
+}
+
+.paco-grub__wrapper {
+  inset: 0;
+  position: absolute;
+  mix-blend-mode: luminosity;
+}
+
+.paco-grub__wrapper:after {
+  content: "";
+  inset: 0;
+  position: absolute;
+  mix-blend-mode: screen;
 }
 
 
@@ -212,6 +239,7 @@ button:is(:hover, :focus-visible) {
   z-index: 3;
   width: calc(var(--font-size) * 0.5);
   aspect-ratio: 1;
+  filter: blur(calc(var(--blur) * 1));
 }
 
 .paco-sparkles svg path {
@@ -221,12 +249,12 @@ button:is(:hover, :focus-visible) {
 /* Animation for sparkles */
 
 button:is(:hover, :focus-visible) svg {
-  animation: sparkle 0.75s calc((var(--delay-step) * var(--d)) * 1s) both;
+  animation: sparkle 0.75s calc((var(--delay-step) * var(--d, 0)) * 1s) both;
 }
 
 @keyframes sparkle {
   50% {
-    transform: translate(-50%, -50%) scale(var(--s, 1));
+    transform: translate(-50%, -50%) scale(var(--s, 1)) rotate(calc(var(--r, 0) * 1deg));
   }
 }
 
@@ -234,40 +262,6 @@ button svg {
   --delay-step: 0.1;
   top: calc(var(--y, 50) * 1%);
   left:  calc(var(--x, 0) * 1%);
-  transform: translate(-50%, -50%) scale(0);
-}
-
-button svg:nth-of-type(1) {
-  --x: 5;
-  --y: 80;
-  --s: 1.4;
-  --d: 1;
-}
-
-button svg:nth-of-type(2) {
-  --x: 17;
-  --y: 25;
-  --s: 2;
-  --d: 2;
-}
-
-button svg:nth-of-type(3) {
-  --x: 50;
-  --y: 16;
-  --s: 2.1;
-  --d: 3;
-}
-
-button svg:nth-of-type(4) {
-  --x: 70;
-  --y: 80;
-  --s: 1.4;
-  --d: 2;
-}
-
-button svg:nth-of-type(5) {
-  --x: 95;
-  --y: 10;
-  --s: 1.8;
-  --d: 4;
+/*  opacity: var(--a, 1);*/
+  transform: translate(-50%, -50%) scale(0) rotate(0deg);
 }

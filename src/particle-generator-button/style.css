@@ -175,11 +175,41 @@ button:before {
 	}
 }
 
-body:has(button:is(:hover, :focus-visible)),
+
+
+@supports(selector(:has(:is(+ *)))) {
+	body:has(button:is(:hover, :focus-visible)) {
+		--active: 1;
+		--play-state: running;
+	}
+	.bodydrop {
+		display: none;
+	}
+}
+
+button:is(:hover, :focus-visible) ~ :is(.bodydrop, .particle-pen) {
+	--active: 1;
+	--play-state: running;
+}
+
+.bodydrop {
+	background: hsl(
+		260
+		calc(var(--active) * 97%)
+		6%
+	);
+	position: fixed;
+	inset: 0;
+	z-index: -1
+}
+
+
+
 button:is(:hover, :focus-visible) {
 	--active: 1;
 	--play-state: running;
 }
+
 
 .sparkle-button {
 	position: relative;

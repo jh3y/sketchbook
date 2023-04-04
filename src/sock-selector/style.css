@@ -1,0 +1,170 @@
+@import "normalize.css";
+@import "open-props/style";
+@import "open-props/normalize";
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	font-family:  'Google Sans', sans-serif, system-ui;
+	background: var(--surface-2);
+}
+
+[popover] {
+	border: 0;
+	padding: 0;
+	margin: 0;
+	clip-path: inset(100% -100% -100vh -100%);
+	overflow: visible;
+/*	transition: display 0.5s;*/
+	background: none;
+}
+
+/*[popover]:initial {*/
+/*	--show: 0;*/
+/*	transition: display 0.5s;*/
+/*}*/
+[popover]:popover-open {
+	--show: 1;
+}
+
+/*.list:initial {
+	transform: translate(0, 100%);
+}*/
+
+.drag-list {
+	--backdrop: var(--surface-1);
+	transform: translate(0, calc(var(--show, 0) * 100%));
+	transition: transform 0.25s;
+}
+
+.drag-list {
+	background: var(--backdrop);
+	transform-origin: 50% 0%;
+}
+
+.drag-list:after {
+	content: "";
+	position: absolute;
+	bottom: 100%;
+	height: 100%;
+	left: 0;
+	right: 0;
+	background-image: url("https://assets.codepen.io/605876/black.png");
+	background-color: var(--backdrop);
+	background-size: 60%;
+	background-position: 50% 80%;
+	background-repeat: no-repeat;
+}
+
+@media (prefers-color-scheme: dark) {
+	.drag-list:after {
+		background-image: url("https://assets.codepen.io/605876/bear-2022--white.png");
+	}
+}
+
+[behavior=button] {
+	padding: 0;
+	width: 180px;
+	background: var(--surface-1);
+	position: relative;
+}
+
+[behavior=selected-value] {
+	flex: 1;
+	text-align: left;
+}
+
+[popover] {
+	anchor-name: --listbox;
+	display: block;
+	background: red;
+	translate: 0 -100%;
+}
+
+.pop-wrap {
+	position: relative;
+}
+
+:is([behavior=button], option) {
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+	padding: 0.5rem 1rem;
+	justify-content: start;
+}
+
+.handle {
+	width: 48px;
+	aspect-ratio: 1;
+	background: red;
+	position: absolute;
+	top: 100%;
+	left: 50%;
+	translate: -50% 0;
+}
+
+.sock {
+	width: 24px;
+	flex-shrink: 0;
+}
+
+:root:not(:has(:checked)) [behavior=button] .sock path:first-of-type {
+	fill: white;
+}
+
+selectmenu:has(:popover-open) .marker {
+	rotate: 180deg;
+}
+
+selectmenu {
+	box-shadow: var(--shadow-5);
+}
+
+[behavior=button]:focus-visible {
+	outline-color: hsl(var(--hue) 100% 50%);
+	outline-offset: -2px;
+}
+
+.sock path:first-of-type {
+	fill: hsl(var(--hue) 80% 80%);
+}
+.sock path:last-of-type {
+	fill: hsl(var(--hue) 50% 50%);
+}
+
+[value=red] { --hue: 10; }
+[value=orange] { --hue: 30; }
+[value=yellow] { --hue: 45; }
+[value=green] { --hue: 140; }
+[value=blue] { --hue: 210; }
+
+option:is(:hover, :focus-visible) {
+	--active: 1;
+	background: var(--surface-3);
+}
+
+option svg {
+	transform:
+		rotate(calc(var(--active, 0) * 10deg))
+		scale(calc((var(--active, 0) * 0.25) + 1));
+	transition: transform 0.2s;
+}
+
+option:is(:hover, :focus-visible) {
+	outline-color: hsl(var(--hue) 100% 50%);
+	outline-offset: -2px;
+}
+
+.marker {
+	width: 16px;
+	fill: var(--text-2);
+	transform-origin: 50% 45%;
+	transition: rotate 0.2s;
+}
