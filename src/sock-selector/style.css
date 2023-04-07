@@ -49,18 +49,25 @@ body {
 	transform-origin: 50% 0%;
 }
 
-.drag-list:after {
+.drag-list:after,
+.drag-list:before {
 	content: "";
 	position: absolute;
 	bottom: 100%;
 	height: 100%;
 	left: 0;
 	right: 0;
-	background-image: url("https://assets.codepen.io/605876/black.png");
 	background-color: var(--backdrop);
+}
+
+.drag-list:after {
+	background: transparent;
+	background-image: url("https://assets.codepen.io/605876/bear-2022--black.png");
 	background-size: 60%;
-	background-position: 50% 80%;
+	background-position: 50% 90%;
 	background-repeat: no-repeat;
+	opacity: 0.25;
+	filter: saturate(0.3);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -97,15 +104,42 @@ body {
 	align-items: center;
 	gap: 1rem;
 	padding: 0.5rem 1rem;
-	justify-content: start;
+	justify-content: flex-start;
 }
 
 .handle {
 	width: 48px;
 	aspect-ratio: 1;
-	background: red;
 	position: absolute;
 	top: 100%;
+	left: 50%;
+	translate: -50% 0;
+	border-radius: 50%;
+	transition: background 0.2s;
+	overflow: hidden;
+}
+
+.handle:hover:not(:active) {
+	background: hsl(0 0% 50% / 0.2);
+}
+
+.handle__cord {
+	position: absolute;
+	left: 50%;
+	height: 100%;
+	top: 40%;
+	width: 10%;
+	background: var(--text-2);
+	translate: -50% -90%;
+}
+
+.handle__tug {
+	position: absolute;
+	width: 30%;
+	aspect-ratio: 1;
+	border-radius: 50%;
+	background: var(--text-2);
+	top: 40%;
 	left: 50%;
 	translate: -50% 0;
 }
