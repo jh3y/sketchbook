@@ -1,0 +1,241 @@
+@import "https://unpkg.com/open-props/open-props.min.css";
+@import "https://unpkg.com/open-props/normalize.min.css";
+
+*,
+*:after,
+*:before {
+  box-sizing: border-box;
+}
+
+body {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  font-family:  'Google Sans', sans-serif, system-ui;
+  width: 100vw;
+  overflow-x: hidden;
+  color: var(--text-1);
+}
+
+:where(h1, h2) {
+  margin: 0;
+  font-family: 'Impact', sans-serif;
+  text-transform: uppercase;
+}
+
+main, footer, header {
+/*  width: 40rem; */
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+section {
+  width: 40rem;
+  max-width: 100%;
+  margin: 0 auto;
+  display: grid;
+  gap: var(--size-4);
+}
+
+section p {
+  padding: 0 var(--size-6);
+}
+
+main {
+  background: var(--surface-2);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--size-4);
+  margin-bottom: var(--size-10);
+  max-width: 100vw;
+  padding: var(--size-4) 0;
+/*  overflow: hidden; */
+}
+
+
+
+footer h2 {
+  font-weight: var(--font-weight-9);
+  text-align: center;
+}
+
+:where(header, footer) {
+  padding: var(--size-12) var(--size-6);
+  display: grid;
+  place-items: center;
+}
+
+h1 {
+  font-size: var(--font-size-fluid-3);
+}
+
+.photo-block {
+  position: sticky;
+  top: calc(50% - 30vh);
+  height: 60vh;
+  width: 100%;
+  display: grid;
+  overflow: hidden;
+  background: var(--gray-6);
+}
+
+.photo-grid {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(38deg);
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+
+.photo {
+  aspect-ratio: 3 / 4;
+  width: 20vmax;
+}
+
+:root:has(.indicators:hover) .collage {
+  border: 10px dashed var(--indigo-6);
+}
+
+.collage {
+  height: 200vh;
+  max-width: 100vw;
+  view-timeline: --collage;
+}
+
+.photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.photo:nth-of-type(7n + 1):nth-of-type(even),
+.photo:nth-of-type(7n + 3):nth-of-type(even),
+.photo:nth-of-type(7n + 5):nth-of-type(even),
+.photo:nth-of-type(7n + 7):nth-of-type(even) {
+  --vertical: -100%;
+  --horizontal: 100%;
+}
+.photo:nth-of-type(7n + 1):nth-of-type(odd),
+.photo:nth-of-type(7n + 3):nth-of-type(odd),
+.photo:nth-of-type(7n + 5):nth-of-type(odd),
+.photo:nth-of-type(7n + 7):nth-of-type(odd) {
+  --vertical: -100%;
+  --horizontal: -100%;
+}
+
+.photo:nth-of-type(7n + 2):nth-of-type(even),
+.photo:nth-of-type(7n + 4):nth-of-type(even),
+.photo:nth-of-type(7n + 6):nth-of-type(even) {
+  --vertical: 100%;
+  --horizontal: -100%;
+}
+
+.photo:nth-of-type(7n + 2):nth-of-type(odd),
+.photo:nth-of-type(7n + 4):nth-of-type(odd),
+.photo:nth-of-type(7n + 6):nth-of-type(odd) {
+  --vertical: 100%;
+  --horizontal: 100%;
+}
+
+.photo {
+  animation-name: travel;
+  animation-duration: auto;
+  animation-fill-mode: both;
+  animation-timing-function: linear;
+  animation-timeline: --collage;
+  animation-range: entry 100% exit 0%;
+}
+
+@keyframes travel {
+  0% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 var(--vertical);
+  }
+  100% {
+    translate: var(--horizontal) var(--vertical);
+  }
+}
+
+/* Debugging ViewTimeline Indicator */
+.indicators {
+  /* Can't pass the timeline-name via custom property */
+  position: fixed;
+  width: 16vw;
+  left: 8vw;
+  display: grid;
+  opacity: 0;
+  top: 50%;
+  gap: 2rem;
+  transform: translate(0, -50%);
+  justify-items: center;
+}
+
+.indicators:hover {
+  opacity: 1;
+}
+
+.progress {
+  height: 2.5rem;
+  width: 100%;
+  background: var(--gray-8);
+  position: relative;
+  border-radius: 100px;
+  overflow: hidden;
+}
+
+.progress__bar {
+  background: var(--indigo-6);
+  width: 100%;
+  height: 100%;
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+}
+
+.progress:nth-of-type(even) .progress__bar {
+  background: var(--orange-6);
+}
+
+.progress__label {
+  position: absolute;
+  inset: 0;
+  text-align: center;
+  font-weight: bold;
+  display: grid;
+  place-items: center;
+  font-size: 1.25rem;
+  color: var(--gray-0);
+}
+
+.progress--enter .progress__bar {
+  animation: auto indicate both linear;
+  animation-timeline: --collage;
+  animation-range: entry 0% entry 100%;
+}
+.progress--exit .progress__bar {
+  animation: auto indicate both linear;
+  animation-timeline: --collage;
+  animation-range: exit;
+}
+.progress--cover .progress__bar {
+  animation: auto indicate both linear;
+  animation-timeline: --collage;
+  animation-range: cover;
+}
+.progress--contain .progress__bar {
+  animation: auto indicate both linear;
+  animation-timeline: --collage;
+  animation-range: contain;
+}
+
+@keyframes indicate {
+  to {
+    left: 0;
+    transform: scaleX(1);
+  }
+}
+/* End debugging timelines */

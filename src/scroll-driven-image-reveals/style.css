@@ -1,0 +1,263 @@
+@import "normalize.css";
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+:root {
+	--size: 40vmin;
+}
+
+header {
+	height: 100vh;
+	display: grid;
+	place-items: center;
+	font-family: 'Impact';
+	text-transform: uppercase;
+	font-size: 2rem;
+}
+
+body {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	margin: 0;
+	font-family: sans-serif, system-ui;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  height: 100vh;
+
+  padding: 0;
+  display: grid;
+  place-items: center;
+  max-inline-size: 100%;
+}
+
+img {
+  border-radius: 10%;
+  width: var(--size);
+  aspect-ratio: 1;
+  object-fit: cover;
+}
+
+li:nth-of-type(1) img {
+	animation: scale-in auto both linear;
+	animation-timeline: view();
+	animation-range: entry 50% cover 50%;
+}
+
+@keyframes scale-in { 0% { scale: 0; left: 0; } }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+li:nth-of-type(2) img {
+	animation: auto bloom both linear;
+	animation-timeline: view();
+	animation-range: entry 50% cover 50%;
+}
+
+@keyframes bloom {
+  0% { clip-path: circle(0% at center); }
+  100% { clip-path: circle(100% at center); }
+}
+
+
+li:nth-of-type(3) img {
+	animation: auto filter-in both linear;
+	animation-timeline: view();
+	animation-range: entry 50% cover 50%;
+}
+
+@keyframes filter-in {
+	0% {
+		opacity: 0;
+		filter: brightness(5);
+	}
+}
+
+li:nth-of-type(4) img {
+  animation: auto curtains both linear;
+  animation-timeline: view();
+  animation-range: entry 50% contain 50%;
+  mask: linear-gradient(45deg, transparent 50%, black 50%);
+  mask-repeat: no-repeat;
+  mask-size: 200% 200%;
+  mask-position: -100% 0;
+}
+
+@keyframes curtains {
+  to {
+    mask-position: 100% 0;
+  }
+}
+
+li:nth-of-type(5) img {
+  animation: auto fade-across both linear;
+  animation-timeline: view();
+  animation-range: entry 50% contain 50%;
+  mask: linear-gradient(transparent 50%, black 75%);
+  mask-size: 400% 400%;
+  mask-repeat: no-repeat;
+  mask-position: 0% 0%;
+}
+
+@keyframes fade-across {
+  to {
+    mask-position: 0 calc(var(--size) * -3);
+  }
+}
+
+li:nth-of-type(6) img {
+  animation: auto drape-over both linear;
+  animation-timeline: view();
+  animation-range: entry 50% contain 50%;
+  mask: linear-gradient(45deg, transparent 50%, black 75%);
+  mask-size: 400% 400%;
+  mask-repeat: no-repeat;
+  mask-position: var(--size) 0;
+}
+
+@keyframes drape-over {
+  to {
+    left: 0;
+    mask-position: calc(var(--size) * -3) 0;
+  }
+}
+
+li:nth-of-type(7) img {
+  animation: auto slides both linear;
+  animation-timeline: view();
+  animation-range: entry 50% contain 50%;
+  mask:
+    linear-gradient(90deg, transparent 50%, black 50%),
+    linear-gradient(90deg, black 50%, transparent 50%),
+    linear-gradient(90deg, transparent 50%, black 50%),
+    linear-gradient(90deg, black 50%, transparent 50%),
+    linear-gradient(90deg, transparent 50%, black 50%);
+  mask-size: 200% calc(var(--size) * 0.21);
+  mask-repeat: no-repeat;
+  mask-position:
+    calc(var(--size) * -2) 0vmin,
+    var(--size) calc(var(--size) * 0.2),
+    calc(var(--size) * -2) calc(var(--size) * 0.4), 
+    var(--size) calc(var(--size) * 0.6),
+    calc(var(--size) * -2) calc(var(--size) * 0.8);
+}
+
+@keyframes slides {
+  to {
+    left: 0;
+    mask-position:
+    calc(var(--size) * -1) 0vmin,
+    0vmin calc(var(--size) * 0.2),
+    calc(var(--size) * -1) calc(var(--size) * 0.4), 
+    0vmin calc(var(--size) * 0.6),
+    calc(var(--size) * -1) calc(var(--size) * 0.8);
+  }
+}
+
+li:nth-of-type(8) img {
+  animation: auto box-fill both linear;
+  animation-timeline: view();
+  animation-range: entry 100% contain 50%;
+  clip-path: inset(0 100% 100% 0 round 10%);
+}
+
+@keyframes box-fill {
+  to {
+    left: 0;
+    clip-path: inset(0 0 0 0 round 10%);
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
