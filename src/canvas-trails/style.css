@@ -1,0 +1,21 @@
+@import "normalize.css";
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	font-family:  'Google Sans', sans-serif, system-ui;
+	background: black;
+}
+
+canvas {
+	width: 48vmin;
+	aspect-ratio: 1;
+	background: black;
+}
