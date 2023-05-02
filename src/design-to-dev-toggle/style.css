@@ -1,0 +1,308 @@
+@import "normalize.css";
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+:root {
+	--easing: ease-in-out;
+	--speed: 0.35s;
+	--width: clamp(100px, 35vmin, 500px);
+	--ar: 8 / 3;
+	--ray: hsl(0 0% 100% / 0.5);
+	--sun: hsl(47, 91%, 58%);
+	--moon: hsl(212, 13%, 82%);
+	--crater: hsl(221, 16%, 68%);
+	--bg: hsl(219, 30%, 88%);
+	--bear-speed: 10s;
+}
+
+body {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	overflow: hidden;
+	background: var(--bg);
+	font-family: sans-serif, system-ui;
+}
+
+.toggle__backdrop:first-of-type .clouds path:first-of-type {
+	fill: var(--ray);
+}
+
+.toggle {
+	width: var(--width);
+	aspect-ratio: var(--ar);
+	border-radius: calc(Infinity * 1px);
+	border: 0;
+	position: relative;
+	padding: 0;
+	overflow: hidden;
+	cursor: pointer;
+	transition: background var(--speed) var(--easing);
+	--sky: hsl(204, 53%, 47%);
+	--night: hsl(229, 25%, 16%);
+	outline-color: transparent;
+	background: hsl(
+		calc(204 + (var(--dark, 0) * 25))
+		calc((53 - (var(--dark, 0) * 28)) * 1%)
+		calc((47 - (var(--dark, 0) * 31)) * 1%)
+	);
+	box-shadow:
+		calc(var(--width) * 0) calc(var(--width) * 0.02) calc(var(--width) * 0.01) calc(var(--width) * -0.0025) hsl(210 10% 100% / 0.95),
+		calc(var(--width) * 0) calc(var(--width) * -0.02) calc(var(--width) * 0.01) calc(var(--width) * -0.0025) hsl(210 10% 10% / 0.2),
+		calc(var(--width) * 0) calc(var(--width) * 0.02) calc(var(--width) * 0.5) 0 hsl(210 10% 100% / 0.15);
+}
+
+.toggle:after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	box-shadow:
+		calc(var(--width) * 0) calc(var(--width) * -0.025) calc(var(--width) * 0.025) 0 hsl(210 10% 10% / 0.15) inset,
+		calc(var(--width) * 0) calc(var(--width) * 0.025) calc(var(--width) * 0.025) 0 hsl(210 10% 10% / 0.65) inset;
+	border-radius: calc(Infinity * 1px);
+}
+
+.toggle__backdrop {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	left: 0;
+	transition: translate var(--speed) var(--easing);
+	translate: 0 calc(
+		var(--dark, 0) * (100% - (3 / 8 * var(--width)))
+	);
+}
+
+[aria-pressed=false] .toggle__backdrop:last-of-type {
+	transition-timing-function: cubic-bezier(.2,-0.6,.7,1.6);
+}
+[aria-pressed=false] .stars path {
+	transition-delay: 0s;
+}
+
+.stars path {
+	transform-box: fill-box;
+	transform-origin: 25% 50%;
+	scale: calc(0.25 + (var(--dark, 0) * 0.75));
+	transition: scale var(--speed) calc(var(--speed) * 0.5) var(--easing);
+}
+
+.toggle__indicator {
+	height: 100%;
+	aspect-ratio: 1;
+	border-radius: 0%;
+	display: grid;
+	place-items: center;
+	padding: 3%;
+}
+
+.pilot-bear {
+	position: absolute;
+	width: 25%;
+}
+
+.toggle__star {
+	height: 100%;
+	aspect-ratio: 1;
+	border-radius: 50%;
+	position: relative;
+	transition: translate var(--speed) var(--easing);
+	translate: calc((var(--dark, 0) * -10%) + 5%) 0;
+	translate: calc((var(--dark, 0) * -18%) + 5%) 0;
+}
+
+.sun {
+	background: var(--sun);
+	position: absolute;
+	inset: 0;
+	border-radius: 50%;
+	overflow: hidden;
+	box-shadow:
+		calc(var(--width) * 0.01) calc(var(--width) * 0.01) calc(var(--width) * 0.02) 0 hsl(210 10% 100% / 0.95) inset,
+		calc(var(--width) * -0.01) calc(var(--width) * -0.01) calc(var(--width) * 0.02) 0 hsl(210 10% 20% / 0.5) inset;
+}
+.moon {
+	position: absolute;
+	inset: -1%;
+	border-radius: 50%;
+	background: var(--moon);
+	transition: translate var(--speed) var(--easing);
+	translate: calc((100 - (var(--dark, 0) * 100)) * 1%) 0%;
+	box-shadow:
+		calc(var(--width) * 0.01) calc(var(--width) * 0.01) calc(var(--width) * 0.02) 0 hsl(210 10% 100% / 0.95) inset,
+		calc(var(--width) * -0.01) calc(var(--width) * -0.01) calc(var(--width) * 0.02) 0 hsl(210 10% 10% / 0.95) inset;
+}
+
+.moon__crater {
+	position: absolute;
+	background: var(--crater);
+	border-radius: 50%;
+	width: calc(var(--size, 10) * 1%);
+	aspect-ratio: 1;
+	left: calc(var(--x) * 1%);
+	top: calc(var(--y) * 1%);
+	box-shadow:
+		calc(var(--width) * 0.01) calc(var(--width) * 0.01) calc(var(--width) * 0.01) 0 hsl(210 10% 6% / 0.25) inset,
+		0 calc(var(--width) * 0.005) calc(var(--width) * 0.01) 0 hsl(210 10% 100% / 0.25);
+}
+
+.moon__crater:nth-of-type(1) {
+	--size: 18;
+	--x: 40;
+	--y: 15;
+}
+.moon__crater:nth-of-type(2) {
+	--size: 20;
+	--x: 65;
+	--y: 58;
+}
+.moon__crater:nth-of-type(3) {
+	--size: 34;
+	--x: 18;
+	--y: 40;
+}
+
+.toggle__star:before {
+	content: "";
+	z-index: -1;
+	width: 356%;
+	background:
+		radial-gradient(hsl(0 0% 100% / 0.25) 40%, transparent 40.5%),
+		radial-gradient(hsl(0 0% 100% / 0.25) 56%, transparent 56.5%)
+	  hsl(0 0% 100% / 0.25);
+	border-radius: 50%;
+	aspect-ratio: 1;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transition: translate var(--speed) var(--easing);
+	translate: calc(
+		(50 - (var(--dark, 0) * 4)) *
+		-1%
+	)
+	-50%;
+}
+
+.toggle__star:after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	display: block;
+	background: hsl(0 0% 0% / 0.5);
+	filter: blur(4px);
+	translate: 2% 4%;
+	border-radius: 50%;
+	z-index: -1;
+}
+
+.toggle__indicator-wrapper {
+	position: absolute;
+	inset: 0;
+	transition: translate var(--speed) var(--easing);
+	translate: calc(
+		var(--dark, 0) * (var(--width) - (3 / 8 * var(--width)))
+	) 0;
+}
+
+[aria-pressed=true] {
+	--dark: 1;
+}
+
+/* Fun stuff! */
+
+/* We have 11 stars */
+
+.stars g {
+	transform-box: fill-box;
+	transform-origin: 50% 50%;
+}
+.stars g:nth-of-type(3) {
+	animation: twinkle 4s -2s infinite;
+}
+
+.stars g:nth-of-type(11) {
+	animation: twinkle 6s -2s infinite;
+}
+
+.stars g:nth-of-type(9) {
+	animation: twinkle 4s -1s infinite;
+}
+
+@keyframes twinkle {
+	0%, 40%, 60%, 100% {
+		transform: scale(1);
+	}
+	50% {
+		transform: scale(0);
+	}
+}
+
+.astrobear {
+	width: 12%;
+	position: absolute;
+	top: 100%;
+	left: 0%;
+	transition: translate calc(var(--speed) + (var(--dark, 0) * (var(--bear-speed) - var(--speed))))
+		calc(var(--bear-speed) * (0.4 * var(--dark, 0))) linear;
+	translate: calc(var(--dark, 0) * 400%) calc(var(--dark, 0) * -350%);
+}
+
+.astrobear svg {
+	transform-origin: 50% 75%;
+	scale: var(--dark, 0);
+	rotate: calc(var(--dark, 0) * 360deg);
+	transition: rotate calc(var(--speed) + (var(--dark, 0) * (var(--bear-speed) - var(--speed)))) calc(var(--bear-speed) * 0.4) linear, scale var(--speed) var(--easing);
+}
+
+
+.astrobear__container {
+	position: absolute;
+	overflow: hidden;
+	inset: 0;
+	clip-path: inset(0 0 0 0);
+	opacity: var(--dark, 0);
+	translate: 0 calc(-200% + (var(--dark, 0) * 200%));
+	transition: opacity var(--speed) var(--easing), translate var(--speed) var(--easing);
+}
+
+.pilot__container {
+	position: absolute;
+	overflow: hidden;
+	inset: 0;
+	clip-path: inset(0 0 0 0);
+	opacity: calc(1 - var(--dark, 0));
+	translate: 0 calc(var(--dark, 0) * 200%);
+	transition: opacity var(--speed) var(--easing), translate var(--speed) var(--easing);
+}
+
+.pilot-bear {
+	width: 18%;
+	position: absolute;
+	top: 70%;
+	left: 100%;
+	transition:
+		translate
+			calc(
+				var(--speed) + ((1 - var(--dark, 0)) *
+					((var(--bear-speed) * 0.5) - var(--speed))))
+			calc((var(--bear-speed) * 0.5) * ((1 - var(--dark, 0)) * 0.4)) linear;
+	translate:
+		calc(
+			(0 - (1 - var(--dark, 0))) * (var(--width) + 100%)
+		) calc(
+		(0 - (1 - var(--dark, 0))) * (200%)
+	);
+}
+
+.pilot {
+	rotate: 12deg;
+	animation: fly 4s infinite ease-in-out;
+}
+
+@keyframes fly {
+	50% { translate: 0 -25%; }
+}
