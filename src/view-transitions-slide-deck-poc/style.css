@@ -1,0 +1,564 @@
+@import "normalize.css";
+
+/* Base deck styling */
+:root {
+	--base-coat: hsl(0 0% 0%);
+  --default-background-color: hsl(0 0% 20%);
+  --slide-accent: 280;
+}
+
+.watermark {
+	width: 80px;
+	position: fixed;
+	top: 1rem;
+	left: 1rem;
+	z-index: 10;
+	view-transition-name: watermark;
+}
+
+::view-transition-group(watermark) {
+	z-index: 9999;
+}
+
+::view-transition-new(watermark),
+::view-transition-old(watermark) {
+	mix-blend-mode: normal;
+	animation-duration: var(--transition-step);
+	height: 100%;
+}
+
+
+
+
+[data-slide-dark=true] .watermark {
+	--base-coat: white;
+}
+
+*,
+*:after,
+*:before {
+  box-sizing: border-box;
+}
+
+html {
+  overflow: hidden;
+  width: 100vw;
+  height: 100vh;
+}
+
+body {
+  overflow: hidden;
+  margin: 0;
+  background: var(--default-background-color);
+}
+
+section {
+  font-size: 36px;
+}
+
+a[href] {
+  text-decoration: none;
+}
+
+iframe {
+  border: 0;
+}
+
+main {
+  --controls: hsl(var(--slide-accent, 10) 80% 50%);
+  height: 100vh;
+  width: 100vw;
+  grid-auto-flow: column;
+  z-index: 2;
+  /* Bring it to life when the deck is loaded */
+  display: none;
+  /* This is important so your view transitions don't do something weird  */
+  overflow: hidden;
+}
+
+/* Base styles for a deck */
+
+:where(h1, h2, h3, h4, h5, h6) {
+  line-height: 1.2;
+  margin: 0 0 0.25em 0;
+  text-transform: uppercase;
+}
+h1 {
+  font-size: 2.5em;
+}
+h2 {
+  font-size: 1.6em;
+}
+h3 {
+  font-size: 1.3em;
+}
+h4 {
+  font-size: 1em;
+}
+
+/* Miscellaneous and needs sorting */
+sub {
+  font-size: small;
+  opacity:  0.75;
+}
+
+/* Slide orientated styles */
+/* Once the deck is initialized, position all the things */
+[data-deck] [data-slide] {
+  position: absolute;
+  inset: 0;
+}
+
+[data-slide] {
+  /*height: 100%;
+  width: 100vw;*/
+  width: 100%;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  font-family: system-ui;
+  gap: 1rem;
+  /* From Reveal.js */
+  line-height: 1.3;
+  text-align: center;
+}
+
+/*.section__layout {
+  width: ;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(var(--section-scale, 1));
+}*/
+
+/* Slide holder */
+.section__layout {
+  position: absolute;
+  display: grid;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(var(--section-scale, 1));
+  width: var(--deck-content-width, 1920px);
+  /* If you set the height explicitly, that'll cause issues */
+  height: var(--deck-content-height, 1080px);
+  /* This is because you want to interact with elements in the background primarily  */
+  pointer-events: none;
+}
+
+
+[data-slide] {
+  background: var(--background, var(--default-background-color));
+}
+
+[data-foreground-interactive] .section__layout {
+  pointer-events: all;
+}
+
+[data-slide-dark=true] {
+  color: hsl(0 0% 100%);
+}
+[data-slide-dark=false] {
+  color: hsl(0 0% 20%);
+}
+
+.section__content {
+  display: grid;
+  place-items: center;
+  align-content: center;
+  /*width: 100%;
+  max-width: 75vw;*/
+/*  height: 94%;*/
+  outline: 2px dashed purple;
+}
+
+.section__content img {
+  max-width: 95%;
+  max-height: 95%;
+  margin: 0.25em 0;
+}
+
+/* Transitions and stuff */
+:root {
+  view-transition-name: none;
+  --transition-step: 0.25s;
+}
+
+main {
+	view-transition-name: auto;
+}
+
+[data-slide-transition=scale-forward] main {
+  view-transition-name: scale-forward;
+}
+[data-slide-transition=scale-backward] main {
+  view-transition-name: scale-backward;
+}
+
+::view-transition-old(scale-forward),
+::view-transition-new(scale-forward),
+::view-transition-old(scale-backward),
+::view-transition-new(scale-backward) {
+	height: 100%;
+  mix-blend-mode: normal;
+  object-fit: cover;
+}
+
+::view-transition-old(scale-forward),
+::view-transition-new(scale-backward) {
+  animation: scale-out var(--transition-step) both;
+}
+::view-transition-new(scale-forward),
+::view-transition-old(scale-backward) {
+  animation: scale-in var(--transition-step) both;
+}
+
+::view-transition-old(scale-backward),
+::view-transition-new(scale-backward) {
+  animation-direction: reverse;
+}
+
+::view-transition-old(scale-forward) {
+  z-index: 2;
+}
+::view-transition-new(scale-forward) {
+  z-index: -1;
+}
+
+@keyframes scale-in {
+  0% {
+    opacity: 0;
+  }
+}
+@keyframes scale-out {
+  80% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    scale: 2;
+  }
+}
+
+/* Slide */
+[data-slide-transition=slide-forward] main {
+  view-transition-name: slide-forward;
+}
+[data-slide-transition=slide-backward] main {
+  view-transition-name: slide-backward;
+}
+::view-transition-old(slide-forward),
+::view-transition-new(slide-forward),
+::view-transition-old(slide-backward),
+::view-transition-new(slide-backward) {
+  height: 100%;
+  mix-blend-mode: normal;
+  object-fit: cover;
+}
+::view-transition-old(slide-forward),
+::view-transition-new(slide-backward) {
+  animation: slide-out var(--transition-step);
+}
+::view-transition-new(slide-forward),
+::view-transition-old(slide-backward) {
+  animation: slide-in var(--transition-step);
+}
+
+::view-transition-old(slide-backward),
+::view-transition-new(slide-backward) {
+  animation-direction: reverse;
+}
+
+@keyframes slide-in {
+  0% {
+    translate: 100% 0;
+  }
+}
+
+@keyframes slide-out {
+  100% {
+    translate: -100% 0;
+  }
+}
+
+
+/* Shrink */
+[data-slide-transition=shrink-forward] main {
+  view-transition-name: shrink-forward;
+}
+[data-slide-transition=shrink-backward] main {
+  view-transition-name: shrink-backward;
+}
+::view-transition-old(shrink-forward),
+::view-transition-new(shrink-forward),
+::view-transition-old(shrink-backward),
+::view-transition-new(shrink-backward) {
+	height: 100%;
+  mix-blend-mode: normal;
+  object-fit: cover;
+}
+::view-transition-old(shrink-forward) {
+	animation: shrink-out var(--transition-step) both;
+	z-index: 2;
+	transform-origin: 0 0;
+}
+
+::view-transition-new(shrink-backward),
+::view-transition-new(shrink-forward) {
+	animation: none;
+	z-index: 1;
+}
+
+::view-transition-old(shrink-backward) {
+	transform-origin: 100% 0;
+	z-index: 2;
+	animation: shrink-out var(--transition-step) both;
+}
+
+@keyframes shrink-out {
+	0% {
+		scale: 1;
+	}
+	100% {
+		scale: 0;
+	}
+}
+
+/* Swap */
+* {
+	transform-style: preserve-3d;
+}
+[data-slide-transition=swap-forward] main {
+  view-transition-name: swap-forward;
+}
+[data-slide-transition=shrink-backward] main {
+  view-transition-name: swap-backward;
+}
+::view-transition-old(swap-forward),
+::view-transition-new(swap-forward),
+::view-transition-old(swap-backward),
+::view-transition-new(swap-backward) {
+	height: 100%;
+  mix-blend-mode: normal;
+  object-fit: cover;
+}
+::view-transition-old(swap-forward) {
+	animation: swap-out var(--transition-step) both;
+}
+
+::view-transition-group(swap-forward) {
+	perspective: 100vmin;
+}
+
+::view-transition-new(swap-backward) {
+	animation: swap-out var(--transition-step) both reverse;
+}
+::view-transition-new(swap-forward) {
+	animation: swap-in var(--transition-step) both;
+}
+
+::view-transition-old(swap-backward) {
+	animation: swap-in var(--transition-step) both reverse;
+}
+
+@keyframes swap-out {
+	100% {
+		transform: translateX(-50%) scale(0.5);
+		opacity: 0;
+	}
+}
+@keyframes swap-in {
+	0% {
+		transform: translateX(50%) scale(0.5);
+		opacity: 0;
+	}
+}
+
+/* Drop */
+[data-slide-transition=drop-forward] main {
+  view-transition-name: drop-forward;
+}
+[data-slide-transition=shrink-backward] main {
+  view-transition-name: drop-backward;
+}
+::view-transition-old(drop-forward),
+::view-transition-new(drop-forward),
+::view-transition-old(drop-backward),
+::view-transition-new(drop-backward) {
+	height: 100%;
+  mix-blend-mode: normal;
+  object-fit: cover;
+}
+::view-transition-old(drop-forward) {
+	animation: drop-out var(--transition-step) both;
+}
+
+::view-transition-group(drop-forward) {
+	perspective: 100vmin;
+}
+
+::view-transition-new(drop-backward) {
+	animation: drop-out var(--transition-step) both reverse;
+}
+::view-transition-new(drop-forward) {
+	animation: drop-in var(--transition-step) both;
+}
+
+::view-transition-old(drop-backward) {
+	animation: drop-in var(--transition-step) both reverse;
+}
+
+@keyframes drop-out {
+	100% {
+		transform: translateY(100%);
+	}
+}
+@keyframes drop-in {
+	0% {
+		transform: translateY(-100%);
+	}
+}
+
+
+
+.deck-progress {
+  view-transition-name: deck-progress;
+}
+
+::view-transition-group(deck-progress) {
+  animation-duration: var(--transition-step);
+}
+
+/* Steps */
+[data-step] {
+  opacity: var(--active, 0);
+  scale: var(--active, 0);
+  transition: scale 0.25s, opacity 0.25s;
+}
+
+[data-step-active=false] {
+  --active: 0;
+}
+[data-step-active=true] {
+  --active: 1;
+}
+
+/* Progress bar */
+
+.deck-progress {
+  height: 0.25rem;
+  width: 100%;
+  border-radius: 0;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  appearance: none;
+  scale: var(--progress-scale, 1) 1;
+  transform-origin: 0 50%;
+  background: var(--controls);
+  color: var(--controls);
+  z-index: 10;
+  min-height: 0.25rem;
+}
+
+::-moz-progress-bar {
+  background: var(--controls);
+}
+
+::-webkit-progress-bar {
+  background: var(--controls);
+}
+
+::-webkit-progress-value {
+  background: var(--controls);
+}
+
+/* Media Blocks */
+.viewport-media {
+  position: fixed;
+  object-fit: cover;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  border: 0;
+}
+
+/* Attempt show/hide of iframes so we only loa */
+[data-slide] iframe { display: none; }
+[data-slide-current] iframe {
+  display: block;
+}
+
+
+/* Demo embeds that could be turned into their own little components to be honest */
+iframe.demo-embed {
+  height: 100%;
+  width: 100%;
+  max-height: 100%;
+  max-width: 100%;
+  min-height: 50vh;
+  /* display: none; */
+  overflow: hidden;
+  border: 0;
+}
+
+/* Controls */
+/* Deck Controls */
+.controls {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  z-index: 9999;
+}
+
+.controls > button {
+  width: 48px;
+  aspect-ratio: 1;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  position: relative;
+  outline-color: transparent;
+  outline-width: 0;
+}
+
+/* Paw holder placement */
+/*.controls > button:after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: red;
+  scale: var(--active, 0);
+  opacity: 0.5;
+}*/
+
+.controls > button:is(:hover, :focus-visible) {
+  --active: 1;
+}
+
+.controls svg {
+  opacity: calc(0.5 + var(--active, 0));
+  transition: opacity 0.2s, translate 0.2s;
+  stroke-width: 3;
+  translate: 0 calc(var(--active, 0) * -25%);
+  stroke: var(--controls);
+}
+
+/* Deck controls  */
+.controls {
+  view-transition-name: controls;
+}
+::view-transition-group(controls) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+::view-transition-old(controls) {
+  z-index: 2;
+  animation: none;
+}
+::view-transition-new(controls) {
+  z-index: 2;
+  display: none;
+  animation: none;
+}
