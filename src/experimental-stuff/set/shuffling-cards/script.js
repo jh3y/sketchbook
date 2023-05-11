@@ -1,11 +1,9 @@
-import "../../../../net/experimental-web-platform/script.js";
-
 const ESCAPE_HATCH = document.querySelector('#escape-hatch')
 
 const ADD_PAGE_TRANSITION_SPEED = (id, speed, delay = '0s') => {
-  let styles = `::page-transition-container(${id}),::page-transition-outgoing-image(${id}),::page-transition-incoming-image(${id}) {animation-duration: ${speed}; animation-delay: ${delay};}`
-  styles += `::page-transition-image-wrapper(${id}) {mix-blend-mode: normal;}`
-  styles += `::page-transition-incoming-image(${id}),::page-transition-outgoing-image(${id}) {height: 100%;}`
+  let styles = `::view-transition-old(${id}),::view-transition-new(${id}) {animation-duration: ${speed}; animation-delay: ${delay};}`
+  styles += `::view-transition-group(${id}) {mix-blend-mode: normal;}`
+  styles += `::view-transition-old(${id}),::view-transition-new(${id}) {height: 100%;}`
   ESCAPE_HATCH.innerHTML += styles
 }
 
@@ -31,7 +29,7 @@ const generateTransitions = (tag, delay) => {
 const setTransitionTags = (tag) => {
   visualOrder.forEach((cardIndex, index) => {
     CARDS[index].style.setProperty(
-      'page-transition-tag',
+      'view-transition-name',
       `${tag}-${cardIndex}`
     )
   })
@@ -50,6 +48,10 @@ generateTransitions('transport-card-in', 0)
 generateTransitions('transport-card-out', 0.5)
 generateTransitions('initial-shuffle-card', 0.5)
 generateTransitions('shuffle-card', 0)
+
+CARDS.forEach(CARD => CARD.addEventListener('click', () => {
+  CARD.setAttribute('aria-pressed', CARD.matches('[aria-pressed=true]') ? false : true)
+}))
 
 SHUFFLER.addEventListener('click', async () => {
   // Hide the controls
@@ -70,27 +72,28 @@ SHUFFLER.addEventListener('click', async () => {
     })
   }
   // 1. Move cards to the shuffler
-
-  const transportInTransition = document.createDocumentTransition()
-  // Set the transition tags
   setTransitionTags('transport-card-in')
-  await transportInTransition.start(transportInAction)
+  const transportInTransition = document.startViewTransition(transportInAction)
+  await transportInTransition.finished
+  // transportInAction()
   // 2. Shuffle the cards
   // Wait one second
-  const initialShuffleTransition = document.createDocumentTransition()
   setTransitionTags('initial-shuffle-card')
-  await initialShuffleTransition.start(shuffleAction)
+  const initialShuffleTransition = document.startViewTransition(shuffleAction)
+  await initialShuffleTransition.finished
   // Arbritrary amount of shuffles
   for (let s = 0; s < COUNT.value; s++) {
     // do a shuffle
-    const shuffleTransition = document.createDocumentTransition()
     setTransitionTags('shuffle-card')
-    await shuffleTransition.start(shuffleAction)
+    const shuffleTransition = document.startViewTransition(shuffleAction)
+    await shuffleTransition.finished
   }
   // 3. Move cards back to the river
-  const transportOutTransition = document.createDocumentTransition()
   setTransitionTags('transport-card-out')
-  await transportOutTransition.start(transportOutAction)
+  const transportOutTransition = document.startViewTransition(transportOutAction)
+  await transportOutTransition.finished
+  // setTimeout(() => transportOutAction(), 2000)
   // Reveal the controls
   CONTROLS.style.display = 'block'
+  CARDS.forEach(CARD => CARD.style.viewTransitionName = 'none')
 })

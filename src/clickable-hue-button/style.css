@@ -1,0 +1,106 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap');
+@import "normalize.css";
+@import "open-props/style";
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+	-webkit-tap-highlight-color: transparent;
+}
+
+html {
+	font-size: 16px;
+}
+
+body {
+	background: hsl(0 0% 4%);
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	font-family: "Inter", sans-serif, system-ui;
+}
+
+.button {
+	--smoke: hsl(0 0% 10% / 0.5);
+	--backdrop: hsl(0 0% 50%);
+	--spread: 0.25rem;
+	--active: 1;
+	position: relative;
+	padding: 0;
+	font-weight: 500;
+	display: grid;
+	grid-template: 1fr / 1fr;
+	place-items: center;
+	border: 0;
+	background: transparent;
+	cursor: pointer;
+}
+
+.button:is(:hover, :focus-visible) {
+	--active: 1.02;
+}
+
+.button:active {
+	--active: 0.98;
+}
+
+.button > * {
+	grid-area: 1 / 1;
+}
+
+.button__foreground {
+	box-shadow: 0 0 var(--spread) 0 var(--backdrop) inset;
+	z-index: 3;
+}
+
+.button__foreground:after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background:
+		radial-gradient(100% 120% at 50% 95%, var(--smoke) 30%, transparent);
+	border-radius: calc(Infinity * 1px);
+	box-shadow: 0 0 var(--spread) 0rem var(--backdrop) inset;
+}
+
+.button__text {
+	font-size: 3.25rem;
+	padding: 1.8rem 3.9rem;
+	z-index: 3;
+	white-space: nowrap;
+	background: linear-gradient(90deg, hsl(0 0% 86%), hsl(0 0% 96%));
+	-webkit-background-clip: text;
+	color: transparent;
+}
+
+.canvas__holder {
+	position: relative;
+	overflow: hidden;
+	z-index: 1;
+}
+
+.button__canvas {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	inset: 0;
+	z-index: 1;
+}
+
+.button__backdrop {
+	background: radial-gradient(120% 150% at 50% 150%, hsl(0 0% 4% / 1) 30%, transparent), var(--backdrop);
+}
+
+.button > * {
+	height: 100%;
+	width: 100%;
+	
+}
+
+.button > *:not(.button__text) {
+	border-radius: calc(Infinity * 1px);
+	scale: var(--active);
+	transition: scale 0.2s var(--ease-elastic-3);
+}
+
