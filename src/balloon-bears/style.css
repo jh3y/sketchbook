@@ -1,0 +1,97 @@
+@import "normalize.css";
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+	background: hsl(210 80% 80%);
+	overflow: hidden;
+}
+
+#app {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	font-family: 'Google Sans', sans-serif, system-ui;
+	align-content: center;
+}
+
+.cloud {
+	position: absolute;
+	top: 100%;
+	left: calc(var(--x, 0.5) * 100%);
+	translate: -50% 0;
+	transform: rotateY(calc(var(--flipped, 0) * 180deg));
+	width: calc(var(--size) * 1vmin);
+	animation: float calc(var(--speed, 0) * 1s) calc(var(--delay, 0) * 1s) linear reverse infinite;
+	z-index: var(--z, 1);
+}
+
+.balloon-bear {
+  position: fixed;
+  top: 100%;
+  left: calc(var(--x, 50) * 100%);
+  translate: -50% 0;
+  transform: rotateY(calc(var(--flipped, 0) * 180deg));
+  width: calc(var(--size) * 1vmin);
+  animation: float calc(var(--speed, 0) * 1s) linear;
+  z-index: var(--z, 1);
+}
+
+@keyframes float {
+  to {
+    translate: -50% calc(-100vh + -100%);
+  }
+}
+
+[data-balloon-bear-static] {
+	--x: 0.5;
+	--size: 50;
+	--flipped: 0;
+	--hue: 10;
+	animation: none;
+	top: 50%;
+	translate: -50% -50%;
+	z-index: 5;
+}
+
+.balloon-bear__arm {
+  transform-box: fill-box;
+  transform-origin: 40% 20%;
+  rotate: 10deg;
+  animation: swing-arm 0.5s infinite alternate linear;
+}
+
+@keyframes swing-arm {
+  0% {
+    rotate: 3deg;
+  }
+  100% {
+    rotate: -3deg;
+  }
+}
+
+.balloon-bear__eye {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  rotate: 50deg;
+  animation: blink 6s -2s infinite;
+}
+
+.balloon-bear__balloon,
+.balloon-bear__strap {
+  fill: hsl(var(--hue, 10) 100% 50%);
+}
+
+
+@keyframes blink {
+  0%, 46%, 48%, 50%, 100% {
+    scale: 1 1;
+  }
+  47%, 49% {
+    scale: 1 0.01;
+  }
+}
