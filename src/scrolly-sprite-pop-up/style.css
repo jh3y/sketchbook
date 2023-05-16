@@ -1,0 +1,81 @@
+@import "normalize.css";
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+	display: grid;
+	place-items: center;
+	min-height: 200vh;
+	background: hsl(0 0% 10%);
+	font-family:  sans-serif, system-ui;
+}
+
+header {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	translate: -50% -50%;
+	border-radius: 50%;
+	width: 40vmin;
+	aspect-ratio: 1;
+	overflow: hidden;
+	background: hsl(0 0% 20%);
+}
+
+.header__content {
+	position: absolute;
+	inset: 0.25rem;
+	background: blue;
+	border-radius: 50%;
+	overflow: hidden;
+}
+
+header:before {
+	content: "";
+	position: absolute;
+	inset: -100%;
+	background: conic-gradient(transparent, white 40%, transparent 41%);
+	animation: rotate 4s infinite linear, fade-in-out 6s -1s infinite alternate;
+}
+
+@keyframes fade-in-out {
+	50% {
+		opacity: 0;
+	}
+}
+
+@keyframes rotate {
+	to {
+		rotate: 360deg;
+	}
+}
+
+.pop-up-avatar {
+	--fps: 40;
+	aspect-ratio: 16/9;
+	width: 180%;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	translate: -50% -50%;
+	height: auto;
+	background: radial-gradient(circle at 50% 100%, hsl(280 80% 80%), hsl(280 80% 40%) 50%);
+	background-size: cover;
+	object-fit: cover;
+	object-position: -10% 0;
+	animation: stop-motion 1s both steps(var(--fps));
+	animation-timeline: scroll(root);
+}
+
+@keyframes stop-motion {
+	0% {
+		object-position: 0 0;
+	}
+	100% {
+		object-position: 100% 0;
+	}
+}
