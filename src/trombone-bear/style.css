@@ -1,0 +1,46 @@
+@import "normalize.css";
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+:root {
+	--size: 300px;
+}
+
+body {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	font-family:  'Google Sans', sans-serif, system-ui;
+}
+
+[type=range] {
+	width: var(--size);
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	accent-color: hsl(45 100% 60%);
+	translate: -50% 50%;
+}
+
+[type=range]:hover ~ .trombone-bear {
+	opacity: 0.25;
+}
+
+svg {
+	overflow: visible !important;
+}
+
+.trombone-bear {
+	transition: opacity 0.25s;
+	pointer-events: none;
+	width: var(--size);
+	opacity: 0;
+}
+
+.trombone-bear__dummy-torso {
+	display: none;
+}
