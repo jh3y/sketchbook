@@ -3,6 +3,7 @@ import gsap from 'gsap'
 
 gsap.set('.trombone-bear__torso', { transformOrigin: '50% 82%' })
 gsap.set('.trombone-bear__upper-features', { transformOrigin: '26% 82%' })
+gsap.set('.trombone-bear__cheek', { display: 'none' })
 // gsap.fromTo('.trombone-bear__torso, .trombone-bear__upper-features', {
 //   rotate: -15,
   
@@ -112,6 +113,9 @@ const slideArm = () => {
 const attack = () => {
   Trombone.play()
   gsap.timeline()
+    .set('.trombone-bear__cheek', {
+      display: 'block'
+    })
     .to('input', {
       opacity: 0,
       duration: 0.25,
@@ -124,13 +128,22 @@ const attack = () => {
 }
 const release = () => {
   Trombone.stop()
-  gsap.timeline()
+  gsap.timeline({})
+    .set('.trombone-bear__cheek', {
+      display: 'none'
+    })
+    .to('.trombone-bear__upper-features, .trombone-bear__torso', {
+      rotate: 0,
+      duration: 0.25,
+    })
     .to('input', {
       opacity: 1,
+      delay: 0.5,
       duration: 0.25,
     })
     .to('.trombone-bear', {
       opacity: 0,
+      delay: 0.5,
       duration: 0.25,
     }, 0)
   document.body.removeEventListener('pointermove', changePitch)

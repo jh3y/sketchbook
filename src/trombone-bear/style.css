@@ -44,3 +44,18 @@ svg {
 .trombone-bear__dummy-torso {
 	display: none;
 }
+
+.trombone-bear__eyes {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: blink 6s -2s infinite;
+}
+
+@keyframes blink {
+  0%, 46%, 48%, 50%, 100% {
+    scale: 1 1;
+  }
+  47%, 49% {
+    scale: 1 0.01;
+  }
+}
