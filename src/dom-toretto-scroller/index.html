@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, user-scalable=0, maximum-scale=1.0"
+    />
+    <title>dom-toretto-scroller</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <main>
+      <div class="track">
+        <div class="title-trigger">
+          <div class="title">
+            <h1><span>Tokyo</span><span>Scroll</span></h1>
+          </div>
+        </div>
+        <div class="car brian">
+          <img
+            class="brian__img"
+            src="https://assets.codepen.io/605876/brian-o-conner.svg"
+            alt=""
+          />
+          <!-- Such a hack. But put everything inside the car... -->
+          <div class="indicators">
+            <div class="progress progress--entry">
+              <div class="progress__bar"></div>
+              <div class="progress__label">
+                <div class="progress__label-text">entry</div>
+                <div class="progress__label-progress"></div>
+              </div>
+            </div>
+            <div class="progress progress--entry-crossing">
+              <div class="progress__bar"></div>
+              <div class="progress__label">
+                <div class="progress__label-text">entry-crossing</div>
+                <div class="progress__label-progress"></div>
+              </div>
+            </div>
+            <div class="progress progress--exit">
+              <div class="progress__bar"></div>
+              <div class="progress__label">
+                <div class="progress__label-text">exit</div>
+                <div class="progress__label-progress"></div>
+              </div>
+            </div>
+            <div class="progress progress--exit-crossing">
+              <div class="progress__bar"></div>
+              <div class="progress__label">
+                <div class="progress__label-text">exit-crossing</div>
+                <div class="progress__label-progress"></div>
+              </div>
+            </div>
+            <div class="progress progress--cover">
+              <div class="progress__bar"></div>
+              <div class="progress__label">
+                <div class="progress__label-text">cover</div>
+                <div class="progress__label-progress"></div>
+              </div>
+            </div>
+            <div class="progress progress--contain">
+              <div class="progress__bar"></div>
+              <div class="progress__label">
+                <div class="progress__label-text">contain</div>
+                <div class="progress__label-progress"></div>
+              </div>
+            </div>
+            <div class="progress progress--dom">
+              <div class="progress__bar"></div>
+              <div class="progress__label">
+                <div class="progress__label-text">dom toretto</div>
+                <div class="progress__label-progress"></div>
+              </div>
+            </div>
+            <div class="action">
+              <label for="dom">
+                <img src="https://assets.codepen.io/605876/dom.png" alt="" />
+                <span class="sr-only">Show Dom</span>
+              </label>
+              <input id="dom" type="checkbox" />
+            </div>
+          </div>
+          <div class="dom-track">
+            <img
+              class="car dom"
+              src="https://assets.codepen.io/605876/dom-toretto.svg"
+              alt=""
+            />
+          </div>
+        </div>
+        <div class="surround"></div>
+      </div>
+    </main>
+    <script type="module" src="./script.js"></script>
+  </body>
+</html>

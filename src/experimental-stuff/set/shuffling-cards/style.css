@@ -100,6 +100,10 @@ button {
   --rotate: 180deg;
 }
 
+.shuffler .card__side--front {
+  opacity: 0;
+}
+
 .card {
   transform-style: preserve-3d;
   appearance: none;

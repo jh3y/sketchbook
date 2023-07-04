@@ -3,13 +3,13 @@ const ESCAPE_HATCH = document.querySelector('#escape-hatch')
 const ADD_PAGE_TRANSITION_SPEED = (id, speed, delay = '0s') => {
   let styles = `::view-transition-old(${id}),::view-transition-new(${id}) {animation-duration: ${speed}; animation-delay: ${delay};}`
   styles += `::view-transition-group(${id}) {mix-blend-mode: normal;}`
-  styles += `::view-transition-old(${id}),::view-transition-new(${id}) {height: 100%;}`
+  styles += `::view-transition-old(${id}),::view-transition-new(${id}) {height: 100%; backface-visibility: hidden; transform-style: preserve-3d; }`
   ESCAPE_HATCH.innerHTML += styles
 }
 
 let visualOrder = [0, 1, 2, 3, 4] // Used for tracking the visual order in the DOM
-const TRANSPORT_DELAY = 0.25
-const TRANSITION_STEP = 0.1
+const TRANSPORT_DELAY = 0.1
+const TRANSITION_STEP = 0.05
 const SHUFFLER = document.querySelector('.shuffle-button')
 const CONTROLS = document.querySelector('.shuffler__controls')
 const COUNT = document.querySelector('[type="range"]')
@@ -46,7 +46,7 @@ const shuffle = () => {
 // Generate the different transition tags
 generateTransitions('transport-card-in', 0)
 generateTransitions('transport-card-out', 0.5)
-generateTransitions('initial-shuffle-card', 0.5)
+generateTransitions('initial-shuffle-card', 0)
 generateTransitions('shuffle-card', 0)
 
 CARDS.forEach(CARD => CARD.addEventListener('click', () => {

@@ -1,0 +1,856 @@
+@import "normalize.css";
+
+.cuboid {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+.cuboid__side:nth-of-type(1) {
+  height: calc(var(--thickness) * 1vmin);
+  width: 100%;
+  position: absolute;
+  top: 0;
+  transform: translate(0, -50%) rotateX(90deg);
+}
+.cuboid__side:nth-of-type(2) {
+  height: 100%;
+  width: calc(var(--thickness) * 1vmin);
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translate(50%, -50%) rotateY(90deg);
+}
+.cuboid__side:nth-of-type(3) {
+  width: 100%;
+  height: calc(var(--thickness) * 1vmin);
+  position: absolute;
+  bottom: 0;
+  transform: translate(0%, 50%) rotateX(90deg);
+}
+.cuboid__side:nth-of-type(4) {
+  height: 100%;
+  width: calc(var(--thickness) * 1vmin);
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translate(-50%, -50%) rotateY(90deg);
+}
+.cuboid__side:nth-of-type(5) {
+  height: 100%;
+  width: 100%;
+  transform: translate3d(0, 0, calc(var(--thickness) * 0.5vmin));
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.cuboid__side:nth-of-type(6) {
+  height: 100%;
+  width: 100%;
+  transform: translate3d(0, 0, calc(var(--thickness) * -0.5vmin)) rotateY(180deg);
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+*,
+*:after,
+*:before {
+  box-sizing: border-box;
+  transform-style: preserve-3d;
+  transition: background 0.1s ease;
+}
+body {
+  min-height: 100vh;
+  display: grid;
+  background: var(--bg);
+  place-items: center;
+  touch-action: none;
+}
+:root {
+  --on: 1;
+  --base-size: 1vmin;
+  --base-height: calc(45 * 0.65);
+  --base-width: calc(75 * 0.65);
+  --body-one: hsl(10 100% 50%);
+  --body-two: hsl(10 100% 50%);
+  --body-three: hsl(10 100% 50%);
+  --body-four: hsl(10 100% 50%);
+  --seal: hsl(10 90% 40%);
+  --speed: 0.4s;
+  --bg: hsl(210, 100%, calc((15 + (var(--on, 0) * 64)) * 1%));
+  --width: calc(var(--base-width) * var(--base-size));
+  --height: calc(var(--base-height) * var(--base-size));
+  --road-one: hsl(0, 0%, calc((40 + (var(--on, 0) * 35)) * 1%));
+  --road-two: hsl(0, 0%, calc((30 + (var(--on, 0) * 35)) * 1%));
+  --road-three: hsl(0, 0%, calc((20 + (var(--on, 0) * 35)) * 1%));
+  --road-four: hsl(0, 0%, calc((10 + (var(--on, 0) * 35)) * 1%));
+  --road-one: hsl(0 0% 40%);
+  --road-two: hsl(0 0% 40%);
+  --road-three: hsl(0 0% 40%);
+  --road-four: hsl(0 0% 40%);
+  --road-marking-one: hsl(0, 0%, calc((85 + (var(--on, 0) * 15)) * 1%));
+  --road-marking-two: hsl(0, 0%, calc((80 + (var(--on, 0) * 15)) * 1%));
+  --road-marking-three: hsl(0, 0%, calc((75 + (var(--on, 0) * 15)) * 1%));
+  --white-one: hsl(0, 0%, calc((85 + (var(--on, 0) * 10)) * 1%));
+  --white-two: hsl(0, 0%, calc((80 + (var(--on, 0) * 10)) * 1%));
+  --white-three: hsl(0, 0%, calc((75 + (var(--on, 0) * 10)) * 1%));
+  --white-four: hsl(0, 0%, calc((70 + (var(--on, 0) * 10)) * 1%));
+  --glass-one: hsl(210, 80%, calc((85 + (var(--on, 0) * 10)) * 1%));
+  --glass-two: hsl(210, 90%, calc((80 + (var(--on, 0) * 10)) * 1%), 0.75);
+  --glass-three: hsl(210, 80%, calc((75 + (var(--on, 0) * 10)) * 1%));
+  --glass-four: hsl(210, 80%, calc((70 + (var(--on, 0) * 10)) * 1%));
+  --bumper-one: hsl(0, 0%, calc((80 + (var(--on, 0) * 10)) * 1%));
+  --bumper-two: hsl(0, 0%, calc((75 + (var(--on, 0) * 10)) * 1%));
+  --bumper-three: hsl(0, 0%, calc((70 + (var(--on, 0) * 10)) * 1%));
+  --bumper-four: hsl(0, 0%, calc((65 + (var(--on, 0) * 10)) * 1%));
+  --wheel-one: hsl(0, 0%, calc((15 + (var(--on, 0) * 10)) * 1%));
+  --wheel-two: hsl(0, 0%, calc((10 + (var(--on, 0) * 10)) * 1%));
+  --wheel-three: hsl(0, 0%, calc((5 + (var(--on, 0) * 10)) * 1%));
+  --wheel-four: hsl(0, 0%, calc((0 + (var(--on, 0) * 10)) * 1%));
+  --white-four: hsl(0, 0%, calc((70 + (var(--on, 0) * 10)) * 1%));
+  --black-one: hsl(0, 0%, calc((20 + (var(--on, 0) * 10)) * 1%));
+  --black-two: hsl(0, 0%, calc((15 + (var(--on, 0) * 10)) * 1%));
+  --black-three: hsl(0, 0%, calc((10 + (var(--on, 0) * 10)) * 1%));
+  --black-four: hsl(0, 0%, calc((5 + (var(--on, 0) * 10)) * 1%));
+  --hub: hsl(0, 0%, calc((65 + (var(--on, 0) * 25)) * 1%));
+  --glare: rgba(255,255,255,0.25);
+  --siren-red: rgba(242,32,13,0.25);
+  --siren-blue: rgba(13,147,242,0.25);
+  --lamp: hsl(45, 90%, 90%, calc(0.75 - calc(var(--on, 0) * 0.75)));
+  --headlight: hsl(45, 90%, 100%, 1);
+  --indicator: hsl(35, 90%, 50%, 1);
+  --taillight: hsl(0, 90%, 50%, 1);
+  --shift: calc(var(--height) * 0.1);
+  --bob: calc(var(--width) * 0.08);
+  --bob-speed: 2s;
+  --shift-speed: 5s;
+}
+.scene {
+  position: fixed;
+  height: var(--height);
+  width: var(--width);
+  top: 50%;
+  left: 50%;
+  transform: translate3d(-50%, -50%, 100vmin);
+  transform: translate3d(-50%, -65%, 100vmin) rotateX(-24deg) rotateY(44deg) rotateX(calc(var(--rotation-x, 0) * 1deg)) rotateY(calc(var(--rotation-y, 0) * 1deg));
+}
+.road {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 20%;
+  transform: translate3d(0, 1px, 0);
+}
+.car {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  animation: bob var(--bob-speed) infinite linear alternate;
+}
+.car__bob {
+  position: absolute;
+  left: 50%;
+  bottom: 20%;
+  height: 50%;
+  width: 50%;
+  transform: translate3d(-50%, 0%, 0vmin);
+  animation: shift var(--shift-speed) infinite linear alternate;
+}
+
+@keyframes shift {
+  0% {
+    transform: translate3d(-50%, 0%, calc(var(--shift) * -1));
+  }
+  100% {
+    transform: translate3d(-50%, 0%, calc(var(--shift) * 1));
+  }
+}
+.car > * {
+  position: absolute;
+}
+.car__shadow {
+  width: 100%;
+  height: calc(var(--height) * 0.4);
+  background: rgba(0,0,0,0.5);
+  bottom: 0;
+  transform: translate(0, 50%) rotateX(90deg) translate3d(0, 0, 1px) scale(1.05, 1.1);
+}
+.car__headlights {
+  width: 25%;
+  height: calc(var(--height) * 0.5);
+  bottom: 0%;
+  left: 0;
+  transform: translate(-125%, 50%) rotateX(90deg) translate3d(0, 0, 1px);
+  position: relative;
+}
+.car__headlights:after,
+.car__headlights:before {
+  content: '';
+  position: absolute;
+  height: 50%;
+  width: 100%;
+  background: var(--lamp);
+  border-radius: 50%;
+  filter: blur(10px);
+}
+.car__headlights:after {
+  top: 0;
+}
+.car__headlights:before {
+  bottom: 0;
+}
+.car__wheel {
+  height: calc(var(--height) * 0.13);
+  width: calc(var(--height) * 0.13);
+  bottom: 0;
+}
+.car__wheel--f {
+  left: 10%;
+}
+.car__wheel--r {
+  right: 10%;
+}
+.car__wheel--osf,
+.car__wheel--osr {
+  transform: translate3d(0, 0, calc(var(--height) * 0.2));
+}
+.car__wheel--nsf,
+.car__wheel--nsr {
+  transform: translate3d(0, 0, calc(var(--height) * -0.2));
+}
+.car__body--bottom {
+  bottom: 5%;
+  width: 100%;
+  height: 40%;
+}
+.car__body--top {
+  bottom: 44.5%;
+  width: 60%;
+  height: 40%;
+  left: 22%;
+}
+.car__siren {
+  bottom: 85%;
+  height: calc(var(--height) * 0.0725);
+  width: calc(var(--height) * 0.0725);
+  left: 50%;
+}
+.car__siren > * {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.car__mirrors {
+  width: 5%;
+  height: 13%;
+  left: 24%;
+  bottom: 40%;
+}
+.car__mirror {
+  height: 100%;
+  position: absolute;
+  width: 100%;
+}
+.car__mirror--left {
+  transform: translate3d(0, 0, calc((var(--height) * 0.2325) + 2px));
+}
+.car__mirror--right {
+  transform: translate3d(0, 0, calc((var(--height) * -0.2325) - 2px));
+}
+.car__bumper {
+  height: calc(var(--height) * 0.05);
+  width: calc(var(--height) * 0.05);
+  bottom: 4%;
+}
+.car__bumper--front {
+  left: 0;
+  transform: translate(-40%, 0);
+}
+.car__bumper--rear {
+  right: 0;
+  transform: translate(40%, 0);
+}
+
+@keyframes bob {
+  0% {
+    transform: translate(calc(var(--bob) * -0.5));
+  }
+  100% {
+    transform: translate(calc(var(--bob) * 1.5));
+  }
+}
+.body {
+  --thickness: calc(var(--base-height) * 0.4);
+}
+.body--top > div {
+  background: var(--white-two);
+}
+.body--top > div:nth-of-type(1) {
+/*  display: none;*/
+  background: linear-gradient(90deg, transparent 0 20%, var(--body-one) 20% calc(20% + 0.5vmin), transparent calc(20% + 0.5vmin) 100%);
+}
+.body--top > div:nth-of-type(2) {
+  display: none;
+  background: transparent;
+}
+.body--top > div:nth-of-type(2):after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 112%;
+  background: var(--white-two);
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, 0) rotateX(27deg);
+  transform-origin: 50% 100%;
+}
+.body--top > div:nth-of-type(2):before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 112%;
+  background: linear-gradient(55deg, transparent 0 30%, var(--glare) 30% 40%, transparent 40% 45%, var(--glare) 45% 50%, transparent 50% 100%), var(--glass-two);
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, 0) rotateX(27deg) translate3d(0, 0, 1px);
+  transform-origin: 50% 100%;
+  --clip: inset(10% 10% 10% 10%);
+  -webkit-clip-path: var(--clip);
+  clip-path: var(--clip);
+}
+.body--top > div:nth-of-type(3) {
+  filter: none;
+  background:
+    linear-gradient(0deg, var(--black-four) 0 1vmin, transparent 1vmin calc(100% - 1vmin), var(--black-four) calc(100% - 1vmin)),
+    linear-gradient(90deg, var(--black-one) 0 15%, transparent 15% 80%, var(--black-one) 80%);
+}
+.body--top > div:nth-of-type(4) {
+  filter: none;
+  background-color: transparent;
+}
+.body--top > div:nth-of-type(4):after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 112%;
+  background: var(--body-one);
+  background: transparent;
+  background: linear-gradient(55deg, transparent 0 30%, var(--glare) 30% 40%, transparent 40% 45%, var(--glare) 45% 50%, transparent 50% 100%), var(--glass-two);
+  border: 1vmin solid var(--body-two);
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, 0) rotateX(-27deg);
+  transform-origin: 50% 100%;
+}
+.body--top > div:nth-of-type(5) {
+/*  background: var(--white-three);*/
+  background: transparent;
+  --clip: polygon(0 100%, 20% 0, 23% 0, 23% 100%);
+  -webkit-clip-path: var(--clip);
+  clip-path: var(--clip);
+}
+.body--top > div:nth-of-type(5):before {
+  content: "";
+  width: 5%;
+  height: 120%;
+  background: var(--body-one);
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  transform-origin: 0 100%;
+  rotate: 27deg;;
+}
+.body--top > div:nth-of-type(5):after {
+  content: '';
+  background: linear-gradient(var(--body-one), var(--body-one)) 15% 50%/8% 100% no-repeat;
+  background-color: var(--glass-two);
+  position: absolute;
+  height: 90%;
+  width: 90%;
+  bottom: 0;
+  left: 50%;
+  border-bottom: 0.5vmin solid var(--body-one);
+  transform: translate(-50%, 0);
+  --clip: polygon(0 100%, 20% 0, 23% 0, 23% 100%);
+  -webkit-clip-path: var(--clip);
+  clip-path: var(--clip);
+}
+.body--top > div:nth-of-type(6) {
+/*  background: var(--white-four);*/
+  --clip: polygon(77% 0, 77% 100%, 100% 100%, 80% 0);
+  background: transparent;
+  -webkit-clip-path: var(--clip);
+  clip-path: var(--clip);
+}
+.body--top > div:nth-of-type(6):before {
+  content: "";
+  width: 5%;
+  height: 120%;
+  background: var(--body-one);
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  transform-origin: 0 100%;
+  transform: translate3d(0, 0, 1px);
+  rotate: -27deg;
+  z-index: 2;
+}
+.body--top > div:nth-of-type(6):after {
+  content: '';
+  border-bottom: 0.5vmin solid var(--body-one);
+  background: linear-gradient(var(--body-one), var(--body-one)) 80% 50%/8% 100% no-repeat;
+  background-color: var(--glass-two);
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, 0);
+  --clip: polygon(0 100%, 20% 0, 80% 0, 100% 100%);
+  -webkit-clip-path: var(--clip);
+  clip-path: var(--clip);
+}
+.body--bottom div {
+  background: var(--black-two);
+}
+.body--bottom div:nth-of-type(1) {
+  background: linear-gradient(90deg, var(--body-one) 0 22%, transparent 22% 82%, var(--body-one) 82% 100%);
+/*  background-color: var(--black-one);*/
+}
+.body--bottom div:nth-of-type(1):after {
+  content: '';
+  background: linear-gradient(90deg, var(--body-one) 0 22%, transparent 22% 82%, var(--body-one) 82% 100%);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  height: 99%;
+  width: 101%;
+  transform: translate3d(-50%, -50%, -1px);
+}
+/*.body--bottom div:nth-of-type(1):before {
+  content: '382';
+  font-family: sans-serif;
+  font-weight: bold;
+  height: 30%;
+  width: 40%;
+  text-align: center;
+  overflow: hidden;
+  position: absolute;
+  font-size: calc(var(--height) * 0.1);
+  color: var(--white-one);
+  right: 0;
+  bottom: 50%;
+  transform: translate3d(50%, 50%, 2px) rotate(-90deg) translate(0, -50%);
+}*/
+.body--bottom div:nth-of-type(2) {
+  background: linear-gradient(var(--indicator), var(--indicator)) 95% 50%/5% 25% no-repeat, linear-gradient(var(--indicator), var(--indicator)) 5% 50%/5% 25% no-repeat, linear-gradient(var(--taillight), var(--taillight)) 10% 50%/15% 25% no-repeat, linear-gradient(var(--taillight), var(--taillight)) 90% 50%/15% 25% no-repeat;
+  background-color: var(--body-two);
+}
+.body--bottom div:nth-of-type(3) {
+  background-color: var(--black-four);
+}
+.body--bottom div:nth-of-type(4) {
+  background: repeating-linear-gradient(transparent 0 20%, var(--black-four) 20% 40%) 50% 50%/25% 25% no-repeat, linear-gradient(var(--bumper-one), var(--bumper-one)) 50% 50%/35% 25% no-repeat, linear-gradient(var(--indicator), var(--indicator)) 95% 50%/5% 25% no-repeat, linear-gradient(var(--indicator), var(--indicator)) 5% 50%/5% 25% no-repeat, linear-gradient(var(--headlight), var(--headlight)) 10% 50%/15% 25% no-repeat, linear-gradient(var(--headlight), var(--headlight)) 90% 50%/15% 25% no-repeat;
+  background-color: var(--body-four);
+}
+.body--bottom div:nth-of-type(5) {
+  background: linear-gradient(90deg, var(--body-three) 0 22%, var(--seal) 22% 24%, var(--body-two) 24% 68%, var(--seal) 68% 70%, var(--body-three) 70% 100%);
+  background-color: var(--body-three);
+}
+/*.body--bottom div:nth-of-type(5):after {
+  content: '';
+  height: 75%;
+  width: 35%;
+  background: url("https://assets.codepen.io/605876/bear--gold-badge--large.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  position: absolute;
+  left: 35%;
+  top: 50%;
+  transform: translate(0, -50%);
+}*/
+.body--bottom div:nth-of-type(6) {
+  background: linear-gradient(270deg, var(--body-three) 0 22%, var(--seal) 22% 24%, var(--body-two) 24% 68%, var(--seal) 68% 70%, var(--body-three) 70% 100%);
+  background-color: var(--body-four);
+}
+/*.body--bottom div:nth-of-type(6):after {
+  content: '';
+  height: 75%;
+  width: 35%;
+  background: url("https://assets.codepen.io/605876/bear--gold-badge--large.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  position: absolute;
+  left: 45%;
+  top: 50%;
+  transform: translate(0, -50%);
+}*/
+.scene__road {
+  --thickness: calc(var(--base-height));
+}
+.scene__road > div:nth-of-type(1) {
+  background-color: var(--road-one);
+}
+.scene__road > div:nth-of-type(2) {
+  background: var(--road-two);
+}
+.scene__road > div:nth-of-type(3) {
+  background: var(--road-four);
+}
+.scene__road > div:nth-of-type(4) {
+  background-color: var(--road-two);
+}
+.scene__road > div:nth-of-type(5) {
+  --b: 0.6;
+  background: var(--road-three);
+}
+.scene__road > div:nth-of-type(6) {
+  --b: 0.6;
+  background: var(--road-four);
+}
+
+.wheel {
+  --thickness: calc(var(--base-height) * 0.05);
+}
+.wheel div {
+  background: var(--wheel-four);
+}
+.wheel div:nth-of-type(1) {
+  background: var(--wheel-one);
+}
+.wheel div:nth-of-type(2) {
+  background: var(--wheel-two);
+}
+.wheel div:nth-of-type(3) {
+  background: var(--wheel-three);
+}
+.wheel div:nth-of-type(4) {
+  background: var(--wheel-four);
+}
+.wheel div:nth-of-type(5) {
+  background: linear-gradient(var(--hub), var(--hub)) 50% 50%/35% 35% no-repeat;
+  background-color: var(--wheel-four);
+}
+.wheel div:nth-of-type(6) {
+  background: linear-gradient(var(--hub), var(--hub)) 50% 50%/35% 35% no-repeat;
+  background-color: var(--wheel-three);
+}
+.bumper {
+  --thickness: calc(var(--base-height) * 0.45);
+}
+.bumper div {
+  background: var(--bumper-one);
+}
+.bumper div:nth-of-type(1) {
+  background: var(--bumper-one);
+}
+.bumper div:nth-of-type(2) {
+  background: var(--bumper-two);
+}
+.bumper div:nth-of-type(3) {
+  background: var(--bumper-three);
+}
+.bumper div:nth-of-type(4),
+.bumper div:nth-of-type(5) {
+  background: var(--bumper-four);
+}
+.bumper div:nth-of-type(6) {
+  background: var(--bumper-three);
+}
+.mirror {
+  --thickness: calc(var(--base-height) * 0.075);
+}
+.mirror div:nth-of-type(1) {
+  background-color: var(--black-one);
+}
+.mirror div:nth-of-type(2) {
+  background: linear-gradient(var(--white-one), var(--white-one)) 50% 50%/75% 75% no-repeat;
+  background-color: var(--black-two);
+}
+.mirror div:nth-of-type(3) {
+  background: var(--black-four);
+}
+.mirror div:nth-of-type(4) {
+  background-color: var(--black-two);
+}
+.mirror div:nth-of-type(5) {
+  background: var(--black-three);
+}
+.mirror div:nth-of-type(6) {
+  background: var(--black-four);
+}
+.road__markings {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+.road__markings--bottom {
+  transform: translate3d(0, 0, -1px);
+}
+.road__markings--bottom:after {
+  content: '';
+  position: absolute;
+  height: 100%;
+  width: calc(var(--width) * 2);
+  background: repeating-linear-gradient(270deg, var(--road-marking-three) 0 10%, transparent 10% 15%) 0 50%/100% 5% no-repeat;
+  bottom: 0;
+  left: 50%;
+  transform: translate3d(-50%, 0, 0);
+  -webkit-animation: roll-bottom var(--speed) infinite linear;
+          animation: roll-bottom var(--speed) infinite linear;
+}
+.road__markings--front {
+  transform: translate3d(0, 0, -1px);
+}
+.road__markings--front:after {
+  content: '';
+  position: absolute;
+  height: calc(var(--base-height) * 1vmin);
+  width: calc(var(--width) * 2);
+  background: repeating-linear-gradient(270deg, var(--road-marking-two) 0 10%, transparent 10% 15%) 0 50%/100% 5% no-repeat;
+  top: 0%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-90deg) translate3d(-35%, 0, -1px);
+  -webkit-animation: roll-front var(--speed) infinite linear;
+          animation: roll-front var(--speed) infinite linear;
+}
+@-webkit-keyframes roll-front {
+  to {
+    transform: translate(-50%, -50%) rotate(-90deg) translate3d(-20%, 0, -1px);
+  }
+}
+@keyframes roll-front {
+  to {
+    transform: translate(-50%, -50%) rotate(-90deg) translate3d(-20%, 0, -1px);
+  }
+}
+.road__markings--back {
+  transform: translate3d(0, 0, 1px);
+}
+.road__markings--back:after {
+  content: '';
+  position: absolute;
+  height: calc(var(--base-height) * 1vmin);
+  width: calc(var(--width) * 2);
+  background: repeating-linear-gradient(270deg, var(--road-marking-two) 0 10%, transparent 10% 15%) 0 50%/100% 5% no-repeat;
+  top: 0%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-90deg) translate3d(-35%, 0, 1px);
+  -webkit-animation: roll-back var(--speed) infinite linear;
+          animation: roll-back var(--speed) infinite linear;
+}
+@-webkit-keyframes roll-back {
+  to {
+    transform: translate(-50%, -50%) rotate(-90deg) translate3d(-50%, 0, 1px);
+  }
+}
+@keyframes roll-back {
+  to {
+    transform: translate(-50%, -50%) rotate(-90deg) translate3d(-50%, 0, 1px);
+  }
+}
+.road__markings--top {
+  transform: translate3d(0, 0, 1px);
+}
+.road__markings--top:after {
+  content: '';
+  position: absolute;
+  height: 100%;
+  width: calc(var(--width) * 2);
+  background: repeating-linear-gradient(270deg, var(--road-marking-one) 0 10%, transparent 10% 15%) 0 50%/100% 5% no-repeat;
+  bottom: 0;
+  left: 50%;
+  transform: translate3d(-50%, 0, 1px);
+  -webkit-animation: roll-top var(--speed) infinite linear;
+          animation: roll-top var(--speed) infinite linear;
+}
+@-webkit-keyframes roll-top {
+  to {
+    transform: translate3d(-35%, 0, 1px);
+  }
+}
+@keyframes roll-top {
+  to {
+    transform: translate3d(-35%, 0, 1px);
+  }
+}
+.controls {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+.controls > * + * {
+  margin-top: 1rem;
+}
+button {
+  height: 48px;
+  width: 48px;
+  cursor: pointer;
+  transform: translate3d(0, 0, 150vmin);
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  border: 0;
+  background: transparent;
+  outline: transparent;
+}
+button > svg {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+}
+button path {
+  fill: hsl(210, 80%, calc((90 - (var(--on, 0) * 75)) * 1%));
+}
+button svg:nth-of-type(1),
+button span:nth-of-type(1) {
+  display: none;
+}
+button span {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+[aria-pressed="true"] svg:nth-of-type(1),
+[aria-pressed="true"] span:nth-of-type(1) {
+  display: block;
+}
+[aria-pressed="true"] svg:nth-of-type(2),
+[aria-pressed="true"] span:nth-of-type(2) {
+  display: none;
+}
+@-webkit-keyframes roll-bottom {
+  to {
+    transform: translate3d(-65%, 0, 0);
+  }
+}
+@keyframes roll-bottom {
+  to {
+    transform: translate3d(-65%, 0, 0);
+  }
+}
+@-webkit-keyframes flash {
+  50% {
+    --alpha: 1;
+  }
+}
+@keyframes flash {
+  50% {
+    --alpha: 1;
+  }
+}
+
+
+.cabin {
+  position: absolute;
+  inset: 1vmin 0.5vmin;
+  --thickness: 5;
+  transform: translate3d(0, 0, -2.5vmin);
+}
+
+.cabin > .cuboid > .cuboid__side:not(:nth-of-type(5)) {
+  background: var(--black-three);
+}
+
+.cabin > .cuboid > .cuboid__side:nth-of-type(5) {
+  filter: none;
+}
+
+.seat {
+  height: calc(100% - 1vmin);
+  width: 11%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: 130% -50%;
+  transform: rotateY(15deg);
+  --thickness: 5;
+}
+
+.seat--bottom {
+  width: 34%;
+  --thickness: 2;
+  translate: -50% -50%;
+  transform: rotate(0deg) translateZ(-3vmin);
+}
+
+.seat > .cuboid > .cuboid__side {
+  background: var(--black-one);
+}
+.seat--bottom > .cuboid > .cuboid__side {
+  background: var(--black-two);
+}
+
+.cuboid__side {
+  filter: brightness(var(--b, 1));
+}
+
+.cuboid__side:nth-of-type(1) { --b: 0.8; }
+.cuboid__side:nth-of-type(2) { --b: 1; }
+.cuboid__side:nth-of-type(3) { --b: 0.4; }
+.cuboid__side:nth-of-type(4) { --b: 1; }
+.cuboid__side:nth-of-type(5) { --b: 1; }
+.cuboid__side:nth-of-type(6) { --b: 0.8; }
+
+.steering-wheel {
+  width: 6%;
+  height: 3vmin;
+  position: absolute;
+  top: 12%;
+  left: 10%;
+  background: transparent;
+  --thickness: 3;
+  transform: rotateY(-10deg) rotateX(-15deg);
+  animation: steer calc(var(--bob-speed) * 2) infinite linear;
+}
+
+@keyframes steer {
+  50% {
+    transform: rotateY(-10deg) rotateX(15deg);
+  }
+}
+
+.steering-wheel > .cuboid > .cuboid__side {
+  background: hsl(0 0% 40%);
+}
+
+.steering-wheel > .cuboid > :is(.cuboid__side:nth-of-type(2), .cuboid__side:nth-of-type(4)) {
+  background: transparent;
+  background: linear-gradient(90deg, transparent 0 40%, hsl(0 80% 50%) 40% 60%, transparent 60%);
+  border: 0.5vmin solid hsl(0 0% 40%);
+}
+
+.handle {
+  --thickness: 0.5;
+  width: 16%;
+  height: 8%;
+  position: absolute;
+  left: 50%;
+  transform: translateZ(-1vmin);
+}
+
+.handle--left {
+  top: 100%;
+  translate: 0% 100%;
+}
+
+.handle--right {
+  bottom: 100%;
+  translate: 0 -100%;
+}
+
+.handle > .cuboid > .cuboid__side {
+  background: hsl(10 20% 50%);
+}
+.handle > .cuboid > .cuboid__side:nth-of-type(3) {
+  --b: 1;
+}
