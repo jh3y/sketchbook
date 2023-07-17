@@ -1,0 +1,86 @@
+@import "normalize.css";
+
+@layer base, card;
+
+@layer card {
+	.cards {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 1rem;
+	}
+
+	.card {
+		--border-width: 6px;
+		--bg: hsl(0 0% 10%);
+		width: 200px;
+		aspect-ratio: 4 / 3;
+		color: hsl(0 0% 100%);
+		font-weight: bold;
+		font-family: sans-serif;
+		position: relative;
+		background: var(--bg);
+	}
+
+	.card:is(:hover, :focus-within) {
+		--active: 1;
+	}
+
+	.card::after,
+	.card::before {
+		--alpha: 0.5;
+		content: "";
+		position: absolute;
+		inset: 0;
+		pointer-events: none;
+	}
+
+	.card::after {
+		--alpha: 0.15;
+		opacity: var(--active, 0);
+		transition: opacity 0.2s;
+	}
+
+	.card::before {
+		--alpha: 0.5;
+		mask:
+		  linear-gradient(#fff, #fff) 50% 0 / 100% var(--border-width),
+		  linear-gradient(#fff, #fff) 100% 0 / var(--border-width) 100%,
+		  linear-gradient(#fff, #fff) 50% 100% / 100% var(--border-width),
+		  linear-gradient(#fff, #fff) 0 0 / var(--border-width) 100%;
+		mask-repeat: no-repeat;
+	}
+
+	.card::after, .card::before {
+		background: radial-gradient(
+			circle at calc(var(--x) * 1px) calc(var(--y) * 1px),
+			hsl(0 0% 100% / var(--alpha)),
+			transparent 150px
+		);
+		background-attachment: fixed;
+	}
+
+	.card span {
+		position: absolute;
+		font-size: 2rem;
+		bottom: 1rem;
+		right: 1rem;
+	}
+}
+
+@layer base {
+	body {
+		display: grid;
+		place-items: center;
+		min-height: 100vh;
+		background: hsl(0 0% 6%);
+	}
+	main {
+		width: 80ch;
+		max-width: 100%;
+	}
+	ul {
+		list-style-type: none;
+		padding: 0;
+		margin: 0;
+	}
+}

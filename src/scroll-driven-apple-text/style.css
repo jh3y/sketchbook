@@ -1,0 +1,220 @@
+@import "normalize.css";
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  margin: 0;
+  font-family: SF Pro Display, SF Pro Icons, Helvetica Neue, Helvetica, Arial, sans-serif;
+  font-weight: 700;
+  background: hsl(0 0% 2%);
+  color: hsl(0 0% 98%);
+  overflow-x: hidden;
+}
+
+nav {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	border-bottom: 1px solid hsl(0 0% 50%);
+	height: 52px;
+	background: hsl(0 0% 20% / 0.75);
+	backdrop-filter: blur(4px);
+	z-index: 2;
+}
+
+
+.nav__content {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 800px;
+	max-width: 100vh;
+	padding: 0 1rem;
+	margin: 0 auto;
+	height: 100%;
+}
+
+nav a {
+	text-decoration: none;
+	background: hsl(220 100% 70%);
+	color: hsl(0 0% 98%);
+	font-weight: 400;
+	padding: 0.5rem 1rem;
+	border-radius: 100px;
+	font-size: 0.875rem;
+}
+
+nav img {
+	height: 50%;
+	justify-self: start;
+}
+
+video {
+	position: fixed;
+	inset: 0;
+	object-fit: cover;
+	width: 100%;
+	height: 100vh;
+	z-index: -1;
+	filter: saturate(0.1) brightness(0.5);
+	opacity: 0;
+	animation: fade-in both linear, fade-out both linear;
+	animation-timeline: --section;
+	animation-range: entry 10% entry 15%, exit 10% exit 15%;
+}
+
+@keyframes fade-in {
+	to {
+		opacity: 0.2;
+	}
+}
+
+@keyframes fade-out {
+	to {
+		opacity: 0;
+	}
+}
+
+section {
+	position: relative;
+	min-height: 100vh;
+	display: grid;
+	place-items: center;
+	view-timeline: --section;
+}
+
+section:nth-of-type(1) {
+	height: 100vh;
+}
+
+section:nth-of-type(2) {
+	height: 140vh;
+}
+
+section:nth-of-type(3) {
+	height: 200vh;
+}
+
+h1 {
+	display: grid;
+}
+
+:is(h1, h2) {
+	font-size: clamp(2.5rem, 7vw + 1rem, 10rem);
+	text-align: center;
+	line-height: 1;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	margin: 0;
+	translate: -50% -50%;
+	width: 100%;
+}
+
+p span {
+	display: inline;
+	opacity: 0.15;
+	animation: highlight both ease-in-out;
+	animation-timeline: view();
+}
+
+@keyframes highlight {
+	50% {
+		opacity: 1;
+	}
+}
+
+p span:nth-of-type(1) {
+	animation-range: cover 10% cover 45%;
+}
+p span:nth-of-type(2) {
+	animation-range: cover 30% cover 60%;
+}
+p span:nth-of-type(3) {
+	animation-range: cover 45% cover 85%;
+}
+p span:nth-of-type(4) {
+	animation-range: cover 75% cover 120%;
+}
+
+h1 span:first-of-type {
+	display: inline-block;
+	animation: fade-away both linear;
+	animation-timeline: --section;
+	animation-range: exit 20% exit 90%;
+}
+
+h1 span:last-of-type {
+	display: inline-block;
+	animation: scale-up both cubic-bezier(.1,.7,.9,1.3), fade-away both linear;
+	animation-timeline: --section;
+	animation-range: exit 0% exit 100%, exit 50% exit 90%;	
+}
+
+@keyframes scale-up {
+	to {
+		scale: 1.5;
+	}
+}
+
+h2 {
+	animation: grow both ease-in, fade-away both linear;
+	animation-timeline: --section;
+	animation-range: exit-crossing -10% exit-crossing 10%, exit 0% exit 50%;
+}
+
+h1 span:first-of-type {
+	color: hsl(0 100% 50%);
+	font-size: 0.35em;
+}
+
+@keyframes grow {
+	0% {
+		scale: 0.5;
+		opacity: 0;
+	}
+}
+
+@keyframes fade-away {
+	100% {
+		opacity: 0;
+	}
+}
+
+h2 {
+	font-size: clamp(2rem, 5vw + 1rem, 6rem);
+	text-align: center;
+}
+
+p {
+  font-size: clamp(1.625rem, 3vw + 1rem, 8rem);
+  letter-spacing: 0;
+  line-height: 1;
+}
+
+.section__content {
+	width: 800px;
+	max-width: 100vw;
+	padding: 0 1rem;
+}
+
+
+footer {
+	display: grid;
+	place-items: start;
+	text-align: left;
+	font-size: clamp(1.625rem, 3vw + 1rem, 6rem);
+}
+
+footer span:first-of-type {
+	color: hsl(140 100% 50%);
+	font-size: 0.5em;
+}
