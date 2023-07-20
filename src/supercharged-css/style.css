@@ -1,0 +1,488 @@
+@import "normalize.css";
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  overflow: hidden;
+  background: hsl(0 0% 4%);
+}
+
+/*
+ * Quadrants are driven by the
+ * relationship of anchor order
+*/
+.annotations {
+	z-index: 2;
+}
+
+[data-debugging=true] :is(.annotation:not([data-debug=true]), .source:not([data-debug=true])) {
+	display: none;
+}
+
+.annotation {
+  contain: inline-size;
+}
+.annotation div {
+  position: absolute;
+  font-size: 3rem;
+  color: var(--surface-1);
+  font-weight: bold;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: var(--cable-color);
+  contain: inline-size;
+}
+.annotation div:after {
+  content: "";
+  position: absolute;
+  width: 200cqmax;
+  aspect-ratio: 1;
+  background: conic-gradient(var(--color-one, var(--default-charge-one)), var(--color-two, var(--default-charge-two)), transparent var(--color-stop, 120deg));
+  translate: -50% -50%;
+  animation: charge var(--speed, 6s) var(--delay, 0s) infinite ease-in-out;
+}
+/* Top left */
+
+
+.annotation div:nth-of-type(1) {
+  left: calc(anchor(var(--anchor-two) center) - (var(--cable-width) * 0.5));
+  right: calc(anchor(var(--anchor-one) center) + ((anchor(--charger right) - anchor(--charger left)) * var(--offset-one-x, 0)));
+  top: calc(anchor(var(--anchor-two) center) - (var(--cable-width) * 0.5));
+  bottom: calc(anchor(var(--anchor-one) center) + ((anchor(--charger bottom) - anchor(--charger top)) * var(--offset-one-y, 0)) - (var(--cable-width) * 0.5));
+  mask:
+  	linear-gradient(hsl(0 0% 100% / calc(var(--debug, 0) * 0.25)), hsl(0 0% 100% / calc(var(--debug, 0) * 0.25))),
+    linear-gradient(90deg, white 0 var(--cable-width), transparent var(--cable-width)),
+    linear-gradient(transparent 0 calc(100% - var(--cable-width)), white calc(100% - var(--cable-width)));
+}
+.annotation[data-debug=true] {
+	--debug: 1;
+	--speed: 3s !important;
+	overflow: visible;
+}
+
+.annotation div:nth-of-type(1):after {
+  top: 0%;
+  left: 100%;
+}
+/* Inversions */
+.annotation--inverted div:nth-of-type(1) {
+  mask:
+  	linear-gradient(hsl(0 0% 100% / calc(var(--debug, 0) * 0.25)), hsl(0 0% 100% / calc(var(--debug, 0) * 0.25))),
+    linear-gradient(90deg, transparent calc(100% - var(--cable-width)), white calc(100% - var(--cable-width))),
+    linear-gradient(white var(--cable-width), transparent var(--cable-width));
+}
+.annotation--inverted div:nth-of-type(1):after {
+  left: 0;
+  top: 100%;
+  transform: rotate(180deg);
+  animation-direction: reverse;
+}
+
+/* Top right */
+.annotation div:nth-of-type(2) {
+  left: calc(anchor(var(--anchor-one) center) + ((anchor(--charger right) - anchor(--charger left)) * var(--offset-two-x, 0)) - (var(--cable-width) * 0.5));
+  right: calc(anchor(var(--anchor-two) center) - (var(--cable-width) * 0.5));
+  top: calc(anchor(var(--anchor-two) center) - (var(--cable-width) * 0.5));
+  bottom: calc(anchor(var(--anchor-one) center) + ((anchor(--charger bottom) - anchor(--charger top)) * var(--offset-two-y, 0)));
+  mask:
+  	linear-gradient(hsl(0 0% 100% / calc(var(--debug, 0) * 0.25)), hsl(0 0% 100% / calc(var(--debug, 0) * 0.25))),
+    linear-gradient(90deg, white 0 var(--cable-width), transparent var(--cable-width)),
+    linear-gradient(white 0 var(--cable-width), transparent var(--cable-width));
+}
+
+.annotation div:nth-of-type(2):after {
+  top: 100%;
+  left: 100%;
+}
+/* Inversions */
+.annotation--inverted div:nth-of-type(2) {
+  mask:
+  	linear-gradient(hsl(0 0% 100% / calc(var(--debug, 0) * 0.25)), hsl(0 0% 100% / calc(var(--debug, 0) * 0.25))),
+    linear-gradient(90deg, transparent calc(100% - var(--cable-width)), white calc(100% - var(--cable-width))),
+    linear-gradient(transparent calc(100% - var(--cable-width)), white calc(100% - var(--cable-width)));
+}
+.annotation--inverted div:nth-of-type(2):after {
+  left: 0;
+  top: 0%;
+  transform: rotate(180deg);
+  animation-direction: reverse;
+}
+/* Bottom right */
+.annotation div:nth-of-type(3) {
+  left: calc(anchor(var(--anchor-two) center) - (var(--cable-width) * 0.5));
+  right: calc(anchor(var(--anchor-one) center) + ((anchor(--charger right) - anchor(--charger left)) * var(--offset-three-x, 0)) - (var(--cable-width) * 0.5));
+  top: calc(anchor(var(--anchor-one) center) + ((anchor(--charger bottom) - anchor(--charger top)) * var(--offset-three-y, 0)));
+  bottom: calc(anchor(var(--anchor-two) center) - (var(--cable-width) * 0.5));
+  mask:
+  	linear-gradient(hsl(0 0% 100% / calc(var(--debug, 0) * 0.25)), hsl(0 0% 100% / calc(var(--debug, 0) * 0.25))),
+    linear-gradient(90deg, transparent 0 calc(100% - var(--cable-width)), white calc(100% - var(--cable-width))),
+    linear-gradient(transparent 0 calc(100% - var(--cable-width)), white calc(100% - var(--cable-width)));
+}
+
+.annotation div:nth-of-type(3):after {
+  top: 0%;
+  left: 0%;
+}
+.annotation--inverted div:nth-of-type(3) {
+  mask:
+  	linear-gradient(hsl(0 0% 100% / calc(var(--debug, 0) * 0.25)), hsl(0 0% 100% / calc(var(--debug, 0) * 0.25))),
+    linear-gradient(90deg, white var(--cable-width), transparent var(--cable-width)),
+    linear-gradient(white 0 var(--cable-width), transparent var(--cable-width));
+}
+.annotation--inverted div:nth-of-type(3):after {
+  left: 100%;
+  top: 100%;
+  transform: rotate(180deg);
+  animation-direction: reverse;
+}
+
+/* Bottom left */
+.annotation div:nth-of-type(4) {
+  left: calc(anchor(var(--anchor-one) center) + ((anchor(--charger right) - anchor(--charger left)) * var(--offset-four-x, 0)));
+  right: calc(anchor(var(--anchor-two) center) - (var(--cable-width) * 0.5));
+  top: calc(anchor(var(--anchor-one) center) + ((anchor(--charger bottom) - anchor(--charger top)) * var(--offset-four-y, 0)) - (var(--cable-width) * 0.5));
+  bottom: calc(anchor(var(--anchor-two) center) - (var(--cable-width) * 0.5));
+  mask:
+  	linear-gradient(hsl(0 0% 100% / calc(var(--debug, 0) * 0.25)), hsl(0 0% 100% / calc(var(--debug, 0) * 0.25))),
+    linear-gradient(90deg, transparent 0 calc(100% - var(--cable-width)), white calc(100% - var(--cable-width))),
+    linear-gradient(white 0 var(--cable-width), transparent var(--cable-width));
+}
+
+.annotation div:nth-of-type(4):after {
+  top: 100%;
+  left: 0%;
+  transform: rotate(180deg);
+}
+
+.annotation--inverted div:nth-of-type(4) {
+  mask:
+  	linear-gradient(hsl(0 0% 100% / calc(var(--debug, 0) * 0.25)), hsl(0 0% 100% / calc(var(--debug, 0) * 0.25))),
+    linear-gradient(90deg, white var(--cable-width), transparent var(--cable-width)),
+    linear-gradient(transparent calc(100% - var(--cable-width)), white calc(100% - var(--cable-width)));
+}
+.annotation--inverted div:nth-of-type(4):after {
+  left: 100%;
+  top: 0%;
+  transform: rotate(0deg);
+  animation-direction: reverse;
+}
+
+:root {
+  --cable-width: 0.35rem;
+  --cable-color: hsl(0 0% 25%);
+  --default-charge-one: hsl(210 80% 80%);
+  --default-charge-two: hsl(320 80% 80%);
+  --color-stop: 36deg;
+  /* hsl(270 80% 50%) */
+}
+
+
+.source {
+  position: absolute;
+  top: var(--y, 0);
+  left: var(--x, 0);
+  height: 48px;
+  width: 48px;
+  display: grid;
+  place-items: center;
+  font-family: sans-serif;
+  font-weight: bold;
+  color: white;
+  border-radius: 50%;
+  transition: background 0.2s;
+}
+
+.source:hover {
+  background: hsl(0 0% 0% / 0.5);
+}
+
+.source:after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  width: 50%;
+  aspect-ratio: 1;
+  background: var(--bg, hsl(0 0% 10%));
+  border-radius: 50%;
+  border: 4px solid hsl(0 0% 70%);
+}
+
+.charger {
+  background: hsl(0 0% 16%);
+  anchor-name: --charger;
+  padding: 1rem 4rem;
+  border-radius: 1rem;
+  box-shadow:
+    0 0.05em 0 0 hsl(0 0% 100% / 0.85) inset,
+    0 0.05em 0 0 hsl(0 0% 0% / 0.25);
+  font-weight: bold;
+  display: grid;
+  place-items: center;
+  font-size: clamp(2rem, 3vw + 1rem, 8rem);
+  position: relative;
+}
+
+.charger__text {
+  background: radial-gradient(circle at 100% 150%, hsl(0 0% 60%) 40%, white);
+  color: transparent;
+  background-clip: text;
+  font-family: sans-serif, system-ui;
+}
+
+.charger:before {
+  content: "";
+  position: absolute;
+  inset: -0.5rem;
+  background: hsl(0 0% 60%);
+  border-radius: 0.5rem;
+  z-index: -1;
+  box-shadow:
+    0 0.05em 0 0 hsl(0 0% 100% / 0.75) inset,
+    0 0.05em 0 0 black;
+}
+
+/*.source--one {
+  --bg: hsl(15 90% 50%);
+  anchor-name: --source-one;
+  --x: 15vw;
+  --y: 10vh;
+}
+.annotation--one {
+  --offset-one-x: 0;
+  --offset-one-y: 0;
+  --offset-two-x: 0;
+  --offset-two-y: 0;
+  --offset-three-x: 0;
+  --offset-three-y: 0;
+  --offset-four-x: 0;
+  --offset-four-y: 0;
+  --anchor-one: --charger;
+  --anchor-two: --source-one;
+  --color-stop: 15deg;
+  --color-one: hsl(15 100% 75%);
+  --color-two: hsl(335 100% 65%);
+  --speed: 10s;
+  --delay: 2s;
+}
+
+.source--two {
+  --bg: hsl(280 100% 50%);
+  anchor-name: --source-two;
+  --x: 30vw;
+  --y: 30vh;
+}
+.annotation--two {
+  --anchor-one: --charger;
+  --anchor-two: --source-two;
+  --offset-one-x: 0;
+  --offset-one-y: -0.2;
+  --offset-two-x: 0;
+  --offset-two-y: 0;
+  --offset-three-x: 0;
+  --offset-three-y: 0;
+  --offset-four-x: 0;
+  --offset-four-y: 0;
+  --color-stop: 25deg;
+  --color-one: hsl(275 100% 75%);
+  --color-two: hsl(285 100% 65%);
+  --speed: 6s;
+  --delay: 1s;
+}
+.source--three {
+  --bg: hsl(45 98% 60%);
+  anchor-name: --source-three;
+  --x: 60vw;
+  --y: 20vh;
+}
+.annotation--three {
+  --anchor-one: --charger;
+  --anchor-two: --source-three;
+  --offset-one-x: 0;
+  --offset-one-y: -0.1;
+  --offset-two-x: -0.25;
+  --offset-two-y: 0;
+  --offset-three-x: 0;
+  --offset-three-y: 0;
+  --offset-four-x: 0;
+  --offset-four-y: 0;
+  --color-stop: 45deg;
+  --color-one: hsl(45 100% 65%);
+  --color-two: hsl(35 100% 55%);
+  --speed: 3s;
+  --delay: 0s;
+}
+.source--four {
+  anchor-name: --source-four;
+  --bg: hsl(140 90% 80%);
+  --x: 80vw;
+  --y: 35vh;
+}
+.annotation--four {
+  --anchor-one: --charger;
+  --anchor-two: --source-four;
+  --offset-one-x: 0;
+  --offset-one-y: -0.1;
+  --offset-two-x: 0.15;
+  --offset-two-y: 0;
+  --offset-three-x: 0;
+  --offset-three-y: 0;
+  --offset-four-x: 0;
+  --offset-four-y: 0;
+  --color-stop: 45deg;
+  --color-one: hsl(145 100% 80%);
+  --color-two: hsl(135 100% 75%);
+  --speed: 5s;
+  --delay: 2s;
+}
+.source--five {
+  anchor-name: --source-five;
+  --bg: hsl(320 90% 50%);
+  --x: 78vw;
+  --y: 58vh;
+}
+.annotation--five {
+  --anchor-one: --charger;
+  --anchor-two: --source-five;
+  --offset-one-x: 0;
+  --offset-one-y: -0.1;
+  --offset-two-x: 0.15;
+  --offset-two-y: 0;
+  --offset-three-x: 0;
+  --offset-three-y: 0;
+  --offset-four-x: 0;
+  --offset-four-y: 0;
+  --color-stop: 25deg;
+  --color-one: hsl(320 100% 60%);
+  --color-two: hsl(235 100% 80%);
+  --speed: 7s;
+  --delay: 1s;
+}
+.source--six {
+  anchor-name: --source-six;
+  --bg: hsl(200 100% 50%);
+  --x: 70vw;
+  --y: 84vh;
+}
+.annotation--six {
+  --anchor-one: --charger;
+  --anchor-two: --source-six;
+  --offset-one-x: 0;
+  --offset-one-y: -0.1;
+  --offset-two-x: 0.15;
+  --offset-two-y: 0;
+  --offset-three-x: 0;
+  --offset-three-y: 0;
+  --offset-four-x: 0;
+  --offset-four-y: 0.2;
+  --color-stop: 35deg;
+  --color-one: hsl(210 100% 50%);
+  --color-two: hsl(222 100% 90%);
+  --speed: 4s;
+  --delay: 2s;
+}
+.source--seven {
+  anchor-name: --source-seven;
+  --bg: hsl(290 100% 70%);
+  --x: 20vw;
+  --y: 70vh;
+}
+.annotation--seven {
+  --anchor-one: --charger;
+  --anchor-two: --source-seven;
+  --offset-one-x: 0;
+  --offset-one-y: -0.1;
+  --offset-two-x: 0.15;
+  --offset-two-y: 0;
+  --offset-three-x: 0;
+  --offset-three-y: 0;
+  --offset-four-x: 0;
+  --offset-four-y: 0.2;
+  --color-stop: 20deg;
+  --color-one: hsl(250 100% 70%);
+  --color-two: hsl(260 100% 80%);
+  --speed: 4s;
+  --delay: 1s;
+}
+.source--eight {
+  anchor-name: --source-eight;
+  --bg: hsl(180 100% 60%);
+  --x: 40vw;
+  --y: 90vh;
+}
+.annotation--eight {
+  --anchor-one: --charger;
+  --anchor-two: --source-eight;
+  --offset-one-x: 0;
+  --offset-one-y: -0.1;
+  --offset-two-x: 0.15;
+  --offset-two-y: 0;
+  --offset-three-x: -0.1;
+  --offset-three-y: 0;
+  --offset-four-x: 0;
+  --offset-four-y: 0.2;
+  --color-stop: 20deg;
+  --color-one: hsl(180 100% 70%);
+  --color-two: hsl(190 100% 80%);
+  --speed: 6s;
+  --delay: 0.5s;
+}
+
+.source--nine{
+  anchor-name: --source-nine;
+  --bg: hsl(0 100% 50%);
+  --x: 25vw;
+  --y: 25vh;
+}
+
+.annotation--nine {
+  --anchor-one: --charger;
+  --anchor-two: --source-nine;
+  --offset-one-x: 0;
+  --offset-one-y: -0.1;
+  --offset-two-x: 0.15;
+  --offset-two-y: 0;
+  --offset-three-x: -0.1;
+  --offset-three-y: 0;
+  --offset-four-x: 0;
+  --offset-four-y: 0;
+  --color-stop: 20deg;
+  --color-one: hsl(180 100% 70%);
+  --color-two: hsl(190 100% 80%);
+  --speed: 6s;
+  --delay: 0.5s;
+}*/
+
+.container {
+  position: relative;
+  height: 100vh;
+  width: 100vw;
+  z-index: 12;
+  display: grid;
+  place-items: center;
+}
+
+.circuit {
+  position: absolute;
+  inset: 0;
+  fill: hsl(0 0% 10%);
+  width: 200vmax;
+  aspect-ratio: 1;
+  scale: 4;
+  opacity: 0.5;
+}
+
+@keyframes charge {
+  0% {
+    rotate: 0deg;
+  }
+  50%, 100% {
+    rotate: -360deg;
+  }
+}
