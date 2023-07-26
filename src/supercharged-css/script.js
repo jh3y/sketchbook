@@ -15,7 +15,6 @@ const STOP_LIMIT = [5, 45];
 
 const DEBUG_ANNOTATION = (SOURCE, ANNOTATION) => () => {
   SOURCE.dataset.debug = ANNOTATION.dataset.debug = ANNOTATION.dataset.debug === "true" ? false : true
-  console.info(ANNOTATION.dataset.debug)
   document.body.dataset.debugging = ANNOTATION.dataset.debug
 }
 

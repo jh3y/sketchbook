@@ -1,0 +1,944 @@
+@import "normalize.css";
+
+:root {
+  --nav-height: 60px;
+  --black: hsl(0 0% 2%);
+  --white: hsl(0 0% 98%);
+  --content-width: 120ch;
+  --accent: hsl(10 90% 50%);
+}
+
+body {
+  min-height: 200vh;
+  font-family: sans-serif, system-ui;
+  background: var(--black);
+}
+
+:is(nav, footer) {
+  background: var(--black);
+  color: var(--white);
+  display: flex;
+  font-weight: bold;
+  align-items: center;
+  padding: 0 1rem;
+}
+
+footer {
+  height: var(--nav-height);
+  text-align: center;
+}
+
+nav {
+  position: sticky;
+  top: calc(var(--nav-height) * -1);
+  border-bottom: 4px solid transparent;
+  z-index: 10;
+}
+
+.nav__content {
+  width: var(--content-width);
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.nav__content {
+  display: grid;
+}
+
+.nav__content div {
+  height: var(--nav-height);
+  display: flex;
+  align-items: center;
+}
+
+.nav__content div:first-of-type {
+  justify-content: center;
+}
+
+.watermark-bear {
+  --base-coat: var(--white);
+  width: 60px;
+}
+
+/* Header section */
+header {
+  height: 200vh;
+  view-timeline: --header;
+}
+
+header section {
+  display: grid;
+  place-items: center;
+  align-content: end;
+  position: relative;
+  overflow: hidden;
+  position: sticky;
+  top: var(--nav-height);
+  background: var(--white);
+}
+/*  height: calc(75vh - var(--nav-height));*/
+
+.header-spin {
+  height: calc(75vh - var(--nav-height));
+  background: var(--white);
+  width: 100%;
+  display: grid;
+  place-items: center;
+  align-content: end;
+  position: relative;
+  overflow: hidden;
+}
+
+header > section {
+  overflow: visible;
+  position: sticky;
+  top: var(--nav-height);
+  display: block;
+}
+
+
+/*header div {
+  height: auto;
+  position: sticky;
+  top: 75vh;
+}*/
+
+header div section {
+  height: auto;
+  background: var(--black);
+}
+
+header img {
+  aspect-ratio: 1;
+  object-fit: cover;
+  width: 60vmin;
+  object-position: 0 0;
+/*  opacity: 0.5;*/
+  bottom: 0;
+  left: 50%;
+  position: absolute;
+  translate: -50% 10px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+[for=switch] {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  z-index: 2;
+  opacity: 0.1;
+}
+
+#looker {
+  display: none;
+}
+
+:root {
+  --fps: 18;
+}
+:root:has(#switch:checked) #looker {
+  --fps: 20;
+  display: block;
+}
+:root:has(#switch:checked) #spinner {
+  display: none;
+}
+
+
+header img {
+  animation: spin-img both steps(var(--fps)), fade-img both linear;
+  animation-timeline: --header;
+  animation-range: entry 100% cover 50%, cover 50% cover 65%;
+}
+
+header h1 span {
+  clip-path: inset(100% 0 0 0);
+  animation: unclip both linear;
+  animation-timeline: --header;
+  animation-range: cover 50% cover 65%;
+}
+
+header h1 span:first-of-type {
+  animation-range: cover 40% cover 50%;
+}
+header h1 span:last-of-type {
+  translate: 0 -2px;
+  animation-range: cover 45% cover 55%;
+}
+
+@keyframes unclip {
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes fade-img {
+  to {
+    opacity: 0.5;
+  }
+}
+
+@keyframes spin-img {
+  to {
+    object-position: 100% 0;
+  }
+}
+
+header h1 {
+  display: inline-block;
+  position: absolute;
+  display: inline-grid;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  margin: 0;
+  color: var(--white);
+  transform: skewX(-2deg);
+  font-size: clamp(2rem, 10vw + 0.1rem, 6rem);
+}
+
+sub {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-weight: bold;
+  font-style: italic;
+  opacity: 0.5;
+}
+
+header h1 span {
+  justify-self: start;
+  padding: 1rem;
+  background: var(--accent);
+}
+
+/* First content section */
+.scroll-section {
+  padding: 0 1rem;
+}
+.scroll-section section {
+  width: var(--content-width);
+  margin: 0 auto;
+  padding: 6rem 0;
+}
+
+.black-n-white {
+  background: var(--black);
+  color: var(--white);
+}
+
+.black-n-white section {
+  width: calc(var(--content-width) * 0.6);
+  max-width: 100%;
+}
+
+.black-n-white h2 {
+  font-size: 3.25rem;
+  text-align: center;
+  margin-top: 0;
+}
+
+.black-n-white p {
+  font-size: 1.5rem;
+  text-align: left;
+  opacity: 0.8;
+}
+
+/* Laptop section */
+.laptop section,
+.demos section {
+  height: calc(100vh - var(--nav-height));
+  padding: 0;
+}
+.laptop *,
+.laptop *:before,
+.laptop *:after {
+  transform-style: preserve-3d;
+  box-sizing: border-box;
+}
+
+.laptop {
+  height: 400vh;
+  view-timeline: --laptop;
+  background: var(--black);
+}
+
+.laptop h2 {
+  position: absolute;
+  top: 30%;
+  font-size: 3rem;
+  z-index: 2;
+  color: hsl(180 80% 50%);
+  margin: 0;
+  font-family: monospace;
+  mix-blend-mode: exclusion;
+  animation: fade-out-count both linear;
+  animation-timeline: --laptop;
+  animation-range: contain 15% contain 20%;
+}
+
+@keyframes fade-out-count {
+  to { opacity: 0;  }
+}
+
+@property --count {
+  syntax: '<integer>';
+  inherits: true;
+  initial-value: 0;
+}
+
+.count {
+  counter-reset: count var(--count);
+  position: relative;
+  animation: count-up both ease-out;
+  color: transparent;
+  font-size: 3.5rem;
+  font-family: monospace;
+  animation-timeline: --laptop;
+  translate: 1ch 0;
+  display: inline-block;
+  animation-range: exit-crossing 0% contain 13%;
+}
+
+.count:after {
+  content: counter(count);
+  position: absolute;
+  inset: 0;
+  color: hsl(180 80% 50%);
+  text-align: right;
+  font-variant: tabular-nums;
+  font-family: monospace;
+}
+
+@keyframes count-up {
+  to { --count: 1800; translate: 0 0; }
+}
+
+.plus {
+  opacity: 0;
+  scale: 0;
+  display: inline-block;
+  translate: -25% 0;
+  animation: fade-in-plus both linear;
+  animation-timeline: --laptop;
+  animation-range: contain 5% contain 10%;
+  transform-origin: 100% 50%;
+  font-family: monospace;
+}
+
+@keyframes fade-in-plus {
+  to { opacity: 1; scale: 1; }
+}
+
+.laptop section {
+  background: white;
+}
+
+.shell--top .cuboid__side:nth-of-type(5):after {
+  content: "JFDI";
+  padding: 0.5vmin;
+  font-size: 3vmin;
+  position: absolute;
+  color: white;
+  font-weight: bold;
+  background: var(--black);
+  top: 60%;
+  left: 65%;
+  rotate: 140deg;
+}
+
+.laptop section {
+  width: 100%;
+  position: sticky;
+  top: var(--nav-height);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  height: calc(100vh - var(--nav-height));
+}
+
+.laptop .scene {
+  transform: rotateX(-24deg) rotateY(-32deg) rotateX(90deg) translate3d(0, 0, -20vmin);
+}
+
+.scene__rock {
+  animation: rock both linear;
+  animation-timeline: --laptop;
+  animation-range: exit-crossing 0% contain 10%;
+}
+
+.scene__jump {
+  animation: book-jump both ease-in-out;
+  animation-timeline: --laptop;
+  animation-range: contain 10% contain 25%;
+}
+
+@keyframes jump {
+  50% {
+    transform: translate3d(0, 0, 30vmin);
+  }
+}
+
+.scene__spin {
+  animation: book-spin both ease-in-out;
+  animation-timeline: --laptop;
+  animation-range: contain 10% contain 25%;
+}
+
+.scene__flip {
+  animation: book-flip both ease-in-out;
+  animation-timeline: --laptop;
+  animation-range: contain 10% contain 25%; 
+}
+
+@keyframes book-flip {
+  0%, 20% {
+    transform: rotateX(0deg);
+  }
+  80%, 100% {
+    transform: rotateX(360deg);
+  }
+}
+
+@keyframes book-jump {
+  50% {
+    transform: translate3d(0, 0, 40vmin);
+  }
+}
+
+@keyframes rock {
+  0% {
+    transform-origin: 0 50%;
+  }
+  20% {
+    transform: rotateY(0deg);
+  }
+  25% {
+    transform: rotateY(-20deg);
+  }
+  30% {
+    transform: rotateY(0deg);
+    transform-origin: 0 50%;
+  }
+  50% {
+    transform-origin: 100% 50%;
+  }
+  70% {
+    transform: rotateY(0deg);
+  }
+  75% {
+    transform: rotateY(20deg);
+  }
+  80% {
+    transform: rotateY(0deg);
+    transform-origin: 100% 50%;
+  }
+  100% {
+    transform-origin: 0 50%;
+  }
+}
+
+.jbook {
+  width: 30vmin;
+  aspect-ratio: 16 / 12;
+  position: relative;
+  transform: translate3d(0, 0, 2vmin);
+}
+
+.scroll-section.laptop {
+  padding: 0;
+}
+
+.screen-bear {
+  position: absolute;
+  width: 25%;
+  --base-coat: var(--white);
+  rotate: 180deg;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+}
+
+.screen-bear__eyes {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: blink 6s -2s infinite;
+}
+
+.laptop-keyboard {
+  width: 90%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -80%;
+}
+
+.scene__shadow {
+  position: relative;
+}
+
+.scene__shadow:after {
+  background: hsl(0 0% 0% / 0.5);
+  content: "";
+  position: absolute;
+  inset: 5%;
+  filter: blur(10px);
+  animation: shadow-in-out both linear;
+  animation-timeline: --laptop;
+  animation-range: contain 10% contain 25%;
+}
+
+@keyframes shadow-in-out {
+  0%, 5%, 95%, 100% {
+    opacity: 1;
+  }
+  35%, 65% {
+    opacity: 0;
+  }
+}
+
+.shell--bottom .cuboid__side:nth-of-type(6) {
+  --b: 0.8;
+}
+
+.shell--bottom .cuboid__side:nth-of-type(2):after {
+  content: "";
+  position: absolute;
+  width: 50%;
+  aspect-ratio: 1 / 3;
+  background: var(--black);
+  left: 50%;
+  top: 10%;
+  translate: -50% 0;
+}
+
+.shell--bottom:after {
+  content: "";
+  width: 32%;
+  aspect-ratio: 4 / 3;
+  background: hsl(0 0% 40%);
+  position: absolute;
+  bottom: 5%;
+  left: 50%;
+  translate: -50% 0;
+  border-radius: 0.5vmin;
+}
+
+.shell-bear {
+  --base-coat: var(--black);
+  rotate: 180deg;
+  width: 20%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+}
+
+@keyframes book-spin {
+  to {
+    transform: rotateZ(-360deg);
+  }
+}
+
+.scene {
+  animation: scale-to-view both linear;
+  animation-timeline: --laptop;
+  animation-range: contain 25% contain 65%;
+  transform: translate3d(0, 0, 100vmin);
+}
+
+@keyframes scale-to-view {
+  0% {
+    transform: rotateX(-24deg) rotateY(-32deg) rotateX(90deg) translate3d(0, 0, -20vmin);
+  }
+  to {
+    transform: rotateX(0) rotateY(0) rotateX(90deg) translate3d(0, 0, -12vmin);
+  }
+}
+
+.scene__zoom {
+  animation: scene-zoom both linear;
+  animation-timeline: --laptop;
+  animation-range: contain 25% exit 0%;  
+}
+
+@keyframes scene-zoom {
+  0% {
+    scale: 1;
+  }
+  to {
+    scale: 8;
+  }
+}
+
+.shell {
+  position: absolute;
+  inset: 0;
+}
+
+.shell--top {
+  --depth: 2;
+  --color: hsl(0 0% 80%);
+  background: var(--black);
+  transform: rotateX(0deg);
+  transform-origin: 50% 0;
+  animation: book-open-top both linear;
+  animation-timeline: --laptop;
+  animation-range: contain 10% contain 25%;
+}
+
+.shell--top:after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 1vmin solid hsl(0 0% 10%);
+}
+
+@keyframes book-open-top {
+  0%, 30% {
+    transform: rotateX(0deg);
+  }
+  40% {
+    transform: rotateX(120deg);
+  }
+  75%, 100% {
+    transform: rotateX(90deg);
+  }
+}
+
+@keyframes book-open-bottom {
+  0%, 45% {
+    transform: rotateX(0deg);
+  }
+  65% {
+    transform: rotateX(50deg);
+  }
+  100% {
+    transform: rotateX(0deg);
+  }
+}
+
+.shell--bottom {
+  --depth: 2;
+  --color: hsl(0 0% 80%);
+  background: hsl(0 0% 50%);
+  transform-origin: 50% 0;
+  animation: book-open-bottom both linear;
+  animation-timeline: --laptop;
+  animation-range: contain 10% contain 25%;
+}
+
+.shell--top .cuboid {
+  transform: translate3d(0, 0, calc(1vmin + 1px));
+}
+.shell--bottom .cuboid {
+  transform: translate3d(0, 0, calc(-1vmin - 1px));
+}
+
+/* Blinker section */
+.blinker p {
+  text-align: left;
+  font-size: 2rem;
+  opacity: 1;
+  margin: 0;
+}
+
+.blinker {
+  height: 150vh;
+  view-timeline: --blinker;
+}
+
+.blinker section {
+  padding: 0;
+  height: calc(100vh - var(--nav-height));
+  display: grid;
+  place-items: center;
+  position: sticky;
+  top: var(--nav-height);
+}
+
+.blinker p span {
+  opacity: 0;
+  display: inline-block;
+  animation: fade-in both linear, fade-out both linear;
+  animation-timeline: view(), --blinker;
+  animation-range: cover 15% cover 20%, contain 50% contain 90%;
+}
+
+main {
+  background: var(--white);
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0.25;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.remain {
+  --final-color: var(--accent);
+}
+
+@keyframes fade-out {
+  100% {
+    color: var(--final-color, hsl(0 0% 98% / 0.25));
+  }
+}
+
+
+/* Sign off */
+.sign-off {
+  height: 150vh;
+  contain: inline-size;
+  padding: 0;
+  view-timeline: --sign-off;
+}
+.sign-off section {
+  height: calc(100vh - var(--nav-height));
+  position: sticky;
+  align-content: center;
+  top: var(--nav-height);
+  display: grid;
+  place-items: center;
+  width: 100%;
+  padding: 0;
+  background: var(--white);
+}
+.sign-off h2 {
+  text-align: center;
+  font-size: 3.75rem;
+  background: linear-gradient(-65deg, var(--accent), hsl(10 100% 50%), hsl(10 100% 30%), hsl(20 100% 30%), hsl(10 100% 80%), hsl(10 80% 60%), red, var(--accent));
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: shift-bg both linear;
+  animation-timeline: --sign-off;
+  animation-range: entry;
+}
+
+@keyframes shift-bg {
+  to {
+    background-position: -200% 0;
+  }
+}
+
+.sig {
+  width: 50vmin;
+}
+
+.sig path {
+  stroke-dasharray: var(--path-length);
+  stroke-dashoffset: calc(var(--path-length) * 1);
+  animation: sign both ease-in-out;
+  animation-timeline: --sign-off;
+  animation-range: entry 10% cover 50%;
+}
+
+.sig :is(.eye, .nose) {
+  animation: sign both ease-in-out, fill both linear;
+  animation-timeline: --sign-off;
+  animation-range: entry 10% cover 50%, cover 40% cover 60%;
+}
+
+@keyframes sign {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes fill {
+  to {
+    fill: var(--black);
+  }
+}
+
+
+
+/* Animation specific stuff */
+nav {
+  animation: stick both linear;
+  animation-timeline: scroll(root);
+  animation-range: 0 var(--nav-height);
+}
+
+@keyframes stick {
+  to {
+    background-color: hsl(0 0% 2% / 0.75);
+    backdrop-filter: blur(4px);
+    border-bottom-color: var(--accent);
+  }
+}
+
+
+
+/* Cuboid related stuff */
+/* Cuboid boilerplate code */
+.cuboid {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+.cuboid__side {
+  background: var(--color);
+  filter: brightness(var(--b, 1));
+  position: absolute;
+}
+.cuboid__side:nth-of-type(1) {
+  --b: 1.1;
+  height: calc(var(--depth, 20) * 1vmin);
+  width: 100%;
+  top: 0;
+  transform: translate(0, -50%) rotateX(90deg);
+}
+.cuboid__side:nth-of-type(2) {
+  --b: 0.9;
+  height: 100%;
+  width: calc(var(--depth, 20) * 1vmin);
+  top: 50%;
+  right: 0;
+  transform: translate(50%, -50%) rotateY(90deg);
+}
+.cuboid__side:nth-of-type(3) {
+  --b: 0.5;
+  width: 100%;
+  height: calc(var(--depth, 20) * 1vmin);
+  bottom: 0;
+  transform: translate(0%, 50%) rotateX(90deg);
+}
+.cuboid__side:nth-of-type(4) {
+  --b: 1;
+  height: 100%;
+  width: calc(var(--depth, 20) * 1vmin);
+  left: 0;
+  top: 50%;
+  transform: translate(-50%, -50%) rotateY(90deg);
+}
+.cuboid__side:nth-of-type(5) {
+  --b: 0.8;
+  height: 100%;
+  width: 100%;
+  transform: translate3d(0, 0, calc(var(--depth, 20) * 0.5vmin));
+  top: 0;
+  left: 0;
+}
+.cuboid__side:nth-of-type(6) {
+  --b: 1.2;
+  height: 100%;
+  width: 100%;
+  transform: translate3d(0, 0, calc(var(--depth, 20) * -0.5vmin)) rotateY(180deg);
+  top: 0;
+  left: 0;
+}
+
+@keyframes blink {
+  0%, 46%, 48%, 50%, 100% {
+    scale: 1 1;
+  }
+  47%, 49% {
+    scale: 1 0.01;
+  }
+}
+
+.gradient-header {
+  background: radial-gradient(circle at 50% 105%, white 20%, hsl(0 0% 40%));
+  color: transparent;
+  -webkit-background-clip: text;
+}
+
+/* Demos section */
+.demos {
+  height: 250vh;
+  padding: 0;
+  view-timeline: --demos;
+}
+.demos section {
+  position: sticky;
+  top: var(--nav-height);
+  height: calc(100vh - var(--nav-height));
+  width: 100%;
+  overflow: hidden;
+  background: var(--white);
+  display: grid;
+  place-items: center;
+  align-content: center;
+}
+
+.demos .life {
+  font-size: var(--font-size);
+  margin: 0;
+  animation: fade-in-text both linear;
+  animation-timeline: --demos;
+  animation-range: cover 40% cover 50%;
+  color: var(--accent);
+}
+
+.text-wrapper {
+  --font-size: clamp(8rem, 15vw, 20rem);
+  position: relative;
+}
+
+.bringing, .notebook, .keyboard {
+  position: absolute;
+}
+.bringing {
+  font-size: 2rem;
+  bottom: calc(100% + 1rem);
+  animation: fade-in-text both linear;
+  animation-timeline: --demos;
+  animation-range: entry 100% cover 35%;
+}
+
+@keyframes fade-in-text {
+  0% {
+    opacity: 0;
+  }
+}
+
+.notebook {
+  width: 110%;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  translate: -50% 0;
+  animation: slide-in both linear, slide-out both linear;
+  animation-timeline: --demos;
+  animation-range: entry, cover 40% cover 65%;
+}
+
+@keyframes slide-in {
+  0% {
+    translate: -50% 100vh;
+  }
+}
+
+@keyframes slide-out {
+  100% {
+    transform: translateY(var(--font-size));
+  }
+}
+
+.keyboard {
+  width: 200%;
+  position: absolute;
+  top: 120%;
+  rotate: -15deg;
+  left: 50%;
+  translate: -50% 0;
+  animation: slide-in both cubic-bezier(.9,1.1,.9, 1.1);
+  animation-timeline: --demos;
+  animation-range: entry 50% entry 110%;
+}
