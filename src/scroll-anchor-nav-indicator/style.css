@@ -1,0 +1,341 @@
+@import "normalize.css";
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+/*   scroll-snap-type: y mandatory; */
+}
+
+body {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  color: hsl(0 0% 98%);
+  timeline-scope: --home-vt, --blog-vt, --photos-vt, --newsletter-vt;
+  font-family: SF Pro Display, SF Pro Icons, Helvetica Neue, Helvetica, Arial, sans-serif;
+  background: hsl(0 0% 0%);
+}
+
+section {
+  min-height: 100vh;
+  width: 100vw;
+  display: grid;
+  place-items: center;
+/*   scroll-snap-align: center; */
+}
+
+nav {
+  position: fixed;
+  bottom: 2rem;
+  z-index: 10;
+}
+
+nav ul {
+  display: flex;
+  list-style-type: none;
+  gap: 0rem;
+  padding: 0;
+  margin: 0;
+}
+
+.backdrop {
+  position: absolute;
+  inset: 0;
+  border-radius: 5rem;
+  z-index: -1;
+  background: hsl(0 0% 15% / 0.75);
+  backdrop-filter: blur(10px);
+  border-radius: 5rem;
+  box-shadow: 0 1px 1px 1px hsl(0 0% 100% / 0.15) inset;
+}
+
+header {
+	position: fixed;
+	top: 1rem;
+	left: 50%;
+	translate: -50%;
+	width: 80ch;
+	max-width: calc(100% - 2rem);
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.bear {
+	height: 36px;
+}
+
+#newsletter {
+	position: relative;
+}
+
+.newsletter-bear {
+	height: 100vh;
+	position: absolute;
+	right: 0;
+	translate: 50% 0;
+	opacity: 0.25;
+	pointer-events: none;
+	z-index: -1;
+}
+
+[href] {
+  font-weight: bold;
+  color: hsl(0 0% 100%);
+  text-decoration-line: none;
+  padding: 0.75rem 1.25rem;
+  display: inline-block;
+  animation: change linear both;
+  opacity: calc(0.5 + var(--active, 0));
+  transition: opacity 0.2s, background 0.2s;
+  border-radius: 5rem;
+}
+
+.follow {
+	padding: 0.5rem 1rem;
+	background: hsl(210 80% 60%);
+	border-radius: 5rem;
+	color: white;
+	font-weight: 400;
+	text-decoration-line: none;
+	opacity: 1;
+}
+
+[href]:is(:hover, :focus-visible) {
+  --hover: 1;
+  background: hsl(0 0% 40%);
+}
+
+[href] span {
+  display: inline-block;
+  transition: scale 0.2s;
+  scale: calc(1 + (var(--hover, 0) * 0.1));
+}
+
+[href="#home"] {
+  anchor-name: --home;
+  animation-timeline: --home-vt;
+}
+[href="#blog"] {
+  anchor-name: --blog;
+  animation-timeline: --blog-vt;
+}
+[href="#photos"] {
+  anchor-name: --photos;
+  animation-timeline: --photos-vt;
+}
+[href="#newsletter"] {
+  anchor-name: --newsletter;
+  animation-timeline: --newsletter-vt;
+}
+
+@keyframes change {
+  50% {
+    --active: 1
+  }
+}
+
+#home {
+	height: 200vh;
+  view-timeline-name: --home-vt;
+}
+#blog {
+  view-timeline-name: --blog-vt;
+}
+#photos {
+  view-timeline-name: --photos-vt;
+}
+#newsletter {
+  view-timeline-name: --newsletter-vt;
+}
+
+.indicator {
+  position: absolute;
+  top: anchor(--home top);
+  bottom: anchor(--home bottom);
+  border-radius: 5rem;
+  left: calc(
+    anchor(--home left) +
+    /* The distance between home left and blog left * active state */
+    (
+      (anchor(--blog left) - anchor(--home left)) * var(--blog-show, 0)
+    ) + 
+    /* The distance between blog left and work left as we already have blog left */
+    (
+      (anchor(--photos left) - anchor(--blog left)) * var(--photos-show, 0)
+    ) +
+    /* And so on */
+    (
+      (anchor(--newsletter left) - anchor(--photos left)) * var(--newsletter-show, 0)
+    )
+   );
+  right: calc(
+    anchor(--home right) -
+    /* The distance between home left and blog left * active state */
+    (
+      (anchor(--home right) - anchor(--blog right)) * var(--blog-show, 0)
+    ) -
+    /* The distance between blog left and work left as we already have blog left */
+    (
+      (anchor(--blog right) - anchor(--photos right)) * var(--photos-show, 0)
+    ) -
+    /* And so on */
+    (
+      (anchor(--photos right) - anchor(--newsletter right)) * var(--newsletter-show, 0)
+    )
+  );
+/*   width: 40px; */
+  background: hsl(0 0% 50% / 0.65);
+  backdrop-filter: blur(10px);
+/*   mix-blend-mode: difference; */
+  transition: all 0.2s linear;
+  z-index: -1;
+}
+
+.indicator-bar {  
+  animation: indicate-blog, indicate-photos, indicate-newsletter;
+  animation-timing-function: linear;
+  animation-fill-mode: both;
+  animation-timeline: --blog-vt, --photos-vt, --newsletter-vt;
+  animation-range: entry;
+}
+
+@keyframes indicate-blog {
+  to {
+    --blog-show: 1;
+  }
+}
+
+@keyframes indicate-photos {
+  to {
+    --photos-show: 1;
+  }
+}
+@keyframes indicate-newsletter {
+  to {
+    --newsletter-show: 1;
+  }
+}
+
+
+h1 {
+	display: grid;
+}
+
+:is(h1, h2) {
+	font-size: clamp(2.5rem, 7vw + 1rem, 10rem);
+	text-align: center;
+	line-height: 1;
+	margin: 0;
+	width: 100%;
+}
+
+h1 {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	translate: -50% -50%;
+}
+
+h1 span:first-of-type {
+	display: inline-block;
+  color: hsl(0 100% 50%);
+	font-size: 0.35em;
+}
+
+h1 span:last-of-type {
+	display: inline-block;
+}
+
+h1 span:first-of-type {
+	display: inline-block;
+	animation: fade-away both linear;
+	animation-timeline: --home-vt;
+	animation-range: entry-crossing 50% exit 50%;
+}
+
+h1 span:last-of-type {
+	display: inline-block;
+	animation: scale-up both cubic-bezier(.1,.7,.9,1.3), fade-away both linear;
+	animation-timeline: --home-vt;
+	animation-range: entry-crossing 60% exit 70%, exit 10% exit 50%;	
+}
+
+@keyframes scale-up {
+	to {
+		scale: 1.5;
+	}
+}
+
+@keyframes grow {
+	0% {
+		scale: 0.5;
+		opacity: 0;
+	}
+}
+
+@keyframes fade-away {
+	100% {
+		opacity: 0;
+	}
+}
+
+.photo-grid {
+  display: grid;
+  grid-template: 1fr 1fr 1fr / 1fr 1fr 1fr;
+  width: 100vw;
+  gap: 4px;
+}
+
+.photo-grid > div {
+
+}
+
+.photo-grid img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+#photos {
+	display: block;
+}
+
+form {
+	padding: 1rem;
+	text-align: center;
+}
+
+form p:first-of-type {
+	font-size: clamp(1rem, 1vw + 1rem, 4rem);
+}
+form p:last-of-type {
+	font-size: 0.875rem;
+	font-weight: 300;
+}
+
+form div {
+	display: flex;
+}
+
+#blog {
+	align-content: center;
+}
+
+form input {
+	flex: 1;
+	padding: 1rem;
+	border-radius: 5rem 0 0 5rem;
+	border: 0;
+}
+
+form button {
+	border: 0;
+	border-radius: 0 5rem 5rem 0;
+	padding: 1rem;
+	background: hsl(210 80% 60%);
+	color: white;
+}

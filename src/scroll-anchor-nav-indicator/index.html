@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, user-scalable=0, maximum-scale=1.0"
+    />
+    <title>scroll-anchor-nav-indicator</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <header>
+      <img
+        class="bear"
+        src="https://assets.codepen.io/605876/bear-2022--white.png"
+        alt=""
+      />
+      <a
+        class="follow"
+        href="https://twitter.com/intent/follow?screen_name=jh3yy"
+        target="_blank"
+        >Follow</a
+      >
+    </header>
+    <nav>
+      <ul>
+        <li>
+          <a href="#home"><span>Home</span></a>
+        </li>
+        <li>
+          <a href="#blog"><span>Blog</span></a>
+        </li>
+        <li>
+          <a href="#photos"><span>Photos</span></a>
+        </li>
+        <li>
+          <a href="#newsletter"><span>Newsletter</span></a>
+        </li>
+      </ul>
+      <div class="backdrop"></div>
+      <div class="indicator-bar">
+        <div class="indicator"></div>
+      </div>
+    </nav>
+    <section id="home">
+      <h1>
+        <span>All-new</span>
+        <span>CSS Pro</span>
+      </h1>
+    </section>
+    <section id="blog">
+      <h2>Blog Latest</h2>
+      <ul>
+        <li>
+          <a href="#">Like Counter with Vercel KV and RSC</a>
+        </li>
+        <li>
+          <a href="#">CSS Only Nav Indicator with Scroll Animation</a>
+        </li>
+        <li>
+          <a href="#">It's 2023 and you can't style Select</a>
+        </li>
+      </ul>
+    </section>
+    <section id="photos">
+      <div class="photo-grid">
+        <div>
+          <img src="https://picsum.photos/300/300?random=1" alt="" />
+        </div>
+        <div>
+          <img src="https://picsum.photos/300/300?random=2" alt="" />
+        </div>
+        <div>
+          <img src="https://picsum.photos/300/300?random=3" alt="" />
+        </div>
+        <div>
+          <img src="https://picsum.photos/300/300?random=4" alt="" />
+        </div>
+        <div>
+          <img src="https://picsum.photos/300/300?random=5" alt="" />
+        </div>
+        <div>
+          <img src="https://picsum.photos/300/300?random=6" alt="" />
+        </div>
+        <div>
+          <img src="https://picsum.photos/300/300?random=7" alt="" />
+        </div>
+        <div>
+          <img src="https://picsum.photos/300/300?random=8" alt="" />
+        </div>
+        <div>
+          <img src="https://picsum.photos/300/300?random=9" alt="" />
+        </div>
+      </div>
+    </section>
+    <section id="newsletter">
+      <img
+        class="newsletter-bear"
+        src="https://assets.codepen.io/605876/bear-2022--white.png"
+        alt=""
+      />
+      <form
+        action="https://app.convertkit.com/forms/4960615/subscriptions"
+        method="post"
+      >
+        <p>Keep up to date with my latest projects and adventures!</p>
+        <div>
+          <input
+            name="email_address"
+            aria-label="Email Address"
+            placeholder="Email Address"
+            type="email"
+            required
+          />
+          <button>
+            Subscribe!
+          </button>
+        </div>
+        <p>
+          No spam. Unsubscribe any time.
+        </p>
+      </form>
+    </section>
+    <script type="module" src="./script.js"></script>
+  </body>
+</html>
