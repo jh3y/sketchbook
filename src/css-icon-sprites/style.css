@@ -1,0 +1,120 @@
+@import "normalize.css";
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+:root {
+	--scale: calc(2 - (var(--zoom, 0) * 1.5));
+	--transition-speed: calc(0.5s + (var(--slow, 0) * 5s));
+	--step: steps(20);
+}
+
+body {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	background: black;
+	color: white;
+	font-family: sans-serif;
+	font-weight: bold;
+}
+
+/* Repost button code */
+button {
+	width: 48px;
+	aspect-ratio: 1;
+	scale: var(--scale);
+	display: grid;
+	place-items: center;
+	border-radius: 12px;
+	border: 0;
+	padding: 0;
+	cursor: pointer;
+	background: var(--bg, hsl(0 0% 100% / 0.1));
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	translate: -50% -50%;
+	transition: background 0.2s;
+}
+
+button:hover {
+	--bg: hsl(0 0% 100% / 0.2);
+}
+
+button[aria-pressed=true]:hover {
+	--bg: hsl(180 100% 50% / 0.2);
+}
+
+button img {
+	pointer-events: none;
+	height: 100%;
+	aspect-ratio: 1;
+	filter: invert(0.4) sepia(1) saturate(0) hue-rotate(140deg) brightness(1);
+	opacity: 0.8;
+	object-fit: cover;
+	object-position: 0 0;
+}
+
+[aria-pressed=true] img {
+	animation: sprite-play var(--transition-speed) var(--step) forwards;
+}
+
+@keyframes sprite-play {
+	75% {
+		scale: 1.25;
+	}
+	to {
+		opacity: 1;
+		filter: invert(0.4) sepia(1) saturate(20) hue-rotate(140deg) brightness(1);
+		object-position: 100% 0;
+	}
+}
+
+.sprite-container {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	translate: -50% -50%;
+	transform: scale(var(--scale));
+	width: 48px;
+	aspect-ratio: 1;
+	border-radius: 12px;
+	color: hsl(0 0% 100% / 0.5);
+	z-index: -1;
+	--clip: calc(var(--show, 0) * -100vmax);
+	clip-path: inset(var(--clip) var(--clip) var(--clip) var(--clip));
+}
+
+.sprite-container::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: black;
+}
+
+button[aria-pressed=true] ~ .sprite-container svg {
+	translate: calc(-100% + 48px) 0;
+	transition: translate var(--transition-speed) var(--step);
+}
+
+.sprite-container svg {
+	height: 100%;
+	position: absolute;
+	left: 0;
+	opacity: 0.75;
+}
+
+.controls {
+	display: grid;
+	position: fixed;
+	top: 1rem;
+	right: 1rem;
+	grid-template: 1fr 1fr / 1fr auto;
+	gap: 0.5rem;
+	padding: 1rem;
+	accent-color: hsl(165, 100%, 35%);
+}

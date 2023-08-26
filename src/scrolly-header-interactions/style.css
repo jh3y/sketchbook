@@ -1,0 +1,209 @@
+@import "normalize.css";
+@import 'https://unpkg.com/normalize.css';
+@import 'https://unpkg.com/open-props/normalize.min.css';
+@import 'https://unpkg.com/open-props/open-props.min.css';
+
+:root {
+  --aspect-ratio: 4 / 1;
+  --header-scroll: calc(100vw / 4);
+  --title-height: 100px;
+  --shared-range: calc((var(--header-scroll) - var(--title-height) )) calc((var(--header-scroll) + (var(--title-height) * 2)));
+  --cover-range: calc(var(--header-scroll) - (var(--title-height))) calc(var(--header-scroll) * 1);
+  --title-range: calc((var(--header-scroll) - (var(--title-height) * 2) )) calc((var(--header-scroll) - (var(--title-height) * -0.25)));
+  --avatar-range: calc((var(--header-scroll) - (var(--title-height) * 1.5) )) calc((var(--header-scroll) + (var(--title-height) * 0.95))),
+  	calc((var(--header-scroll) - (var(--title-height) * 2.5) )) calc((var(--header-scroll) + (var(--title-height) * 0.95)));
+  --shadow-range: calc((var(--header-scroll) + var(--title-height) )) calc((var(--header-scroll) + (var(--title-height) * 2)));
+  --cover-range: var(--shadow-range);
+}
+
+body {
+  background: var(--gray-2);
+  display: grid;
+  min-height: 200vh;
+  justify-items: center;
+  overflow-x: hidden;
+  align-content: start;
+  overflow-y: auto;
+}
+header {
+  background: var(--surface-2);
+  background-size: cover;
+  max-width: 100%;
+  width: var(--size-md);
+  aspect-ratio: var(--aspect-ratio);
+  position: relative;
+  width: 100vw;
+  position: sticky;
+  top: calc((var(--header-scroll) * -1) + var(--title-height));
+}
+
+.header__wrap {
+	position: relative;
+	view-timeline-name: --header;
+}
+
+.header__cover {
+  position: absolute;
+  inset: 0;
+  background: hsl(0 0% 0% / 0.25);
+  opacity: 0;
+  backdrop-filter: blur(6px);
+  animation: fade-in both linear;
+  animation-timeline: scroll();
+  animation-range: var(--cover-range);
+}
+
+@keyframes fade-in {
+  to {
+    opacity: 1;
+  }
+}
+
+.backdrop {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  clip-path: inset(0 0 0 0);
+}
+
+.avatar {
+  width: var(--size-12);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: var(--size-2) solid var(--gray-2);
+  position: absolute;
+  top: 0%;
+  left: var(--size-4);
+  translate: 0 -100%;
+  transform-origin: 0% 50%;
+  animation: scale-down both ease-out, look-down both steps(20);
+  animation-timeline: scroll();
+  animation-range: var(--avatar-range);
+/*     calc((var(--header-scroll) * 0.25) calc((var(--header-scroll) + (var(--title-height) * 2.2))); */
+  z-index: 2;
+  object-position: 0 0;
+  object-fit: cover;
+  background: linear-gradient(hsl(10 80% 50%), hsl(280 80% 50%));
+
+}
+@keyframes scale-down {
+  to {
+    scale: 0.35;
+    top: 50%;
+    translate: 0 -50%;
+  }
+}
+
+@keyframes look-down {
+  to {
+    object-position: 100% 0;
+  }
+}
+
+.intro {
+  max-width: 100%;
+  width: var(--size-md);
+  position: sticky;
+  top: 0;
+  margin-top: calc(var(--size-12) * 0.5);
+}
+
+main {
+  width: var(--size-md);
+  max-width: 100%;
+}
+
+.title {
+  color: var(--gray-11);
+  width: var(--size-md);
+  max-width: 100%;
+  height: var(--title-height);
+  gap: var(--size-2);
+  padding: var(--size-4);
+  animation: slide both ease;
+  animation-timeline: scroll();
+  animation-range: var(--title-range);
+}
+
+h1 {
+  color: currentColor;
+}
+
+@keyframes slide {
+	0%, 85% {
+		color: var(--gray-11);
+	}
+  to {
+    color: var(--text-1);
+    translate: calc(var(--size-12) * 0.5) 0;
+  }
+}
+
+.title-wrapper {
+  position: relative;
+  width: 100vw;
+  left: 50%;
+  transform: translateX(-50%);
+  display: grid;
+  justify-content: center;
+  animation: shadow both;
+  animation-timeline: scroll();
+  animation-range: var(--shadow-range);
+}
+
+@keyframes shadow {
+  to { box-shadow: var(--shadow-4); }
+}
+
+.title h1 {
+  margin: 0;
+}
+
+.title a {
+  color: var(--red-6);
+  font-weight: bold;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+ul {
+  padding-top: var(--size-8);
+  display: grid;
+  gap: var(--size-4);
+}
+
+.skeleton {
+  --surface: var(--gray-4);
+  --block: var(--gray-6);
+  --padding: var(--size-4);
+  padding: var(--padding);
+  gap: var(--padding);
+  width: 100%;
+  display: grid;
+  grid-template: 1fr 1fr / 25% 1fr;
+  background: var(--surface);
+  max-inline-size: 100%;
+}
+
+.skeleton__block {
+  background: var(--block);
+}
+
+@keyframes load {
+  to {
+    background-position: 200% 0;
+  }
+}
+
+.skeleton__block:first-of-type {
+  grid-row: 1 / -1;
+  aspect-ratio: 1;
+}
+
+.skeleton__block:last-of-type {
+  width: 65%;
+}

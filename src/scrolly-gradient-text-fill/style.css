@@ -1,0 +1,114 @@
+@import "normalize.css";
+
+:root {
+  --bg: hsl(0 0% 2%);
+  --color: hsl(0 0% 100% / 0.1);
+  --underline-width: 1lh;
+  --underline-block-width: 200vmax;
+  --underline-color: hsl(0 0% 50% / 0.15);
+  --underline-color-hover: hsl(180 100% 50% / 1);
+  --underline-transition: 5s;
+  --finish-fill: hsl(0 0% 100%);
+  --accent: hsl(0 0% 100%);
+  --fill: hsl(0 0% 50%);
+}
+
+body {
+  align-items: center;
+  background-color: var(--bg);
+  color: var(--color);
+  display: flex;
+  font-family: sans-serif;
+  font-weight: bold;
+  justify-content: center;
+  min-height: 200vh;
+  accent-color: red;
+}
+
+:root:has(#driver:checked) section {
+	outline: 1rem dashed hsl(0 80% 50% / 0.5);
+	background: hsl(0 80% 50% / 0.1);
+}
+
+.controls {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  padding: 1rem 2rem;
+  border-radius: 100px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: hsl(0 0% 90%);
+  color: hsl(0 0% 10%);
+}
+
+p {
+  width: 50vmin;
+  resize: both;
+  max-width: 100vw;
+  overflow: hidden;
+  position: fixed;
+  padding:2ch;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+	animation: fill-up both linear;
+	animation-timeline: --section;
+	animation-range: cover;
+	margin: 0;
+}
+
+@property --progress {
+	initial-value: 0;
+	syntax: '<number>';
+	inherits: true;
+}
+
+p > span {
+	outline-color: hsl(10 80% 50%);
+	outline-offset: 1ch;
+	font-size: clamp(3rem, 4vw + 1rem, 10rem);
+  color: var(--color);
+  text-decoration: none;
+  background-image:
+		/* First one is the highlight */
+		linear-gradient(90deg, transparent calc(100% - 8ch), var(--accent) calc(100%  - 8ch)),
+  	linear-gradient(90deg, var(--fill), var(--fill)),
+    linear-gradient(90deg, var(--underline-color), var(--underline-color));
+  background-size:
+  	var(--underline-block-width) var(--underline-width),
+  	var(--underline-block-width) var(--underline-width),
+    100% var(--underline-width);
+  background-repeat: no-repeat;
+  background-position-x:
+  	calc((var(--underline-block-width) * -1) + (var(--progress) * var(--underline-block-width) * 1)),
+  	calc((var(--underline-block-width) * -1) + (var(--progress) * var(--underline-block-width) * 1)),
+  	0;
+  background-position-y: 100%;
+  color: tranparent;
+  -webkit-background-clip: text;
+  animation: color-in both linear;
+	animation-timeline: --section;
+	animation-range: cover 65% cover 100%;
+}
+
+section {
+	margin: 100vh 0;
+	height: 100vh;
+	width: 100vw;
+	view-timeline-name: --section;
+}
+
+@keyframes fill-up {
+	to {
+		--progress: 1;
+	}
+}
+
+@keyframes color-in {
+	to {
+		color: var(--finish-fill);
+	}
+}
