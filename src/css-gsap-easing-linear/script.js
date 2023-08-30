@@ -2,128 +2,6 @@ import gsap from 'https://cdn.skypack.dev/gsap'
 
 const pointsLength = 10_000
 const lineLength = 80
-const _2PI = Math.PI * 2;
-const _sin = Math.sin;
-const _sqrt = Math.sqrt;
-const _cos = Math.cos;
-const _HALF_PI = _2PI / 4;
-
-/**
- * GSAP Stuff
- * 
- * */
-const _easeMap = {};
-const _globals = {};
-const _customEaseExp = /^[\d.\-M][\d.\-,\s]/;
-const _quotesExp = /["']/g;
-const _forEachName = (names, func) => ((names = names.split(",")).forEach(func)) || names; //split a comma-delimited list of names into an array, then run a forEach() function and return the split array (this is just a way to consolidate/shorten some code).
-const _parseObjectInString = value => { //takes a string like "{wiggles:10, type:anticipate})" and turns it into a real object. Notice it ends in ")" and includes the {} wrappers. This is because we only use this function for parsing ease configs and prioritized optimization rather than reusability.
-  let obj = {},
-    split = value.substr(1, value.length-3).split(":"),
-    key = split[0],
-    i = 1,
-    l = split.length,
-    index, val, parsedVal;
-  for (; i < l; i++) {
-    val = split[i];
-    index = i !== l-1 ? val.lastIndexOf(",") : val.length;
-    parsedVal = val.substr(0, index);
-    obj[key] = isNaN(parsedVal) ? parsedVal.replace(_quotesExp, "").trim() : +parsedVal;
-    key = val.substr(index+1).trim();
-  }
-  return obj;
-};
-const _valueInParentheses = value => {
-  let open = value.indexOf("(") + 1,
-    close = value.indexOf(")"),
-    nested = value.indexOf("(", open);
-  return value.substring(open, ~nested && nested < close ? value.indexOf(")", close + 1) : close);
-};
-const _configEaseFromString = name => { //name can be a string like "elastic.out(1,0.5)", and pass in _easeMap as obj and it'll parse it out and call the actual function like _easeMap.Elastic.easeOut.config(1,0.5). It will also parse custom ease strings as long as CustomEase is loaded and registered (internally as _easeMap._CE).
-  let split = (name + "").split("("),
-    ease = _easeMap[split[0]];
-  return (ease && split.length > 1 && ease.config) ? ease.config.apply(null, ~name.indexOf("{") ? [_parseObjectInString(split[1])] : _valueInParentheses(name).split(",").map(_numericIfPossible)) : (_easeMap._CE && _customEaseExp.test(name)) ? _easeMap._CE("", name) : ease;
-};
-const _invertEase = ease => p => 1 - ease(1 - p);
-// allow yoyoEase to be set in children and have those affected when the parent/ancestor timeline yoyos.
-const _propagateYoyoEase = (timeline, isYoyo) => {
-  let child = timeline._first, ease;
-  while (child) {
-    if (child instanceof Timeline) {
-      _propagateYoyoEase(child, isYoyo);
-    } else if (child.vars.yoyoEase && (!child._yoyo || !child._repeat) && child._yoyo !== isYoyo) {
-      if (child.timeline) {
-        _propagateYoyoEase(child.timeline, isYoyo);
-      } else {
-        ease = child._ease;
-        child._ease = child._yEase;
-        child._yEase = ease;
-        child._yoyo = isYoyo;
-      }
-    }
-    child = child._next;
-  }
-};
-const _parseEase = (ease, defaultEase) => !ease ? defaultEase : (_isFunction(ease) ? ease : _easeMap[ease] || _configEaseFromString(ease)) || defaultEase;
-const _insertEase = (names, easeIn, easeOut = p => 1 - easeIn(1 - p), easeInOut = (p => p < .5 ? easeIn(p * 2) / 2 : 1 - easeIn((1 - p) * 2) / 2)) => {
-  let ease = {easeIn, easeOut, easeInOut},
-    lowercaseName;
-  _forEachName(names, name => {
-    _easeMap[name] = _globals[name] = ease;
-    _easeMap[(lowercaseName = name.toLowerCase())] = easeOut;
-    for (let p in ease) {
-      _easeMap[lowercaseName + (p === "easeIn" ? ".in" : p === "easeOut" ? ".out" : ".inOut")] = _easeMap[name + "." + p] = ease[p];
-    }
-  });
-  return ease;
-};
-const _easeInOutFromOut = easeOut => (p => p < .5 ? (1 - easeOut(1 - (p * 2))) / 2 : .5 + easeOut((p - .5) * 2) / 2);
-const _configElastic = (type, amplitude, period) => {
-  let p1 = (amplitude >= 1) ? amplitude : 1, //note: if amplitude is < 1, we simply adjust the period for a more natural feel. Otherwise the math doesn't work right and the curve starts at 1.
-    p2 = (period || (type ? .3 : .45)) / (amplitude < 1 ? amplitude : 1),
-    p3 = p2 / _2PI * (Math.asin(1 / p1) || 0),
-    easeOut = p => p === 1 ? 1 : p1 * (2 ** (-10 * p)) * _sin((p - p3) * p2) + 1,
-    ease = (type === "out") ? easeOut : (type === "in") ? p => 1 - easeOut(1 - p) : _easeInOutFromOut(easeOut);
-  p2 = _2PI / p2; //precalculate to optimize
-  ease.config = (amplitude, period) => _configElastic(type, amplitude, period);
-  return ease;
-};
-const _configBack = (type, overshoot = 1.70158) => {
-  let easeOut = p => p ? ((--p) * p * ((overshoot + 1) * p + overshoot) + 1) : 0,
-    ease = type === "out" ? easeOut : type === "in" ? p => 1 - easeOut(1 - p) : _easeInOutFromOut(easeOut);
-  ease.config = overshoot => _configBack(type, overshoot);
-  return ease;
-};
-_forEachName("Linear,Quad,Cubic,Quart,Quint,Strong", (name, i) => {
-  let power = i < 5 ? i + 1 : i;
-  _insertEase(name + ",Power" + (power - 1), i ? p => p ** power : p => p, p => 1 - (1 - p) ** power, p => p < .5 ? (p * 2) ** power / 2 : 1 - ((1 - p) * 2) ** power / 2);
-});
-_easeMap.Linear.easeNone = _easeMap.none = _easeMap.Linear.easeIn;
-_insertEase("Elastic", _configElastic("in"), _configElastic("out"), _configElastic())
-// Think this puts the bounce in???
-const createBounce = (n, c) => {
-  let n1 = 1 / c,
-    n2 = 2 * n1,
-    n3 = 2.5 * n1,
-    easeOut = p => (p < n1) ? n * p * p : (p < n2) ? n * (p - 1.5 / c) ** 2 + .75 : (p < n3) ? n * (p -= 2.25 / c) * p + .9375 : n * (p - 2.625 / c) ** 2 + .984375;
-  _insertEase("Bounce", p => 1 - easeOut(1 - p), easeOut);
-}
-createBounce(7.5625, 2.75);
-_insertEase("Expo", p => p ? 2 ** (10 * (p - 1)) : 0);
-_insertEase("Circ", p => -(_sqrt(1 - (p * p)) - 1));
-_insertEase("Sine", p => p === 1 ? 1 : -_cos(p * _HALF_PI) + 1);
-_insertEase("Back", _configBack("in"), _configBack("out"), _configBack());
-_easeMap.SteppedEase = _easeMap.steps = _globals.SteppedEase = {
-  config(steps = 1, immediateStart) {
-    let p1 = 1 / steps,
-      p2 = steps + (immediateStart ? 0 : 1),
-      p3 = immediateStart ? 1 : 0,
-      max = 1 - _tinyNum;
-    return p => (((p2 * _clamp(0, max, p)) | 0) + p3) * p1;
-  }
-};
-
-console.info({ map: _easeMap})
 
 /**
  * ALL THE MAGIC STUFF IN HERE FROM LINEAR IS
@@ -134,17 +12,15 @@ const durationFormat = new Intl.NumberFormat('en-US', {
   maximumFractionDigits: 3,
 })
 
-function useFriendlyLinearCode(parts, name, idealDuration) {
+function useFriendlyLinearCode(parts, name) {
   if (parts.length === 0) return ''
 
-  // let outputStart = ':root {\n'
-  // let outputEnd = '\n}'
   let linearStart = `  --${name}: linear(`
   let linearEnd = ');'
   let lines = []
   let line = ''
 
-  const lineIndentSize = 4
+  const lineIndentSize = 2
 
   for (const part of parts) {
     // 1 for comma
@@ -165,30 +41,14 @@ function useFriendlyLinearCode(parts, name, idealDuration) {
     return linearStart + lines[0] + linearEnd
   }
 
-  let idealDurationLine = ''
-
-  if (idealDuration !== 0) {
-    idealDurationLine = `\n  --${name}-duration: ${durationFormat.format(
-      idealDuration.value / 1000
-    )}s;`
-  }
-
   return (
-    // outputStart +
     linearStart +
     '\n    ' +
     lines.join('\n    ') +
     '\n  ' +
     linearEnd
-    // idealDurationLine +
-    // outputEnd
   )
 }
-
-/**
- * The part that outputs for consumptions
- * */
-
 /**
  * The main part of the linear generation
  * */
@@ -270,7 +130,6 @@ function useLinearSyntax(points, round) {
 
     return skipValue.length > regularValue.length ? regularValue : skipValue
   })
-
   return outputValues
 }
 
@@ -279,43 +138,7 @@ function useLinearSyntax(points, round) {
  * before running it through the linear generator
  * */
 
-function processScriptData(script) {
-  const oldGlobals = Object.keys(self)
-
-  // Using importScripts rather than eval, as it gives better stack traces.
-  // But also wrapping in a function, so things aren't global by default.
-  // importScripts(
-  //   `data:text/javascript,${encodeURIComponent(`(() => {${script};})()`)}`,
-  // );
-
-  eval(`(() => {${script};})()`)
-
-  let easingFunc
-
-  // Look for a new global
-  const newGlobals = new Set(Object.keys(self))
-  for (const key of oldGlobals) newGlobals.delete(key)
-
-  // Remove any non-functions
-  for (const key of newGlobals) {
-    // @ts-ignore
-    if (typeof self[key] !== 'function') newGlobals.delete(key)
-  }
-
-  if (newGlobals.size > 1) {
-    throw Error(
-      'Too many global functions. Found: ' + [...newGlobals].join(', ')
-    )
-  }
-
-  if (newGlobals.size === 0) {
-    throw Error('No global function found.')
-  }
-
-  const [key] = newGlobals
-
-  easingFunc = self[key]
-
+function processEase(key, easingFunc) {
   return {
     name: key.replace(/[A-Z]/g, (match) => '-' + match.toLowerCase()),
     points: Array.from({ length: pointsLength }, (_, i) => {
@@ -415,65 +238,53 @@ function useOptimizedPoints(fullPoints, simplify = 0, round = 5) {
   ])
 }
 
-// const EASES = {
-//   'elastic-out': `
-//     self.elasticOut = _easeMap.Elastic.easeIn;
-//   `,
-//   // 'elastic-in': `
-//   //   self.elasticIn = _configElastic('in');
-//   // `,
-//   // 'elastic-inOut': `
-//   //   self.elasticInOut = _configElastic('inOut');
-//   // `,
-//   // 'elastic-inOut': `
-//   //   const _2PI = Math.PI * 2;
-//   //   const _sin = Math.sin;
-
-//   //   const _configElastic = (type, amplitude, period) => {
-//   //       let p1 = (amplitude >= 1) ? amplitude : 1, //note: if amplitude is < 1, we simply adjust the period for a more natural feel. Otherwise the math doesn't work right and the curve starts at 1.
-//   //           p2 = (period || (type ? .3 : .45)) / (amplitude < 1 ? amplitude : 1),
-//   //           p3 = p2 / _2PI * (Math.asin(1 / p1) || 0),
-//   //           easeOut = p => p === 1 ? 1 : p1 * (2 ** (-10 * p)) * _sin((p - p3) * p2) + 1,
-//   //           ease = (type === "out") ? easeOut : (type === "in") ? p => 1 - easeOut(1 - p) : _easeInOutFromOut(easeOut);
-//   //       p2 = _2PI / p2; //precalculate to optimize
-//   //       ease.config = (amplitude, period) => _configElastic(type, amplitude, period);
-//   //       return ease;
-//   //   };
-
-//   //   const _easeInOutFromOut = easeOut => (p => p < .5 ? (1 - easeOut(1 - (p * 2))) / 2 : .5 + easeOut((p - .5) * 2) / 2);
-
-//   //   self.elasticInOut = _configElastic('in');
-//   // `,
-// }
-
-
 let easings = ''
-for (const key of Object.keys(_easeMap)) {
-  // console.info({ key })
-  if (_easeMap[key].easeInOut) {
-    console.info({ key })
-    for (const style of ['easeIn', 'easeOut', 'easeInOut']) {
-      const result = processScriptData(`
-        self.${key.charAt(0).toLowerCase()}${key.slice(1)}${style.replace(/ease/g, '')} = _easeMap.${key}.${style}
-      `)
-      const optimised = useOptimizedPoints(result.points, 0.0025, 4)
-      const linear = useLinearSyntax(optimised, 4)
-      const output = useFriendlyLinearCode(linear, result.name, 0)
-      easings += output
-    }
-  }
-  // // console.info({ result })
-  // // Take this and pass into useOptimizedPoints to get something back for Linear....
-  // // Use simplify === 0 and round === 5
+let simplified = 0.0025
+let rounded = 4
 
-  // // console.info({ optimised })
+const EASES = {
+  'none': gsap.parseEase('none'),
+  'power1-in': gsap.parseEase('power1.in'),
+  'power1-out': gsap.parseEase('power1.out'),
+  'power1-in-out': gsap.parseEase('power1.inOut'),
+  'power2-in': gsap.parseEase('power2.in'),
+  'power2-out': gsap.parseEase('power2.out'),
+  'power2-in-out': gsap.parseEase('power2.inOut'),
+  'power3-in': gsap.parseEase('power3.in'),
+  'power3-out': gsap.parseEase('power3.out'),
+  'power3-in-out': gsap.parseEase('power3.inOut'),
+  'power4-in': gsap.parseEase('power4.in'),
+  'power4-out': gsap.parseEase('power4.out'),
+  'power4-in-out': gsap.parseEase('power4.inOut'),
+  'quad-in': gsap.parseEase('quad.in'),
+  'quad-out': gsap.parseEase('quad.out'),
+  'quad-in-out': gsap.parseEase('quad.inOut'),
+  'expo-in': gsap.parseEase('expo.in'),
+  'expo-out': gsap.parseEase('expo.out'),
+  'expo-in-out': gsap.parseEase('expo.inOut'),
+  'circ-in': gsap.parseEase('circ.in'),
+  'circ-out': gsap.parseEase('circ.out'),
+  'circ-in-out': gsap.parseEase('circ.inOut'),
+  'sine-in': gsap.parseEase('sine.in'),
+  'sine-out': gsap.parseEase('sine.out'),
+  'sine-in-out': gsap.parseEase('sine.inOut'),
+  'back-in': gsap.parseEase('back.in(1.7)'),
+  'back-out': gsap.parseEase('back.out(1.7)'),
+  'back-in-out': gsap.parseEase('back.inOut(1.7)'),
+  'elastic-in': gsap.parseEase('elastic.in(1, 0.3)'),
+  'elastic-out': gsap.parseEase('elastic.out(1, 0.3)'),
+  'elastic-in-out': gsap.parseEase('elastic.inOut(1, 0.3)'),
+  'bounce-in': gsap.parseEase('bounce.in'),
+  'bounce-out': gsap.parseEase('bounce.out'),
+  'bounce-in-out': gsap.parseEase('bounce.inOut'),
+}
 
-
-  // // console.info({ linear })
-
-
-  // // console.info({ output })
-
+for (const key of Object.keys(EASES)) {
+  const result = processEase(key, EASES[key])
+  const optimised = useOptimizedPoints(result.points, simplified, rounded)
+  const linear = useLinearSyntax(optimised, rounded)
+  const output = useFriendlyLinearCode(linear, result.name, 0)
+  easings += output
 }
 
 let outputStart = ':root {'
