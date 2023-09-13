@@ -1,0 +1,139 @@
+@import "normalize.css";
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	background: hsl(296 7% 97%);
+	font-family:  "SF Pro Text", "SF Pro Icons", "AOS Icons", "Helvetica Neue", Helvetica, Arial, sans-serif, system-ui;
+}
+
+.caret {
+	left: calc(var(--x, 0) * 1px);
+	top: 50%;
+	width: 6px;
+	height: 1.5rem;
+	display: inline-block;
+	position: absolute;
+	translate: 0.5ch -50%;
+	border-radius: 100px;
+	background: hsl(0 0% 84%);
+	animation: pulse 1.4s infinite ease;
+	view-transition-name: caret;
+	overflow: hidden;
+}
+
+::selection {
+	background: hsl(228 100% 69% / 0.5);
+}
+
+::view-transition-new(caret),
+::view-transition-old(caret) {
+	animation-duration: 0.15s;
+	width: 100%;
+	height: 100%;
+}
+
+@keyframes pulse {
+	50% {
+		opacity: 0;
+	}
+}
+
+.form-group label {
+	color: hsl(268, 1%, 55%);
+	display: flex;
+	justify-content: space-between;
+	padding: 0 calc(0.5rem + 2px);
+}
+
+.form-group label span:last-of-type {
+	color: hsl(268 2% 78%);
+}
+
+
+input {
+	padding: 0.5rem 0.5rem;
+	line-height: 1;
+	border-radius: 0.5rem;
+	border: 2px solid hsl(296 3% 93%);
+	background: hsl(0 0% 100%);
+	color: hsl(212 2% 18%);
+	padding-right: 3rem;
+	outline-color: hsl(228, 100%, 69%);
+}
+
+.form-group {
+	display: grid;
+	gap: 0.5rem;
+}
+
+.form-group:focus-within .caret {
+	animation: none;
+}
+
+.input-wrapper {
+	position: relative;
+}
+
+.form-group:not(:focus-within) .input-wrapper--dirty {
+	position: relative;
+}
+.input-wrapper--valid .caret,
+.input-wrapper--dirty .caret:not(.caret--focussed) {
+	left: 100%;
+	top: 50%;
+	width: 24px;
+	height: 24px;
+	animation: none;
+	translate: calc(-100% - 0.5rem) -50%;
+}
+
+.input-wrapper--valid .caret svg,
+.input-wrapper--dirty .caret:not(.caret--focussed) svg {
+	opacity: 1;
+}
+
+.input-wrapper--dirty:not(.input-wrapper--valid) .caret svg path:last-of-type {
+	display: block;
+}
+
+.input-wrapper--dirty:not(.input-wrapper--valid) .caret:not(.caret--focussed) .progress {
+	background: hsl(10 80% 70%);
+	clip-path: inset(0 0 0 0);
+}
+
+.input-wrapper--dirty:not(.input-wrapper--valid) .caret svg path:first-of-type {
+	display: none;
+}
+
+.caret svg {
+	opacity: 0;
+	width: 75%;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	translate: -50% -50%;
+	stroke-width: 3;
+	stroke: white;
+}
+
+.caret .progress {
+	background: hsl(228, 100%, 69%);
+	height: 100%;
+	width: 100%;
+	position: absolute;
+	inset: 0;
+	clip-path: inset(calc(100% - (var(--strength, 0) * 1%)) 0 0 0);
+	transition: clip-path 0.15s;
+}
+
+.caret svg path:last-of-type {
+	display: none;
+}

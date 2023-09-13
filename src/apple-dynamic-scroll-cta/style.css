@@ -1,0 +1,408 @@
+@import "normalize.css";
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  font-family: SF Pro Text, SF Pro Icons, Helvetica Neue, Helvetica, Arial, sans-serif;
+  color: hsl(0 0% 100%);
+  background: hsl(0, 0%, 6%);
+}
+
+section {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+}
+
+.section__content {
+	min-height: 100vh;
+	position: sticky;
+	top: 0;
+	width: 100vw;
+	display: grid;
+	place-items: center;
+	padding: 1rem;
+	width: 60ch;
+	max-width: 100vw;
+	margin: 0 auto;
+}
+
+.section__content p {
+	font-weight: 600;
+	max-width: 40ch;
+	font-size: clamp(1rem, 1vw + 1rem, 4rem);
+	margin: 0;
+	color: hsl(0 0% 100% / 0.5);
+}
+
+.section__content h2 {
+	text-align: left;
+	display: grid;
+	gap: 0;
+}
+
+.section__content h2 span:first-of-type {
+	opacity: 0.5;
+	padding-left: 1rem;
+	font-size: clamp(1rem, 1vw + 1rem, 4rem);
+}
+
+.section__content h2 span:last-of-type {
+	background: linear-gradient(
+		90deg,
+		hsl(0 0% 100%),
+		hsl(0 0% 80%) 50%,
+		hsl(240deg 100% 75%),
+		hsl(320deg 100% 75%),
+		hsl(140deg 100% 75%),
+		hsl(10deg 100% 75%)
+	);
+	-webkit-background-clip: text;
+	color: transparent;
+	background-size: 300% 200%;
+	animation: bg-move both linear;
+	animation-timeline: --section;
+	animation-range: cover 0% exit 0%;
+	background-position: 0 0;
+}
+
+@keyframes bg-move {
+	to {
+		background-position: 100% 200%;
+	}
+}
+
+.section__content p span {
+	color: hsl(0 0% 100% / 1);
+}
+
+:is(h1, h2) {
+  margin: 0;
+  font-size: 2.5rem;
+}
+
+section:nth-of-type(1),
+section:nth-of-type(2),
+section:nth-of-type(3),
+section:nth-of-type(4) {
+	position: relative;
+	width: 100vw;
+	display: block;
+	view-timeline-name: --section;
+}
+
+/* CTA Specific stuff goes here.... */
+.cta {
+  position: sticky;
+  z-index: 10;
+  top: calc(100% - 6rem);
+  display: inline-block;
+  width: 100%;
+  display: grid;
+  place-items: center;
+  /* Activates showing the CTA */
+  animation: activate both linear, activate linear reverse;
+  animation-timeline: --section, view();
+  animation-range: entry, cover 50%;
+}
+
+.cta__content {
+	position: relative;
+}
+
+/* Word */
+.cta span:nth-of-type(1) {
+  opacity: var(--scale, 0);
+  transition: opacity 0.2s 0.6s;
+  white-space: nowrap;
+  padding: 0 0 0 0.5rem;
+}
+
+/* The Bloom */
+.cta__content::before {
+  --back: linear(
+    0, 0.3412 4.06%, 0.6411 8.2%,
+    0.9005 12.43%, 1.1205 16.77%,
+    1.3013 21.22%, 1.4438 25.8%,
+    1.549 30.54%, 1.5878 32.98%,
+    1.6175 35.47%, 1.6457 39.41%,
+    1.6518 41.44%, 1.6528 43.52%,
+    1.6391 47.83%, 1.6042 52.44%,
+    1.5562 56.74%, 1.4899 61.5%,
+    1.202 78.86%, 1.0988 85.97%,
+    1.0551 89.79%, 1.0244 93.36%,
+    1.0061 96.75%, 1
+  );
+  content: "";
+  background: hsl(210 100% 45%);
+  position: absolute;
+  inset: 0;
+  border-radius: 100px;
+  z-index: -1;
+}
+
+/* The icon holder */
+.cta span:nth-of-type(2) {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: hsl(210 100% 45%);
+  color: white;
+  padding: 0.25rem;
+  display: grid;
+  place-items: center;
+}
+
+.cta svg {
+  width: 20px;
+  fill: hsl(0 0% 100% / 0.75);
+}
+
+.cta a:is(:hover, :focus-visible) svg {
+  fill: white;
+}
+
+.cta a {
+  --elastic: linear(
+    0, 0.4789 7.06%, 0.7612 12.38%,
+    0.8693 15.13%, 0.9538 17.95%,
+    1.0165 20.89%, 1.059 24.04%,
+    1.0829 27.58%, 1.0884 31.64%,
+    1.0769 36.44%, 1.0202 50.6%,
+    1.0005 59.62%, 0.9945 70.6%, 1
+  );
+  text-decoration-line: none;
+  overflow: hidden;
+  border-radius: 100px;
+  padding: 1rem;
+  background: hsl(240 2% 20% / 1);
+  box-shadow: 0 1px hsl(0 0% 100% / 0.25) inset;
+  color: hsl(0 0% 100%);
+  display: grid;
+  align-items: center;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  font-size: 1.1rem;
+  grid-template-columns: 0 36px;
+}
+
+
+@keyframes activate {
+  0% { --active: 0; }
+  100% { --active: 1; }
+}
+
+section:nth-of-type(1) {
+	height: 200vh;
+}
+
+section:nth-of-type(2) {
+	--content-size: 186px;
+	height: 400vh;
+}
+
+section:nth-of-type(3) {
+	--content-size: 180px;
+  height: 300vh;
+}
+
+section:nth-of-type(4) {
+	--content-size: 140px;
+	height: 500vh;
+}
+
+/* Use style queries to dictate the timing, etc. */
+@container style(--active: 0) {
+  .cta__content::before {
+    scale: 0;
+    opacity: 0;
+    transition: scale 0.5s var(--back);
+  }
+  .cta a {
+    scale: 0;
+    transition: scale 0.2s 0.7s, grid-template-columns 0.5s 0.2s var(--elastic);
+    grid-template-columns: 0 36px;
+  }
+  .cta__content span:first-of-type {
+    opacity: 0;
+    transition: opacity 0.2s 0s;
+  }
+  .cta__content span:last-of-type {
+    scale: 0;
+    opacity: 0;
+    transition: scale 0.2s, opacity 0.2s;
+  }
+}
+@container style(--active: 1) {
+  .cta__content::before {
+    scale: 0.99;
+    opacity: 1;
+    transition: scale 0.5s var(--back);
+  }
+  .cta a {
+    scale: 1;
+    transition: scale 0.2s 0s, grid-template-columns 0.5s 0.6s var(--elastic);
+    grid-template-columns: var(--content-size, auto) 36px;
+  }
+  .cta__content span:first-of-type {
+    opacity: 1;
+    transition: opacity 0.2s 0.7s;
+  }
+  .cta__content span:last-of-type {
+    scale: 1;
+    opacity: 1;
+    transition: scale 0.2s 0.4s, opacity 0.2s 0.4s;
+  }
+}
+
+/* Nav stuff */
+nav {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	border-bottom: 1px solid hsl(0 0% 50%);
+	height: 52px;
+	background: hsl(0 0% 20% / 0.75);
+	backdrop-filter: blur(4px);
+	z-index: 2;
+}
+
+
+.nav__content {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 800px;
+	max-width: 100vh;
+	padding: 0 1rem;
+	margin: 0 auto;
+	height: 100%;
+}
+
+nav a {
+	text-decoration: none;
+	background: hsl(210 100% 45%);
+	color: hsl(0 0% 98%);
+	font-weight: 400;
+	padding: 0.5rem 1rem;
+	border-radius: 100px;
+	font-size: 0.875rem;
+}
+
+nav img {
+	height: 50%;
+	justify-self: start;
+}
+
+.support {
+  position: fixed;
+  z-index: 10;
+  left: 1rem;
+  top: 1rem;
+  background: white;
+  color: black;
+  padding: 2rem;
+  border: 4px solid hsl(45 80% 50%);
+}
+
+@supports (animation-timeline: view()) {
+  .support {
+    display: none;
+  }
+}
+
+/* Heading */
+h1 {
+	display: grid;
+}
+
+:is(h1, h2) {
+	font-size: clamp(2.5rem, 7vw + 1rem, 10rem);
+	text-align: center;
+	line-height: 1;
+	margin: 0;
+	width: 100%;
+}
+
+h1 {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	translate: -50% -50%;
+}
+
+h1 span:first-of-type {
+	display: inline-block;
+  color: hsl(0 100% 50%);
+	font-size: 0.35em;
+}
+
+h1 span:last-of-type {
+	display: inline-block;
+}
+
+h1 span:first-of-type {
+	display: inline-block;
+	animation: fade-away both linear;
+	animation-timeline: --section;
+	animation-range: entry-crossing 50% exit 50%;
+}
+
+h1 span:last-of-type {
+	display: inline-block;
+	animation: scale-up both cubic-bezier(.1,.7,.9,1.3), fade-away both linear;
+	animation-timeline: --section;
+	animation-range: entry-crossing 60% exit 70%, exit 10% exit 50%;	
+}
+
+@keyframes scale-up {
+	to {
+		scale: 1.5;
+	}
+}
+
+@keyframes grow {
+	0% {
+		scale: 0.5;
+		opacity: 0;
+	}
+}
+
+@keyframes fade-away {
+	100% {
+		opacity: 0;
+	}
+}
+
+
+video {
+	position: fixed;
+	inset: 0;
+	object-fit: cover;
+	width: 100%;
+	height: 100vh;
+	z-index: -1;
+	filter: saturate(0.1) brightness(0.5);
+	opacity: 0;
+	animation: fade-in both linear, fade-out both linear;
+	animation-timeline: --section;
+	animation-range: entry 10% entry 15%, exit 10% exit 15%;
+}
+
+@keyframes fade-in {
+	to {
+		opacity: 0.2;
+	}
+}
+
+@keyframes fade-out {
+	to {
+		opacity: 0;
+	}
+}

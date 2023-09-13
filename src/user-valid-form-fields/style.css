@@ -1,0 +1,97 @@
+@import "normalize.css";
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+	display: grid;
+	place-items: center;
+	background: hsl(296 7% 97%);
+	min-height: 100vh;
+	overflow: hidden;
+	font-family:  "SF Pro Text", "SF Pro Icons", "AOS Icons", "Helvetica Neue", Helvetica, Arial, sans-serif, system-ui;
+}
+
+html {
+	font-size: 36px;
+}
+
+.sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border-width: 0;
+}
+
+.form-group {
+	--valid: hsl(145 50% 55%);
+	--invalid: hsl(15 80% 55%);
+	--transition: 0.2s;
+	--color: hsl(268 1% 55%);
+	display: grid;
+	gap: 0.5rem;
+}
+
+label {
+	display: flex;
+	color: var(--color);
+	transition: color var(--transition);
+	letter-spacing: 0.1ch;
+	padding-left: 0.5rem;
+	font-weight: bold;
+}
+
+label > [aria-hidden] {
+	animation-duration: 0.2s;
+	animation-delay: calc(var(--char-index) * 0.1s);
+	animation-fill-mode: both;
+	animation-timing-function: ease-in;
+}
+
+@keyframes jump {
+	50% {
+		translate: 0 -50%;
+	}
+}
+
+@keyframes shake {
+	25% {
+		translate: 0.25ch 0;
+	}
+	75% {
+		translate: -0.25ch 0;
+	}
+}
+
+input {
+	padding: 0.5rem;
+	border-radius: 0.5rem;
+	border: 0.2rem solid var(--color);
+	transition: border var(--transition);
+}
+
+.form-group:has(:user-valid) {
+	--color: var(--valid);
+}
+
+.form-group:not(:focus-within):has(:user-invalid) {
+	--color: var(--invalid);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	.form-group:not(:focus-within):has(:user-valid) [aria-hidden] {
+		animation-name: jump;
+	}
+
+	.form-group:not(:focus-within):has(:user-invalid) label {
+		animation: shake 0.075s 8;
+	}
+}

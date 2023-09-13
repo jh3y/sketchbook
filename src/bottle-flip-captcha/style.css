@@ -1,0 +1,159 @@
+@import "normalize.css";
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	background: hsl(8 90% 90%);
+	color: hsl(0 0% 10%);
+	font-family:  "SF Pro Text", "SF Pro Icons", "AOS Icons", "Helvetica Neue", Helvetica, Arial, sans-serif, system-ui;
+}
+
+form {
+	padding: 2rem;
+	border: hsl(0 0% 10%);
+	border-radius: 1rem;
+	border: 2px solid hsl(0 0% 10%);
+	background: hsl(0 0% 98%);
+	scale: calc(1 - var(--scale, 0));
+	transition: scale 0.2s 0s;
+	display: grid;
+	gap: 1rem;
+	place-items: center;
+}
+
+form h1 {
+	font-size: 1.5rem;
+	margin: 0;
+}
+
+form button {
+	padding: 1rem 2rem;
+	background: hsl(210 80% 40%);
+	border: 0;
+	border-radius: 1rem;
+	font-weight: bold;
+	color: hsl(0 0% 98%);
+	cursor: pointer;
+	transition: background 0.2s;
+}
+
+form button:is(:hover, :focus-visible) {
+	background: hsl(210 80% 30%);
+}
+
+.success {
+	font-size: 1.5rem;
+	font-weight: bold;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	translate: -50% -50%;
+	margin: 0;
+	display: none;
+	animation: reveal 0.2s 0.2s both;
+}
+
+@keyframes reveal {
+	0% {
+		scale: 0;
+	}
+}
+
+.instruction {
+	font-weight: bold;
+	position: absolute;
+	padding: 1rem;
+	margin: 0;
+	top: 50%;
+	left: 50%;
+	max-width: 100%;
+	translate: -50% -50%;
+	font-size: 1.5rem;
+	width: 100%;
+	text-align: center;
+	pointer-events: none;
+	transition: opacity 0.2s 0.2s;
+	opacity: var(--visible, 1);
+}
+
+.counter {
+	position: absolute;
+	top: 1rem;
+	left: 1rem;
+	font-weight: bold;
+	margin: 0;
+	font-size: 1.5rem;
+}
+
+.arena {
+	width: 80vmin;
+	max-width: 600px;
+	aspect-ratio: 1;
+	background: hsl(0 0% 98%);
+	position: relative;
+	border: 2px solid hsl(0 0% 10%);
+	border-radius: 1rem;
+	overflow: hidden;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	translate: -50% -50%;
+	scale: var(--scale, 0);
+	transition: scale 0.2s 0.4s;
+}
+
+.arena canvas {
+	height: 100%;
+	width: 100%;
+	cursor: -webkit-grab;
+}
+
+.arena canvas:active {
+	cursor: -webkit-grabbing;
+}
+
+.arena button {
+	position: absolute;
+	top: 1rem;
+	right: 1rem;
+	z-index: 2;
+	width: 48px;
+	aspect-ratio: 1;
+	padding: 0;
+	display: grid;
+	place-items: center;
+	color: hsl(0 0% 10%);
+	border-radius: 50%;
+	border: 0;
+	background: transparent;
+	transition: background 0.2s;
+	cursor: pointer;
+}
+
+.arena button:is(:hover, :focus-visible) {
+	background: hsl(0 0% 90%);
+}
+
+.arena button svg {
+	width: 70%;
+	stroke-width: 2px;
+}
+
+.sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border-width: 0;
+}

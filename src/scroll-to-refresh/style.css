@@ -1,0 +1,244 @@
+@import "normalize.css";
+
+* {
+  box-sizing: border-box;
+}
+
+:root {
+	--speed: 10s;
+	--ptr: 20vh;
+	--multiplier: 0.45;
+	view-transition-name: none;
+}
+
+.quote {
+	view-transition-name: quote;
+	position: relative;	
+}
+
+blockquote {
+	margin: 0;
+	margin: 0 auto;
+	font-size: clamp(1.44rem, calc(1.26rem + .89vw), 1.95rem);
+	width: calc(100% - 2rem);
+	max-width: 600px;
+	border-left: 6px solid hsl(250 80% 80%);
+	padding: 1rem;
+	font-weight: 300;
+}
+
+.quote span {
+	position: absolute;
+	top: 100%;
+	right: 0;
+	font-weight: bold;
+}
+
+article {
+	display: grid;
+	place-items: center;
+}
+
+.instruction {
+	position: fixed;
+	bottom: 2rem;
+	right: 2rem;
+	font-weight: bold;
+	font-size: 1.35rem;
+	color: hsl(250 80% 80%);
+}
+
+body {
+  display: grid;
+  min-height: 100vh;
+  scroll-padding: 2rem;
+  background: hsl(0 0% 98%);
+  font-family: sans-serif, system-ui;
+}
+
+html {
+  scroll-snap-type: y mandatory;
+  scroll-padding-top: 0;
+  transition: scroll-padding-top 1s;
+}
+
+.ptr {
+	background: hsl(250 80% 20%);
+  height: var(--ptr);
+  width: 100%;
+}
+
+
+.ptr__container {
+	overflow: hidden;
+}
+
+.ptr__container .cog {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transition: opacity 0.2s 0.2s, transform 0.4s;
+}
+
+.ptr__container .cog svg {
+	animation: cog both linear reverse;
+	animation-timeline: scroll(root);
+	animation-range: 0 var(--ptr);
+}
+
+[data-refreshing=true] .ptr__container .cog {
+	opacity: 0;
+	transform: translate(var(--x), var(--y));
+}
+
+
+@keyframes cog {
+	0% {
+		transform: rotate(var(--start, 0deg));
+	}
+	100% {
+		transform: rotate(var(--destination, 0deg));
+	}
+}
+
+
+.ptr__container .cog:nth-of-type(1) {
+	--destination: -237deg;
+	--start: -12deg;
+	--x: 100%;
+	--y: -100%;
+	color: hsl(250 80% 72%);
+	width: calc(var(--ptr) * var(--multiplier));
+	translate: 70% -134%;
+	scale: 2;
+}
+
+.ptr__container .cog:nth-of-type(2) {
+	--destination: -238deg;
+	--start: -16deg;
+	--x: -100%;
+	--y: 100%;
+	color: hsl(250 80% 82%);
+	width: calc(var(--ptr) * var(--multiplier));
+	translate: -136% 54%;
+	scale: 1.8;
+}
+
+.ptr__container .cog:nth-of-type(3) {
+	--destination: 200deg;
+	--start: -20deg;
+	--x: -100%;
+	--y: -100%;
+	color: hsl(250 80% 80%);
+	width: calc(var(--ptr) * var(--multiplier));
+	translate: -294% -96%;
+	scale: 2.6;
+}
+
+.ptr__container .cog:nth-of-type(4) {
+	--destination: 194deg;
+	--start: -24deg;
+	--x: 100%;
+	--y: 100%;
+	color: hsl(250 80% 74%);
+	width: calc(var(--ptr) * var(--multiplier));
+	translate: 252% 22%;
+	scale: 2.8;
+}
+
+
+.cog-container {
+	color: hsl(250 80% 68%);
+	width: calc(var(--ptr) * var(--multiplier));
+	height: calc(var(--ptr) * var(--multiplier));
+	position: fixed;
+	top: calc(var(--ptr) * -0.5);
+	left: 50%;
+	translate: -50% -50%;
+	animation: drop both linear reverse;
+	animation-timeline: scroll();
+	animation-range: 0 var(--ptr);
+	z-index: 10;
+}
+
+@keyframes drop {
+	to {
+		translate: -50% calc(var(--ptr) - 50%);
+		rotate: 360deg;
+	}
+}
+
+[data-refreshing=true] .cog-container {
+	translate: -50% calc(var(--ptr) - 50%);
+	animation: spin 1s infinite linear;
+}
+
+[data-refreshing=false] .cog-container {
+	translate: -50% -50%;
+	animation: unload 1s forwards;
+}
+
+@keyframes spin {
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
+@keyframes unload {
+	from {
+		translate: -50% calc(var(--ptr) - 50%);
+	}
+}
+
+.ptr__container {
+	height: var(--ptr);
+	width: 100%;
+	position: fixed;
+	top: 0;
+	translate: 0 -100%;
+	animation: cogs both linear reverse;
+	animation-timeline: scroll();
+	animation-range: 0 var(--ptr);
+}
+
+.ptr__container::after {
+	content: "";
+	position: absolute;
+	inset: -2rem -2rem 0 -2rem;
+	box-shadow: 0 0 4rem 1rem hsl(0 0% 0% / 0.5) inset;
+}
+
+@keyframes cogs {
+	to {
+		translate: 0 0;
+	}
+}
+
+.trigger {
+	height: 2px;
+	width: 100%;
+	animation: trigger both linear reverse;
+	animation-timeline: view();
+}
+
+@keyframes trigger {
+	to {
+		translate: 0 0;
+	}
+}
+
+main {
+	position: relative;
+  scroll-snap-align: start;
+  min-height: calc(100vh - var(--ptr));
+}
+
+/* Theming */
+article h1 {
+  color: var(--gray-9);
+}
+
+article {
+	min-height: 100vh;
+  width: 100%;
+}
