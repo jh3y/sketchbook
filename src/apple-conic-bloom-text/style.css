@@ -1,0 +1,98 @@
+@import "normalize.css";
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+	display: grid;
+	place-items: center;
+	min-height: 200vh;
+	background: hsl(0 0% 0%);
+	color: hsl(0 0% 98%);
+	font-family:  "SF Pro Text", "SF Pro Icons", "AOS Icons", "Helvetica Neue", Helvetica, Arial, sans-serif, system-ui;
+}
+
+section {
+	position: fixed;
+	top: 0;
+	left: 50%;
+	display: grid;
+	justify-content: start;
+	align-content: center;
+	translate: -50% 0;
+	height: 100vh;
+	width: 100ch;
+	max-width: calc(100% - 4rem);
+	gap: 1.25rem;
+}
+
+:is(a, p) {
+	margin: 0;
+	font-size: 1rem;
+	font-weight: 400;
+	font-size: clamp(1rem, 0.75vw + 1rem, 2rem);
+}
+
+.actions {
+	display: flex;
+	gap: 6ch;
+	flex-wrap: wrap;
+}
+
+:is(p:nth-of-type(2), a) {
+	opacity: 0;
+	animation: fade-in both linear;
+	animation-timeline: scroll(root);
+	animation-range: 75vh 90vh;
+}
+
+p:nth-of-type(2) {
+	--opacity: 0.65;
+}
+
+a {
+	display: flex;
+	gap: 1ch;
+	align-items: center;
+	color: hsl(0 0% 98%);
+	text-decoration-line: none;
+}
+
+a:is(:hover, :focus-visible) {
+	text-decoration-line: underline;
+	text-decoration-thickness: 0.4ch;
+	text-underline-offset: 0.5ch;
+}
+
+a svg {
+	width: 32px;
+	stroke-width: 2;
+}
+
+@keyframes fade-in {
+	to {
+		opacity: var(--opacity, 1);
+	}
+}
+
+p:nth-of-type(1) {
+	--accent: 320;
+	font-size: clamp(1rem, 3vw + 1rem, 6rem);
+	font-weight: 600;
+	background: radial-gradient(50% 100% at 50% 100%, hsl(var(--accent, 10) 90% 95%), hsl(var(--accent, 10) 90% 50%), transparent 50%);
+	background-size: 400% 600%;
+	background-position: 50% 0;
+	color: transparent;
+	-webkit-background-clip: text;
+	animation: move-bg both linear;
+	animation-timeline: scroll(root);
+	animation-range: 0 100vh;
+}
+
+@keyframes move-bg {
+	to { background-position: 50% 100%; }
+}
+
