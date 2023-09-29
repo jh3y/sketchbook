@@ -37,8 +37,8 @@
   },
   "browserslist": "> 0.5%, chrome 95, last 2 versions, not dead",
   "devDependencies": {
-    "98.css": "0.1.11",
     "@faker-js/faker": "^7.6.0",
+    "98.css": "0.1.11",
     "color": "^4.2.3",
     "plop": "^3.1.1",
     "prettier": "^2.7.1",
@@ -57,7 +57,7 @@
     "bootstrap": "5.2.3",
     "canvas-confetti": "^1.5.1",
     "dat.gui": "^0.7.9",
-    "gsap": "^3.11.1",
+    "gsap": "file:gsap-shockingly-green/npm-install-this/gsap-bonus.tgz",
     "normalize.css": "^8.0.1",
     "open-props": "^1.4.1",
     "postcss-preset-env": "^7.8.2",

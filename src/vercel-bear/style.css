@@ -1,0 +1,177 @@
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+	background: hsl(210 80% 80%);
+	overflow: hidden;
+	margin: 0;
+}
+
+#app {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	font-family: 'Google Sans', sans-serif, system-ui;
+	align-content: center;
+}
+
+.astrobear {
+	width: 8vmin;
+	opacity: 0;
+	position: absolute;
+	overflow: visible;
+}
+
+.astrobear__body {
+	transform-box: fill-box;
+	transform-origin: 50% 50%;
+	animation: spin 6s infinite linear;
+}
+
+@keyframes spin {
+	to {
+		rotate: -360deg;
+	}
+}
+
+.cloud {
+	position: absolute;
+	top: 100%;
+	left: calc(var(--x, 0.5) * 100%);
+	translate: -50% 0;
+	transform: rotateY(calc(var(--flipped, 0) * 180deg));
+	width: calc(var(--size) * 1vmin);
+/*	animation: float calc(var(--speed, 0) * 1s) calc(var(--delay, 0) * 1s) linear reverse infinite;*/
+/*	animation-play-state: paused;*/
+	z-index: var(--z, 1);
+	fill: hsl(0 0% calc(var(--lightness, 100) * 1%));
+	opacity: 0.9;
+}
+
+.balloon {
+  cursor: pointer;
+}
+
+.balloon-bear {
+	display: none;
+  overflow: visible !important;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+/*  translate: -50% 0;*/
+  transform: rotateY(calc(var(--flipped, 0) * 180deg));
+  width: calc(var(--size) * 1vmin);
+/*   animation: float calc(var(--speed, 0) * 1s) linear; */
+  z-index: var(--z, 1);
+}
+
+h1 {
+	color: hsl(0 0% 100%);
+	translate: 0 18vmin;
+	font-size: clamp(2rem, 4vw + 1rem, 4rem);
+	background: linear-gradient(90deg, white, hsl(0 0% 70%), transparent);
+	-webkit-background-clip: text;
+	color: transparent;
+	background-repeat: no-repeat;
+	background-size: 400% 100%;
+	background-position: 150% 0;
+}
+
+@keyframes float {
+  to {
+    translate: -50% calc(-100vh + -100%);
+  }
+}
+
+[data-balloon-bear-static] {
+	--x: 0.5;
+	--size: 50;
+	--flipped: 0;
+	--hue: 10;
+	/*animation: none;
+	top: 50%;
+	translate: -50% -50%;*/
+	z-index: 5;
+}
+
+.moon {
+	position: fixed;
+	z-index: -1;
+	top: 50%;
+	left: 50%;
+	opacity: 0;
+	width: 24vmin;
+}
+
+.moon__crater {
+	fill: hsl(45 20% 60%);
+}
+
+.moon__body {
+	fill: hsl(45 50% 80%);
+}
+
+.moon__shade {
+	fill: hsl(0 0% 0% / 0.25);
+}
+
+.balloon-bear__arm {
+  transform-box: fill-box;
+  transform-origin: 40% 20%;
+  rotate: 10deg;
+  animation: swing-arm 0.5s infinite alternate linear;
+}
+
+@keyframes swing-arm {
+  0% {
+    rotate: 3deg;
+  }
+  100% {
+    rotate: -3deg;
+  }
+}
+
+.balloon-bear__eye {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  rotate: 50deg;
+  animation: blink 6s -2s infinite;
+}
+
+.balloon-bear__balloon,
+.balloon-bear__strap {
+  fill: hsl(var(--hue, 10) 100% 50%);
+}
+
+
+@keyframes blink {
+  0%, 46%, 48%, 50%, 100% {
+    scale: 1 1;
+  }
+  47%, 49% {
+    scale: 1 0.01;
+  }
+}
+
+.stars {
+	position: fixed;
+	height: 100vh;
+	width: 100vw;
+	z-index: -1;
+	opacity: 0;
+}
+
+.star {
+	position: absolute;
+	left: calc(var(--x) * 1px);
+	width: calc(var(--size) * 1px);
+	aspect-ratio: 1;
+	border-radius: 50%;
+	background: hsl(45 100% 80%);
+	top: 100%;
+	opacity: var(--opacity, 1);
+	animation: float calc(var(--speed, 0) * 1s) calc(var(--delay, 0) * 1s) linear reverse infinite;
+}
