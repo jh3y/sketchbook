@@ -1,0 +1,154 @@
+@import "normalize.css";
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+/* The COOL image URLs */
+/**
+ * Waterfall: https://fastly.picsum.photos/id/506/650/490.jpg?hmac=P-nF1uTHT3HCZPTVhsTsNW4k45F4Ml6ENf9Azsez7YQ
+ * 
+ * 
+ * */
+
+:root {
+	--image-size: clamp(200px, 30vw + 1rem, 650px);
+}
+
+body {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	font-family:  "SF Pro Text", "SF Pro Icons", "AOS Icons", "Helvetica Neue", Helvetica, Arial, sans-serif, system-ui;
+	background: hsl(0 0% 0%);
+	overflow: hidden;
+}
+
+ul {
+	width: fit-content;
+	display: flex;
+	padding: 0;
+	margin: 0;
+	list-style-type: none;
+	gap: 0.875rem;
+}
+
+li {
+	scroll-snap-align: center;
+}
+
+figure {
+	margin: 0;
+}
+
+img {
+	aspect-ratio: 650 / 490;
+	width: var(--image-size);
+	object-fit: cover;
+}
+.gallery-wrapper {
+	position: relative;
+}
+.gallery {
+	overflow-x: scroll;
+	width: 100vw;
+	scroll-snap-type: x mandatory;
+	padding-inline: calc(50vw - (var(--image-size) * 0.5));
+	padding-block: 4lh;
+}
+
+.gallery::-webkit-scrollbar {
+	height: 0;
+	opacity: 0;
+}
+
+/* Animation stuff */
+li {
+	view-timeline-name: --item;
+	view-timeline-axis: inline;
+}
+
+figcaption {
+	color: hsl(0 0% 98%);
+	width: var(--image-size);
+	text-align: center;
+	padding: 1rem;
+	font-size: 1.25rem;
+}
+
+figcaption span:last-of-type {
+	color: hsl(0 0% 50%);
+}
+
+li:nth-of-type(1) {
+	--crop: 40%;
+}
+li:nth-of-type(2) {
+	--crop: 0%;
+}
+li:nth-of-type(3) {
+	--crop: 10%;
+}
+li:nth-of-type(4) {
+	--crop: 16%;
+}
+li:nth-of-type(5) {
+	--crop: 20%;
+}
+li:nth-of-type(6) {
+	--crop: 24%;
+}
+li:nth-of-type(7) {
+	--crop: 30%;
+}
+
+img {
+	transform-origin: 0 50%;
+	opacity: var(--starting-opacity, 1);
+	scale: var(--starting-scale, 1);
+	translate: var(--starting-x, 0) 0;
+	object-view-box: inset(var(--crop, 0) var(--crop, 0) var(--crop, 0) var(--crop, 0));
+}
+
+
+@supports (animation-timeline: view()) {
+	img {
+		--starting-scale: 0.65;
+		--starting-opacity: 0.3;
+		--starting-x: -36%;
+		animation: highlight both linear;
+		animation-timeline: view(inline);
+		animation-range: cover 0% cover 50%;
+	}
+	@keyframes highlight {
+		50% {
+			translate: 0 0;
+			scale: var(--starting-scale);
+			opacity: var(--starting-opacity);
+		}
+		to {
+			translate: 0 0;
+			scale: 1;
+			opacity: 1;
+		}
+	}
+	figcaption {
+		position: absolute;
+		opacity: 0;
+		bottom: 0;
+		left: 50%;
+		translate: -50% 0;
+		animation: show both linear;
+		animation-timeline: --item;
+	}
+	@keyframes show {
+		0%, 45%, 55%, 100% {
+			opacity: 0;
+		}
+		50% {
+			opacity: 1;
+		}
+	}
+}
