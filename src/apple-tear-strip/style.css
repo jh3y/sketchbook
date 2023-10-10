@@ -1,0 +1,73 @@
+@import "normalize.css";
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	font-family:  "SF Pro Text", "SF Pro Icons", "AOS Icons", "Helvetica Neue", Helvetica, Arial, sans-serif, system-ui;
+	overflow: hidden;
+}
+
+.reference {
+	opacity: 0.5;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	translate: -50% -50%;
+}
+
+[type=range] {
+	position: fixed;
+	top: 1rem;
+	right: 1rem;
+	display: none;
+}
+
+.tear-strip {
+	font-size: 1.3rem;
+	font-weight: bold;
+	width: clamp(300px, 470px, 28vw);
+	height: 78px;
+	display: grid;
+	place-items: center;
+	background: hsl(0 100% 50% / 0.25);
+/*	translate: 0 -80%;*/
+	position: relative;
+	border: 2px dashed red;
+	border-radius: 100px;
+}
+
+.tear-strip__strip {
+	position: absolute;
+	inset: 0;
+	background: hsl(210 80% 50% / 0.2);
+	display: flex;
+	border-radius: 100px;
+	align-items: center;
+	justify-content: center;
+}
+
+.tear-strip__strip svg {
+	background: hsl(210 80% 50% / 0.5);
+	border-radius: 50%;
+	width: 48px;
+	padding: 10px;
+	position: absolute;
+	left: 11px;
+/*	opacity: 0.2;*/
+}
+
+.tear-strip__handle {
+	position: absolute;
+	left: 0;
+	top: 0;
+	bottom: 0;
+	aspect-ratio: 1;
+	background: hsl(280 80% 50% / 0.5);
+}
