@@ -1,0 +1,179 @@
+@import "normalize.css";
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+	min-height: 100vh;
+	margin: 0;
+	font-family:  "SF Pro Text", "SF Pro Icons", "AOS Icons", "Helvetica Neue", Helvetica, Arial, sans-serif, system-ui;
+	overflow-x: hidden;
+	background: hsl(0 0% 2%);
+}
+
+body::before {
+	content: "";
+	height: 100vh;
+	width: 100vw;
+	position: fixed;
+	z-index: -1;
+	--line: hsl(0 0% 95% / 0.25);
+	background:
+		linear-gradient(90deg, var(--line) 1px, transparent 1px 10vmin) 0 -5vmin / 10vmin 10vmin,
+		linear-gradient(var(--line) 1px, transparent 1px 10vmin) 0 -5vmin / 10vmin 10vmin;
+	mask: linear-gradient(-15deg, transparent 30%, white);
+	top: 0;
+}
+
+main {
+	width: 1200px;
+	margin: 0 auto;
+	max-width: 100%;
+	padding: 0 1rem;
+}
+
+h1 {
+	display: grid;
+	place-items: center;
+}
+
+h1 span, h2 {
+	background: linear-gradient(hsl(0 0% 98%) 30%, hsl(0 0% 30%));
+	color: transparent;
+	background-clip: text;
+}
+
+h1 span:first-of-type {
+	font-size: 1rem;
+	text-transform: uppercase;
+}
+h1 span:last-of-type {
+	font-size: clamp(3rem, 6vw + 1rem, 12rem);
+}
+
+section {
+	height: 100vh;
+	display: grid;
+	place-items: center;
+	max-width: 100%;
+}
+
+figure {
+	width: 100%;
+	overflow: hidden;
+	position: absolute;
+	inset: 0;
+	margin: 0;
+	border-radius: 1rem;
+}
+
+figure:last-of-type {
+	--b: 2;
+	overflow: visible;
+	clip-path: inset(-200% 0 0 0);
+}
+
+.pop-out-image {
+	view-timeline-name: --popper;
+	aspect-ratio: 1;
+	position: relative;
+	width: 300px;
+}
+
+figure img {
+	width: var(--size, 100%);
+	position: absolute;
+	left: 50%;
+	top: 0%;
+	translate: var(--x, -50%) var(--y, 0);
+	aspect-ratio: 1;
+}
+
+figure img {
+	animation: slide-up linear both;
+	animation-timeline: --popper;
+	animation-range: entry 100% cover 50%;
+	object-fit: cover;
+}
+
+h2 {
+	font-size: clamp(3rem, 6vw + 1rem, 12rem);
+}
+
+
+.skateboarder {
+	--size: 170%;
+	--translate: -40%;
+}
+
+.snowboarder {
+	--translate: -35%;
+	--size: 155%;
+	--x: -65%;
+}
+
+.snowboarder img {
+	object-position: right;
+}
+
+.mtb {
+	--size: 185%;
+	--translate: -45%;
+}
+
+.mtb img {
+	object-position: right;
+}
+
+.mtx {
+	--size: 170%;
+	--translate: -40%;
+	--y: -10%;
+	--x: -52%;
+}
+
+.mtx img {
+	object-position: right;
+}
+
+
+@keyframes slide-up {
+	to {
+		translate: var(--x, -50%) var(--translate, -50%);
+		filter: brightness(var(--b, 1));
+	}
+}
+
+section, section * {
+	transform-style: preserve-3d;
+}
+
+section {
+	perspective: 100vh;
+}
+
+.pop-out-image, figure {
+	transition: transform 0.2s;
+}
+
+[data-exploded] .pop-out-image {
+	transform: rotateX(-14deg) rotateY(55deg);
+}
+.pop-out-image {
+	outline: 4px dashed transparent;
+	transition: outline 0.2s;
+	border-radius: 1rem;
+}
+[data-exploded] .pop-out-image {
+	outline-color: hsl(0 0% 100% / 0.75);
+}
+
+[data-exploded] .pop-out-image figure:last-of-type {
+	transform: translate3d(0, 0, 100px);
+}
+[data-exploded] .pop-out-image figure:first-of-type {
+	transform: translate3d(0, 0, -100px);
+}
