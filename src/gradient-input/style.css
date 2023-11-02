@@ -1,0 +1,98 @@
+@import "normalize.css";
+
+@font-face {
+  font-family: "Geist Sans";
+  src: url("https://assets.codepen.io/605876/GeistVF.ttf") format("truetype");
+}
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+main {
+	width: 900px;
+	max-width: calc(100% - 2rem);
+	display: grid;
+	place-items: center;
+}
+
+body {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	font-family:  "Geist Sans", "SF Pro Text", "SF Pro Icons", "AOS Icons", "Helvetica Neue", Helvetica, Arial, sans-serif, system-ui;
+	font-weight: 100;
+	background: hsl(0 0% 8%);
+}
+
+.gradient-input {
+	--accent: conic-gradient(from 180deg at 50% 70%,hsla(0,0%,98%,1) 0deg,#eec32d 72.0000010728836deg,#ec4b4b 144.0000021457672deg,#709ab9 216.00000858306885deg,#4dffbf 288.0000042915344deg,hsla(0,0%,98%,1) 1turn);
+	--bg: hsl(0 0% 6%);
+	--border-base: hsl(0 0% 0%);
+	--radius: 50%;
+	--size: 0;
+	background: var(--border-base);
+	translate: 0 0;
+	border-radius: 6px;
+	position: relative;
+}
+
+.gradient-input:focus-within {
+	--size: 400%;
+}
+
+.gradient-input::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: var(--accent);
+	z-index: -1;
+	border-radius: 6px;
+	mask: radial-gradient(circle at center, white, transparent var(--radius));
+	transition: mask 0.2s;
+	mask-repeat: no-repeat;
+	mask-size: var(--size) 100%;
+	mask-position: center center;
+}
+
+.gradient-input__glow {
+	position: absolute;
+	inset: 0;
+	filter: brightness(1.5) blur(4px);	
+	z-index: -1;
+}
+
+.gradient-input__glow::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: var(--accent);
+	z-index: -1;
+	border-radius: 6px;
+	mask: radial-gradient(circle at center, white, transparent var(--radius));
+	transition: mask 0.2s;
+	mask-repeat: no-repeat;
+	mask-size: var(--size) 100%;
+	mask-position: center center;
+}
+
+input {
+	padding: 0.5rem 1rem;
+	border-radius: 6px;
+	background: linear-gradient(var(--bg), var(--bg)) padding-box;
+	border: 2px solid transparent;
+	caret-color: hsl(0 0% 80% / 0.5);
+}
+
+input:focus-visible {
+	outline: none;
+}
+
+input::placeholder {
+	font-weight: 80;
+	background: linear-gradient(hsl(0 0% 80% / 0.5), hsl(0 0% 50% / 0.5));
+	background-clip: text;
+	color: transparent;
+}
