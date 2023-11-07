@@ -1,0 +1,207 @@
+@import "normalize.css";
+
+@font-face {
+  font-family: "Geist Sans";
+  src: url("https://assets.codepen.io/605876/GeistVF.ttf") format("truetype");
+}
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+	min-height: 100vh;
+	font-weight: 80;
+	padding: 0 4rem 0 1rem;
+	background: hsl(0 0% 98%);
+	color: hsl(0 0% 6%);
+	font-family:  "Geist Sans", "SF Pro Text", "SF Pro Icons", "AOS Icons", "Helvetica Neue", Helvetica, Arial, sans-serif, system-ui;
+}
+
+body::after {
+	--size: 80px;
+	--thickness: 2px;
+	content: "";
+	position: fixed;
+	height: 100vh;
+	width: 100vw;
+	pointer-events: none;
+	background:
+		linear-gradient(transparent 0 calc(var(--size) - var(--thickness)), currentColor calc(var(--size) - var(--thickness)) var(--size)) 50% 50% / var(--size) var(--size),
+		linear-gradient(90deg, transparent 0 calc(var(--size) - var(--thickness)), currentColor calc(var(--size) - var(--thickness)) var(--size)) 50% 50% / var(--size) var(--size);
+	mask: linear-gradient(-35deg, transparent 50%, white);
+	top: 0;
+	left: 0;
+	z-index: -1;
+	opacity: 0.25;
+}
+
+.dark body {
+	background: hsl(0 0% 6%);
+	color: hsl(0 0% 96%);
+}
+
+mark {
+	color: hsl(0 0% 6%);
+}
+
+.dark mark {
+	color: hsl(0 0% 98%);
+}
+
+section {
+	margin-bottom: 2rem;
+}
+
+.dark header svg path {
+	fill: white;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+:where(h1, h2) {
+	font-weight: 120;
+}
+
+code {
+	max-width: 100%;
+	overflow: auto;
+}
+
+header {
+	height: 50vmin;
+	min-height: 200px;
+	width: 40ch;
+  max-width: 100%;
+  margin: 0 auto;
+  font-size: 1.25rem;
+  display: grid;
+  align-content: center;
+}
+
+header svg {
+	width: 35%;
+	filter: drop-shadow(0 0 20px hsl(0 0% 50% / 0.75));
+}
+
+main {
+	padding: 0 1rem;
+  counter-reset: highlight 0;
+  width: 40ch;
+  max-width: 100%;
+  margin: 0 auto;
+  font-size: 1.25rem;
+  padding: 0 0 50vmin 0;
+}
+
+button {
+	position: fixed;
+	top: 1rem;
+	right: 1rem;
+	width: 48px;
+	aspect-ratio: 1;
+	padding: 0;
+	border-radius: 12px;
+	border: 0;
+	background: transparent;
+	display: grid;
+	place-items: center;
+	cursor: pointer;
+}
+
+[aria-pressed=true] svg path:last-of-type,
+[aria-pressed=false] svg path:first-of-type {
+	display: none;
+}
+
+button svg {
+	width: 65%;
+}
+
+mark {
+	--lightness: 80%;
+  --highlighted: 0;
+  --highlight: hsl(var(--hue, 45) 80% var(--lightness));
+  counter-increment: highlight 1;
+  background: transparent;
+  animation: highlight steps(1) both;
+  animation-timeline: view();
+  animation-range: entry 100% cover 25%;
+}
+
+.dark mark {
+	--lightness: 35%;
+}
+
+mark span {
+  background: linear-gradient(120deg, var(--highlight, lightblue) 50%, transparent 50%) 110% 0 / 200% 100% no-repeat;
+  background-position: calc((110 - (var(--highlighted) * 110)) * 1%) 0;
+  transition: background-position 1s;
+}
+p, li {
+  position: relative;
+}
+
+a {
+	color: hsl(212 100% 50%);
+	text-decoration: none;
+}
+
+a:is(:hover, :focus-visible) {
+	text-decoration: underline;
+	text-underline-offset: 6px;
+}
+
+hr {
+	margin: 2rem auto;
+}
+
+hr + p {
+	text-align: center;
+}
+
+mark::after {
+  content: attr(data-author);
+  display: grid;
+  place-items: center;
+  font-variant-numeric: tabular-nums;
+  font-weight: bold;
+  position: absolute;
+  width: 32px;
+  aspect-ratio: 1;
+  border-radius: 12px;
+  background: var(--highlight);
+  font-weight: 80;
+  top: 0;
+  left: 100%;
+  translate: 50% 0;
+  font-size: 0.875rem;
+  scale: var(--highlighted);
+  transition: scale 0.2s;
+}
+
+@keyframes highlight {
+  to {
+    --highlighted: 1;
+  }
+}
+
+::view-transition-new(root) {
+	animation: grow 1s;
+}
+::view-transition-old(root) {
+	animation: none;
+}
+
+@keyframes grow {
+	0% {
+		clip-path: polygon(50vmax 50vmax, 50vmax 50vmax, 50vmax 50vmax);
+	}
+	100% {
+		clip-path: polygon(50vmax -100vmax, -100vmax 200vmax, 200vmax 200vmax);
+	}
+}
