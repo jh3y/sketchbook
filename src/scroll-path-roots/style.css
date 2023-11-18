@@ -1,0 +1,166 @@
+@import "normalize.css";
+
+@font-face {
+  font-family: "Geist Sans";
+  src: url("https://assets.codepen.io/605876/GeistVF.ttf") format("truetype");
+}
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+	min-height: 100vh;
+	font-family:  "Geist Sans", "SF Pro Text", "SF Pro Icons", "AOS Icons", "Helvetica Neue", Helvetica, Arial, sans-serif, system-ui;
+	font-weight: 100;
+	color: hsl(0 0% 6%);
+}
+
+h1 {
+	font-weight: 140;
+	font-size: clamp(2rem, 4vw + 1rem, 6rem);
+	background: linear-gradient(hsl(0 0% 50%), hsl(0 0% 20%));
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+	animation: scale-down linear both;
+	animation-timeline: scroll();
+	animation-range: 0 50vh;
+}
+
+@keyframes scale-down {
+	to { scale: 0.75; }
+}
+
+.content {
+  background: black;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  scale: 0.95;
+}
+
+@supports (animation-timeline: scroll()) {
+	.content {
+	  view-timeline: --content;
+	  animation: grow linear both;
+	  animation-timeline: scroll();
+	  animation-range: 0 50vh;
+	}
+}
+
+@keyframes grow {
+	to { scale: 1; }
+}
+
+.content svg {
+  height: 100%;
+  position: absolute;
+  right: 0%;
+  top: 0;
+  overflow: visible !important;
+  z-index: -1;
+}
+
+.content svg path {
+  stroke-width: clamp(2rem, 2vw, 4rem);
+}
+
+@media only screen and (orientation: portrait) {
+  svg {
+    display: none;
+  }
+}
+
+section {
+  height: 100vh;
+}
+
+main > section {
+  height: 80vh;
+  display: grid;
+  place-items: center;
+  position: sticky;
+  top: 0;
+}
+
+main {
+  width: 100%;
+}
+
+.backers path {
+	stroke: hsl(0 0% 50%);
+}
+
+.fillers path {
+	stroke: hsl(0 100% 50% / 1);
+}
+
+.fillers path:nth-of-type(1) {
+	--len: 8620;
+	stroke: hsl(140 80% 60%);
+}
+.fillers path:nth-of-type(2) {
+	--len: 7200;
+	stroke: hsl(140 90% 60%);
+}
+.fillers path:nth-of-type(3) {
+	--len: 7952;
+	stroke: hsl(140 90% 50%);
+}
+
+.fillers path {
+	stroke-dasharray: var(--len);
+	stroke-dashoffset: var(--len);
+}
+
+@supports (animation-timeline: scroll()) {
+	.fillers path {
+		animation: fill linear both;
+		animation-timeline: --content;
+		animation-range: entry-crossing -38% exit 12%;
+	}
+}
+
+@keyframes fill {
+	to { stroke-dashoffset: 0; }
+}
+
+.content section {
+	display: grid;
+	align-content: center;
+	padding: 2rem;
+}
+
+section h2 {
+	font-size: clamp(2rem, 4vw + 1rem, 4rem);
+	font-weight: 120;
+	color: hsl(0 0% 90%);
+	width: 10ch;
+	margin: 0 auto;
+}
+
+section:nth-of-type(3),
+section:nth-of-type(4) {
+	justify-items: end;
+}
+
+a {
+	width: 56px;
+	display: inline-block;
+	aspect-ratio: 1;
+	position: fixed;
+	top: 1rem;
+	left: 1rem;
+	z-index: 10;
+	border-radius: 50%;
+	background: hsl(0 0% 100%);
+	display: grid;
+	place-items: center;
+}
+
+a img {
+	width: 80%;
+}

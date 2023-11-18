@@ -1,0 +1,221 @@
+@font-face {
+  font-family: "Geist";
+  src: url("https://assets.codepen.io/605876/GeistVF.ttf") format("truetype");
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  transform-style: preserve-3d;
+}
+
+:root {
+  --spread: 20;
+  --dot: 2;
+  --width: 300;
+  --height: 300;
+  --size: 256;
+  --speed: 20;
+  --brightness: 1.25;
+  --intersect: intersect;
+}
+
+body {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  background: hsl(0 0% 10%);
+}
+
+.scene {
+	background: #000;
+	border-radius: 12px;
+}
+
+.canvas {
+	min-width: 200px;
+	min-height: 200px;
+  width: calc(var(--width) * 1px);
+  height: calc(var(--height) * 1px);
+}
+
+.canvas::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+  background: conic-gradient(from 180deg at 50% 70%,hsla(0,0%,98%,1) 0deg,#eec32d 72.0000010728836deg,#ec4b4b 144.0000021457672deg,#709ab9 216.00000858306885deg,#4dffbf 288.0000042915344deg,hsla(0,0%,98%,1) 1turn);
+  mask:
+    radial-gradient(circle at 50% 50%, white calc(var(--dot) * 1px), transparent calc((var(--dot) * 1px) + 0.5px)) 50% 50% / calc(var(--spread) * 1px) calc(var(--spread) * 1px),
+    url("https://assets.codepen.io/605876/noise-mask.png") 50% 50% / calc(var(--size) * 1px) calc(var(--size) * 1px);
+  mask-composite: var(--intersect);
+  animation: flicker calc(var(--speed) * 1s) infinite linear;
+  filter: brightness(var(--brightness));
+  border-radius: 12px;
+}
+
+@keyframes flicker {
+  to {
+    mask-position: 50% 50%, 0 50%;
+  }
+}
+
+.no-mask .canvas {
+	mask: unset;
+}
+.dots-mask .canvas {
+	mask: radial-gradient(circle at 50% 50%, white calc(var(--dot) * 1px), transparent calc((var(--dot) * 1px) + 0.5px)) 50% 50% / calc(var(--spread) * 1px) calc(var(--spread) * 1px);
+}
+.noise-mask .canvas {
+	mask: url("https://assets.codepen.io/605876/noise-mask.png") calc(var(--size) * 1px) 50% / calc(var(--size) * 1px) calc(var(--size) * 1px);
+}
+
+.backdrop {
+	background: conic-gradient(from 180deg at 50% 70%,hsla(0,0%,98%,1) 0deg,#eec32d 72.0000010728836deg,#ec4b4b 144.0000021457672deg,#709ab9 216.00000858306885deg,#4dffbf 288.0000042915344deg,hsla(0,0%,98%,1) 1turn);
+	position: absolute;
+	inset: 0;
+}
+
+.noise::before {
+	content: "";
+	background: conic-gradient(from 180deg at 50% 70%,hsla(0,0%,98%,1) 0deg,#eec32d 72.0000010728836deg,#ec4b4b 144.0000021457672deg,#709ab9 216.00000858306885deg,#4dffbf 288.0000042915344deg,hsla(0,0%,98%,1) 1turn);
+	position: absolute;
+	inset: 0;
+	mask: url("https://assets.codepen.io/605876/noise-mask.png") calc(var(--size) * 1px) 50% / calc(var(--size) * 1px) calc(var(--size) * 1px);
+	animation: flicker calc(var(--speed) * 1s) infinite linear;
+}
+
+.dots, .noise, .backdrop {
+	position: absolute;
+	inset: 0;
+	opacity: 0;
+}
+
+.dots::before {
+	content: "";
+	background: conic-gradient(from 180deg at 50% 70%,hsla(0,0%,98%,1) 0deg,#eec32d 72.0000010728836deg,#ec4b4b 144.0000021457672deg,#709ab9 216.00000858306885deg,#4dffbf 288.0000042915344deg,hsla(0,0%,98%,1) 1turn);
+	position: absolute;
+	inset: 0;
+	mask: radial-gradient(circle at 50% 50%, white calc(var(--dot) * 1px), transparent calc((var(--dot) * 1px) + 0.5px)) 50% 50% / calc(var(--spread) * 1px) calc(var(--spread) * 1px);
+}
+
+.dots::after,
+.noise::after,
+.backdrop::after,
+.scene::after,
+.canvas::after {
+	content: "Dots Mask";
+	white-space: nowrap;
+	position: absolute;
+	left: calc(100% + 3rem);
+	top: 50%;
+	translate: 0 -50%;
+	font-size: 2rem;
+	color: hsl(0 0% 60%);
+	font-family: "Geist", sans-serif;
+	font-weight: 60;
+	background: linear-gradient(white, hsl(0 0% 0%));
+	background-clip: text;
+	-webkit-background-clip: text;
+	opacity: 0;
+}
+
+.noise::after {
+	content: "Noise Mask";
+}
+
+.backdrop::after {
+	content: "Background";
+}
+
+.scene::after {
+	content: "Backdrop";
+}
+.canvas::after {
+	content: "Composite Mask";
+}
+
+[data-exploded] :is(.dots, .noise, .backdrop),
+[data-exploded] .dots::after,
+[data-exploded] .noise::after,
+[data-exploded] .backdrop::after {
+	opacity: 1;
+}
+
+
+[data-exploded] .scene {
+	transform: rotateX(-24deg) rotateY(32deg) rotateX(90deg) translate3d(0, 0, -400px);
+	transition: transform 1s 0s;
+}
+
+[data-exploded] .canvas {
+	transform: translate3d(0, 0, 800px);
+	transition: transform 1s 1.5s;
+}
+
+[data-exploded] .scene::after,
+[data-exploded] .canvas::after {
+	opacity: 1;
+	transition: opacity 0.5s 2s;
+}
+
+.dots {
+	transform: translate3d(0, 0, 600px);
+}
+
+[data-exploded] .dots,
+[data-exploded] .dots::after {
+	transition: opacity 0.5s 3s;
+}
+
+.noise {
+	transform: translate3d(0, 0, 400px);
+}
+
+[data-exploded] .noise,
+[data-exploded] .noise::after {
+	transition: opacity 0.5s 2.75s;
+}
+
+.backdrop {
+	transform: translate3d(0, 0, 200px);
+}
+
+[data-exploded] .backdrop,
+[data-exploded] .backdrop::after {
+	transition: opacity 0.5s 2.5s;
+}
+
+
+.scene {
+	transition: transform 1s 2.5s;
+}
+
+.canvas {
+	transition: transform 1s 1.5s;
+}
+
+.scene::after,
+.canvas::after {
+	transition: opacity 0.5s 1s;
+}
+
+.backdrop,
+.backdrop::after {
+	transition: opacity 0.5s 0.5s;
+}
+
+.noise,
+.noise::after {
+	transition: opacity 0.5s 0.25s;
+}
+
+.dots,
+.dots::after {
+	transition: opacity 0.5s 0s;
+}
+
+
+
+
+
+
+

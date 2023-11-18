@@ -1,0 +1,184 @@
+@import "normalize.css";
+
+@font-face {
+  font-family: "Geist Sans";
+  src: url("https://assets.codepen.io/605876/GeistVF.ttf") format("truetype");
+}
+
+* {
+  box-sizing: border-box;
+}
+
+:root {
+	--ease: linear(
+    0, 0.0039, 0.0157, 0.0352, 0.0625 9.09%,
+    0.1407, 0.25, 0.3908, 0.5625, 0.7654, 1,
+    0.8907, 0.8125 45.45%, 0.7852, 0.7657,
+    0.7539, 0.75, 0.7539, 0.7657, 0.7852,
+    0.8125 63.64%, 0.8905, 1 72.73%, 0.9727,
+    0.9532, 0.9414, 0.9375, 0.9414, 0.9531,
+    0.9726, 1, 0.9883, 0.9844, 0.9883, 1
+  );
+  --speed: 0.4s;
+  view-transition-name: none;
+}
+
+body {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  background-color: hsl(0 0% 6%);
+  color: hsl(0 0% 98%);
+  font-family: "Geist Sans", sans-serif;
+  font-weight: 80;
+}
+
+form {
+  background: black;
+  background-repeat: no-repeat;
+  view-transition-name: form;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 200px;
+  margin: 0;
+  gap: 0.5rem;
+  box-shadow: 0 1px hsl(0 0% 100% / 0.35) inset,
+    0 -1px hsl(0 0% 0% / 1) inset,
+    0 10px 20px -5px hsl(0 0% 0% / 1);
+}
+
+input {
+  view-transition-name: form-input;
+  border: 0;
+  padding: 1rem 2rem;
+  font-weight: 40;
+  background: transparent;
+  outline: none;
+  color: hsl(0 0% 80%);
+  font-size: 2rem;
+}
+
+button:is(:focus-visible, :hover) {
+	color: hsl(0 0% 90%);
+}
+
+input::placeholder {
+	/*background: linear-gradient(hsl(0 0% 30%), hsl(0 0% 15%));
+	color: transparent;
+	-webkit-background-clip: text;
+	background-clip: text;*/
+	font-family: "Geist Sans", sans-serif;
+	color: hsl(0 0% 80% / 0.5);
+}
+
+button {
+  view-transition-name: form-action;
+  height: 68px;
+  width: 68px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  color: hsl(0 0% 50%);
+  cursor: pointer;
+  outline: none;
+}
+
+button svg {
+	width: 50%;
+}
+
+button svg path {
+	stroke: currentColor;
+	transition: all 0.25s;
+}
+
+/* State based styling */
+[data-state=clean] button:is(:hover, :focus-visible) svg g {
+	--deg: 5;
+	transform-box: fill-box;
+	transform-origin: 50% 20%;
+	animation: ring 0.2s 2;
+}
+
+[data-state=clean] button:is(:hover, :focus-visible) svg g path:nth-of-type(2) {
+	--deg: 10;
+	transform-box: fill-box;
+	transform-origin: 50% -1000%;
+	animation: ring 0.2s 3 reverse;
+}
+
+@keyframes ring {
+	0%, 100% { rotate: 0; }
+	25% { rotate: calc(var(--deg) * 1deg); }
+	75% { rotate: calc(var(--deg) * -1deg); }
+}
+
+[data-state=open] button:is(:hover, :focus-visible) svg g {
+	transform-box: fill-box;
+	transform-origin: 50% 50%;
+	animation: float 1s infinite;
+}
+
+@keyframes float {
+	50% {
+		translate: 5% -5%;
+		scale: 0.85;
+		rotate: 5deg;
+	}
+}
+
+[data-state=submitted] button:is(:hover, :focus-visible) {
+	color: hsl(140 80% 60%);
+}
+
+[data-state=clean] input,
+[data-state=submitted] input {
+  width: 0;
+  padding: 0;
+  opacity: 0;
+}
+[data-state=clean],
+[data-state=submitted] {
+  gap: 0;
+}
+
+/* View Transition stuff */
+::view-transition-group(form),
+::view-transition-group(form-input),
+::view-transition-group(form-action) {
+  mix-blend-mode: normal;
+  animation-timing-function: var(--ease);
+  animation-duration: var(--speed);
+}
+
+::view-transition-old(form),
+::view-transition-new(form) {
+/*  clip-path: inset(0 0 0 0 round 200px);*/
+  border-radius: 200px;
+  background-color: black;
+  height: 100%;
+}
+
+
+::view-transition-old(form-input),
+::view-transition-new(form-input),
+::view-transition-old(form-action),
+::view-transition-new(form-action) {
+  height: 100%;
+  object-fit: none;
+}
+::view-transition-old(form-input),
+::view-transition-new(form-input) {
+  object-position: left center;
+  overflow: hidden;
+  opacity: 1;
+}
+::view-transition-old(form-action),
+::view-transition-new(form-action) {
+  object-position: right center;
+}
