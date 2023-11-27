@@ -14,13 +14,14 @@ const writeToStorage = (data) =>
   window.localStorage.setItem(STORAGE_KEY, JSON.stringify({ ...data }))
 
 const openWindow = ({ height, name, width, top, left, query }) => {
-  window.open(
+  const newWindow = window.open(
     `${window.location.origin}${query || ''}`,
     name || '_blank',
     `top=${top || 0},left=${left || 0},height=${height || 300},width=${
       width || 300
     }`
   )
+  if (!newWindow) console.warn(`window ${name} didn't open`)
 }
 
 const useWindow = (collectionName) => {
@@ -159,6 +160,7 @@ const App = () => {
   React.useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search)
     const random = urlParams.get('random')
+    const grow = urlParams.get('grow')
     // If the random queryString is set and the index isn't the primary one...
     if (index !== 0 && parseInt(random, 10) === 1) {
       const smin = Math.min(screen.availHeight, screen.availHeight)
@@ -167,9 +169,14 @@ const App = () => {
       const y = gsap.utils.random(0, screen.availHeight - size, 1)
       resize(size, size, {
         ease: 'bounce.out',
-        delay: 0.5,
+        delay: 0.12,
         onComplete: () =>
           move(x, y, { ease: 'elastic.out', delay: 0.5, duration: 1 }),
+      })
+    }
+    if (index !== 0 && parseInt(grow, 10) > 0) {
+      resize(grow, grow, {
+        ease: 'bounce.out'
       })
     }
   }, [])
@@ -187,40 +194,48 @@ const App = () => {
   const openWindowTrail = () => {
     const newWindows = new Array(10).fill({ x: 0 })
     const smin = Math.min(screen.availHeight, screen.availHeight)
+    const ease = 'sine.out'
+    const size = 100
     const yDist = gsap.utils.distribute({
-      base: 0,
-      amount: screen.availHeight - smin,
+      base: screen.availHeight * 0.2,
+      amount: screen.availHeight * 0.6 - 300,
       from: 0,
-      ease: 'power1.in',
+      ease,
     })
     const xDist = gsap.utils.distribute({
-      base: 0,
-      amount: screen.availWidth * 0.5 - smin,
+      base: screen.availWidth * 0.2,
+      amount: screen.availWidth * 0.6 - 300,
       from: 0,
-      ease: 'power1.in',
+      ease,
+    })
+    const sizeDist = gsap.utils.distribute({
+      base: 100,
+      amount: 300,
+      from: 0,
+      ease,
     })
 
     const tl = gsap.timeline()
 
     for (let i = 0; i < newWindows.length; i++) {
-      setTimeout(() => {
-        console.info('cool', window.location.origin)
-        window.open(window.location.origin, `window--${i}`, 'height=300,width=300,popup=true')
-      }, i * 1000)
-      // const newWindow = newWindows[i]
-      // tl.to(newWindow, {
-      //   x: 100,
-      //   duration: 0.5,
-      //   onStart: function () {
-      //     console.info('cool')
-      //     openWindow({
-      //       height: 300,
-      //       width: 300,
-      //       left: xDist(i, newWindow[i], newWindows),
-      //       top: yDist(i, newWindow[i], newWindows)
-      //     })
-      //   },
-      // })
+      const newWindow = newWindows[i]
+      const left = xDist(i, newWindow[i], newWindows)
+      const top = yDist(i, newWindow[i], newWindows)
+      const size = sizeDist(i, newWindow[i], newWindows)
+      
+      tl.to(newWindow, {
+        x: 100,
+        duration: 0.045,
+        onStart: function () {
+          openWindow({
+            height: 10,
+            width: 10,
+            left,
+            top,
+            query: `?grow=${size}`
+          })
+        },
+      })
     }
   }
 
