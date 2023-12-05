@@ -1,0 +1,60 @@
+@import "normalize.css";
+
+@font-face {
+  font-family: "Geist Sans";
+  src: url("https://assets.codepen.io/605876/GeistVF.ttf") format("truetype");
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  display: grid;
+  font-family: "Geist Sans", sans-serif;
+  place-items: center;
+  min-height: 100vh;
+  font-weight: 140;
+  background: hsl(0 0% 2%);
+}
+
+canvas {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  width: 100%;
+  aspect-ratio: 1;
+  z-index: 2;
+  filter: url(#remove-black);
+}
+
+.glow {
+	--size: 4px;
+	z-index: 4;
+	mask:
+    radial-gradient(circle at 50% 50%, white 1px, transparent 1.5px) 50% 50% / var(--size) var(--size);
+}
+
+.blur {
+	z-index: 2;
+}
+.blur-wrap {
+	filter: brightness(1.05) blur(2rem);
+	position: absolute;
+	inset: 0;
+	z-index: 3;
+}
+
+svg {
+  display: none;
+}
+
+body > div {
+  position: relative;
+  background: transparent;
+  font-size: clamp(2rem, 8vw + 1rem, 10rem);
+  white-space: nowrap;
+  padding: 1rem;
+  color: transparent;
+}

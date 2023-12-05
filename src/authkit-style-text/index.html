@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, maximum-scale=1.0" />
+    <title>authkit-style-text</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div>
+      <canvas class="static"></canvas>
+      <div class="blur-wrap">
+        <canvas class="blur"></canvas>
+      </div>
+      <canvas class="glow"></canvas>
+      <div>Super Cool!</div>
+    </div>
+
+    <svg width="0" height="0">
+      <filter id="remove-black" color-interpolation-filters="sRGB">
+        <feColorMatrix
+          type="matrix"
+          values="1 0 0 0 0
+                  0 1 0 0 0
+                  0 0 1 0 0
+                  -255 -255 -255 0 1"
+          result="black-pixels"
+        />
+        <feMorphology
+          in="black-pixels"
+          operator="dilate"
+          radius="0.5"
+          result="smoothed"
+        />
+        <feComposite in="SourceGraphic" in2="smoothed" operator="out" />
+      </filter>
+    </svg>
+    <script type="module" src="./script.js"></script>
+  </body>
+</html>
