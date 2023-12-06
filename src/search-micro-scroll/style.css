@@ -1,0 +1,263 @@
+@import "normalize.css";
+
+@font-face {
+  font-family: "Geist Sans";
+  src: url("https://assets.codepen.io/605876/GeistVF.ttf") format("truetype");
+}
+
+* {
+	box-sizing: border-box;
+}
+
+:root {
+	--bg: hsl(0 0% 10%);
+  --header-height: 80px;
+  --content-width: 600px;
+  --color: hsl(0 0% 98%);
+}
+
+body {
+  background: var(--bg);
+  font-family: "Geist Sans", sans-serif;
+  min-height: 200vh;
+  overflow-x: hidden;
+  color: var(--color);
+}
+
+.header-wrapper {
+	container-type: inline-size;
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  margin: 0 auto;
+  max-width: 100%;
+  width: var(--content-width);
+  height: var(--header-height);
+}
+
+header {
+	height: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin: 0 auto;
+}
+
+a svg {
+  width: 64px;
+  object-fit: cover;
+}
+
+.sneaky-bear {
+	width: calc(var(--header-height) * 0.75);
+	position: fixed;
+	top: 0;
+	left: 0;
+	transform: rotate(90deg) translateX(calc(var(--header-height) * 0.125)) translateY(120%);
+}
+
+.logo {
+  padding: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+input::placeholder {
+	font-weight: 50;
+	line-height: 48px;
+	color: hsl(0 0% 60%);
+}
+
+.search-bar {
+  z-index: 2;
+  width: var(--content-width);
+  height: var(--header-height);
+  display: flex;
+  align-items: center;
+  max-width: calc(100vw);
+}
+
+.search-wrapper {
+  position: sticky;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: calc(100vw);
+  z-index: 4;
+}
+
+.search-controls {
+  width: 100%;
+  position: relative;
+}
+
+button {
+	width: 48px;
+	aspect-ratio: 1;
+  background: transparent;
+  color: var(--color);
+  border: 0;
+  padding: 0;
+  border-radius: 50%;
+  transition: background 0.2s;
+  z-index: 2;
+  background: hsl(0 0% 50% / calc(var(--active, 0) * 0.25));
+  cursor: pointer;
+}
+
+button:is(:hover, :focus-visible) {
+	--active: 1;
+}
+
+button svg {
+	width: 50%;
+}
+
+.magnifier {
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+  width: 48px;
+  height: 48px;
+  display: inline-block;
+  transform: translateY(-50%);
+}
+
+header button {
+	translate: -0.5rem 0;
+}
+
+.camera {
+  top: 50%;
+  position: absolute;
+  left: 0.5rem;
+  width: 48px;
+  height: 48px;
+  display: inline-block;
+  transform: translateY(-50%);
+}
+
+input {
+  width: 100%;
+  height: 48px;
+  border-radius: 24px;
+  line-height: 48px;
+  border: 2px solid var(--color);
+  padding: 0 calc(48px + 1rem);
+  background: var(--bg);
+  outline-color: transparent;
+  color: var(--color);
+  font-weight: 80;
+}
+
+main {
+  width: var(--content-width);
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  padding-top: 6rem;
+  display: grid;
+  gap: 1rem;
+}
+
+/* Skeleton stuff */
+li img {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	inset: 0;
+	object-fit: cover;
+}
+.skeleton {
+  --block: hsl(0 0% 20%);
+  --padding: 1rem;
+  padding: var(--padding);
+  gap: var(--padding);
+  width: 100%;
+  display: grid;
+  grid-template: 1fr 1fr / 25% 1fr;
+  background: var(--bg);
+  max-inline-size: 100%;
+}
+
+.skeleton__block {
+  background: var(--block);
+}
+
+.skeleton__block:first-of-type {
+  grid-row: 1 / -1;
+  aspect-ratio: 1;
+  position: relative;
+}
+
+.skeleton__block:last-of-type {
+  width: 65%;
+}
+
+@supports (animation-timeline: scroll()) {
+	.search-controls {
+		animation: shrink both ease-in-out;
+	  animation-timeline: scroll();
+	  animation-range: 0 calc(var(--header-height) * 0.5);
+	}
+	.search-wrapper {
+		animation: shadow both linear;
+	  animation-timeline: scroll();
+	  animation-range: calc(var(--header-height) * 1) calc(var(--header-height) * 1.5);
+	}
+	header {
+		animation: darken both linear;
+	  animation-timeline: scroll();
+	  animation-range: calc(var(--header-height) * 1) calc(var(--header-height) * 1.5);
+	}
+	.sneaky-bear {
+		animation: peak both linear;
+		animation-timeline: scroll();
+		animation-range: calc(var(--header-height) * 1.5) calc(var(--header-height) * 2);
+	}
+	.logo {
+		animation: fade both linear;
+	  animation-timeline: scroll();
+	  animation-range: 0 calc(var(--header-height) * 0.8);
+	}
+	/* Animations */
+	@keyframes peak {
+		to {
+			transform: rotate(90deg) translateX(calc(var(--header-height) * 0.125)) translateY(50%);
+		}
+	}
+	@keyframes fade {
+	  to {
+	    opacity: 0;
+	    translate: 0 -25%;
+	  }
+	}
+
+	@keyframes shrink {
+	  to {
+	    width: calc(100% - 48px - 1rem);
+	  }
+	}
+
+	@keyframes darken {
+		to {
+			background: var(--bg);
+		}
+	}
+
+	@keyframes shadow {
+	  to {
+	    box-shadow: 0 5px 10px hsl(0 0% 0%);
+	  }
+	}
+
+}

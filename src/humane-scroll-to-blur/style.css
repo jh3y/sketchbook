@@ -146,10 +146,6 @@ section:nth-of-type(2) article:first-of-type .fixed {
 	z-index: 2;
 }
 
-section:nth-of-type(2) article:first-of-type img {
-	filter: saturate(0.5);
-}
-
 section:nth-of-type(2) .content {
 	display: grid;
 	padding: 4rem 1rem;
@@ -310,7 +306,6 @@ section:nth-of-type(2) article:nth-of-type(3) img {
 		animation-range: entry 45% exit-crossing 0%, exit 0% exit 15%;
 	}
 
-	
 	section:nth-of-type(2) article:nth-of-type(2) .fixed {
 		animation: fade-in;
 		animation-fill-mode: both;
