@@ -1,0 +1,214 @@
+@import "normalize.css";
+
+@font-face {
+  font-family: "Geist Sans";
+  src: url("https://assets.codepen.io/605876/GeistVF.ttf") format("truetype");
+}
+
+:root {
+	--accent: hsl(0 0% 0%);
+	--perspective: 100px;
+	--grid-size: 5%;
+	--line-width: 1px;
+	--bg: hsl(0 0% 90%);
+	--line: hsl(0 0% 0% / 0.15);
+	--color: hsl(0 0% 4%);
+	--text: hsl(0 0% 15%);
+}
+@media (prefers-color-scheme: dark) {
+	:root {
+		--color: hsl(0 0% 94%);
+		--accent: hsl(0 0% 2%);
+		--bg: hsl(0 0% 4%);
+		--line: hsl(0 0% 100% / 0.15);
+		--text: hsl(0 0% 90%);
+	}
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  background: var(--bg);
+  font-family: "Geist Sans", sans-serif;
+  font-weight: 60;
+  transition: background 0.2s;
+  color: var(--text);
+}
+
+strong {
+	font-weight: 90;
+	color: var(--text);
+}
+
+.wrapper {
+	position: relative;
+	transform-style: preserve-3d;
+}
+
+.scene {
+	transform: translate3d(-50%, -50%, 1000px);
+	position: fixed;
+	top: 50%;
+	left: 50%;
+}
+
+
+[data-perspective] .wrapper {
+	scale: 0.75;
+	transform: rotateX(calc(var(--rx, 0) * 1deg)) rotateY(calc(var(--ry, 0) * -1deg)) rotateX(90deg) translate3d(0, 0, 25cqmax);
+}
+
+[data-perspective] .warp {
+	overflow: visible;
+	clip-path: unset;
+	perspective: unset;
+}
+
+.wrapper::after {
+	--diff: calc(var(--line-width) * 0.5);
+	content: "";
+	width: 24px;
+	aspect-ratio: 1;
+	background: var(--line);
+	position: absolute;
+	top: 0;
+	left: 0;
+	translate: -50% -50%;
+	background:
+		linear-gradient(90deg, transparent calc(50% - var(--diff)), var(--accent) calc(50% - var(--diff)) calc(50% + var(--diff)), transparent calc(50% + var(--diff))),
+		linear-gradient(transparent calc(50% - var(--diff)), var(--accent) calc(50% - var(--diff)) calc(50% + var(--diff)), transparent calc(50% + var(--diff)));
+}
+  
+.warp {
+  container-type: size;
+  width: 50vmin;
+	aspect-ratio: 4 / 3;
+  perspective: var(--perspective);
+  transform-style: preserve-3d;
+  clip-path: inset(0 0 0 0);
+  resize: both;
+  overflow: hidden;
+  min-height: 250px;
+  min-width: 250px;
+}
+
+.warp * {
+	pointer-events: none;
+}
+
+.warp__side {
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  position: absolute;
+  container-type: inline-size;
+  background:
+  	linear-gradient(var(--line) 0 1px, transparent 1px var(--grid-size)) 50% -0.5px / var(--grid-size) var(--grid-size),
+    linear-gradient(90deg, var(--line) 0 1px, transparent 1px var(--grid-size)) 50% 50% / var(--grid-size) var(--grid-size);
+}
+
+.warp__side--top {
+	width: 100cqi;
+	height: 100cqmax;
+  transform-origin: 50% 0%;
+  transform: rotateX(-90deg);
+}
+
+.warp__side--bottom {
+	width: 100cqi;
+	height: 100cqmax;
+	top: 100%;
+  transform-origin: 50% 0%;
+  transform: rotateX(-90deg);
+}
+
+.warp__side--left {
+	width: 100cqh;
+	height: 100cqmax;
+	top: 0;
+	left: 0;
+  transform-origin: 0% 0%;
+  transform: rotate(90deg) rotateX(-90deg);
+}
+
+.warp__side--right {
+	width: 100cqh;
+	height: 100cqmax;
+	top: 0;
+	right: 0;
+  transform-origin: 100% 0%;
+  transform: rotate(-90deg) rotateX(-90deg);
+}
+
+.beam {
+	width: var(--grid-size);
+	position: absolute;
+	top: 0;
+	left: calc(var(--x, 0) * var(--grid-size));
+	aspect-ratio: 1 / var(--ar, 1);
+	background: linear-gradient(hsl(var(--hue) 80% 60%), transparent);
+	translate: 0 100%;
+	animation: warp calc(var(--speed, 0) * 1s) calc(var(--delay, 0) * -1s) infinite linear;
+}
+
+@keyframes warp {
+	0% { translate: -50% 100cqmax; }
+	100% { translate: -50% -100%; }
+}
+
+
+h2 {
+	text-align: center;
+	line-height: 1;
+  font-weight: 120;
+  color: var(--color);
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+article {
+	text-align: center;
+	z-index: 5;
+	display: grid;
+	gap: 1rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  background: var(--bg);
+  border: 1px solid hsl(0 0% 50% / 1);
+  border-radius: 6px;
+  padding: 2rem;
+/*  font-size: clamp(1.35rem, 1vw + 1rem, 3rem);*/
+  min-width: 320px;
+  box-shadow:
+    0 1px hsl(0 0% 2% / 0.25) inset,
+    0 -1px hsl(0 0% 2% / 0.5) inset,
+    0 5px 10px hsl(0 0% 0% / 0.5);
+}
+
+a {
+	padding: 1rem 2rem;
+	border-radius: 100px;
+	border: 1px solid var(--color);
+	align-self: center;
+	justify-self: center;
+	color: var(--color);
+	text-decoration: none;
+	transition: background 0.2s, color 0.2s;
+}
+
+a:is(:focus-visible, :hover) {
+	background: var(--color);
+	color: var(--bg);
+}
+
+.dg.ac {
+	z-index: 9999;
+	transform: translate3d(0, 0, 50000px);
+}
