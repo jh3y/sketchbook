@@ -285,7 +285,8 @@ svg * {
 	animation:
 		sleepy-brows var(--sleep-cycle) calc(var(--sleeps) - 1) ease-in-out both,
 		yawn-brows var(--sleep-cycle) calc((var(--sleeps) - 1) * var(--sleep-cycle)) both,
-		wake-brows 0.5s calc(var(--sleeps) * var(--sleep-cycle)) both;
+		wake-brows 0.5s calc(var(--sleeps) * var(--sleep-cycle)) both,
+		flutter-brows 0.1s 4 calc((var(--sleeps) * var(--sleep-cycle)) + 0.5s) both;
 }
 
 @keyframes sleepy-brows {
@@ -308,14 +309,29 @@ svg * {
 	}
 }
 
+@keyframes flutter-brows {
+	50% {
+		translate: 0 0;
+		rotate: 0deg;
+	}
+}
+
 #eye-clip {
 	scale: 1 0.01;
-	animation: wake-eyes 0.5s calc(var(--sleeps) * var(--sleep-cycle)) forwards;
+	animation:
+		wake-eyes 0.5s calc(var(--sleeps) * var(--sleep-cycle)) forwards,
+		flutter 0.1s 4 calc((var(--sleeps) * var(--sleep-cycle)) + 0.5s);
 }
 
 @keyframes wake-eyes {
 	to {
 		scale: 1 1;
+	}
+}
+
+@keyframes flutter {
+	50% {
+		scale: 1 0.01;
 	}
 }
 
