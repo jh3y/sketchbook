@@ -1,0 +1,358 @@
+@import 'normalize.css';
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+:root {
+	--bg: hsl(219, 30%, 88%);
+	--height: 20vh;
+	--width: calc(var(--height) * 2.6);
+	--custom: linear(
+		0,
+		0.0044 16.97%,
+		0.0015 21.87%,
+		-0.0157 27.34%,
+		-0.0688 35.98%,
+		-0.0706 37.98%,
+		-0.0606 39.69%,
+		-0.0381 41.23%,
+		-0.0025 42.65%,
+		0.1126 45.3%,
+		0.29 47.8%,
+		0.6609 51.64%,
+		0.8275 53.74%,
+		0.9648 56.29%,
+		1.0108 57.63%,
+		1.0435 59.06%,
+		1.0656 60.9%,
+		1.0711 63.02%,
+		1.062 65.45%,
+		1.0156 72.68%,
+		0.9998 77.36%,
+		0.9955 82.7%,
+		1
+	);
+}
+
+:root:has(:checked) {
+	--bg: hsl(219, 30%, 12%);
+}
+
+.feature {
+	fill: hsl(0 0% 20%);
+	stroke: hsl(0 0% 20%);
+}
+
+body {
+	background: var(--bg);
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	font-family: 'SF Pro Text', 'SF Pro Icons', 'AOS Icons', 'Helvetica Neue',
+		Helvetica, Arial, sans-serif, system-ui;
+	transition: background 1.6s;
+}
+
+label {
+	-webkit-tap-highlight-color: transparent;
+	height: var(--height);
+	aspect-ratio: 2.6 / 1;
+	border-radius: 100px;
+	position: relative;
+	cursor: pointer;
+	background: hsl(210 80% 80%);
+	box-shadow: calc(var(--width) * 0) calc(var(--width) * 0.02)
+			calc(var(--width) * 0.01) calc(var(--width) * -0.0025)
+			hsl(210 10% 100% / 0.95),
+		calc(var(--width) * 0) calc(var(--width) * -0.02) calc(var(--width) * 0.01)
+			calc(var(--width) * -0.0025) hsl(210 10% 10% / 0.2),
+		calc(var(--width) * 0) calc(var(--width) * 0.02) calc(var(--width) * 0.5) 0
+			hsl(210 10% 100% / 0.15);
+}
+
+label:after {
+	content: '';
+	position: absolute;
+	inset: 0;
+	box-shadow: calc(var(--width) * 0) calc(var(--width) * -0.025)
+			calc(var(--width) * 0.025) 0 hsl(210 10% 10% / 0.15) inset,
+		calc(var(--width) * 0) calc(var(--width) * 0.025) calc(var(--width) * 0.025)
+			0 hsl(210 10% 10% / 0.65) inset;
+	border-radius: 100vh;
+	z-index: 2;
+}
+
+.container {
+	position: absolute;
+	inset: 0;
+	border-radius: 100px;
+	overflow: hidden;
+	container-type: inline-size;
+	z-index: 1;
+	clip-path: inset(0 0 0 0 round 10vh);
+}
+
+.container .sphere {
+	background: yellow;
+	height: 89%;
+	aspect-ratio: 1;
+	position: absolute;
+	left: 2cqi;
+	top: 50%;
+	translate: 0 -51%;
+	transition: translate 1.6s var(--custom);
+	border-radius: 50%;
+}
+
+/* Sphere shading */
+.sphere::after {
+	content: '';
+	position: absolute;
+	inset: 0;
+	border-radius: 50%;
+	box-shadow:
+		calc(var(--width) * -0.005) calc(var(--width) * 0) calc(var(--width) * 0.02) 0 hsl(210 10% 20% / 0.5) inset,
+		calc(var(--width) * 0.01) calc(var(--width) * 0.01) calc(var(--width) * 0.02) 0 hsl(210 10% 100% / 0.95) inset;
+}
+
+:checked ~ .container .sphere {
+	translate: 56cqi -51%;
+}
+
+.sphere svg {
+	height: 100%;
+	width: 100%;
+}
+
+.container::after {
+	content: '';
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	height: 32%;
+	background: hsl(0 0% 40%);
+	left: 0;
+}
+
+.floor {
+}
+
+.sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border-width: 0;
+}
+
+img {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	translate: -50% -50%;
+	height: 10vh;
+	z-index: 2;
+	opacity: 0;
+	pointer-events: none;
+}
+
+/* Sphere features */
+.eye__sparkles {
+	opacity: 0;
+}
+.eye__brow--lid {
+	opacity: 0;
+}
+
+.cheeks {
+	opacity: 0;
+}
+.cheeks circle {
+	fill: hsl(10 80% 60% / 0.5);
+	filter: blur(5px);
+}
+
+.bubbles {
+	opacity: 0;
+}
+
+.mouth--smile,
+.mouth--wide-smile,
+.mouth--yawn,
+.mouth--happy-open,
+.mouth--sad-open,
+.mouth--horizontal {
+	opacity: 0;
+}
+
+
+.mouth--yawn {
+	opacity: 0;
+}
+
+svg * {
+	transform-box: fill-box;
+	transform-origin: 50% 50%;
+}
+
+#eye-right use[href="#eye-brows"] {
+	rotate: 0 1 0 180deg;
+}
+
+.face {
+	translate: 0 25%;
+}
+
+#eye-clip {
+	scale: 1 0.01;
+}
+
+.brows {
+	translate: 0 32px;
+}
+
+.sphere {
+	--eye-spread: 20;
+}
+
+#eye-left {
+	translate: -20% 0;
+}
+#eye-right {
+	translate: 20% 0;
+}
+
+/* Animation stuff */
+.sphere {
+	--sleeps: 2;
+	--sleep-cycle: 4s;
+}
+.face {
+	animation:
+		sleepy-face var(--sleep-cycle) var(--sleeps) ease-in-out,
+		rest-face 0.25s calc(var(--sleeps) * var(--sleep-cycle)) forwards cubic-bezier(.25,.9,.7,1.65);
+}
+
+@keyframes sleepy-face {
+	50% {
+		translate: 0 15%;
+	}
+}
+@keyframes rest-face {
+	to {
+		translate: 0 0;
+	}
+}
+
+.mouth--shock {
+	transform-origin: 50% 100%;
+	animation:
+		sleepy-mouth var(--sleep-cycle) calc(var(--sleeps) - 1) ease-in-out,
+		yawn var(--sleep-cycle) calc((var(--sleeps) - 1) * var(--sleep-cycle)) forwards;
+}
+
+@keyframes sleepy-mouth {
+	50% {
+		scale: 1.5;
+	}
+}
+
+@keyframes yawn {
+	50% {
+		scale: 1.5 2.25;
+	}
+}
+
+.mouth--tongue {
+	animation: slip var(--sleep-cycle) calc((var(--sleeps) - 1) * var(--sleep-cycle)) forwards;
+}
+
+@keyframes slip {
+	50% {
+		translate: 0 -50%;
+	}
+}
+
+.eye__brow--straight {
+	rotate: 0deg;
+	animation:
+		sleepy-brows var(--sleep-cycle) calc(var(--sleeps) - 1) ease-in-out both,
+		yawn-brows var(--sleep-cycle) calc((var(--sleeps) - 1) * var(--sleep-cycle)) both,
+		wake-brows 0.5s calc(var(--sleeps) * var(--sleep-cycle)) both;
+}
+
+@keyframes sleepy-brows {
+	50% {
+		rotate: -6deg;
+	}
+}
+
+@keyframes yawn-brows {
+	50% {
+		rotate: -10deg;
+		translate: 0 -10px;
+	}
+}
+
+@keyframes wake-brows {
+	to {
+		translate: 0 -30px;
+		rotate: -4deg;
+	}
+}
+
+#eye-clip {
+	scale: 1 0.01;
+	animation: wake-eyes 0.5s calc(var(--sleeps) * var(--sleep-cycle)) forwards;
+}
+
+@keyframes wake-eyes {
+	to {
+		scale: 1 1;
+	}
+}
+
+#eye-left {
+	translate: -20% 0;
+}
+#eye-right {
+	translate: 20% 0;
+}
+:is(#eye-left, #eye-right) {
+	animation: eye-straighten 0.5s calc(var(--sleeps) * var(--sleep-cycle)) forwards;
+}
+
+@keyframes eye-straighten {
+	to {
+		translate: 0 0;
+	}
+}
+
+.zzz {
+	opacity: 1;
+	scale: 0;
+	animation: sleep 4s var(--sleeps) ease-in both;
+	transform-origin: 0 100%;
+}
+
+@keyframes sleep {
+	0% {
+		translate: 0 200%;
+		scale: 0;
+	}
+	50% {
+		scale: 1;
+		opacity: 1;
+	}
+	to {
+		translate: 200% -200%;
+		opacity: 0;
+	}
+}

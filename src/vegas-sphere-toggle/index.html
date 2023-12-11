@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, user-scalable=0, maximum-scale=1.0"
+    />
+    <title>vegas-sphere-toggle</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <img src="./reference.png" />
+    <label for="toggle" title="Toggle Sphere">
+      <input class="sr-only" type="checkbox" id="toggle" />
+      <span class="container">
+        <span class="floor"></span>
+        <span class="sphere">
+          <svg
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 500 500"
+          >
+            <defs>
+              <ellipse
+                id="eye-white"
+                class="eye__white"
+                cx="303.15"
+                cy="191.82"
+                rx="34.15"
+                ry="33.82"
+                fill="#fff"
+              />
+              <clipPath id="eye-clip">
+                <use href="#eye-white" />
+              </clipPath>
+
+              <g id="eye-eye">
+                <g class="eye__eye" clip-path="url(#eye-clip)">
+                  <use href="#eye-white" />
+                  <circle
+                    class="eye__pupil"
+                    cx="303.15"
+                    cy="192.34"
+                    r="17.93"
+                    fill="#000"
+                  />
+                  <path
+                    class="eye__sparkles"
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M297.18 183.37a.64.64 0 0 1 .61.47l.7 2.43a3.2 3.2 0 0 0 2.2 2.2l2.42.7a.64.64 0 0 1 .34 1c-.08.1-.2.18-.34.22l-2.43.7a3.2 3.2 0 0 0-2.2 2.2l-.69 2.42a.63.63 0 0 1-.61.47.64.64 0 0 1-.62-.47l-.7-2.43a3.2 3.2 0 0 0-2.2-2.2l-2.42-.69a.65.65 0 0 1-.34-1c.09-.11.2-.2.34-.23l2.43-.7a3.2 3.2 0 0 0 2.2-2.2l.69-2.42a.64.64 0 0 1 .62-.47Zm7.68-2.56a.63.63 0 0 1 .62.49l.22.88c.2.8.83 1.43 1.63 1.63l.88.22a.64.64 0 0 1 .5.62.64.64 0 0 1-.5.63l-.88.22c-.8.2-1.43.82-1.63 1.63l-.22.88a.63.63 0 0 1-.62.49.64.64 0 0 1-.62-.49l-.22-.88a2.24 2.24 0 0 0-1.63-1.63l-.89-.22a.65.65 0 0 1-.48-.63.64.64 0 0 1 .48-.62l.89-.22a2.24 2.24 0 0 0 1.63-1.63l.22-.88a.64.64 0 0 1 .62-.49Zm-1.28 11.53a.64.64 0 0 1 .6.44l.34 1c.13.39.43.69.81.81l1.01.34a.64.64 0 0 1 0 1.22l-1 .33c-.39.13-.69.43-.82.81l-.33 1.01a.64.64 0 0 1-1.22 0l-.34-1a1.29 1.29 0 0 0-.8-.82l-1.01-.33a.63.63 0 0 1-.44-.61.63.63 0 0 1 .44-.6l1-.35c.39-.12.69-.42.81-.8l.34-1.01a.65.65 0 0 1 .6-.44Z"
+                    fill="#fff"
+                  />
+                </g>
+              </g>
+
+              <path
+                class="eye__brow eye__brow--lid feature"
+                d="M336.62 179.75a35.38 35.38 0 0 0-13.12-15.84 35.65 35.65 0 0 0-39.45.09A35.37 35.37 0 0 0 271 179.88"
+                stroke="#000"
+                stroke-width="10"
+                stroke-linecap="round"
+              />
+              <g id="eye-brows" class="brows">
+                <g class="eye__brows">
+                  <path
+                    class="eye__brow eye__brow--straight feature"
+                    d="M265 158h76"
+                    stroke="#000"
+                    stroke-width="12"
+                    stroke-linecap="round"
+                  />
+                </g>
+              </g>
+
+              <g id="eye-left" transform="translate(-106 0)">
+                <use href="#eye-eye" />
+                <use href="#eye-brows" />
+              </g>
+              <g id="eye-right">
+                <use href="#eye-eye" />
+                <use href="#eye-brows" />
+              </g>
+              <clipPath id="body">
+                <circle class="body" cx="250" cy="250" r="250" fill="#FEDA1E" />
+              </clipPath>
+              <circle
+                id="mouth-hole"
+                class="mouth--shock feature"
+                cx="250"
+                cy="252"
+                r="12"
+                fill="#000"
+              />
+              <clipPath id="mouth">
+                <use href="#mouth-hole" />
+              </clipPath>
+            </defs>
+            <!-- Body shape -->
+            <g clip-path="url(#body)">
+              <circle class="body" cx="250" cy="250" r="250" fill="#FEDA1E" />
+              <g class="face">
+                <g class="eye eye--left">
+                  <use href="#eye-left" />
+                </g>
+                <g class="eye eye--right">
+                  <use href="#eye-right" />
+                </g>
+                <g class="mouth" clip-path="url(#mouth)">
+                  <circle
+                    class="mouth--shock feature"
+                    cx="250"
+                    cy="252"
+                    r="12"
+                    fill="#000"
+                  />
+                  <circle
+                    class="mouth--tongue"
+                    cx="250"
+                    cy="276"
+                    r="12"
+                    fill="red"
+                  />
+                  <!-- <path
+                    class="mouth--smile"
+                    d="M234 253.72a16 16 0 0 0 31.37-.72"
+                    stroke="#000"
+                    stroke-width="6"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    class="mouth--wide-smile"
+                    d="M227 253.54c1.19 2.73 4.17 5.17 8.44 6.9 4.28 1.71 9.57 2.62 15 2.56 5.41-.07 10.62-1.1 14.74-2.92 4.11-1.82 6.87-4.32 7.82-7.08"
+                    stroke="#000"
+                    stroke-width="6"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    class="mouth--sad-open"
+                    d="M266 255c0 8.84-7.16 9-16 9s-16-.16-16-9a16 16 0 1 1 32 0Z"
+                    fill="#000"
+                  />
+                  <path
+                    class="mouth--happy-open"
+                    d="M234 248c0-8.84 7.16-9 16-9s16 .16 16 9a16 16 0 1 1-32 0Z"
+                    fill="#000"
+                  />
+                  <rect
+                    class="mouth--horizontal"
+                    x="234"
+                    y="240"
+                    width="32"
+                    height="22"
+                    rx="11"
+                    fill="#000"
+                  />
+                  <rect
+                    class="mouth--yawn"
+                    x="238"
+                    y="226"
+                    width="24"
+                    height="38"
+                    rx="12"
+                    fill="#D9D9D9"
+                  />
+                  <rect
+                    class="mouth--tongue"
+                    x="241"
+                    y="249"
+                    width="18"
+                    height="18"
+                    rx="9"
+                    fill="#E14949"
+                  /> -->
+                </g>
+                <g class="cheeks">
+                  <circle cx="150" cy="251" r="32" fill="red" />
+                  <circle cx="350" cy="251" r="32" fill="red" />
+                </g>
+                <g class="bubbles">
+                  <circle
+                    class="bubble"
+                    cx="359"
+                    cy="118"
+                    r="19"
+                    stroke="#8000AD"
+                    stroke-width="4"
+                  />
+                </g>
+              </g>
+              <g class="zzz">
+                <path
+                  class="z"
+                  d="M344.66 135v-4.38l17.42-24.44h-17.45v-6.09h26.72v4.38l-17.44 24.44h17.48V135h-26.73Z"
+                  fill="#8F00E6"
+                />
+              </g>
+            </g>
+          </svg>
+        </span>
+      </span>
+    </label>
+    <script type="module" src="./script.js"></script>
+  </body>
+</html>
