@@ -57,7 +57,7 @@
     "bootstrap": "5.2.3",
     "canvas-confetti": "^1.5.1",
     "dat.gui": "^0.7.9",
-    "gsap": "file:gsap-shockingly-green/npm-install-this/gsap-bonus.tgz",
+    "gsap": "file:gsap-premium/npm-install-this/gsap-bonus.tgz",
     "normalize.css": "^8.0.1",
     "open-props": "^1.4.1",
     "postcss-preset-env": "^7.8.2",

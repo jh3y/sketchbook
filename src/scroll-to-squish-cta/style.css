@@ -1,0 +1,98 @@
+@import "normalize.css";
+
+@font-face {
+  font-family: "Geist Sans";
+  src: url("https://assets.codepen.io/605876/GeistVF.ttf") format("truetype");
+}
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+	display: grid;
+	place-items: center;
+	min-height: 300vh;
+	font-family:  "Geist Sans", "SF Pro Text", "SF Pro Icons", "AOS Icons", "Helvetica Neue", Helvetica, Arial, sans-serif, system-ui;
+	font-weight: 80;
+	background: hsl(0 0% 8%);
+	color: hsl(0 0% 98%);
+}
+
+.cta {
+	--extended: 2.5fr;
+	--border: 2px;
+	--size: 60px;
+	border-radius: 100px;
+	background: hsl(0 0% 40%);
+	position: fixed;
+	bottom: 2rem;
+	right: 2rem;
+	display: grid;
+	place-items: center;
+	height: var(--size);
+	grid-template-columns: 1fr var(--extended);
+	overflow: hidden;
+	box-shadow: inset 0 1px hsl(0 0% 100% / 0.5);
+	transform-origin: 100% 100%;
+	animation: squish, scale-up, flicker;
+	border: var(--border) solid transparent;
+	background:
+		linear-gradient(red, blue) padding-box,
+		linear-gradient(90deg, transparent, red, transparent) -150% 50% / 300% 100% border-box no-repeat,
+		linear-gradient(green, green) border-box;
+	scale: 2;
+	animation-fill-mode: both;
+	animation-timing-function: linear;
+	animation-timeline: scroll(root);
+	animation-range: 0 50vh, 60vh 70vh, 80vh 90vh;
+}
+
+@keyframes squish {
+	to {
+		grid-template-columns: 1fr 0fr;
+	}
+}
+
+@keyframes scale-up {
+	to {
+		scale: 1;
+	}
+}
+
+@keyframes flicker {
+	to{
+		background-position: 50% 50%, 150% 50%, 50% 50%;
+	}
+}
+
+.icon {
+	width: calc(var(--size) - (2 * var(--border)));
+	aspect-ratio: 1;
+	border-radius: 50%;
+	display: grid;
+	place-items: center;
+}
+
+.icon svg {
+	width: 50%;
+	translate: -10% 0;
+	overflow: visible !important;
+}
+
+.text {
+	white-space: nowrap;
+	position: absolute;
+	left: calc(var(--size) - var(--border));
+	text-align: center;
+/*	padding-left: 0.5rem;*/
+}
+
+.cta:hover {
+	grid-template-columns: 1fr 0fr;
+}
+
+.cta:hover .text {
+}
