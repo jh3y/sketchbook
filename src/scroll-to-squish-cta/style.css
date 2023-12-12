@@ -40,14 +40,14 @@ body {
 	animation: squish, scale-up, flicker;
 	border: var(--border) solid transparent;
 	background:
-		linear-gradient(red, blue) padding-box,
+		linear-gradient(hsl(0 0% 50%), hsl(0 0% 25%)) padding-box,
 		linear-gradient(90deg, transparent, red, transparent) -150% 50% / 300% 100% border-box no-repeat,
-		linear-gradient(green, green) border-box;
+		linear-gradient(hsl(0 0% 50%), hsl(0 0% 50%)) border-box;
 	scale: 2;
 	animation-fill-mode: both;
 	animation-timing-function: linear;
 	animation-timeline: scroll(root);
-	animation-range: 0 50vh, 60vh 70vh, 80vh 90vh;
+	animation-range: 0 50vh, 60vh 70vh, 80vh 100vh;
 }
 
 @keyframes squish {
