@@ -11,88 +11,325 @@
 	box-sizing: border-box;
 }
 
+:root {
+	--content-width: 60ch;
+}
+
 body {
-	display: grid;
-	place-items: center;
-	min-height: 300vh;
-	font-family:  "Geist Sans", "SF Pro Text", "SF Pro Icons", "AOS Icons", "Helvetica Neue", Helvetica, Arial, sans-serif, system-ui;
-	font-weight: 80;
 	background: hsl(0 0% 8%);
 	color: hsl(0 0% 98%);
+	font-family:  "Geist Sans", "SF Pro Text", "SF Pro Icons", "AOS Icons", "Helvetica Neue", Helvetica, Arial, sans-serif, system-ui;
+	font-weight: 80;
 }
 
-.cta {
-	--extended: 2.5fr;
-	--border: 2px;
-	--size: 60px;
-	border-radius: 100px;
-	background: hsl(0 0% 40%);
+body::before {
+	--line: hsl(0 0% 95% / 0.25);
+	content: "";
+	height: 100vh;
+	width: 100vw;
 	position: fixed;
-	bottom: 2rem;
-	right: 2rem;
+	background:
+		linear-gradient(90deg, var(--line) 1px, transparent 1px 10vmin) 0 -5vmin / 10vmin 10vmin,
+		linear-gradient(var(--line) 1px, transparent 1px 10vmin) 0 -5vmin / 10vmin 10vmin;
+	mask: linear-gradient(-15deg, transparent 30%, white);
+	top: 0;
+	z-index: -1;
+}
+
+nav {
+	position: sticky;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 80px;
+	z-index: 3;
+	display: flex;
+	align-items: center;
+	padding: 0 1rem;
+	background: transparent;
+	box-shadow: 0 0 0 0 black;
+}
+
+.nav__content {
+	display: none;
+}
+
+nav::after {
+	content: "";
+	position: absolute;
+	top: 0;
+	width: 100%;
+	height: 200%;
+	background: hsl(0 0% 8%);
+	left: 0;
+	translate: 0 -100%;
+}
+
+nav a {
+	width: 48px;
+	display: inline-block;
+	aspect-ratio: 1;
+	color: white;
+}
+
+nav a svg {
+	height: 100%;
+}
+
+header, main, footer {
+	width: var(--content-width);
+	margin: 0 auto;
+	padding: 1rem;
+	max-width: 100%;
+}
+
+h1 {
+	font-size: clamp(2rem, 4vw + 1rem, 6rem);
+	font-weight: 120;
+}
+
+header {
+	height: 50vh;
 	display: grid;
 	place-items: center;
+	justify-content: start;
+}
+
+footer {
+	color: hsl(0 0% 50%);
+	display: grid;
+	place-items: center;
+	padding: 2rem 1rem;
+}
+
+figure {
+	width: 100%;
+	margin: 0;
+	position: relative;
+}
+
+figure::after {
+	content: "";
+	position: absolute;
+	inset: -0.5rem;
+	border: 2px solid hsl(0 0% 50%);
+	clip-path: inset(0 0 calc(100% - 4rem) calc(100% - 4rem));
+}
+
+img {
+	aspect-ratio: 16 / 9;
+	width: 100%;
+	object-fit: cover;
+}
+
+main {
+	display: grid;
+	gap: 2rem;
+}
+
+main p {
+	background: linear-gradient(hsl(0 0% 90%), hsl(0 0% 50%));
+	background-attachment: fixed;
+	background-clip: text;
+	color: transparent;
+}
+
+
+.cta {
+	--extended: 100px;
+	--border: 2px;
+	--size: 50px;
+	--starting-scale: 1.5;
+	--bg: black;
+	--color: hsl(0 0% 80%);
+	background: transparent;
+	border-radius: 9999px;
+	bottom: 2rem;
+	box-shadow: 0 10px 20px -5px hsl(0 0% 0% / 0.85);
+	color: var(--color);
+	display: flex;
 	height: var(--size);
-	grid-template-columns: 1fr var(--extended);
+	outline: 4px solid transparent;
+	outline-offset: -4px;
 	overflow: hidden;
-	box-shadow: inset 0 1px hsl(0 0% 100% / 0.5);
+	place-items: center;
+	position: fixed;
+	right: 2rem;
 	transform-origin: 100% 100%;
-	animation: squish, scale-up, flicker;
+	transition: outline-color 0.2s, outline-offset 0.2s;
+	width: var(--size);
+}
+
+.cta:is(:hover, :focus-visible) {
+	outline-color: hsl(275 80% 50% / 0.65);
+	outline-offset: 0;
+}
+
+.cta::before {
+	background: var(--bg);
 	border: var(--border) solid transparent;
-	background:
-		linear-gradient(hsl(0 0% 50%), hsl(0 0% 25%)) padding-box,
-		linear-gradient(90deg, transparent, red, transparent) -150% 50% / 300% 100% border-box no-repeat,
-		linear-gradient(hsl(0 0% 50%), hsl(0 0% 50%)) border-box;
-	scale: 2;
-	animation-fill-mode: both;
-	animation-timing-function: linear;
-	animation-timeline: scroll(root);
-	animation-range: 0 50vh, 60vh 70vh, 80vh 100vh;
+	border-radius: 9999px;
+	content: "";
+	inset: 0;
+	position: absolute;
+	z-index: -1;
 }
 
-@keyframes squish {
-	to {
-		grid-template-columns: 1fr 0fr;
-	}
-}
-
-@keyframes scale-up {
-	to {
-		scale: 1;
-	}
-}
-
-@keyframes flicker {
-	to{
-		background-position: 50% 50%, 150% 50%, 50% 50%;
-	}
+.cta::after {
+	background: linear-gradient(
+		110deg,
+		hsl(0 0% 30%) 50%,
+		hsl(30 80% 50%),
+		hsl(40 80% 50%),
+		hsl(110 80% 50%),
+		hsl(170 80% 50%),
+		hsl(240 80% 50%),
+		hsl(280 80% 50%),
+		hsl(320 80% 50%)
+	) 0% 50% / 200% 100% border-box;
+	border: var(--border) solid transparent;
+	border-radius: 9999px;
+	box-shadow: 0 1px hsl(0 0% 100% / 0.75) inset;
+	content: "";
+	inset: 0;
+	mask:
+  	linear-gradient(#0000, #0000),
+  	linear-gradient(#fff, #fff);
+  mask-clip: padding-box, border-box;
+  mask-composite: intersect;
+	position: absolute;
+	z-index: 4;
 }
 
 .icon {
-	width: calc(var(--size) - (2 * var(--border)));
 	aspect-ratio: 1;
 	border-radius: 50%;
 	display: grid;
 	place-items: center;
+	width: var(--size);
+}
+
+/* Glimmer over the top */
+.icon::before {
+	box-shadow: 0 1px hsl(0 0% 100% / 0.75) inset;
+	background: linear-gradient(170deg, hsl(0 0% 100% / 0.2) 39.5%, transparent 40%) padding-box;
+	border: 2px solid transparent;
+	border-radius: 9999px;
+	content: "";
+	inset: 0;
+	position: absolute;
+	z-index: 5;
+}
+
+.icon::after {
+	background: var(--bg);
+	bottom: var(--border);
+	border-radius: 9999px;
+	content: "";
+	left: var(--border);
+	position: absolute;
+	right: var(--border);
+	top: var(--border);
+	mask: radial-gradient(100% 100% at 0% 75%, transparent calc(100% - (var(--size) * 0.15)), white) 100% 50% / 48px 100% no-repeat;
+	z-index: 2;
 }
 
 .icon svg {
-	width: 50%;
-	translate: -10% 0;
 	overflow: visible !important;
+	translate: -10% 0;
+	width: 50%;
 }
 
 .text {
-	white-space: nowrap;
+	left: var(--size);
 	position: absolute;
-	left: calc(var(--size) - var(--border));
 	text-align: center;
-/*	padding-left: 0.5rem;*/
+	white-space: nowrap;
 }
 
-.cta:hover {
-	grid-template-columns: 1fr 0fr;
-}
-
-.cta:hover .text {
+/* All your CSS animation stuff goes here */
+@supports(animation-timeline: scroll()) {
+	@media(prefers-reduced-motion: no-preference) {
+		/*	Scrub a custom property to scale the width down	*/
+		@property --scrub {
+		  syntax: '<number>';
+		  inherits: true;
+		  initial-value: 0;
+		}
+		body {
+			animation: scrub both steps(1);
+			animation-timeline: scroll(root);
+			animation-range: 0vh 10vh;
+		}
+		.icon svg {
+			animation: wave both linear 2;
+			animation-timeline: scroll(root);
+			animation-range: 30vh 50vh;
+			transform-origin: 65% 75%;
+		}
+		.cta {
+			animation: shrink;
+			animation-fill-mode: both;
+			animation-timing-function: linear;
+			animation-timeline: scroll(root);
+			animation-range: 70vh 100vh;
+			scale: var(--starting-scale);
+			transition: --scrub 0.2s;
+			width: calc(var(--size) + (var(--extended) * (1 - (var(--scrub) / 100))));
+		}
+		.cta::after {
+			animation: flicker both linear;
+		  animation-timeline: scroll(root);
+		  animation-range: 70vh 100vh;
+		}
+		nav {
+			animation: shade both linear;
+			animation-timeline: scroll(root);
+			animation-range: 0 25vh;
+		}
+		.nav__content {
+			display: block;
+			position: absolute;
+			left: 50%;
+			width: var(--content-width);
+			max-width: 100%;
+			padding: 1rem;
+			translate: -50% -100%;
+			animation: drop both linear;
+			animation-timeline: scroll(root);
+			animation-range: 30vh 55vh;
+		}
+		@keyframes drop {
+			to {
+				translate: -50% 0;
+			}
+		}
+		@keyframes shade {
+			to {
+				background: hsl(0 0% 8%);
+				box-shadow: 0 10px 20px -5px black;
+			}
+		}
+		@keyframes wave {
+			50% {
+				rotate: 20deg;
+			}
+		}
+		@keyframes shrink {
+			to {
+				scale: 1;
+			}
+		}
+		/*	Scroll triggered prop for CTA width	*/
+		@keyframes scrub {
+			to {
+				--scrub: 100;
+			}
+		}
+		@keyframes flicker {
+			to {
+				background-position: 200% 50%;
+			}
+		}
+	}
 }
