@@ -1,0 +1,146 @@
+@import "normalize.css";
+
+@font-face {
+  font-family: "Geist Sans";
+  src: url("https://assets.codepen.io/605876/GeistVF.ttf") format("truetype");
+}
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+:root {
+	--line: hsl(0 0% 95% / 0.25);
+	--ease: linear(
+    0, 0.0039, 0.0157, 0.0352, 0.0625 9.09%,
+    0.1407, 0.25, 0.3908, 0.5625, 0.7654, 1,
+    0.8907, 0.8125 45.45%, 0.7852, 0.7657,
+    0.7539, 0.75, 0.7539, 0.7657, 0.7852,
+    0.8125 63.64%, 0.8905, 1 72.73%, 0.9727,
+    0.9532, 0.9414, 0.9375, 0.9414, 0.9531,
+    0.9726, 1, 0.9883, 0.9844, 0.9883, 1
+  );
+  --ease: 
+    linear( 0, 0.0009 8.51%, -0.0047 19.22%, 0.0016 22.39%, 0.023 27.81%,
+       0.0237 30.08%, 0.0144 31.81%, -0.0051 33.48%, -0.1116 39.25%, -0.1181 40.59%,
+       -0.1058 41.79%, -0.0455, 0.0701 45.34%, 0.9702 55.19%, 1.0696 56.97%,
+       1.0987 57.88%, 1.1146 58.82%, 1.1181 59.83%, 1.1092 60.95%, 1.0057 66.48%,
+       0.986 68.14%, 0.9765 69.84%, 0.9769 72.16%, 0.9984 77.61%, 1.0047 80.79%,
+       0.9991 91.48%, 1 );
+}
+
+body {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	font-family:  "Geist Sans", "SF Pro Text", "SF Pro Icons", "AOS Icons", "Helvetica Neue", Helvetica, Arial, sans-serif, system-ui;
+	font-weight: 80;
+	background: hsl(0 0% 8%);
+}
+
+body::before {
+	content: "";
+	height: 100vh;
+	width: 100vw;
+	position: fixed;
+	background:
+		linear-gradient(90deg, var(--line) 1px, transparent 1px 10vmin) 0 -5vmin / 10vmin 10vmin,
+		linear-gradient(var(--line) 1px, transparent 1px 10vmin) 0 -5vmin / 10vmin 10vmin;
+	mask: linear-gradient(-15deg, transparent 30%, white);
+	top: 0;
+	z-index: -1;
+}
+
+#app {
+	display: grid;
+	place-items: center;
+	gap: 4rem;
+}
+
+h2 {
+	font-weight: 160;
+}
+
+[aria-hidden="true"] {
+	user-select: none;
+	pointer-events: none;
+}
+
+[type=range] {
+	accent-color: var(--line);
+}
+
+.counter {
+	padding: 1rem 2rem;
+	border: 1px solid var(--line);
+	background: hsl(0 0% 10%);
+	border-radius: 12px;
+}
+
+fieldset .sr-only {
+	position: absolute;
+	font-size: var(--font-size);
+	line-height: var(--line-height);
+	z-index: 2;
+	letter-spacing: 2px;
+	font-variant: tabular-nums;
+	color: transparent;
+}
+
+fieldset {
+	--mask-size: 0.25;
+	--font-size: clamp(2rem, 4vw + 1rem, 8rem);
+	--line-height: calc(var(--font-size) * 1.5);
+	padding: 0;
+}
+
+legend {
+	color: hsl(20 80% 50%);
+	border: 0;
+	font-weight: 120;
+	font-size: calc(var(--font-size) * 0.25);
+}
+
+fieldset {
+	margin: 0;
+	border: 0;
+}
+
+.character {
+	display: grid;
+	height: 1lh;
+	line-height: var(--line-height);
+	font-variant: tabular-nums;
+	font-size: var(--font-size);
+	overflow: hidden;
+	mask: linear-gradient(transparent, white calc(1lh * var(--mask-size)) calc(100% - (1lh * var(--mask-size))), transparent);
+}
+
+.character__track span {
+	height: 1lh;
+	font-weight: 120;
+}
+
+.character,
+.character__track span {
+	background: linear-gradient(hsl(0 0% 98%) 50%, hsl(0 0% 45%));
+	background-clip: text;
+	color: transparent;
+}
+
+.character {
+	font-weight: 20;
+}
+
+.character__track {
+	display: grid;
+	translate: 0 calc((var(--v) + 1) * -1lh);
+	transition: translate calc(var(--transition) * 1s) var(--ease);
+}
+
+.characters {
+	display: flex;
+	gap: 2px;
+}
