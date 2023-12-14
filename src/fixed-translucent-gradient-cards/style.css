@@ -1,0 +1,212 @@
+@import "normalize.css";
+
+@font-face {
+  font-family: "Geist Sans";
+  src: url("https://assets.codepen.io/605876/GeistVF.ttf") format("truetype");
+}
+
+:root {
+	--bg: hsl(246 44% 7%);
+	--border: hsl(280 10% 50% / 1);
+	--card: hsl(237 36% 10%);
+	--color: hsl(240 18% 80%);
+	--border-width: 2px;
+	--border-radius: 12px;
+	--gradient: conic-gradient(from 180deg at 50% 70%,hsla(0,0%,98%,1) 0deg,#eec32d 72.0000010728836deg,#ec4b4b 144.0000021457672deg,#709ab9 216.00000858306885deg,#4dffbf 288.0000042915344deg,hsla(0,0%,98%,1) 1turn);
+}
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+@property --start {
+	syntax: '<number>';
+	inherits: true;
+	initial-value: 0;
+}
+
+body {
+	background: var(--bg);
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	font-family:  "Geist Sans", "SF Pro Text", "SF Pro Icons", "AOS Icons", "Helvetica Neue", Helvetica, Arial, sans-serif, system-ui;
+	font-weight: 70;
+	color: var(--color);
+}
+
+.container {
+	--spread: 60;
+	display: flex;
+	flex-wrap: wrap;
+  flex-direction: var(--direction);
+	gap: calc(var(--gap) * 1px);
+	margin: 0 auto;
+	justify-content: center;
+	place-items: center;
+	position: relative;
+	padding: 2rem;
+}
+
+article {
+	--active: 0.15;
+	--start: 0;
+	height: 100%;
+	background: var(--card);
+	padding: 2rem;
+	aspect-ratio: 330 / 400;
+	border-radius: var(--border-radius);
+	min-width: 280px;
+	max-width: 280px;
+	display: flex;
+	flex-direction: column;
+	gap: 0.25rem;
+	position: relative;
+}
+
+article:is(:hover, :focus-visible) {
+  z-index: 2;
+}
+
+.glows {
+	pointer-events: none;
+	position: absolute;
+	inset: 0;
+	filter: blur(calc(var(--blur) * 1px));
+}
+
+.glows::after,
+.glows::before {
+  --alpha: 0;
+  content: "";
+  background: var(--gradient);
+  background-attachment: fixed;
+  position: absolute;
+	inset: -5px;
+  border: 10px solid transparent;
+  border-radius: var(--border-radius);
+  mask:
+  	linear-gradient(#0000, #0000),
+  	conic-gradient(from calc((var(--start) - (var(--spread) * 0.5)) * 1deg), #000 0deg, #fff, #0000 calc(var(--spread) * 1deg));
+  mask-composite: intersect;
+  mask-clip: padding-box, border-box;
+  opacity: var(--active);
+  transition: opacity 1s;
+}
+
+article::before {
+	position: absolute;
+	inset: 0;
+	border: var(--border-width) solid transparent;
+	content: "";
+	border-radius: var(--border-radius);
+	pointer-events: none;
+	background: var(--border);
+  background-attachment: fixed;
+  border-radius: var(--border-radius);
+  mask:
+  	linear-gradient(#0000, #0000),
+  	conic-gradient(
+  		from calc(((var(--start) + (var(--spread) * 0.25)) - (var(--spread) * 1.5)) * 1deg),
+  		hsl(0 0% 100% / 0.15) 0deg,
+  		white,
+  		hsl(0 0% 100% / 0.15) calc(var(--spread) * 2.5deg));
+  mask-clip: padding-box, border-box;
+  mask-composite: intersect;
+  opacity: var(--active);
+  transition: opacity 1s;
+}
+
+article::after {
+	--bg-size: 100%;
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  background: var(--gradient);
+  background-attachment: fixed;
+  border-radius: var(--border-radius);
+  opacity: var(--active, 0);
+  transition: opacity 1s;
+  --alpha: 0;
+  inset: 0;
+  border: var(--border-width) solid transparent;
+  mask:
+  	linear-gradient(#0000, #0000),
+  	conic-gradient(from calc(((var(--start) + (var(--spread) * 0.25)) - (var(--spread) * 0.5)) * 1deg), #0000 0deg, #fff, #0000 calc(var(--spread) * 0.5deg));
+  filter: brightness(1.5);
+  mask-clip: padding-box, border-box;
+  mask-composite: intersect;
+}
+
+.badge {
+	border: 2px solid var(--border);
+	align-self: start;
+	border-radius: 100px;
+	padding: 0.5rem 0.7rem;
+	font-size: 0.675rem;
+	display: flex;
+	align-items: center;
+	gap: 0.25rem;
+	font-weight: 50;
+}
+
+a {
+	color: var(--color);
+	text-decoration: none;
+	opacity: 0.5;
+	display: inline-block;
+	align-self: start;
+	transition: opacity 0.2s;
+}
+
+a:is(:hover, :focus-visible) {
+	opacity: 1;
+}
+
+article h2 {
+	margin: 0;
+	padding: 1rem 0;
+	font-weight: 100;
+	font-size: 1.5rem;
+}
+
+.header {
+	position: relative;
+	flex: 1;
+	display: flex;
+	align-items: center;
+}
+
+.header svg {
+	--count: 4;
+	width: 106px;
+}
+
+.header svg:nth-of-type(2),
+.header svg:nth-of-type(3),
+.header svg:nth-of-type(4) {
+	position: absolute;
+	z-index: calc(var(--count) - var(--index));
+	translate: calc(var(--index) * 30%) 0;
+	opacity: calc(var(--count) / (2 * (var(--index) * 10)));
+}
+
+.header svg:nth-of-type(2) {
+	--index: 1;
+}
+.header svg:nth-of-type(3) {
+	--index: 2;
+}
+.header svg:nth-of-type(4) {
+	--index: 3;
+}
+
+.badge svg {
+	width: 16px;
+}
+
+.dg.ac {
+  z-index: 99999 !important;
+}
