@@ -1,0 +1,268 @@
+@import "normalize.css";
+
+@font-face {
+  font-family: "Geist Sans";
+  src: url("https://assets.codepen.io/605876/GeistVF.ttf") format("truetype");
+}
+
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --color: hsl(0 0% 90%);
+  --bg: hsl(0 0% 0%);
+  --text: linear-gradient(hsl(0 0% 100%), hsl(0 0% 60%));
+  --active-bg: hsl(0 0% 6%);
+  --active-outline: hsl(0 0% 25%);
+  --active-control: hsl(0 0% 25%);
+  --placeholder: hsl(0 0% 40%);
+  --outline: hsl(0 0% 20%);
+  --selection: hsl(0 0% 40%);
+}
+
+a {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  width: 48px;
+  aspect-ratio: 1;
+  border-radius: 0.5rem;
+}
+
+body {
+  display: grid;
+  min-height: 100vh;
+  place-items: center;
+  background: var(--bg);
+  font-family: "Geist Sans", sans-serif;
+  font-weight: 80;
+}
+
+body::before {
+	--line: hsl(0 0% 95% / 0.15);	
+	--cell: 80px;
+	content: "";
+	height: 100vh;
+	width: 100vw;
+	position: fixed;
+	background:
+		linear-gradient(90deg, var(--line) 1px, transparent 1px var(--cell)) 0 calc(var(--cell) * -0.5) / var(--cell) var(--cell),
+		linear-gradient(var(--line) 1px, transparent 1px var(--cell)) 0 calc(var(--cell) * -0.5) / var(--cell) var(--cell);
+	mask: linear-gradient(-15deg, transparent 30%, white);
+	top: 0;
+	z-index: -1;
+	transform: translate3d(0, 0, -100vmin);
+}
+
+button {
+	font-weight: 80;
+}
+
+
+#textarea {
+	font-weight: 80;
+  field-sizing: content;
+  background: transparent;
+  padding: 1rem 0;
+  min-height: 53px;
+  border: 0;
+  resize: none;
+  width: 100%;
+  outline: 1px solid transparent;
+  background: var(--text);
+  color: transparent;
+  background-clip: text;
+  caret-shape: underscore;
+  background-attachment: fixed;
+  caret-color: var(--color);
+  transition: all 0.2s;
+  line-height: 1.5lh;
+}
+
+.input-controls:is(:focus-within) {
+  background: var(--active-bg);
+  outline: 1px solid var(--active-outline);
+  box-shadow: 0 0.5px hsl(0 0% 100% / 1) inset;
+}
+
+::placeholder {
+  color: var(--placeholder);
+}
+
+.input-controls::selection {
+  background: var(--selection);
+  color: var(--color);
+}
+
+.actions {
+  display: grid;
+  grid-template-columns: repeat(4, auto) 1fr;
+  gap: 0.25rem;
+}
+
+button {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: var(--placeholder);
+  aspect-ratio: 1;
+  width: 44px;
+  display: grid;
+  place-items: center;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.2s, color 0.2s;
+}
+
+button:last-of-type {
+  justify-self: end;
+  width: fit-content;
+  padding: 0 1rem;
+  height: auto;
+  aspect-ratio: auto;
+  font-weight: 120;
+}
+
+button svg {
+  width: 50%;
+}
+
+.input-controls {
+  width: 40ch;
+  background: hsl(0 0% 0% / 0.65);
+  border: 2px solid var(--outline);
+  transition: outline 0.2s, background 0.2s, box-shadow 0.2s;
+  outline: 1px solid transparent;
+  box-shadow: 0 0.5px hsl(0 0% 100% / 0.75) inset;
+  font-weight: 300;
+  padding: 1rem;
+  position: absolute;
+  bottom: 50%;
+  border-radius: 12px;
+  color: hsl(0 0% 92%);
+/*  translate: 0 2lh;*/
+  min-height: 140px;
+  display: grid;
+}
+
+.input-controls::after {
+	pointer-events: none;
+	content: "";
+	position: absolute;
+	inset: -2px;
+	border-radius: 12px;
+	background:
+		radial-gradient(100px 100px at calc(var(--x) * 1px) calc(var(--y) * 1px), hsl(20 100% 50% / 0.75), transparent);
+	background-attachment: fixed;
+	z-index: 2;
+	border: 2px solid transparent;
+  mask:
+    linear-gradient(transparent, transparent),
+    linear-gradient(white, white);
+	mask-clip: padding-box, border-box;
+  mask-composite: intersect;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+button:is(:hover, :focus-visible) {
+  background: var(--active-control);
+  color: var(--color);
+}
+
+a {
+  color: var(--outline);
+  transition: background 0.2s, color 0.2s;
+  display: grid;
+  place-items: center;
+}
+
+a svg {
+  width: 50%;
+  fill: currentColor;
+}
+
+a:is(:hover, :focus-visible) {
+  background: var(--active-bg);
+  color: var(--color);
+}
+
+.controls {
+  position: fixed;
+  left: 1rem;
+  top: 1rem;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.5rem 2rem;
+  align-items: center;
+  justify-items: start;
+}
+
+[type=range]::-webkit-slider-runnable-track  {
+  background: linear-gradient(var(--outline), var(--outline)) 0 50% / 100% 4px no-repeat, transparent;
+  opacity: 1;
+}
+
+label {
+  color: var(--color);
+}
+
+[type=range] {
+  accent-color: hsl(0 0% 50%);
+  background: transparent;
+  appearance: none;
+}
+
+[type=checkbox] {
+  accent-color: hsl(0 0% 50%);
+}
+
+[type=checkbox]:nth-of-type(2):not(:checked) ~ * {
+  opacity: 0.2;
+}
+
+[type=checkbox] ~ * {
+  transition: opacity 0.2s;
+}
+
+:root:has(#constrain:checked):not(:has(#horizontal:checked)) #textarea {
+  min-height: calc(var(--min) * 1lh);
+  max-height: calc(var(--max) * 1lh);
+}
+
+:root:has(#horizontal:checked) #textarea {
+	width: auto;
+}
+:root:has(#horizontal:checked) .input-controls {
+	width: auto;
+	min-width: 40ch;
+}
+:root:has(#horizontal:checked):has(#constrain:checked) :is(.input-controls, #textarea) {
+	min-width: calc(max(40,var(--min)) * 1ch);
+	max-width: calc(var(--max) * 1ch);
+}
+
+#textarea::-webkit-scrollbar-track {
+  background: transparent;
+}
+#textarea::-webkit-scrollbar-thumb {
+  background: hsl(0 0% 40%);
+  border-radius: 999px;
+}
+#textarea::-webkit-scrollbar {
+  height: 8px;
+  width: 4px;
+  background: transparent;
+}
