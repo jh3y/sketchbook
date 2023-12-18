@@ -1,0 +1,178 @@
+@import "normalize.css";
+
+@font-face {
+  font-family: "Geist Sans";
+  src: url("https://assets.codepen.io/605876/GeistVF.ttf") format("truetype");
+}
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;;
+	font-family:  "Geist Sans", "SF Pro Text", "SF Pro Icons", "AOS Icons", "Helvetica Neue", Helvetica, Arial, sans-serif, system-ui;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  background-color: hsl(0 0% 2%);
+  color: hsl(0 0% 90%);
+  font-weight: 60;
+}
+
+body::before {
+	content: "";
+  background-image: url("https://assets.codepen.io/605876/code-icon-bg.svg");
+  position: fixed;
+  inset: 0;
+  filter: grayscale(1);
+  opacity: 0.25;
+}
+
+/* Glow specific styles */
+[data-glow] {
+	--border: var(--border-width, 2px);
+	--size: var(--spotlight, 150px);
+	--hue: calc(var(--base) + (var(--xp) * var(--spread, 0)));
+  background: radial-gradient(
+    var(--size) var(--size) at
+    calc(var(--x) * 1px)
+    calc(var(--y) * 1px),
+    hsl(var(--hue, 210) 100% 70% / var(--glow-opacity, 0.1)), transparent
+  ), var(--backdrop, transparent);
+  background-attachment: fixed;
+  border: var(--border) solid hsl(0 0% 100% / 0.1);
+  position: relative;
+}
+
+[data-glow]:is(a, button) {
+	--backdrop: black;
+	--glow-opacity: 0.5;
+	border-radius: 16px;
+	border: 4px solid hsl(0 0% 100% / 0);
+}
+
+[data-glow]::before {
+  pointer-events: none;
+  content: "";
+  position: absolute;
+  inset: calc(var(--border) * -1);
+  border: var(--border) solid transparent;
+  border-radius: 16px;
+  background: radial-gradient(
+    calc(var(--size) * 1) calc(var(--size) * 1) at
+    calc(var(--x) * 1px)
+    calc(var(--y) * 1px),
+    hsl(var(--hue, 210) 100% 50% / 1), transparent 100%
+  );
+  background-attachment: fixed;
+  mask:
+    linear-gradient(transparent, transparent),
+    linear-gradient(white, white);
+  mask-clip: padding-box, border-box;
+  mask-composite: intersect;
+  z-index: 2;
+  filter: brightness(2.5);
+}
+[data-glow]::after {
+  pointer-events: none;
+  content: "";
+  position: absolute;
+  inset: calc(var(--border) * -1);
+  border: var(--border) solid transparent;
+  border-radius: 16px;
+  background: radial-gradient(
+    calc(var(--size) * 0.5) calc(var(--size) * 0.5) at
+    calc(var(--x) * 1px)
+    calc(var(--y) * 1px),
+    hsl(0 100% 100% / 1), transparent 100%
+  );
+  background-attachment: fixed;
+  mask:
+    linear-gradient(transparent, transparent),
+    linear-gradient(white, white);
+  mask-clip: padding-box, border-box;
+  mask-composite: intersect;
+  z-index: 4;
+}
+
+[data-glow] [data-glow]:not(:is(button, a)) {
+	position: absolute;
+	inset: 0;
+	border-radius: 16px;
+	border-width: calc(var(--border) * 10);
+	filter: brightness(2) blur(50px);
+	background: none;
+	pointer-events: none;
+}
+
+[data-glow] [data-glow] {
+	border: none;
+}
+
+
+/* Base styling goes here... */
+article:nth-of-type(1) {
+  --base: 300;
+  --spread: 200;
+  --border-width: 2px;
+}
+article:nth-of-type(2) {
+  --base: 320;
+  --spread: 0;
+}
+article:nth-of-type(3) {
+  --base: 130;
+  --spread: 0;
+}
+article:nth-of-type(4) {
+  --base: 230;
+  --spread: 0;
+}
+
+article {
+  aspect-ratio: 3 / 4;
+  border-radius: 16px;
+  width: 240px;
+  position: relative;
+	grid-template-rows: 1fr auto;
+  box-shadow: 0 1rem 2rem -1rem black;
+  padding: 1rem;
+  display: grid;
+  gap: 1rem;
+  backdrop-filter: blur(10px);
+}
+
+main {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  width: 70ch;
+  max-width: calc(100vw - 2rem);
+}
+article a {
+	display: inline-block;
+	color: white;
+	text-decoration: none;
+	font-weight: 140;
+	text-align: center;
+	padding: 1rem 2rem;
+	background: black;
+}
+
+h2 {
+	font-weight: 120;
+}
