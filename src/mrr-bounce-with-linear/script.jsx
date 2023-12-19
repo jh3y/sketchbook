@@ -6,23 +6,50 @@ const ROOT_NODE = document.querySelector('#app')
 
 const CONFIG = {
   min: 0,
-  max: 2000,
+  max: 20000,
   step: 0.01,
-  default: 1010,
-  pad: false,
+  value: 12010.0,
+  pad: true,
   explode: false,
   ease: 'elastic.inOut',
   transition: 2,
+  currency: 'USD',
+  ease: 'elastic',
+  easeOptions: [
+    'back',
+    'basic',
+    'bounce',
+    'circ',
+    'elastic',
+    'expo',
+    'power',
+    'sine',
+  ],
+  currencyOptions: ['USD', 'GBP', 'EUR'],
 }
 
-const formatter = new Intl.NumberFormat('en-US', {
-  style: 'currency',
-  currency: 'USD',
-})
+const FORMATTERS = {
+  USD: new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+  }),
+  GBP: new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'GBP',
+  }),
+  EUR: new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'EUR',
+  }),
+  YEN: new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'YEN',
+  }),
+}
 
-const Character = ({ key, value }) => {
+const Character = ({ className, key, value }) => {
   return (
-    <span className="character">
+    <span data-value={value} className={`character ${className || ''}`}>
       <span className="character__track" style={{ '--v': value }}>
         <span>9</span>
         {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((val, index) => {
@@ -34,25 +61,27 @@ const Character = ({ key, value }) => {
   )
 }
 
-const Counter = ({ pad, value }) => {
-  console.info({
-    pad,
-    value,
-    m: CONFIG.max.toFixed(2),
-    v: value.toFixed(2),
-    padCount:
-      CONFIG.max.toFixed(2).toString().length -
-      value.toFixed(2).toString().length,
-  })
+const Counter = ({ currency, pad, value }) => {
+  const padCount = pad
+    ? CONFIG.max.toFixed(2).toString().length - value.toString().length
+    : 0
 
-  const renderValue = formatter.format(value)
+  const paddedValue = value
+    .toString()
+    .padStart(value.toString().length + padCount, '1')
 
-  const padCount = pad ? CONFIG.max.toFixed(2).toString().length -
-      value.toFixed(2).toString().length : 0
-  
-  const renderParts = formatter.formatToParts(value)
-
-  console.info({ renderParts })
+  let i = 0
+  const renderValue = FORMATTERS[currency]
+    .format(paddedValue)
+    .split('')
+    .map((character, index) => {
+      if (!isNaN(parseInt(character, 10)) && i < padCount) {
+        i++
+        return '0'
+      }
+      return character
+    })
+    .join('')
 
   return (
     <div className="counter">
@@ -61,25 +90,22 @@ const Counter = ({ pad, value }) => {
         <h2>
           <span className="sr-only">{renderValue}</span>
           <span aria-hidden="true" className="characters">
-            {renderParts.map((part, index) => {
-              // if "integer" or "fraction", render split number and pad if necessary
-              if (part.type !== 'fraction' && part.type !== 'integer') {
+            {renderValue.split('').map((character, index) => {
+              if (isNaN(parseInt(character, 10)))
                 return (
-                  <span className="character character--symbol" key={index}>
-                    {part.value}
+                  <span key={index} className="character character--symbol">
+                    {character}
                   </span>
                 )
-              }
-              // Here pad out the value if the padCount exists
-              let val = part.value
-              console.info({ pad, index})
-              if (pad && index === 1) {
-                val = val.toString().padStart(padCount + val.length, '0')
-                console.info({ val })
-              }
-              return val.split('').map((digit, index) => {
-                return <Character key={index} value={digit} />
-              })
+              return (
+                <Character
+                  key={index}
+                  value={character}
+                  className={
+                    index > renderValue.split('').length - 3 ? 'fraction' : ''
+                  }
+                />
+              )
             })}
           </span>
         </h2>
@@ -89,61 +115,90 @@ const Counter = ({ pad, value }) => {
 }
 
 const App = () => {
-  const [value, setValue] = React.useState(CONFIG.default)
+  const [value, setValue] = React.useState(CONFIG.value.toFixed(2))
   // Create state and refs for the controller
   const [max, setMax] = React.useState(CONFIG.max)
   const [min, setMin] = React.useState(CONFIG.min)
   const [step, setStep] = React.useState(CONFIG.step)
   const [pad, setPad] = React.useState(CONFIG.pad)
+  const [currency, setCurrency] = React.useState(CONFIG.currency)
   // const [pad, setPad] = React.useState(CONFIG.pad)
   const minController = React.useRef(null)
   const maxController = React.useRef(null)
   const stepController = React.useRef(null)
   const padController = React.useRef(null)
   const transitionController = React.useRef(null)
+  const currencyController = React.useRef(null)
+  const valueController = React.useRef(null)
+  const easeController = React.useRef(null)
   React.useEffect(() => {
     const UPDATE = () => {
       minController.current.max(CONFIG.max - 1)
       maxController.current.min(CONFIG.min + 1)
       stepController.current.max(CONFIG.max)
+      valueController.current.max(CONFIG.max)
+      valueController.current.min(CONFIG.min)
+      valueController.current.step(CONFIG.step)
       setMin(CONFIG.min)
       setMax(CONFIG.max)
       setStep(CONFIG.step)
       setPad(CONFIG.pad)
+      setCurrency(CONFIG.currency)
+      setValue(CONFIG.value.toFixed(2))
       document.documentElement.style.setProperty(
         '--transition',
         CONFIG.transition
       )
+      document.documentElement.style.setProperty(
+        '--ease',
+        `var(--${CONFIG.ease})`
+      )
     }
     // Set up the controller.
     const CTRL = new GUI({ width: 320 })
-    minController.current = CTRL.add(CONFIG, 'min', 0, CONFIG.max - 1, 1)
+    const valueFolder = CTRL.addFolder('Config')
+    minController.current = valueFolder.add(CONFIG, 'min', 0, CONFIG.max - 1, 1)
       .name('Min')
       .onChange(UPDATE)
-    maxController.current = CTRL.add(CONFIG, 'max', CONFIG.min + 1, 10000, 1)
+    maxController.current = valueFolder.add(CONFIG, 'max', CONFIG.min + 1, 1000000, 1)
       .name('Max')
       .onChange(UPDATE)
-    stepController.current = CTRL.add(CONFIG, 'step', 0.01, CONFIG.max, 0.01)
+    stepController.current = valueFolder.add(CONFIG, 'step', 0.01, CONFIG.max, 0.01)
       .name('Step')
       .onChange(UPDATE)
-    padController.current = CTRL.add(CONFIG, 'pad').name('Pad').onChange(UPDATE)
+    padController.current = valueFolder.add(CONFIG, 'pad').name('Pad').onChange(UPDATE)
+    currencyController.current = valueFolder.add(
+      CONFIG,
+      'currency',
+      CONFIG.currencyOptions
+    )
+      .name('Currency')
+      .onChange(UPDATE)
     transitionController.current = CTRL.add(CONFIG, 'transition', 0, 5, 0.05)
       .name('Transition (s)')
       .onChange(UPDATE)
+    easeController.current = CTRL.add(CONFIG, 'ease', CONFIG.easeOptions)
+      .name('Easing')
+      .onChange(UPDATE)
+    valueController.current = CTRL.add(
+      CONFIG,
+      'value',
+      CONFIG.min,
+      CONFIG.max,
+      CONFIG.step
+    )
+      .name('Value')
+      .onChange(UPDATE)
+    CTRL.add(CONFIG, 'explode').name('Explode?').onChange(() => {
+      document.documentElement.toggleAttribute('data-explode')
+    })
     UPDATE()
   }, [])
 
   return (
     <>
-      <Counter pad={pad} value={value} />
-      <input
-        onInput={(event) => setValue(parseInt(event.target.value, 10))}
-        type="range"
-        min={min}
-        max={max}
-        step={step}
-        value={value}
-      />
+      <Counter pad={pad} value={value} currency={currency} />
+      <Counter pad={pad} value={value} currency={currency} />
     </>
   )
 }
