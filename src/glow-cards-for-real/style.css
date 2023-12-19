@@ -5,13 +5,19 @@
   src: url("https://assets.codepen.io/605876/GeistVF.ttf") format("truetype");
 }
 
+:root {
+	--backdrop: hsl(0 0% 60% / 0.15);
+  --radius: 12px;
+}
+
 *,
 *:after,
 *:before {
 	box-sizing: border-box;
-  transform-style: preserve-3d;
 }
-
+.wrapper {	
+	transform-style: preserve-3d;
+}
 body {
 	display: grid;
 	place-items: center;
@@ -32,6 +38,10 @@ body {
   font-weight: 60;
 }
 
+.wrapper {
+	position: relative;
+}
+
 body::before {
 	content: "";
   background-image: url("https://assets.codepen.io/605876/code-icon-bg.svg");
@@ -48,12 +58,15 @@ body::before {
 	--size: var(--spotlight, 150px);
 	--hue: calc(var(--base) + (var(--xp, 0) * var(--spread, 0)));
   --glow-opacity: 0.1;
-  background: radial-gradient(
+  background-image: radial-gradient(
     var(--size) var(--size) at
     calc(var(--x, 0) * 1px)
     calc(var(--y, 0) * 1px),
     hsl(var(--hue, 210) calc(var(--saturation, 100) * 1%) calc(var(--lightness, 70) * 1%) / var(--glow-opacity, 0.1)), transparent
-  ), var(--backdrop, transparent);
+  );
+  background-color: var(--backdrop, transparent);
+  background-size: calc(100% + (2 * var(--border))) calc(100% + (2 * var(--border)));
+  background-position: 50% 50%;
   background-attachment: fixed;
   border: var(--border) solid hsl(0 0% 100% / 0.1);
   position: relative;
@@ -116,6 +129,14 @@ body::before {
 	pointer-events: none;
 }
 
+[data-explode] [data-glow]::before,
+[data-explode] [data-glow]::after,
+[data-explode] [data-glow] {
+/*	filter: none;*/
+/*  mask: none !important;*/
+	--glow-opacity: 0.5;
+}
+
 [data-glow] > [data-glow]:not(:is(button, a))::before {
   border-width: calc(var(--border) * 10);
   inset: calc(var(--border) * -10);
@@ -138,8 +159,6 @@ body::before {
 }
 
 article {
-  --backdrop: hsl(0 0% 60% / 0.15);
-  --radius: 12px;
   aspect-ratio: 3 / 4;
   border-radius: var(--radius);
   width: 260px;
@@ -159,6 +178,7 @@ main {
   justify-content: center;
   width: 120ch;
   max-width: calc(100vw - 2rem);
+  position: relative;
 }
 article a {
   background: hsl(0 0% 0%);
@@ -168,6 +188,7 @@ article a {
 	font-weight: 140;
 	text-align: center;
 	padding: 0.75rem 1.5rem;
+	position: relative;
 }
 h2 {
 	font-weight: 100;
@@ -212,18 +233,19 @@ h2 {
   --index: 3;
 }
 
-[data-explode] main {
+/*[data-explode] main {
   transition: transform 1s;
   transform: translate3d(0, 0, 100vmin) rotateX(-24deg) rotateY(-40deg);
-}
+}*/
 
+/* Make sure you offset the glow when in 3D mode with the offset provided from JS land */
 [data-explode] [data-glow] {
-  background: radial-gradient(
+  background-image: radial-gradient(
     var(--size) var(--size) at
     calc((var(--x, 0) - var(--left, 0)) * 1px)
     calc((var(--y, 0) - var(--top, 0)) * 1px),
     hsl(var(--hue, 210) calc(var(--saturation, 100) * 1%) calc(var(--lightness, 70) * 1%) / var(--glow-opacity, 0.1)), transparent
-  ), var(--backdrop, transparent);
+  );
 }
 [data-explode] [data-glow]::before {
   background-image: radial-gradient(
@@ -232,8 +254,6 @@ h2 {
     calc((var(--y, 0) - var(--top, 0)) * 1px),
     hsl(var(--hue, 210) calc(var(--saturation, 100) * 1%) calc(var(--lightness, 50) * 1%) 1), transparent 100%
   );
-  z-index: 2;
-  filter: brightness(2);
 }
 [data-explode] [data-glow]::after {
   background-image: radial-gradient(
@@ -242,10 +262,145 @@ h2 {
     calc((var(--y, 0) - var(--top, 0)) * 1px),
     hsl(0 100% 100% / 1), transparent 100%
   );
-  z-index: 2;
 }
-
-
 .dg.ac {
   transform: translate3d(0, 0, 200vmin);
+}
+
+.wrapper {
+	position: relative;
+}
+
+.dummy {
+	--border: var(--border-width, 2px);
+	--size: var(--spotlight, 150px);
+	--hue: calc(var(--base) + (var(--xp, 0) * var(--spread, 0)));
+  --glow-opacity: 1;
+	position: absolute;
+	inset: 0;
+	transform-style: preserve-3d;
+	container-query: inline-size;
+	border-radius: var(--radius);
+/*	opacity: 0;*/
+}
+
+.dummy__backdrop {
+	border-radius: var(--radius);
+	position: absolute;
+	inset: 0;
+	background-image: radial-gradient(
+    var(--size) var(--size) at
+    calc((var(--x, 0) - var(--left, 0)) * 1px)
+    calc((var(--y, 0) - var(--top, 0)) * 1px),
+    hsl(var(--hue, 210) calc(var(--saturation, 100) * 1%) calc(var(--lightness, 70) * 1%) / var(--glow-opacity, 0.1)), transparent
+  );
+	background-color: var(--backdrop);
+	transform: translate3d(0, 0, 200px);
+}
+
+.dummy__backdrop::before {
+	content: "";
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	height: 200vmax;
+	width: 200vmax;
+	translate: -50% -50%;
+	background-image: radial-gradient(
+    var(--size) var(--size) at
+    calc(((var(--x, 0) - var(--left, 0)) * 1px) + 100vmax - 130px)
+    calc(((var(--y, 0) - var(--top, 0)) * 1px) + 100vmax - (260px * (3/4))),
+    hsl(var(--hue, 210) calc(var(--saturation, 100) * 1%) calc(var(--lightness, 70) * 1%) / var(--glow-opacity, 0.1)), transparent
+  );
+	z-index: -1;
+	opacity: 0.5;
+}
+.dummy__glow::after,
+.dummy__border::after {
+	content: "";
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	height: 200vmax;
+	width: 200vmax;
+	translate: -50% -50%;
+	background-image: radial-gradient(
+    calc(var(--size) * 0.75) calc(var(--size) * 0.75) at
+    calc(((var(--x, 0) - var(--left, 0)) * 1px) + 100vmax - 130px)
+    calc(((var(--y, 0) - var(--top, 0)) * 1px) + 100vmax - (260px * (3/4))),
+    hsl(var(--hue, 210) calc(var(--saturation, 100) * 1%) calc(var(--lightness, 70) * 1%) / var(--glow-opacity, 0.1)), transparent
+  );
+	z-index: -1;
+	opacity: 0.65;
+}
+
+.dummy__border, .dummy__glow {
+	position: absolute;
+	inset: 0;
+	transform: translate3d(0, 0, 400px);
+	border-radius: var(--radius);
+}
+
+.dummy__glow::before,
+.dummy__border::before {
+	content: "";
+	position: absolute;
+	background-image: radial-gradient(
+    calc(var(--size) * 0.75) calc(var(--size) * 0.75) at
+    calc((var(--x, 0) - var(--left, 0)) * 1px)
+    calc((var(--y, 0) - var(--top, 0)) * 1px),
+    hsl(var(--hue, 210) calc(var(--saturation, 100) * 1%) calc(var(--lightness, 50) * 1%) / 1), transparent 100%
+  );
+  background-color: var(--backdrop);
+  inset: calc(var(--border) * -1);
+  border: var(--border) solid transparent;
+  border-radius: var(--radius);
+  background-attachment: fixed;
+  background-size: calc(100% + (2 * var(--border))) calc(100% + (2 * var(--border)));
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  mask:
+    linear-gradient(transparent, transparent),
+    linear-gradient(white, white);
+  mask-clip: padding-box, border-box;
+  mask-composite: intersect;
+}
+
+.dummy__glow {
+	border-radius: var(--radius);
+	position: absolute;
+	inset: 0;
+	transform: translate3d(0, 0, 600px);
+}
+.dummy__glow::before {
+	background-image: radial-gradient(
+    calc(var(--size) * 0.5) calc(var(--size) * 0.5) at
+    calc((var(--x, 0) - var(--left, 0)) * 1px)
+    calc((var(--y, 0) - var(--top, 0)) * 1px),
+    hsl(0 100% 100% / 1), transparent 100%
+  );
+}
+.dummy__glow::after {
+	background-image: radial-gradient(
+    calc(var(--size) * 0.5) calc(var(--size) * 0.5) at
+    calc(((var(--x, 0) - var(--left, 0)) * 1px) + 100vmax - 130px)
+    calc(((var(--y, 0) - var(--top, 0)) * 1px) + 100vmax - (260px * (3/4))),
+    hsl(0 100% 100% / 1), transparent
+  );
+}
+.dummy > * {
+	transform-style: preserve-3d;
+	opacity: 0;
+}
+.dummy span {
+	display: inline-block;
+	position: absolute;
+	opacity: 0;
+	bottom: 0;
+	color: hsl(0 0% 80%);
+	font-weight: 20;
+	left: calc(100% + 4rem);
+	white-space: nowrap;
+	font-size: 1.25rem;
+	transform: rotateY(50deg) rotateX(24deg) translate(-50%, 50%);
 }
