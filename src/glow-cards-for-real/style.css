@@ -142,7 +142,7 @@ article {
   --radius: 12px;
   aspect-ratio: 3 / 4;
   border-radius: var(--radius);
-  width: 240px;
+  width: 260px;
   position: relative;
 	grid-template-rows: 1fr auto;
   box-shadow: 0 1rem 2rem -1rem black;

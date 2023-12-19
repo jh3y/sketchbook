@@ -11,7 +11,7 @@ const PHRASES = [
   'Wherever you go,<br/>the cursor follows',
   'Lean into CSS<br/>and the cascade',
   'One event listener powers it all',
-  'Wherever you go,<br/>the cursor follows',
+  'One HTML attribute,<br/>feel the glow',
 ]
 
 const PATHS = [
