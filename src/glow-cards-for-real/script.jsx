@@ -1,4 +1,5 @@
 import { GUI } from 'https://cdn.skypack.dev/dat.gui'
+import Color from 'https://cdn.skypack.dev/color'
 import gsap from 'https://cdn.skypack.dev/gsap'
 import { Flip } from 'gsap/Flip'
 import React from 'https://cdn.skypack.dev/react'
@@ -50,6 +51,8 @@ const useGlowPointer = () => {
 const App = () => {
   const setGlow = useGlowPointer()
   const controller = React.useRef(null)
+  const cardsFolder = React.useRef(null)
+  const sceneFolder = React.useRef(null)
   const explodingRef = React.useRef(null)
   const exploder = React.useRef(null)
   const busyRef = React.useRef(false)
@@ -59,8 +62,8 @@ const App = () => {
   const removeCard = React.useCallback(
     (id) => {
       if (explodingRef.current) return null
-      controller.current.removeFolder(
-        controller.current.__folders[`Card (${id})`]
+      cardsFolder.current.removeFolder(
+        cardsFolder.current.__folders[`Card (${id})`]
       )
       setCards((cards) => {
         return cards.filter((card) => card.id !== id)
@@ -75,14 +78,10 @@ const App = () => {
       if (cards.length === 4) return cards
       const newCard = {
         id: crypto.randomUUID(),
-        border: 2,
         spread: gsap.utils.random(0, 1000),
-        outer: false,
+        outer: true,
         control: false,
         base: gsap.utils.random(0, 359),
-        saturation: 100,
-        lightness: 50,
-        size: 150,
       }
       // Add a folder to the controller
       const CARD_CONFIG = {
@@ -101,32 +100,29 @@ const App = () => {
           })
         })
       }
-      const cardFolder = controller.current.addFolder(`Card (${newCard.id})`)
+      const newCardFolder = cardsFolder.current.addFolder(
+        `Card (${newCard.id})`
+      )
       // Add characteristics for each card here
-      cardFolder
+      newCardFolder
         .add(CARD_CONFIG, 'base', 0, 359, 1)
         .name('Base Hue')
         .onChange(UPDATE)
-      cardFolder
+      newCardFolder
         .add(CARD_CONFIG, 'spread', 0, 1000, 1)
         .name('Hue Spread')
         .onChange(UPDATE)
-      cardFolder
-        .add(CARD_CONFIG, 'border', 1, 5, 1)
-        .name('Border Width')
+      newCardFolder
+        .add(CARD_CONFIG, 'outer')
+        .name('Outer Glow')
         .onChange(UPDATE)
-      cardFolder
-        .add(CARD_CONFIG, 'size', 1, 250, 1)
-        .name('Spot Size')
-        .onChange(UPDATE)
-      cardFolder.add(CARD_CONFIG, 'outer').name('Outer Glow').onChange(UPDATE)
-      cardFolder
+      newCardFolder
         .add(CARD_CONFIG, 'control')
         .name('Control Glow')
         .onChange(UPDATE)
 
       // Add a way to remove the card
-      cardFolder.add(CARD_CONFIG, 'removeCard').name('Remove Card')
+      newCardFolder.add(CARD_CONFIG, 'removeCard').name('Remove Card')
 
       return [...cards, newCard]
     })
@@ -150,7 +146,6 @@ const App = () => {
 
             Flip.from(CARD_STATE, {
               onComplete: () => {
-                console.info('tits')
                 gsap.to('.wrapper:not(:nth-of-type(1))', {
                   opacity: 1,
                   onComplete: () => {
@@ -237,7 +232,7 @@ const App = () => {
           .to('.wrapper:first-of-type', {
             // transform: 'translate(-50%, -50%) rotateX(-24deg) rotateY(-40deg)',
             transform:
-              'translate(-50%, -50%) rotateX(-24deg) rotateY(-50deg) translate3d(0, 0, -200px)',
+              'translate(-50%, -50%) rotateX(-24deg) rotateY(-50deg) translate3d(0, 0, -300px)',
           })
           .to('.wrapper:first-of-type article', {
             opacity: 0.5,
@@ -282,23 +277,120 @@ const App = () => {
   }, [exploding])
 
   const CONFIG = {
+    body: 'rgb(0, 10, 15)',
+    icon: 0,
+    movement: 150,
     addCard: () => {
       addCard()
     },
     explode: false,
+    border: 2,
+    radius: 12,
+    saturation: 100,
+    lightness: 50,
+    size: 150,
+    card: 'rgb(153, 153, 153)',
+    cardalpha: 0.15,
+    cardblur: 4,
+    'bg-spot-opacity': 0.1,
+    'border-spot-opacity': 1,
+    'border-light-opacity': 1,
+  }
+
+  const SYNC_STYLES = () => {
+    for (const key of Object.keys(CONFIG)) {
+      if (
+        key !== 'addCard' &&
+        key !== 'explode' &&
+        key !== 'card' &&
+        key !== 'cardalpha'
+      ) {
+        document.documentElement.style.setProperty(`--${key}`, CONFIG[key])
+      }
+      if (key === 'card') {
+        const hsl = new Color(CONFIG.card).hsl()
+        document.documentElement.style.setProperty(
+          '--backdrop',
+          `hsl(${hsl.color[0]} ${hsl.color[1]}% ${hsl.color[2]}% / ${CONFIG.cardalpha})`
+        )
+        document.documentElement.style.setProperty(
+          '--backup-border',
+          `hsl(${hsl.color[0]} ${hsl.color[1]}% ${hsl.color[2]}% / ${Math.max(CONFIG.cardalpha, 0.2)})`
+        )
+      }
+    }
   }
   // Use an effect to add Cards
   React.useEffect(() => {
     // Create a controller and use it to add/remove cards
     controller.current = new GUI({ width: 320 })
-    exploder.current = controller.current
+    sceneFolder.current = controller.current.addFolder('Scene')
+    cardsFolder.current = controller.current.addFolder('Cards')
+    const generalFolder = cardsFolder.current.addFolder('General')
+    generalFolder
+      .add(CONFIG, 'border', 1, 5, 1)
+      .name('Border (px)')
+      .onChange(SYNC_STYLES)
+    generalFolder
+      .add(CONFIG, 'radius', 0, 20, 1)
+      .name('Radius (px)')
+      .onChange(SYNC_STYLES)
+    generalFolder
+      .add(CONFIG, 'saturation', 0, 100, 1)
+      .name('Saturation')
+      .onChange(SYNC_STYLES)
+    generalFolder
+      .add(CONFIG, 'lightness', 0, 100, 1)
+      .name('Lightness')
+      .onChange(SYNC_STYLES)
+    generalFolder
+      .add(CONFIG, 'size', 1, 250, 1)
+      .name('Spotlight (px)')
+      .onChange(SYNC_STYLES)
+    generalFolder
+      .addColor(CONFIG, 'card')
+      .name('Backdrop')
+      .onChange(SYNC_STYLES)
+    generalFolder
+      .add(CONFIG, 'cardalpha', 0, 1, 0.01)
+      .name('Backdrop Alpha')
+      .onChange(SYNC_STYLES)
+    generalFolder
+      .add(CONFIG, 'cardblur', 0, 20, 1)
+      .name('Backdrop Blur (px)')
+      .onChange(SYNC_STYLES)
+    generalFolder
+      .add(CONFIG, 'bg-spot-opacity', 0, 1, 0.01)
+      .name('Backdrop Spot Alpha')
+      .onChange(SYNC_STYLES)
+    generalFolder
+      .add(CONFIG, 'border-spot-opacity', 0, 1, 0.01)
+      .name('Border Spot Alpha')
+      .onChange(SYNC_STYLES)
+    generalFolder
+      .add(CONFIG, 'border-light-opacity', 0, 1, 0.01)
+      .name('Border Light Alpha')
+      .onChange(SYNC_STYLES)
+    sceneFolder.current
+      .addColor(CONFIG, 'body')
+      .name('Background')
+      .onChange(SYNC_STYLES)
+    sceneFolder.current
+      .add(CONFIG, 'icon', 0, 1, 0.01)
+      .name('Icon Alpha')
+      .onChange(SYNC_STYLES)
+    sceneFolder.current
+      .add(CONFIG, 'movement', 0, 200, 1)
+      .name('Icon Movement (px)')
+      .onChange(SYNC_STYLES)
+    exploder.current = sceneFolder.current
       .add(CONFIG, 'explode')
       .name('Explode?')
       .onChange(explode)
     controller.current.add(CONFIG, 'addCard').name('Add Card')
     // Add some default cards
     addCard()
-    addCard()
+    SYNC_STYLES()
   }, [])
 
   return (
@@ -310,10 +402,8 @@ const App = () => {
               <div
                 className="dummy"
                 style={{
-                  '--spotlight': `${card.size}px`,
                   '--base': card.base,
                   '--spread': card.spread,
-                  '--border-width': `${card.border}px`,
                 }}
               >
                 <div className="dummy__backdrop">
@@ -331,10 +421,8 @@ const App = () => {
               className="card"
               data-glow
               style={{
-                '--spotlight': `${card.size}px`,
                 '--base': card.base,
                 '--spread': card.spread,
-                '--border-width': `${card.border}px`,
               }}
             >
               {card.outer ? <div data-glow></div> : null}

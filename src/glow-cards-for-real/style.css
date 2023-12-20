@@ -15,13 +15,14 @@
 *:before {
 	box-sizing: border-box;
 }
-.wrapper {	
+[data-explode] .wrapper {	
 	transform-style: preserve-3d;
 }
 body {
 	display: grid;
 	place-items: center;
-	min-height: 100vh;;
+	min-height: 100vh;
+  overflow: hidden;
 	font-family:  "Geist Sans", "SF Pro Text", "SF Pro Icons", "AOS Icons", "Helvetica Neue", Helvetica, Arial, sans-serif, system-ui;
 }
 
@@ -33,7 +34,7 @@ body {
   min-height: 100vh;
   display: grid;
   place-items: center;
-  background-color: hsl(0 0% 0%);
+  background-color: var(--body, black);
   color: hsl(0 0% 90%);
   font-weight: 60;
 }
@@ -45,122 +46,16 @@ body {
 body::before {
 	content: "";
   background-image: url("https://assets.codepen.io/605876/code-icon-bg.svg");
-  background-position: calc(var(--xp) * -50px) calc(var(--yp) * -50px);
+  background-position: calc(var(--xp) * calc(var(--movement, 0) * -1px)) calc(var(--yp) * calc(var(--movement, 0) * -1px));
   position: fixed;
   inset: 0;
   filter: grayscale(1);
-  opacity: 0.25;
-}
-
-/* Glow specific styles */
-[data-glow] {
-	--border: var(--border-width, 2px);
-	--size: var(--spotlight, 150px);
-	--hue: calc(var(--base) + (var(--xp, 0) * var(--spread, 0)));
-  --glow-opacity: 0.1;
-  background-image: radial-gradient(
-    var(--size) var(--size) at
-    calc(var(--x, 0) * 1px)
-    calc(var(--y, 0) * 1px),
-    hsl(var(--hue, 210) calc(var(--saturation, 100) * 1%) calc(var(--lightness, 70) * 1%) / var(--glow-opacity, 0.1)), transparent
-  );
-  background-color: var(--backdrop, transparent);
-  background-size: calc(100% + (2 * var(--border))) calc(100% + (2 * var(--border)));
-  background-position: 50% 50%;
-  background-attachment: fixed;
-  border: var(--border) solid hsl(0 0% 100% / 0.1);
-  position: relative;
-}
-
-[data-glow]:is(a, button) {
-  --glow-opacity: 0.25;
-	border: var(--border) solid transparent;
-}
-
-[data-glow]::before,
-[data-glow]::after {
-  pointer-events: none;
-  content: "";
-  position: absolute;
-  inset: calc(var(--border) * -1);
-  border: var(--border) solid transparent;
-  border-radius: var(--radius);
-  background-attachment: fixed;
-  background-size: calc(100% + (2 * var(--border))) calc(100% + (2 * var(--border)));
-  background-repeat: no-repeat;
-  background-position: 50% 50%;
-  mask:
-    linear-gradient(transparent, transparent),
-    linear-gradient(white, white);
-  mask-clip: padding-box, border-box;
-  mask-composite: intersect;
-}
-
-[data-glow]::before {
-  background-image: radial-gradient(
-    calc(var(--size) * 0.75) calc(var(--size) * 0.75) at
-    calc(var(--x, 0) * 1px)
-    calc(var(--y, 0) * 1px),
-    hsl(var(--hue, 210) calc(var(--saturation, 100) * 1%) calc(var(--lightness, 50) * 1%) / 1), transparent 100%
-  );
-  z-index: 2;
-  filter: brightness(2);
-}
-[data-glow]::after {
-  background-image: radial-gradient(
-    calc(var(--size) * 0.5) calc(var(--size) * 0.5) at
-    calc(var(--x, 0) * 1px)
-    calc(var(--y, 0) * 1px),
-    hsl(0 100% 100% / 1), transparent 100%
-  );
-  z-index: 2;
-}
-
-[data-glow] [data-glow] {
-  position: absolute;
-  inset: 0;
-}
-
-[data-glow] > [data-glow]:not(:is(button, a)) {
-	border-radius: 16px;
-	border-width: calc(var(--border) * 20);
-	filter: brightness(1) blur(calc(var(--border) * 20));
-	background: none;
-	pointer-events: none;
-}
-
-[data-explode] [data-glow]::before,
-[data-explode] [data-glow]::after,
-[data-explode] [data-glow] {
-/*	filter: none;*/
-/*  mask: none !important;*/
-	--glow-opacity: 0.5;
-}
-
-[data-glow] > [data-glow]:not(:is(button, a))::before {
-  border-width: calc(var(--border) * 10);
-  inset: calc(var(--border) * -10);
-}
-
-[data-glow] [data-glow]:not(:is(a, button)) {
-	border: none;
-}
-
-[data-glow] :is(a, button) {
-  border-radius: 12px;
-  border: var(--border) solid transparent;
-}
-[data-glow] :is(a, button) [data-glow] {
-  background: none;
-}
-[data-glow] :is(a, button) [data-glow]::before {
-  inset: calc(var(--border) * -1);
-  border-width: calc(var(--border) * 1);
+  opacity: var(--icon, 0);
 }
 
 article {
   aspect-ratio: 3 / 4;
-  border-radius: var(--radius);
+  border-radius: calc(var(--radius) * 1px);
   width: 260px;
   position: relative;
 	grid-template-rows: 1fr auto;
@@ -168,7 +63,7 @@ article {
   padding: 1rem;
   display: grid;
   gap: 1rem;
-  backdrop-filter: blur(5px);
+  backdrop-filter: blur(calc(var(--cardblur, 5) * 1px));
 }
 main {
   display: flex;
@@ -180,6 +75,11 @@ main {
   max-width: calc(100vw - 2rem);
   position: relative;
 }
+
+[data-explode] main {
+  transform: translate3d(0, 0, 200vmax);
+}
+
 article a {
   background: hsl(0 0% 0%);
 	display: inline-block;
@@ -233,15 +133,11 @@ h2 {
   --index: 3;
 }
 
-/*[data-explode] main {
-  transition: transform 1s;
-  transform: translate3d(0, 0, 100vmin) rotateX(-24deg) rotateY(-40deg);
-}*/
 
 /* Make sure you offset the glow when in 3D mode with the offset provided from JS land */
 [data-explode] [data-glow] {
   background-image: radial-gradient(
-    var(--size) var(--size) at
+    var(--spotlight-size) var(--spotlight-size) at
     calc((var(--x, 0) - var(--left, 0)) * 1px)
     calc((var(--y, 0) - var(--top, 0)) * 1px),
     hsl(var(--hue, 210) calc(var(--saturation, 100) * 1%) calc(var(--lightness, 70) * 1%) / var(--glow-opacity, 0.1)), transparent
@@ -249,7 +145,7 @@ h2 {
 }
 [data-explode] [data-glow]::before {
   background-image: radial-gradient(
-    calc(var(--size) * 0.75) calc(var(--size) * 0.75) at
+    calc(var(--spotlight-size) * 0.75) calc(var(--spotlight-size) * 0.75) at
     calc((var(--x, 0) - var(--left, 0)) * 1px)
     calc((var(--y, 0) - var(--top, 0)) * 1px),
     hsl(var(--hue, 210) calc(var(--saturation, 100) * 1%) calc(var(--lightness, 50) * 1%) 1), transparent 100%
@@ -257,7 +153,7 @@ h2 {
 }
 [data-explode] [data-glow]::after {
   background-image: radial-gradient(
-    calc(var(--size) * 0.5) calc(var(--size) * 0.5) at
+    calc(var(--spotlight-size) * 0.5) calc(var(--spotlight-size) * 0.5) at
     calc((var(--x, 0) - var(--left, 0)) * 1px)
     calc((var(--y, 0) - var(--top, 0)) * 1px),
     hsl(0 100% 100% / 1), transparent 100%
@@ -272,24 +168,24 @@ h2 {
 }
 
 .dummy {
-	--border: var(--border-width, 2px);
-	--size: var(--spotlight, 150px);
+	--border-size: calc(var(--border, 2) * 1px);
+	--spotlight-size: calc(var(--size, 150) * 1px);
 	--hue: calc(var(--base) + (var(--xp, 0) * var(--spread, 0)));
   --glow-opacity: 1;
 	position: absolute;
 	inset: 0;
 	transform-style: preserve-3d;
 	container-query: inline-size;
-	border-radius: var(--radius);
+	border-radius: calc(var(--radius) * 1px);
 /*	opacity: 0;*/
 }
 
 .dummy__backdrop {
-	border-radius: var(--radius);
+	border-radius: calc(var(--radius) * 1px);
 	position: absolute;
 	inset: 0;
 	background-image: radial-gradient(
-    var(--size) var(--size) at
+    var(--spotlight-size) var(--spotlight-size) at
     calc((var(--x, 0) - var(--left, 0)) * 1px)
     calc((var(--y, 0) - var(--top, 0)) * 1px),
     hsl(var(--hue, 210) calc(var(--saturation, 100) * 1%) calc(var(--lightness, 70) * 1%) / var(--glow-opacity, 0.1)), transparent
@@ -307,13 +203,13 @@ h2 {
 	width: 200vmax;
 	translate: -50% -50%;
 	background-image: radial-gradient(
-    var(--size) var(--size) at
+    var(--spotlight-size) var(--spotlight-size) at
     calc(((var(--x, 0) - var(--left, 0)) * 1px) + 100vmax - 130px)
     calc(((var(--y, 0) - var(--top, 0)) * 1px) + 100vmax - (260px * (3/4))),
     hsl(var(--hue, 210) calc(var(--saturation, 100) * 1%) calc(var(--lightness, 70) * 1%) / var(--glow-opacity, 0.1)), transparent
   );
 	z-index: -1;
-	opacity: 0.5;
+	opacity: 0.35;
 }
 .dummy__glow::after,
 .dummy__border::after {
@@ -325,20 +221,20 @@ h2 {
 	width: 200vmax;
 	translate: -50% -50%;
 	background-image: radial-gradient(
-    calc(var(--size) * 0.75) calc(var(--size) * 0.75) at
+    calc(var(--spotlight-size) * 0.75) calc(var(--spotlight-size) * 0.75) at
     calc(((var(--x, 0) - var(--left, 0)) * 1px) + 100vmax - 130px)
     calc(((var(--y, 0) - var(--top, 0)) * 1px) + 100vmax - (260px * (3/4))),
     hsl(var(--hue, 210) calc(var(--saturation, 100) * 1%) calc(var(--lightness, 70) * 1%) / var(--glow-opacity, 0.1)), transparent
   );
 	z-index: -1;
-	opacity: 0.65;
+	opacity: 0.5;
 }
 
 .dummy__border, .dummy__glow {
 	position: absolute;
 	inset: 0;
 	transform: translate3d(0, 0, 400px);
-	border-radius: var(--radius);
+	border-radius: calc(var(--radius) * 1px);
 }
 
 .dummy__glow::before,
@@ -346,17 +242,17 @@ h2 {
 	content: "";
 	position: absolute;
 	background-image: radial-gradient(
-    calc(var(--size) * 0.75) calc(var(--size) * 0.75) at
+    calc(var(--spotlight-size) * 0.75) calc(var(--spotlight-size) * 0.75) at
     calc((var(--x, 0) - var(--left, 0)) * 1px)
     calc((var(--y, 0) - var(--top, 0)) * 1px),
     hsl(var(--hue, 210) calc(var(--saturation, 100) * 1%) calc(var(--lightness, 50) * 1%) / 1), transparent 100%
   );
   background-color: var(--backdrop);
-  inset: calc(var(--border) * -1);
-  border: var(--border) solid transparent;
-  border-radius: var(--radius);
+  inset: calc(var(--border-size) * -1);
+  border: var(--border-size) solid transparent;
+  border-radius: calc(var(--radius) * 1px);
   background-attachment: fixed;
-  background-size: calc(100% + (2 * var(--border))) calc(100% + (2 * var(--border)));
+  background-size: calc(100% + (2 * var(--border-size))) calc(100% + (2 * var(--border-size)));
   background-repeat: no-repeat;
   background-position: 50% 50%;
   mask:
@@ -367,14 +263,14 @@ h2 {
 }
 
 .dummy__glow {
-	border-radius: var(--radius);
+	border-radius: calc(var(--radius) * 1px);
 	position: absolute;
 	inset: 0;
 	transform: translate3d(0, 0, 600px);
 }
 .dummy__glow::before {
 	background-image: radial-gradient(
-    calc(var(--size) * 0.5) calc(var(--size) * 0.5) at
+    calc(var(--spotlight-size) * 0.5) calc(var(--spotlight-size) * 0.5) at
     calc((var(--x, 0) - var(--left, 0)) * 1px)
     calc((var(--y, 0) - var(--top, 0)) * 1px),
     hsl(0 100% 100% / 1), transparent 100%
@@ -382,7 +278,7 @@ h2 {
 }
 .dummy__glow::after {
 	background-image: radial-gradient(
-    calc(var(--size) * 0.5) calc(var(--size) * 0.5) at
+    calc(var(--spotlight-size) * 0.5) calc(var(--spotlight-size) * 0.5) at
     calc(((var(--x, 0) - var(--left, 0)) * 1px) + 100vmax - 130px)
     calc(((var(--y, 0) - var(--top, 0)) * 1px) + 100vmax - (260px * (3/4))),
     hsl(0 100% 100% / 1), transparent
@@ -403,4 +299,111 @@ h2 {
 	white-space: nowrap;
 	font-size: 1.25rem;
 	transform: rotateY(50deg) rotateX(24deg) translate(-50%, 50%);
+}
+
+:is(.dummy__glow, .dummy__border) span::after {
+  content: "(pseudo)";
+  font-size: 0.875rem;
+  position: absolute;
+  left: 100%;
+  bottom: 0%;
+  translate: 0.5rem 0%;
+  opacity: 0.5;
+}
+
+
+
+/* Glow specific styles */
+[data-glow] {
+  --border-size: calc(var(--border, 2) * 1px);
+  --spotlight-size: calc(var(--size, 150) * 1px);
+  --hue: calc(var(--base) + (var(--xp, 0) * var(--spread, 0)));
+  background-image: radial-gradient(
+    var(--spotlight-size) var(--spotlight-size) at
+    calc(var(--x, 0) * 1px)
+    calc(var(--y, 0) * 1px),
+    hsl(var(--hue, 210) calc(var(--saturation, 100) * 1%) calc(var(--lightness, 70) * 1%) / var(--bg-spot-opacity, 0.1)), transparent
+  );
+  background-color: var(--backdrop, transparent);
+  background-size: calc(100% + (2 * var(--border-size))) calc(100% + (2 * var(--border-size)));
+  background-position: 50% 50%;
+  background-attachment: fixed;
+  border: var(--border-size) solid var(--backup-border);
+  position: relative;
+}
+
+[data-glow]::before,
+[data-glow]::after {
+  pointer-events: none;
+  content: "";
+  position: absolute;
+  inset: calc(var(--border-size) * -1);
+  border: var(--border-size) solid transparent;
+  border-radius: calc(var(--radius) * 1px);
+  background-attachment: fixed;
+  background-size: calc(100% + (2 * var(--border-size))) calc(100% + (2 * var(--border-size)));
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  mask:
+    linear-gradient(transparent, transparent),
+    linear-gradient(white, white);
+  mask-clip: padding-box, border-box;
+  mask-composite: intersect;
+}
+
+/* This is the emphasis light */
+[data-glow]::before {
+  background-image: radial-gradient(
+    calc(var(--spotlight-size) * 0.75) calc(var(--spotlight-size) * 0.75) at
+    calc(var(--x, 0) * 1px)
+    calc(var(--y, 0) * 1px),
+    hsl(var(--hue, 210) calc(var(--saturation, 100) * 1%) calc(var(--lightness, 50) * 1%) / var(--border-spot-opacity, 1)), transparent 100%
+  );
+  z-index: 2;
+  filter: brightness(2);
+}
+/* This is the spotlight */
+[data-glow]::after {
+  background-image: radial-gradient(
+    calc(var(--spotlight-size) * 0.5) calc(var(--spotlight-size) * 0.5) at
+    calc(var(--x, 0) * 1px)
+    calc(var(--y, 0) * 1px),
+    hsl(0 100% 100% / var(--border-light-opacity, 1)), transparent 100%
+  );
+  z-index: 2;
+}
+
+[data-glow] [data-glow] {
+  position: absolute;
+  inset: 0;
+  will-change: filter;
+}
+
+[data-glow] > [data-glow] {
+  border-radius: calc(var(--radius) * 1px);
+  border-width: calc(var(--border-size) * 20);
+  filter: blur(calc(var(--border-size) * 10));
+  background: none;
+  pointer-events: none;
+}
+
+[data-glow] > [data-glow]::before {
+  inset: -10px;
+  border-width: 10px;
+}
+
+[data-glow] [data-glow] {
+  border: none;
+}
+
+[data-glow] :is(a, button) {
+  border-radius: calc(var(--radius) * 1px);
+  border: var(--border-size) solid transparent;
+}
+[data-glow] :is(a, button) [data-glow] {
+  background: none;
+}
+[data-glow] :is(a, button) [data-glow]::before {
+  inset: calc(var(--border-size) * -1);
+  border-width: calc(var(--border-size) * 1);
 }
