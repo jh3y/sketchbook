@@ -1,0 +1,44 @@
+@import "normalize.css";
+
+@font-face {
+  font-family: "Geist Sans";
+  src: url("https://assets.codepen.io/605876/GeistVF.ttf") format("truetype");
+}
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	background: hsl(0 0% 2%);
+	font-family:  "Geist Sans", "SF Pro Text", "SF Pro Icons", "AOS Icons", "Helvetica Neue", Helvetica, Arial, sans-serif, system-ui;
+	font-weight: 160;
+}
+section {
+	color: hsl(0 0% 80%);
+	font-size: clamp(2rem, 6vw + 1rem, 12rem);
+}
+.text-block {
+	display: inline-block;
+	position: relative;
+	color: transparent;
+}
+.text-block::selection,
+span::selection,
+section::selection {
+	background: hsl(210 80% 80% / 0.15);
+}
+
+canvas {
+	filter: brightness(2);
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	pointer-events: none;
+}
