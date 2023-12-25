@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, maximum-scale=1.0" />
+    <title>flip-switch-mmm</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <!-- <img src="https://pbs.twimg.com/media/GCELNZxWQAEtzTL?format=png&name=small" /> -->
+    <div class="switch">
+      <!-- <input class="sr-only" id="switch" type="range" min="0" max="1" step="1" value="0" /> -->
+      <input class="sr-only" id="switch" type="checkbox" role="switch" />
+      <label for="switch">
+        <span class="sr-only">Switch it</span>
+      </label>
+    </div>
+    <div class="switch switch--lg">
+      <!-- <input class="sr-only" id="switch" type="range" min="0" max="1" step="1" value="0" /> -->
+      <input class="sr-only" id="big-switch" type="checkbox" role="switch" />
+      <label for="big-switch">
+        <span></span>
+        <span class="sr-only">Switch it</span>
+      </label>
+    </div>
+    <script type="module" src="./script.js"></script>
+  </body>
+</html>

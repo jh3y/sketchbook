@@ -1,0 +1,143 @@
+@import "normalize.css";
+
+@font-face {
+  font-family: "Geist Sans";
+  src: url("https://assets.codepen.io/605876/GeistVF.ttf") format("truetype");
+}
+
+:root {
+	--text: hsl(0 0% 0%);
+	--white: hsl(0 0% 100%);
+	--font-size: clamp(2rem, 8vw + 1rem, 10rem);
+	--padding: 15vh;
+	--nav: 80px;
+}
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	font-family:  "Geist Sans", "SF Pro Text", "SF Pro Icons", "AOS Icons", "Helvetica Neue", Helvetica, Arial, sans-serif, system-ui;
+	font-weight: 60;
+}
+
+nav {
+	align-items: center;
+	background: var(--white);
+	display: flex;
+	height: var(--nav);
+	position: fixed;
+	top: 0;
+	width: 100%;
+	z-index: 9999;
+}
+
+a {
+	color: var(--text);
+}
+
+a svg {
+	width: 48px;
+}
+
+.content {
+	margin: 0 auto;
+	max-width: 100%;
+	width: 80ch;
+}
+
+section {
+	background: var(--text);
+	min-height: 100vh;
+}
+
+div section:first-of-type {
+	background: var(--text);
+	position: sticky;
+	top: calc(var(--padding) + var(--nav));
+	margin-top: var(--padding);
+}
+
+div {
+	width: 100vw;
+	background: var(--white);
+}
+
+header {
+	position: sticky;
+	top: calc(var(--padding) + var(--nav));
+	color: var(--white);
+	margin: 0;
+	text-transform: uppercase;
+	text-align: center;
+	display: flex;
+	justify-content: center;
+	align-items: end;
+	margin: calc(var(--padding) + var(--nav)) 0 0 0;
+	z-index: 2;
+}
+
+h1 {
+	font-size: var(--font-size);
+	line-height: 0.75;
+	margin: 0;
+	font-weight: 120;
+}
+
+h1:not(:first-of-type) {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	translate: -50% -50%;
+}
+
+main > section {
+	background: var(--white);
+	display: grid;
+	place-items: center;
+}
+
+main > section .content {
+	padding: 0 1rem;
+}
+
+p {
+	font-size: 2rem;
+}
+
+section {
+	position: relative;
+	overflow: hidden;
+}
+
+img {
+	width: 100%;
+	height: 100vh;
+	object-fit: cover;
+	filter: contrast(0.75) grayscale(1);
+}
+
+body > header {
+	position: fixed;
+	top: 0;
+	z-index: 0;
+}
+
+body > header h1 {
+	color: var(--text);
+}
+
+main {
+	clip-path: inset(calc(var(--nav) + var(--font-size) + var(--padding) + var(--padding)) 0 0 0);
+}
+
+footer {
+	text-align: center;
+	padding: 2rem 1rem;
+}
