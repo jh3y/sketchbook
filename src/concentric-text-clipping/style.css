@@ -26,7 +26,6 @@ section {
 .text-block {
 	display: inline-block;
 	position: relative;
-	color: transparent;
 }
 .text-block::selection,
 span::selection,

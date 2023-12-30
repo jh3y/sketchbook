@@ -47,8 +47,18 @@ const ORIGIN = {
   x: 350 * DPI,
   y: -100 * DPI,
 }
+// const ORIGIN = {
+//   x: CANVAS.width * 0.5 * DPI,
+//   y: CANVAS.height * 0.5 * DPI,
+// }
+
+CONTEXT.globalCompositeOperation = 'normal'
+CONTEXT.clearRect(0, 0, CANVAS.width, CANVAS.height)
+CONTEXT.drawImage(TEXT_CANVAS, 0, 0)
+// Clip to the text
+CONTEXT.globalCompositeOperation = 'source-in'
+
 const DRAW = (skip) => {
-  CONTEXT.globalCompositeOperation = 'normal'
   RING_CONTEXT.clearRect(0, 0, RING_CANVAS.width, RING_CANVAS.height)
   RING_CONTEXT.fillStyle = 'hsl(210, 30%, 16%)'
   RING_CONTEXT.fillRect(0, 0, CANVAS.width, CANVAS.height)
@@ -72,11 +82,6 @@ const DRAW = (skip) => {
     RING_CONTEXT.stroke()
     RING_CONTEXT.restore()
   }
-  // Clear the context
-  CONTEXT.clearRect(0, 0, CANVAS.width, CANVAS.height)
-  CONTEXT.drawImage(TEXT_CANVAS, 0, 0)
-  // Clip to the text
-  CONTEXT.globalCompositeOperation = 'source-in'
   // Draw out the rings
   CONTEXT.drawImage(RING_CANVAS, 0, 0)
 }
@@ -90,4 +95,16 @@ for (const ring of RINGS) {
     delay: () => gsap.utils.random(-5, -1, 0.1),
   })
 }
+gsap.ticker.fps(24)
 gsap.ticker.add(DRAW)
+DRAW()
+
+document.querySelector('.text-block').style.color = 'transparent'
+
+// const UPDATE_ORIGIN = ({ x, y }) => {
+//   const BOUNDS = CANVAS.getBoundingClientRect()
+//   ORIGIN.x = gsap.utils.clamp(0, CANVAS.width, x - BOUNDS.x) 
+//   ORIGIN.y = gsap.utils.clamp(0, CANVAS.height, y - BOUNDS.y) 
+// }
+
+// document.body.addEventListener('pointermove', UPDATE_ORIGIN)

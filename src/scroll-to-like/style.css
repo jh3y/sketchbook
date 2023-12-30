@@ -1,0 +1,233 @@
+@import "normalize.css";
+
+@font-face {
+  font-family: "Geist Sans";
+  src: url("https://assets.codepen.io/605876/GeistVF.ttf") format("truetype");
+}
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+:root {
+	--line: hsl(0 0% 95% / 0.25);
+}
+
+body {
+	min-height: 100vh;
+	font-family:  "Geist Sans", "SF Pro Text", "SF Pro Icons", "AOS Icons", "Helvetica Neue", Helvetica, Arial, sans-serif, system-ui;
+	font-weight: 80;
+	background: hsl(0 0% 4%);
+	color: hsl(0 0% 90%);
+	overflow-x: hidden;
+}
+
+main > div {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 1rem;
+	margin-bottom: 2rem;
+}
+
+main > div div {
+	display: flex;
+	align-items: center;
+	gap: 0.25rem;
+}
+
+main > div svg {
+	width: 24px;
+}
+
+body::before {
+	content: "";
+	height: 100vh;
+	width: 100vw;
+	position: fixed;
+	background:
+		linear-gradient(90deg, var(--line) 1px, transparent 1px 10vmin) 50% -5vmin / 10vmin 10vmin,
+		linear-gradient(var(--line) 1px, transparent 1px 10vmin) 50% -5vmin / 10vmin 10vmin;
+	mask: linear-gradient(-15deg, transparent 30%, white);
+	top: 0;
+	z-index: -1;
+	transform: translate3d(0, 0, -100vmin);
+}
+
+header {
+	height: 50vh;
+	display: grid;
+	place-items: center;
+}
+
+p:first-of-type {
+	color: white;
+	font-weight: 120;
+}
+
+h1 {
+	font-family: Impact;
+	text-transform: uppercase;
+	font-size: clamp(2rem, 4vw + 1rem, 8rem);
+	text-align: center;
+	max-width: 10ch;
+}
+
+.sign-off {
+	width: 60ch;
+	margin: 0 auto;
+	max-width: 100%;
+	padding: 2rem 2rem;
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	gap: 1rem;
+}
+
+.sign-off > svg {
+	width: 20ch;
+	stroke: currentColor;
+	max-width: 40%;
+}
+
+main {
+	width: 60ch;
+	max-width: 100%;
+	margin: 0 auto;
+	padding: 0 1rem;
+}
+
+img {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	translate: -50% -50%;
+	height: 48px;
+	scale: 4;
+	opacity: 0.25;
+	pointer-events: none;
+}
+
+button {
+	--border: 4px;
+	--one: hsl(140 80% 80%);
+	--two: hsl(280 80% 80%);
+	--three: hsl(45 90% 60%);
+	--four: hsl(30 90% 80%);
+	--five: hsl(10 90% 70%);
+	display: flex;
+	padding: 0.875rem 1.5rem;
+	gap: 0.875rem;
+	font-size: 1rem;
+	align-items: center;
+	border-radius: 100px;
+	font-weight: 160;
+	border: 0;
+	overflow: hidden;
+	background: transparent;
+	position: relative;
+	color: hsl(0 0% 98%);
+}
+
+.button__shimmer {
+	position: absolute;
+	inset: 0;
+	container-type: inline-size;
+	z-index: -1;
+}
+
+.button__shimmer::before {
+	opacity: 0;
+	content: "";
+	position: absolute;
+	top: calc(var(--border) * -1);
+	right: calc(var(--border) * -1);
+	background: conic-gradient(from -60deg at 50% 100%,
+		var(--one),
+		var(--two),
+		var(--three),
+		var(--four),
+		var(--five),
+		var(--five),
+		var(--four),
+		var(--three),
+		var(--two),
+		var(--one) 120deg
+	);
+	z-index: -1;
+	width: 500%;
+	height: 500%;
+}
+
+button svg {
+	width: 24px;
+}
+
+footer {
+	padding: 2rem;
+	display: grid;
+	place-items: center;
+}
+
+.like:is(:hover, :focus-visible)::after {
+	background: hsl(0 0% 40% / 0.65);
+}
+.like::after {
+	content: "";
+	position: absolute;
+	inset: var(--border);
+	border-radius: 100px;
+	background: hsl(0 0% 20% / 0.65);
+	z-index: -1;
+}
+
+strong {
+	font-weight: 180;
+	font-size: 1.25rem;
+}
+
+@media(prefers-reduced-motion: no-preference) {
+	.shimmer .button__shimmer {
+		animation: hide 0.25s 1s forwards;
+	}
+	.shimmer .button__shimmer::before {
+		animation: reveal 0.25s forwards, slide 1.25s both;
+	}
+	@keyframes hide { to { opacity: 0; }}
+	@keyframes reveal { to { opacity: 1; }}
+	@keyframes slide {
+		to {
+			translate: 80% 0;
+		}
+	}
+}
+
+@supports (animation-timeline: scroll()) {
+	@media (prefers-reduced-motion: no-preference) {
+		@property --shimmer {
+			inherits: true;
+			initial-value: 0;
+			syntax: '<number>';
+		}
+		.like {
+			animation: shimmer both steps(1, end);
+			animation-timeline: view();
+			animation-range: entry;
+			cursor: pointer;
+		}
+		@keyframes shimmer {
+			to { --shimmer: 1; }
+		}
+		.button__shimmer {
+			opacity: calc(1 - var(--shimmer, 0));
+			transition: opacity 0.25s 1s;
+		}
+		.button__shimmer::before {
+			opacity: var(--shimmer, 0);
+			translate: calc(80% * var(--shimmer, 0)) 0;
+			transition: translate 1.25s, opacity 0.25s;
+		}
+	}
+}

@@ -1,0 +1,382 @@
+@import "normalize.css";
+
+@font-face {
+  font-family: "Geist Sans";
+  src: url("https://assets.codepen.io/605876/GeistVF.ttf") format("truetype");
+}
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+:root {
+	--speed: 10s;
+	--transition: 0.15s;
+}
+
+body {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	color: hsl(0 0% 10%);
+	font-family: "Geist Sans", "SF Pro Text", "SF Pro Icons", "AOS Icons", "Helvetica Neue", Helvetica, Arial, sans-serif, system-ui;
+	background-image:
+		radial-gradient(at 27% 37%, hsla(215, 98%, 61%, 0.15) 0px, transparent 0%), 
+    radial-gradient(at 97% 21%, hsla(125, 98%, 72%, 0.15) 0px, transparent 50%),
+    radial-gradient(at 52% 99%, hsla(354, 98%, 61%, 0.15) 0px, transparent 50%),
+    radial-gradient(at 10% 29%, hsla(256, 96%, 67%, 0.15) 0px, transparent 50%),
+    radial-gradient(at 97% 96%, hsla(38, 60%, 74%, 0.15) 0px, transparent 50%),
+    radial-gradient(at 33% 50%, hsla(222, 67%, 73%, 0.15) 0px, transparent 50%),
+    radial-gradient(at 79% 53%, hsla(343, 68%, 79%, 0.15) 0px, transparent 50%);
+	background-color: hsl(0 0% 100%);
+	font-weight: 80;
+	transition: background-color 0.25s, color 0.25s;
+}
+
+main {
+  padding: 2rem 0;
+  width: 100%;
+}
+
+:root:has(#theme:checked) :is(body, .controls, .item) {
+	background-color: hsl(0 0% 10%);
+	color: hsl(0 0% 100%);
+	border-color: hsl(0 0% 25%);
+}
+:root:has(#theme:checked) article {
+	background-color: hsl(0 0% 10%);
+	color: hsl(0 0% 100%);
+	border-color: hsl(0 0% 25%);
+	box-shadow: 0 10px 20px -5px hsl(0 0% 0% / 0.5);
+}
+:root:has(#theme:checked) .item {
+	background-color: black;
+}
+:root:has(#theme:checked) li::before {
+	background-color: black;
+}
+
+article {
+	padding: 2rem;
+  margin: 0 auto;
+	width: 100%;
+	box-shadow: 0 10px 20px -5px hsl(0 0% 50% / 0.5);
+	border: 1px solid hsl(0 0% 90%);
+	border-radius: 6px;
+	background: hsl(0 0% 100%);
+	resize: horizontal;
+	overflow: hidden;
+	max-width: min(calc(600px + 8rem), calc(100vw - 2rem));
+	min-width: 340px;
+	container-type: inline-size;
+	transition: background-color 0.25s, color 0.25s, border 0.25s, box-shadow 0.25s;
+}
+h2 {
+	display: flex;
+	gap: 0.25ch;
+	font-size: clamp(1.5rem, 4cqi + 1rem, 3rem);
+	font-weight: 160;
+	margin: 0;
+	grid-column: 1 / -1;
+}
+
+h2 span:last-of-type {
+	display: inline-block;
+	background: linear-gradient(to right, #9333ea, #db2777, #9333ea) 0 0 / 400% 100% no-repeat;
+	background-clip: text;
+	color: transparent;
+	animation: shade 4s infinite linear;
+}
+
+@keyframes shade {
+	to {
+		background-position: 100% 0;
+	}
+}
+
+.header {
+	display: grid;
+	grid-template: auto 1fr / 6fr 4fr;
+	gap: 1rem;
+	margin-bottom: 2rem;
+	transition: opacity 0.5s;
+}
+
+article a {
+	align-self: start;
+	text-decoration: none;
+	justify-self: end;
+	border-radius: 100px;
+	padding: 0.5rem 2rem;
+	border: 0;
+	color: hsl(0 0% 100%);
+	font-weight: 120;
+	cursor: pointer;
+	background: linear-gradient(to right, #9333ea, #db2777) 0 0 / 200% 100% no-repeat;
+	transition: background-position 0.15s;
+}
+
+article a:is(:hover, :focus-visible) {
+	background-position: 100% 0;
+}
+
+p {
+	margin: 0;
+}
+
+.sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border-width: 0;
+}
+
+[for=theme] {
+	width: 48px;
+	aspect-ratio: 1;
+	position: fixed;
+	bottom: 1rem;
+	right: 1rem;
+	display: grid;
+	place-items: center;
+}
+
+[for=theme] svg {
+	width: 75%;
+}
+
+#theme + svg path:first-of-type,
+#theme:checked + svg path:last-of-type {
+	opacity: 0;
+}
+#theme:checked + svg path:first-of-type {
+	opacity: 1;
+}
+
+.controls {
+	display: grid;
+	grid-template-columns: 1fr auto;
+	gap: 0.5rem;
+	padding: 1rem;
+	border: 1px solid hsl(0 0% 90%);
+	border-radius: 6px;
+	background: hsl(0 0% 100%);
+	position: fixed;
+	top: 1rem;
+	right: 1rem;
+  z-index: 2;
+}
+
+label, input {
+	accent-color: #db2777;
+	cursor: pointer;
+}
+
+/*	border: 2px solid red;*/
+.window {
+	height: 250px;
+	container-type: inline-size;
+	transform-style: preserve-3d;
+	width: 100%;
+	outline: 4px dashed transparent;
+	transition: outline 0.5s;
+}
+
+.scene {
+	--buff: 3rem;
+	height: 100%;
+	width: 100%;
+	mask:
+		linear-gradient(transparent, white var(--buff) calc(100% - var(--buff)), transparent),
+		linear-gradient(90deg, transparent, white var(--buff) calc(100% - var(--buff)), transparent);
+	mask-composite: intersect;
+}
+
+:root:has(#overflow:checked) .scene {
+	mask: unset;
+}
+:root:has(#overflow:checked) .window {
+	outline: 4px dashed #db2777;
+}
+:root:has(#overflow:checked) .header {
+	opacity: 0.2;
+}
+
+.dev-link {
+	width: 48px;
+	aspect-ratio: 1;
+	position: fixed;
+	top: 1rem;
+	left: 1rem;
+	display: grid;
+	place-items: center;
+	color: currentColor;
+}
+
+.dev-link svg {
+	width: 75%;
+}
+
+.grid {
+	--count: 6; /* The number of items you have */
+	--inset: 0; /* Controls the grid animation offset on entry/exit */
+	--outset: 2.5;
+	height: 100%;
+	width: 100%;
+	margin: 0;
+	list-style-type: none;
+	position: relative;
+	display: grid;
+	padding: 0 1rem;
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 0 2rem;
+	transition: transform 0.5s;
+	/*	3D translation */
+	transform:
+		rotateX(calc(var(--rotate, 0) * 20deg))
+		rotateZ(calc(var(--rotate, 0) * -20deg))
+		skewX(calc(var(--rotate, 0) * 20deg));
+}
+
+:root:has(#dimension:checked) .grid {
+	--rotate: 1;
+}
+
+li {
+	min-height: 60px;
+	transform-style: preserve-3d;
+	width: 100%;
+	z-index: calc(1 + var(--active));
+}
+li::before {
+	content: "";
+	position: absolute;
+	inset: 4px 4px -2px -2px;
+	border-radius: 6px;
+	background: hsl(0 0% 0% / 0.1);
+	filter: blur(calc(var(--active, 0) * 8px));
+	z-index: -1;
+	transition: scale var(--transition), opacity var(--transition), translate var(--transition), filter var(--transition);
+	transform-origin: 50% 0;
+	scale: 1 calc(1 + (var(--active, 0) * 0.05));
+	--tw-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  box-shadow: 0 0 #0000, 0 0 #0000, var(--tw-shadow);
+}
+
+.grid:hover li {
+	animation-play-state: paused;
+}
+
+.grid {
+	transform-style: preserve-3d;
+	gap: 1rem;
+}
+
+.item {
+	align-items: center;
+	background: hsl(0 0% 100%);
+	border: 1px solid hsl(0 0% 90%);
+	color: hsl(0 0% 10%);
+	border-radius: 6px;
+	cursor: pointer;
+	display: flex;
+	gap: 1rem;
+	height: 100%;
+	justify-content: start;
+	overflow: hidden;
+	padding: 1.25rem;
+	text-align: center;
+	width: 100%;
+	transition: transform var(--transition), scale var(--transition), background-color 0.25s, color 0.25s, border 0.25s, box-shadow 0.25s;;
+	scale: calc(1 + (var(--active, 0) * 0.05));
+	transform: translate3d(0, 0, calc(var(--active, 0) * 24px));
+}
+.item__icon {
+	width: 24px;
+	color: rgb(124, 58, 237);
+}
+.item__text {
+	flex: 1;
+	text-align: center;
+}
+
+li:nth-of-type(1) { --index: 0; }
+li:nth-of-type(2) { --index: 0; }
+li:nth-of-type(3) { --index: 1; }
+li:nth-of-type(4) { --index: 1; }
+li:nth-of-type(5) { --index: 2; }
+li:nth-of-type(6) { --index: 2; }
+li:nth-of-type(7) { --index: 3; }
+li:nth-of-type(8) { --index: 3; }
+li:nth-of-type(9) { --index: 4; }
+li:nth-of-type(10) { --index: 4; }
+li:nth-of-type(11) { --index: 5; }
+li:nth-of-type(12) { --index: 5; }
+
+@container (width < 400px) {
+	.header {
+		grid-template: auto 1fr / 1fr;
+	}
+	.header a {
+		justify-self: start;
+	}
+	.grid {
+		--count: 12;
+		--inset: 0;
+		--outset: 3;
+		grid-template-columns: 1fr;
+	}
+
+	li:nth-of-type(1) { --index: 0; }
+	li:nth-of-type(2) { --index: 1; }
+	li:nth-of-type(3) { --index: 2; }
+	li:nth-of-type(4) { --index: 3; }
+	li:nth-of-type(5) { --index: 4; }
+	li:nth-of-type(6) { --index: 5; }
+	li:nth-of-type(7) { --index: 6; }
+	li:nth-of-type(8) { --index: 7; }
+	li:nth-of-type(9) { --index: 8; }
+	li:nth-of-type(10) { --index: 9; }
+	li:nth-of-type(11) { --index: 10; }
+	li:nth-of-type(12) { --index: 11; }
+
+	li {
+		--duration: calc(var(--speed) * 2);
+		--delay: calc((var(--duration) / var(--count)) * (var(--index, 0) - 8));
+	}
+}
+
+@media(prefers-reduced-motion: no-preference) {
+	.grid {
+		gap: 0 2rem;
+	}
+
+	li {
+		--duration: calc(var(--speed) * 1);
+		--delay: calc((var(--duration) / var(--count)) * (var(--index, 0) - 8));
+		animation: slide var(--duration) var(--delay) infinite linear;
+		translate: 0% calc(((var(--count) - var(--index)) + var(--inset, 0)) * 100%);
+	}
+	li:hover {
+		--active: 1;
+	}
+	@keyframes slide {
+		100% {
+			translate: 0% calc(calc((var(--index) + var(--outset, 0)) * -100%));
+		}
+	}
+	@container (width < 400px) {
+		li {
+			--duration: calc(var(--speed) * 2);
+			--delay: calc((var(--duration) / var(--count)) * (var(--index, 0) - 8));
+		}
+	}
+}

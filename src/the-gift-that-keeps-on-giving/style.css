@@ -3,12 +3,549 @@
 *,
 *:after,
 *:before {
-	box-sizing: border-box;
+  box-sizing: border-box;
+  transform-style: preserve-3d;
+  touch-action: none;
+}
+
+:root {
+	--bg: hsl(140 0% 100%);
+	--box: hsl(10 90% 90%);
+	--ribbon: hsl(15 100% 50%);
+	--bow: hsl(10 80% 50%);
+  --size: 100px;
+  --rotation-y: -24;
+  --rotation-x: -32;
+  --bounce: linear(
+    0, 0.0039, 0.0157, 0.0352, 0.0625 9.09%,
+    0.1407, 0.25, 0.3908, 0.5625, 0.7654, 1,
+    0.8907, 0.8125 45.45%, 0.7852, 0.7657,
+    0.7539, 0.75, 0.7539, 0.7657, 0.7852,
+    0.8125 63.64%, 0.8905, 1 72.73%, 0.9727,
+    0.9532, 0.9414, 0.9375, 0.9414, 0.9531,
+    0.9726, 1, 0.9883, 0.9844, 0.9883, 1
+  );
+  --drop: linear(
+    0, 0.0039 25%, 0.0117 32.89%,
+    0.0248 39.68%, 0.0457 46.22%,
+    0.0743 52.21%, 0.1113 57.77%,
+    0.1575 63%, 0.218 68.33%, 0.2901 73.39%,
+    0.3745 78.23%, 0.4718 82.88%,
+    0.5827 87.37%, 0.7074 91.71%,
+    0.8462 95.91%, 1
+  );
 }
 
 body {
-	display: grid;
-	place-items: center;
-	min-height: 100vh;
-	font-family:  "SF Pro Text", "SF Pro Icons", "AOS Icons", "Helvetica Neue", Helvetica, Arial, sans-serif, system-ui;
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  font-family: sans-serif, system-ui;
+  background: var(--bg);
+}
+
+.scene {
+  position: relative;
+  height: var(--size);
+  width: var(--size);
+  transform: translate3d(0, 50px, 200vmin) rotateX(calc(var(--rotation-y, 0) * 1deg)) rotateY(calc(var(--rotation-x, 0) * 1deg)) rotateX(90deg);
+}
+
+.gift {
+  width: var(--size);
+  aspect-ratio: 1;
+}
+
+.inner-gift {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  transform: rotateX(90deg) translate3d(0, 0, calc(var(--size) * -0.5))
+}
+
+/* Cuboid boilerplate code */
+.cuboid {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+.cuboid__side {
+  position: absolute;
+}
+.cuboid__side:nth-of-type(1) {
+	height: 100%;
+	width: 100%;
+	transform-origin: 50% 100%;
+	transform: rotateX(-90deg) rotateY(0deg);
+}
+.cuboid__side:nth-of-type(2) {
+	height: 100%;
+	width: 100%;
+	transform-origin: 50% 0%;
+	transform: rotateX(90deg) rotateY(0deg);
+}
+.cuboid__side:nth-of-type(3) {
+	height: 100%;
+	width: 100%;
+	transform-origin: 0% 50%;
+	transform: rotateX(0deg) rotateY(-90deg);
+}
+.cuboid__side:nth-of-type(4) {
+	height: 100%;
+	width: 100%;
+	transform-origin: 100% 50%;
+	transform: rotateX(0deg) rotateY(90deg);
+}
+.cuboid__side:nth-of-type(5) {
+	transform: rotateY(180deg);
+	height: 100%;
+	width: 100%;
+}
+.cuboid__side:nth-of-type(6) {
+	height: 100%;
+	width: 100%;
+	opacity: 1;
+	transform: translate3d(0, 0, var(--size));
+}
+
+.lid {
+	position: absolute;
+	width: 106%;
+	height: 106%;
+	top: 50%;
+	left: 50%;
+	translate: -50% -50%;
+}
+
+.lid .cuboid__side {
+	display: none;
+}
+
+.lid .cuboid__side:nth-of-type(1) {
+	display: block;
+	opacity: 1;
+	height: 20%;
+	width: 100%;
+	transform-origin: 50% 100%;
+	transform: rotateX(270deg) translateY(100%);
+	bottom: 0;
+}
+.lid .cuboid__side:nth-of-type(2) {
+	display: block;
+	opacity: 1;
+	height: 20%;
+	width: 100%;
+	transform-origin: 50% 0%;
+	transform: rotateX(90deg) translateY(-100%);
+	top: 0;
+}
+.lid .cuboid__side:nth-of-type(3) {
+	display: block;
+	opacity: 1;
+	height: 100%;
+	width: 20%;
+	transform-origin: 0% 50%;
+	transform: rotateY(270deg) translateX(-100%);
+	top: 0;
+	left: 0;
+}
+.lid .cuboid__side:nth-of-type(4) {
+	display: block;
+	opacity: 1;
+	height: 100%;
+	width: 20%;
+	transform-origin: 100% 50%;
+	transform: rotateY(90deg) translateX(100%);
+	top: 0;
+	right: 0;
+}
+.lid .cuboid__side:nth-of-type(5) {
+	display: block;
+	transform: rotateY(0deg);
+	opacity: 1;
+}
+
+
+.cuboid__side:nth-of-type(1) { --b: 0.94; }
+.cuboid__side:nth-of-type(2) { --b: 1.1; }
+.cuboid__side:nth-of-type(3) { --b: 0.98; }
+.cuboid__side:nth-of-type(4) { --b: 1.05; }
+.cuboid__side:nth-of-type(5) { --b: 1; }
+.cuboid__side:not(:nth-of-type(6))::before,
+.cuboid__side:not(:nth-of-type(6))::after {
+	filter: brightness(var(--b, 1));
+}
+
+
+/* Complicated timeline? */
+/**
+ * Complicated timeline?
+ * 1. Drop Gift for the initial drop
+ * 2. Pop the lid
+ * 3. Fold down the sides
+ * 4. Slide the bigger
+ * 5. Up goes the bigger, up comes the shadow and the inner scales up
+ * 6. Rinse and repeat?
+ * 
+ * Once you've dialled them in we need to set all the keyframes to be the same duration/delay
+ * This is so they loop perferctly each time
+ * 
+ * */
+
+ /* Animation timelines */
+/* 1. The initial drop, This isn't part of the 9s duration loop */
+.gift {
+	animation: drop 1s both var(--bounce);
+}
+.tumble-drop {
+	width: 100%;
+  height: 100%;
+  position: absolute;
+  transform-origin: 50% 100%;
+  transform: rotateX(-90deg) translate3d(0, 0, calc(var(--size) * -0.5));
+  animation: drop-tumbler 1s steps(1, end);
+}
+.drop-shadow {
+	position: absolute;
+	width: 85%;
+	height: 85%;
+	top: 50%;
+	left: 50%;
+	translate: -50% -50%;
+	transform: translate3d(0, 0, -80vh);
+	animation: drop-shadow 1s backwards var(--bounce);
+}
+@keyframes drop {
+	0% {
+		transform: translate3d(0, 0, 80vh);
+	}
+}
+@keyframes drop-shadow {
+	0% {
+		opacity: 0;
+		scale: 0;
+		transform: translate3d(0, 0, -80vh);
+	}
+	to {
+		scale: 1;
+		opacity: 1;
+		transform: translate3d(0, 0, 0);
+	}
+}
+@keyframes drop-tumbler {
+	0% {
+		opacity: 0;
+	}
+}
+/**
+ * 2. Popping the lid
+ * - Make one element go up and down
+ * - The lid element translates out of the way and flips the lid
+ * */
+:root {
+ 	--duration: 5s;
+ 	--delay: 2s;
+}
+.gift .lid {
+	animation: pop var(--duration) var(--delay) both infinite;
+}
+.gift .lid .cuboid {
+	transform-origin: 0 50%;
+	animation: slide var(--duration) var(--delay) both infinite;
+}
+
+.gift .lid .bobble__segment {
+	animation: squidge var(--duration) var(--delay) both infinite;
+}
+
+@keyframes squidge {
+	0%, 8% { transform: rotateX(90deg) rotateY(calc(((360 / var(--segments)) * var(--index)) * 1deg)) scaleY(1); }
+	12%, 100% { transform: rotateX(90deg) rotateY(calc(((360 / var(--segments)) * var(--index)) * 1deg)) scaleY(0);  }
+}
+
+@keyframes pop {
+	0% { transform: translate3d(0, 0, 0); }
+	4% { transform: translate3d(0, 0, calc(var(--size) * 0.5)); }
+	12%, 100% { transform: translate3d(0, 0, calc(var(--size) * -1)); }
+}
+@keyframes slide {
+	0%, 3.5% {
+		translate: 0 0;
+		transform: rotateY(0deg);
+	}
+	12%, 100% {
+		transform: rotateY(-180deg);
+		translate: -100% 0;
+	}
+}
+/**
+ * 3. Unwrap
+ * - Drop the sides to reveal the little inner gift
+ * - -180 180
+ * */
+.gift > .cuboid > .cuboid__side:nth-of-type(1) { --dest-x: -180deg; --origin-x: -90deg; }
+.gift > .cuboid > .cuboid__side:nth-of-type(2) { --dest-x: 180deg; --origin-x: 90deg; }
+.gift > .cuboid > .cuboid__side:nth-of-type(3) { --dest-y: -180deg; --origin-y: -90deg; }
+.gift > .cuboid > .cuboid__side:nth-of-type(4) { --dest-y: 180deg; --origin-y: 90deg; }
+.gift > .cuboid > .cuboid__side:nth-of-type(1),
+.gift > .cuboid > .cuboid__side:nth-of-type(2),
+.gift > .cuboid > .cuboid__side:nth-of-type(3),
+.gift > .cuboid > .cuboid__side:nth-of-type(4) {
+	animation: unwrap var(--duration) var(--delay) both infinite;
+}
+@keyframes unwrap {
+	0%, 25% {
+		transform: rotateX(var(--origin-x, 0deg)) rotateY(var(--origin-y, 0deg));
+	}
+	30%, 100% {
+		transform: rotateX(var(--dest-x, 0deg)) rotateY(var(--dest-y, 0deg));
+	}
+}
+
+/**
+ * 4. After unwrapping
+ * - Slide the gift out of the way
+ * */
+.gift-slider {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+  animation: slide-away var(--duration) var(--delay) both infinite;
+}
+@keyframes slide-away {
+	0%, 40% { translate: 0 0; }
+	50%, 100% { translate: -50vw 0; }
+}
+
+.gift::after {
+/*	content: "";*/
+	position: absolute;
+	left: 650%;
+	width: 100%;
+	height: 200vmax;
+	background: hsl(0 0% 96%);
+	mask: linear-gradient(0deg, transparent, white 10% 90%, transparent),
+		linear-gradient(90deg, white, transparent);
+	mask-composite: intersect;
+	top: 50%;
+	transform-origin: 0 50%;
+	transform: translate(calc(var(--size) * -0.35), -50%) rotateY(90deg);
+	animation: fade-in var(--duration) var(--delay) both infinite;
+}
+
+@keyframes fade-in {
+	0%, 40%, 75%, 100% { opacity: 0; }
+	50%, 60% { opacity: 1; }
+}
+
+.tumbler {
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	translate: 0 0;
+}
+
+.tumble-gift {
+	width: 100%;
+  height: 100%;
+  position: absolute;
+  transform-origin: 50% 100%;
+  transform: scale3d(0.5, 0.5, 0.5);
+}
+.tumble {
+	height: 100%;
+	width: 100%;
+}
+
+.tumble--one, .tumble--five {
+	transform-origin: 100% 100%;
+}
+.tumble--two, .tumble--six {
+	transform-origin: 100% 0%;
+}
+.tumble--three, .tumble--seven {
+	transform-origin: 0% 0%;
+}
+.tumble--four, .tumble--eight {
+	transform-origin: 0% 100%;
+}
+
+/**
+ * 5. The Tumble before the drop
+ * This could be done with a changing transform-origin. Nested
+ * elements will do the trick though and be easier to manage.
+ * */
+.tumbler {
+ animation: offset-tumble var(--duration) var(--delay) both infinite;
+}
+@keyframes offset-tumble {
+	0%, 40% { translate: 0 0; }
+	50%, 100% { translate: -800% 0; }
+}
+.tumble {
+  animation: tumble-one var(--duration) var(--delay) both infinite;
+}
+.tumble--two {
+	animation-name: tumble-two;
+}
+.tumble--three {
+	animation-name: tumble-three;
+}
+.tumble--four {
+	animation-name: tumble-four;
+}
+.tumble--five {
+	animation-name: tumble-five;
+}
+.tumble--six {
+	animation-name: tumble-six;
+}
+.tumble--seven {
+	animation-name: tumble-seven;
+}
+.tumble--eight {
+	animation-name: tumble-eight;
+	animation-timing-function: var(--drop);
+}
+
+@keyframes tumble-one { 0%, 40% { rotate: 0deg; } 41.25%, 100% { rotate: 90deg; }}
+@keyframes tumble-two { 0%, 41.25% { rotate: 0deg; } 42.5%, 100% { rotate: 90deg; }}
+@keyframes tumble-three { 0%, 42.5% { rotate: 0deg; } 43.75%, 100% { rotate: 90deg; }}
+@keyframes tumble-four { 0%, 43.75% { rotate: 0deg; } 45%, 100% { rotate: 90deg; }}
+@keyframes tumble-five { 0%, 45% { rotate: 0deg; } 46.25%, 100% { rotate: 90deg; }}
+@keyframes tumble-six { 0%, 46.25% { rotate: 0deg; } 47.5%, 100% { rotate: 90deg; }}
+@keyframes tumble-seven { 0%, 47.5% { rotate: 0deg; } 48.75%, 100% { rotate: 90deg; }}
+@keyframes tumble-eight { 0%, 48.75% { rotate: 0deg; } 65%, 100% { rotate: 90deg; }}
+
+
+/**
+ * 6. After the tumble, it's time for the "drop"
+ * */
+.gift-riser {
+	animation: rise var(--duration) var(--delay) both infinite;
+}
+@keyframes rise {
+	0%, 60% { transform: translate3d(0, 0, 0); }
+	75%, 100% { transform: translate3d(0, 0, 80vh); }
+}
+
+/* At the same time the shadow should bolt up too */
+.shadow {
+	height: 85%;
+	width: 85%;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	translate: -50% -50%;
+	transform: translate3d(0, 0, -80vh);
+	animation: fall var(--duration) var(--delay) var(--bounce) both infinite;
+	opacity: 0;
+}
+
+@keyframes fall {
+	0%, 60% {
+		opacity: 0;
+		scale: 0;
+		transform: translate3d(0, 0, -80vh);
+	}
+	75%, 100% {
+		opacity: 1;
+		scale: 1;
+		transform: translate3d(0, 0, 0);
+	}
+}
+
+.tumble-gift {
+	animation: rescale var(--duration) var(--delay) var(--bounce) both infinite;
+}
+
+@keyframes rescale {
+	0%, 60% {
+		transform: scale3d(0.5, 0.5, 0.5);
+	}
+	75%, 100% {
+		transform: scale3d(1, 1, 1);
+	}
+}
+
+.shadow, .drop-shadow {
+	background: hsl(0 0% 4% / 0.25);
+	filter: blur(4px);
+}
+
+/* Styling so you get a back and front of each side */
+.cuboid__side:not(:nth-of-type(6)) {
+	transform-style: preserve-3d;
+}
+.cuboid__side:not(:nth-of-type(6))::after {
+	content: "";
+	backface-visibility: hidden;
+	position: absolute;
+	inset: 0;
+	background:
+		linear-gradient(90deg, var(--ribbon) 9.5%, transparent 10% 15%, var(--ribbon) 15.5% 84.5%, transparent 85% 90%, var(--ribbon) 90.5%) 50% 50% / 25% 100% no-repeat,
+		var(--box);
+}
+.cuboid__side:not(:nth-of-type(6))::before {
+	backface-visibility: hidden;
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: var(--box);
+	transform: translate3d(0, 0, -1px) rotateY(180deg);	
+}
+.cuboid__side:nth-of-type(3)::after,
+.cuboid__side:nth-of-type(4)::after {
+	background:
+		linear-gradient(0deg, var(--ribbon) 9.5%, transparent 10% 15%, var(--ribbon) 15.5% 84.5%, transparent 85% 90%, var(--ribbon) 90.5%) 50% 50% / 100% 25% no-repeat,
+		var(--box);
+}
+
+.cuboid__side:nth-of-type(5)::after {
+	background:
+		linear-gradient(90deg, var(--ribbon) 9.5%, transparent 10% 15%, var(--ribbon) 15.5% 84.5%, transparent 85% 90%, var(--ribbon) 90.5%) 50% 50% / 25% 100% no-repeat,
+		linear-gradient(0deg, var(--ribbon) 9.5%, transparent 10% 15%, var(--ribbon) 15.5% 84.5%, transparent 85% 90%, var(--ribbon) 90.5%) 50% 50% / 100% 25% no-repeat,
+		var(--box);
+}
+
+.gift {
+/*	animation: none;*/
+}
+* {
+/*	animation-play-state: paused !important;*/
+}
+
+.bobble {
+	--segments: 8;
+	position: absolute;
+  height: 50%;
+  width: 50%;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  transform: translate3d(0, 0, 1px);
+}
+.bobble__segment:nth-of-type(1) { --index: 0; }
+.bobble__segment:nth-of-type(2) { --index: 1; }
+.bobble__segment:nth-of-type(3) { --index: 2; }
+.bobble__segment:nth-of-type(4) { --index: 3; }
+.bobble__segment:nth-of-type(5) { --index: 4; }
+.bobble__segment:nth-of-type(6) { --index: 5; }
+.bobble__segment:nth-of-type(7) { --index: 6; }
+.bobble__segment:nth-of-type(8) { --index: 7; }
+
+.bobble__segment {
+	position: absolute;
+	width: 100%;
+	height: 50%;
+	top: 50%;
+	left: 0;
+	transform-origin: 50% 0;
+	filter: brightness(calc((var(--index) / 10) + 0.5));
+	transform: rotateX(90deg) rotateY(calc(((360 / var(--segments)) * var(--index)) * 1deg));
+	background: var(--bow);
+	border-radius: 100px;
 }

@@ -1,5 +1,10 @@
 @import "normalize.css";
 
+@font-face {
+  font-family: "Geist Sans";
+  src: url("https://assets.codepen.io/605876/GeistVF.ttf") format("truetype");
+}
+
 :root {
   --bg: hsl(0 0% 2%);
   --color: hsl(0 0% 100% / 0.1);
@@ -14,20 +19,34 @@
 }
 
 body {
-  align-items: center;
   background-color: var(--bg);
   color: var(--color);
-  display: flex;
-  font-family: sans-serif;
+  font-family: "Geist Sans", sans-serif;
   font-weight: bold;
-  justify-content: center;
-  min-height: 200vh;
   accent-color: red;
+  overflow-x: hidden;
+  font-weight: 120;
 }
 
-:root:has(#driver:checked) section {
+:root:has(#driver:checked) main {
 	outline: 1rem dashed hsl(0 80% 50% / 0.5);
 	background: hsl(0 80% 50% / 0.1);
+}
+
+header, footer {
+  height: 100vh;
+  color: var(--finish-fill);
+  display: grid;
+  place-items: center;
+  font-size: clamp(2rem, 4vw + 1rem, 12rem);
+}
+
+h1, h2 {
+  font-weight: 120;
+  background: linear-gradient(var(--finish-fill), var(--fill));
+  background-clip: text;
+  color: transparent;
+/*  text-transform: uppercase;*/
 }
 
 .controls {
@@ -49,21 +68,12 @@ p {
   resize: both;
   max-width: 100vw;
   overflow: hidden;
-  position: fixed;
-  padding:2ch;
+  position: absolute;
+  padding: 10ch;
   top: 50%;
   left: 50%;
   translate: -50% -50%;
-	animation: fill-up both linear;
-	animation-timeline: --section;
-	animation-range: cover;
 	margin: 0;
-}
-
-@property --progress {
-	initial-value: 0;
-	syntax: '<number>';
-	inherits: true;
 }
 
 p > span {
@@ -82,33 +92,61 @@ p > span {
   	var(--underline-block-width) var(--underline-width),
     100% var(--underline-width);
   background-repeat: no-repeat;
-  background-position-x:
-  	calc((var(--underline-block-width) * -1) + (var(--progress) * var(--underline-block-width) * 1)),
-  	calc((var(--underline-block-width) * -1) + (var(--progress) * var(--underline-block-width) * 1)),
-  	0;
+  background-position-x: 0;
   background-position-y: 100%;
-  color: tranparent;
-  -webkit-background-clip: text;
-  animation: color-in both linear;
-	animation-timeline: --section;
-	animation-range: cover 65% cover 100%;
+  background-clip: text;
+  color: var(--finish-fill);
 }
 
-section {
-	margin: 100vh 0;
-	height: 100vh;
-	width: 100vw;
-	view-timeline-name: --section;
+/*p > span {
+  background-clip: unset;
+  color: transparent;
+  background-position-x: -200vmax, -200vmax, 0;
+  animation: fill-up 4s infinite linear;
 }
 
 @keyframes fill-up {
-	to {
-		--progress: 1;
-	}
+  to { background-position-x: 0, 0, 0; }
+}*/
+
+main {
+  height: 200vh;
 }
 
-@keyframes color-in {
-	to {
-		color: var(--finish-fill);
-	}
+section {
+  position: sticky;
+  top: 0;
+	height: 100vh;
+	width: 100vw;
 }
+
+
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    main {
+      view-timeline-name: --section;
+    }
+    
+    p > span {
+      background-position-x:
+        calc(var(--underline-block-width) * -1),
+        calc(var(--underline-block-width) * -1),
+        0;
+      color: transparent;
+      animation-name: fill-up, color-in;
+      animation-fill-mode: both;
+      animation-timing-function: linear;
+    	animation-timeline: --section;
+    	animation-range: entry 100% cover 50%, cover 50% exit 0%;
+    }
+
+    @keyframes fill-up {
+    	to { background-position-x: 0, 0, 0; }
+    }
+
+    @keyframes color-in {
+    	to { color: var(--finish-fill); }
+    }
+  }
+}
+
