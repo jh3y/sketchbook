@@ -13,9 +13,15 @@ console.clear()
 
 const PHRASES = [
   'Wherever you go,<br/>the cursor follows',
-  'Lean into CSS<br/>and the cascade',
   'One event listener powers it all',
-  'One HTML attribute,<br/>feel the glow',
+  'Lean into CSS<br/>and the cascade',
+  'One attribute,<br/>make it glow',
+]
+
+const LABELS = [
+  'Background',
+  'Border Mask',
+  'Shine Mask',
 ]
 
 const PATHS = [
@@ -55,9 +61,11 @@ const App = () => {
   const sceneFolder = React.useRef(null)
   const explodingRef = React.useRef(null)
   const exploder = React.useRef(null)
-  const busyRef = React.useRef(false)
+  const spreader = React.useRef(null)
+  const spreadingRef = React.useRef(null)
   const [cards, setCards] = React.useState([])
   const [exploding, setExploding] = React.useState(false)
+  const [spreading, setSpreading] = React.useState(false)
 
   const removeCard = React.useCallback(
     (id) => {
@@ -72,8 +80,7 @@ const App = () => {
     [cards]
   )
 
-  const addCard = React.useCallback(() => {
-    if (explodingRef.current) return null
+  const addCard = () => {
     setCards((cards) => {
       if (cards.length === 4) return cards
       const newCard = {
@@ -126,84 +133,27 @@ const App = () => {
 
       return [...cards, newCard]
     })
-  }, [exploding])
+  }
 
-  const explode = () => {
-    if (explodingRef.current) {
-      exploder.current.domElement
-        .querySelector('input')
-        .toggleAttribute('disabled')
-      gsap.set(exploder.current.domElement.closest('li'), {
-        pointerEvents: 'none',
-      })
-      gsap
-        .timeline({
-          onComplete: () => {
-            // Allow people to use the button again
-            const CARD = document.querySelector('.wrapper:first-of-type')
-            const CARD_STATE = Flip.getState(CARD)
-            gsap.set(CARD, { clearProps: true })
-
-            Flip.from(CARD_STATE, {
-              onComplete: () => {
-                gsap.to('.wrapper:not(:nth-of-type(1))', {
-                  opacity: 1,
-                  onComplete: () => {
-                    exploder.current.domElement
-                      .querySelector('input')
-                      .toggleAttribute('disabled')
-                    gsap.set(exploder.current.domElement.closest('li'), {
-                      pointerEvents: 'all',
-                    })
-                    document.body.toggleAttribute('data-explode')
-                    setExploding(false)
-                  },
-                })
-              },
-            })
-          },
-        })
-        .to('.dummy span', {
-          opacity: 0,
-          stagger: -0.25,
-        })
-        .to(['.dummy__backdrop', '.dummy__border', '.dummy__glow'], {
-          opacity: 0,
-          stagger: -0.25,
-        })
-        .to('.wrapper:first-of-type article', {
-          opacity: 1,
-        })
-        .to('.wrapper:first-of-type', {
-          // transform: 'translate(-50%, -50%) rotateX(-24deg) rotateY(-40deg)',
-          transform:
-            'translate(-50%, -50%) rotateX(-24deg) rotateY(-50deg) translate3d(0, 0, 0px)',
-        })
-        .to('.wrapper:first-of-type', {
-          transform: 'translate(-50%, -50%) rotateX(0deg) rotateY(0deg)',
-        })
-    } else {
-      setExploding(true)
-    }
+  const spread = () => {
+    document.documentElement.toggleAttribute('data-spread')
+    setSpreading(spreading => !spreading)
   }
 
   React.useEffect(() => {
-    // Toggle the data-explode attribute. This is purely to trigger offset styling for glows
+    if (cards.length > 0) {
+      document.body.style.setProperty('--base', cards[0].base)
+      document.body.style.setProperty('--spread', cards[0].spread)
+    }
+  }, [spreading])
+
+  React.useEffect(() => {
     if (exploding) {
-      exploder.current.domElement
-        .querySelector('input')
-        .toggleAttribute('disabled')
-      gsap.set(exploder.current.domElement.closest('li'), {
-        pointerEvents: 'none',
-      })
-      const CENTER_CARD = document.querySelector('.wrapper:first-of-type')
-      const CENTER_STATE = Flip.getState(CENTER_CARD)
-      explodingRef.current = exploding
-      const syncCard = () => {
+      const CENTER_CARD = document.querySelector('.dummy__backdrop')
         const BOUNDS = CENTER_CARD.getBoundingClientRect()
-        const CONTROL = CENTER_CARD.querySelector(':is(a, button)')
+        const CONTROL = document.querySelector('.wrapper:first-of-type :is(a, button)')
         const CONTROL_BOUNDS = CONTROL.getBoundingClientRect()
-        gsap.set(CENTER_CARD, {
+        gsap.set('.wrapper:first-of-type', {
           '--left': BOUNDS.x,
           '--top': BOUNDS.y,
         })
@@ -211,70 +161,15 @@ const App = () => {
           '--left': CONTROL_BOUNDS.x,
           '--top': CONTROL_BOUNDS.y,
         })
-      }
-
-      const explodeView = () => {
-        gsap
-          .timeline({
-            onComplete: () => {
-              // Allow people to use the button again
-              exploder.current.domElement
-                .querySelector('input')
-                .toggleAttribute('disabled')
-              gsap.set(exploder.current.domElement.closest('li'), {
-                pointerEvents: 'all',
-              })
-            },
-          })
-          .to('.wrapper:first-of-type', {
-            transform: 'translate(-50%, -50%) rotateX(-24deg) rotateY(-50deg)',
-          })
-          .to('.wrapper:first-of-type', {
-            // transform: 'translate(-50%, -50%) rotateX(-24deg) rotateY(-40deg)',
-            transform:
-              'translate(-50%, -50%) rotateX(-24deg) rotateY(-50deg) translate3d(0, 0, -300px)',
-          })
-          .to('.wrapper:first-of-type article', {
-            opacity: 0.5,
-          })
-          .to(['.dummy__backdrop', '.dummy__border', '.dummy__glow'], {
-            opacity: 1,
-            stagger: 0.25,
-          })
-          .to('.dummy span', {
-            opacity: 1,
-            stagger: 0.25,
-          })
-      }
-
-      const CENTER = gsap.timeline({
-        onComplete: () => {
-          Flip.from(CENTER_STATE, {
-            duration: 1,
-            absolute: true,
-            onComplete: () => {
-              document.body.toggleAttribute('data-explode')
-              syncCard()
-              explodeView()
-            },
-          })
-        },
-      })
-
-      if (cards.length > 0) {
-        CENTER.to('.wrapper:not(:nth-of-type(1))', { opacity: 0 })
-      }
-      CENTER.set(CENTER_CARD, {
-        position: 'absolute',
-        xPercent: -50,
-        yPercent: -50,
-        top: '50%',
-        left: '50%',
-      })
-    } else {
-      explodingRef.current = false
     }
   }, [exploding])
+
+  const explode = () => {
+    setExploding(exploding => {
+      document.documentElement.toggleAttribute('data-explode')
+      return !exploding
+    })
+  }
 
   const CONFIG = {
     body: 'rgb(0, 10, 15)',
@@ -284,6 +179,7 @@ const App = () => {
       addCard()
     },
     explode: false,
+    spread: false,
     border: 2,
     radius: 12,
     saturation: 100,
@@ -305,17 +201,20 @@ const App = () => {
         key !== 'card' &&
         key !== 'cardalpha'
       ) {
-        document.documentElement.style.setProperty(`--${key}`, CONFIG[key])
+        document.body.style.setProperty(`--${key}`, CONFIG[key])
       }
       if (key === 'card') {
         const hsl = new Color(CONFIG.card).hsl()
-        document.documentElement.style.setProperty(
+        document.body.style.setProperty(
           '--backdrop',
           `hsl(${hsl.color[0]} ${hsl.color[1]}% ${hsl.color[2]}% / ${CONFIG.cardalpha})`
         )
-        document.documentElement.style.setProperty(
+        document.body.style.setProperty(
           '--backup-border',
-          `hsl(${hsl.color[0]} ${hsl.color[1]}% ${hsl.color[2]}% / ${Math.max(CONFIG.cardalpha, 0.2)})`
+          `hsl(${hsl.color[0]} ${hsl.color[1]}% ${hsl.color[2]}% / ${Math.max(
+            CONFIG.cardalpha,
+            0.2
+          )})`
         )
       }
     }
@@ -387,6 +286,10 @@ const App = () => {
       .add(CONFIG, 'explode')
       .name('Explode?')
       .onChange(explode)
+    spreader.current = sceneFolder.current
+      .add(CONFIG, 'spread')
+      .name('Spread?')
+      .onChange(spread)
     controller.current.add(CONFIG, 'addCard').name('Add Card')
     // Add some default cards
     addCard()
@@ -396,108 +299,202 @@ const App = () => {
   return (
     <main>
       {cards.map((card, index) => {
+        if (spreading && index > 0) return null
+
         return (
-          <div className="wrapper">
-            {exploding && index === 0 ? (
-              <div
-                className="dummy"
+          <>
+            <div className="wrapper">
+              {exploding && index === 0 ? (
+                <div
+                  className="dummy"
+                  style={{
+                    '--base': card.base,
+                    '--spread': card.spread,
+                  }}
+                >
+                  <div className="dummy__backdrop">
+                    <span>Background</span>
+                  </div>
+                  <div className="dummy__border">
+                    <span>Border Mask</span>
+                  </div>
+                  <div className="dummy__glow">
+                    <span>Shine Mask</span>
+                  </div>
+                </div>
+              ) : null}
+              <article
+                className="card"
+                data-glow
                 style={{
                   '--base': card.base,
                   '--spread': card.spread,
                 }}
               >
-                <div className="dummy__backdrop">
-                  <span>Background</span>
+                {card.outer ? <div data-glow></div> : null}
+                <div className="card__content">
+                  <span>Pro</span>
+                  <div>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="currentColor"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="none"
+                      dataSlot="icon"
+                      className="w-6 h-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d={PATHS[index]}
+                      />
+                    </svg>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="currentColor"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="none"
+                      dataSlot="icon"
+                      className="w-6 h-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d={PATHS[index]}
+                      />
+                    </svg>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="currentColor"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="none"
+                      dataSlot="icon"
+                      className="w-6 h-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d={PATHS[index]}
+                      />
+                    </svg>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="currentColor"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="none"
+                      dataSlot="icon"
+                      className="w-6 h-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d={PATHS[index]}
+                      />
+                    </svg>
+                  </div>
+                  <h2 dangerouslySetInnerHTML={{ __html: PHRASES[index] }} />
                 </div>
-                <div className="dummy__border">
-                  <span>Border Mask</span>
-                </div>
-                <div className="dummy__glow">
-                  <span>Shine Mask</span>
-                </div>
-              </div>
-            ) : null}
-            <article
-              className="card"
-              data-glow
-              style={{
-                '--base': card.base,
-                '--spread': card.spread,
-              }}
-            >
-              {card.outer ? <div data-glow></div> : null}
-              <div className="card__content">
-                <span>Pro</span>
-                <div>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="currentColor"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="none"
-                    dataSlot="icon"
-                    className="w-6 h-6"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d={PATHS[index]}
-                    />
-                  </svg>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="currentColor"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="none"
-                    dataSlot="icon"
-                    className="w-6 h-6"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d={PATHS[index]}
-                    />
-                  </svg>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="currentColor"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="none"
-                    dataSlot="icon"
-                    className="w-6 h-6"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d={PATHS[index]}
-                    />
-                  </svg>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="currentColor"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="none"
-                    dataSlot="icon"
-                    className="w-6 h-6"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d={PATHS[index]}
-                    />
-                  </svg>
-                </div>
-                <h2 dangerouslySetInnerHTML={{ __html: PHRASES[index] }} />
-              </div>
-              <a href="#">
-                {card.control ? <span data-glow></span> : null}
-                Follow
-              </a>
-            </article>
-          </div>
+                <a href="#">
+                  {card.control ? <span data-glow></span> : null}
+                  Follow
+                </a>
+              </article>
+            </div>
+            {spreading &&
+              new Array(3).fill(0).map((_, index) => {
+                return (
+                  <div className="wrapper">
+                    <span>{LABELS[index]}</span>
+                    <article
+                      className="card"
+                      data-glow
+                      style={{
+                        '--base': card.base,
+                        '--spread': card.spread,
+                      }}
+                    >
+                      {card.outer ? <div data-glow></div> : null}
+                      <div className="card__content">
+                        <span>Pro</span>
+                        <div>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="currentColor"
+                            viewBox="0 0 24 24"
+                            strokeWidth={1.5}
+                            stroke="none"
+                            dataSlot="icon"
+                            className="w-6 h-6"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d={PATHS[index + 1]}
+                            />
+                          </svg>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="currentColor"
+                            viewBox="0 0 24 24"
+                            strokeWidth={1.5}
+                            stroke="none"
+                            dataSlot="icon"
+                            className="w-6 h-6"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d={PATHS[index + 1]}
+                            />
+                          </svg>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="currentColor"
+                            viewBox="0 0 24 24"
+                            strokeWidth={1.5}
+                            stroke="none"
+                            dataSlot="icon"
+                            className="w-6 h-6"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d={PATHS[index + 1]}
+                            />
+                          </svg>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="currentColor"
+                            viewBox="0 0 24 24"
+                            strokeWidth={1.5}
+                            stroke="none"
+                            dataSlot="icon"
+                            className="w-6 h-6"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d={PATHS[index + 1]}
+                            />
+                          </svg>
+                        </div>
+                        <h2
+                          dangerouslySetInnerHTML={{ __html: PHRASES[index + 1] }}
+                        />
+                      </div>
+                      <a href="#">
+                        {card.control ? <span data-glow></span> : null}
+                        Follow
+                      </a>
+                    </article>
+                  </div>
+                )
+              })}
+          </>
         )
       })}
     </main>

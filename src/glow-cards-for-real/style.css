@@ -159,6 +159,15 @@ h2 {
     hsl(0 100% 100% / 1), transparent 100%
   );
 }
+
+[data-explode] .wrapper:not(:first-of-type) {
+  display: none;
+}
+
+[data-explode] .wrapper {
+  transform: rotateX(-24deg) rotateY(-50deg) translate3d(0, 0, -400px);
+}
+
 .dg.ac {
   transform: translate3d(0, 0, 200vmin);
 }
@@ -175,9 +184,12 @@ h2 {
 	position: absolute;
 	inset: 0;
 	transform-style: preserve-3d;
-	container-query: inline-size;
 	border-radius: calc(var(--radius) * 1px);
-/*	opacity: 0;*/
+}
+
+[data-explode] article {
+  backdrop-filter: unset;
+  opacity: 0.35;
 }
 
 .dummy__backdrop {
@@ -190,7 +202,7 @@ h2 {
     calc((var(--y, 0) - var(--top, 0)) * 1px),
     hsl(var(--hue, 210) calc(var(--saturation, 100) * 1%) calc(var(--lightness, 70) * 1%) / var(--glow-opacity, 0.1)), transparent
   );
-	background-color: var(--backdrop);
+	background-color: var(--backup-border);
 	transform: translate3d(0, 0, 200px);
 }
 
@@ -247,7 +259,7 @@ h2 {
     calc((var(--y, 0) - var(--top, 0)) * 1px),
     hsl(var(--hue, 210) calc(var(--saturation, 100) * 1%) calc(var(--lightness, 50) * 1%) / 1), transparent 100%
   );
-  background-color: var(--backdrop);
+  background-color: var(--backup-border);
   inset: calc(var(--border-size) * -1);
   border: var(--border-size) solid transparent;
   border-radius: calc(var(--radius) * 1px);
@@ -286,12 +298,11 @@ h2 {
 }
 .dummy > * {
 	transform-style: preserve-3d;
-	opacity: 0;
 }
+.wrapper > span ,
 .dummy span {
 	display: inline-block;
 	position: absolute;
-	opacity: 0;
 	bottom: 0;
 	color: hsl(0 0% 80%);
 	font-weight: 20;
@@ -301,6 +312,7 @@ h2 {
 	transform: rotateY(50deg) rotateX(24deg) translate(-50%, 50%);
 }
 
+.wrapper:not(:nth-of-type(2)) > span::after,
 :is(.dummy__glow, .dummy__border) span::after {
   content: "(pseudo)";
   font-size: 0.875rem;
@@ -311,6 +323,62 @@ h2 {
   opacity: 0.5;
 }
 
+.wrapper > span {
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, 250%);
+}
+
+
+[data-spread] .wrapper:first-of-type {
+  opacity: 0.35;
+}
+[data-spread] .wrapper:nth-of-type(2) :is(.card__content, a, [data-glow] > [data-glow]),
+[data-spread] .wrapper:nth-of-type(2) [data-glow]::before,
+[data-spread] .wrapper:nth-of-type(2) [data-glow]::after {
+  opacity: 0;
+}
+[data-spread] .wrapper:nth-of-type(3) :is(.card__content, a, [data-glow] > [data-glow]),
+[data-spread] .wrapper:nth-of-type(3) [data-glow]::after {
+  opacity: 0;
+}
+
+[data-spread] .wrapper:nth-of-type(4) :is(.card__content, a, [data-glow] > [data-glow]),
+[data-spread] .wrapper:nth-of-type(4) [data-glow]::before {
+  opacity: 0;
+}
+[data-spread] .wrapper:nth-of-type(3) article,
+[data-spread] .wrapper:nth-of-type(4) article {
+  background: transparent;
+}
+
+[data-spread] .wrapper:not(:first-of-type) article {
+  --bg-spot-opacity: 0.5;
+  --border-spot-opacity: 1;
+  --border-light-opacity: 1;
+}
+
+[data-spread] main::before {
+  --hue: calc(var(--base) + (var(--xp, 0) * var(--spread, 0)));
+  --spotlight-size: calc(var(--size) * 1px);
+  --bg-spot-opacity: 0.75;
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: radial-gradient(
+    var(--spotlight-size) var(--spotlight-size) at
+    calc(var(--x, 0) * 1px)
+    calc(var(--y, 0) * 1px),
+    hsl(var(--hue, 210) calc(var(--saturation, 100) * 1%) calc(var(--lightness, 70) * 1%) / var(--bg-spot-opacity, 0.1)), transparent
+  );
+  z-index: -1;
+  opacity: 0.5;
+  filter: blur(20px);
+}
+
+[data-spread] .wrapper {
+  z-index: 2;
+}
 
 
 /* Glow specific styles */
