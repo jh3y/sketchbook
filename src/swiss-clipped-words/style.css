@@ -1,0 +1,60 @@
+@import "normalize.css";
+
+@font-face {
+  font-family: "Geist Sans";
+  src: url("https://assets.codepen.io/605876/GeistVF.ttf") format("truetype");
+}
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	font-family:  "Geist Sans", "SF Pro Text", "SF Pro Icons", "AOS Icons", "Helvetica Neue", Helvetica, Arial, sans-serif, system-ui;
+}
+
+.wrap {
+	background: hsl(0 0% 90%);
+	position: relative;
+	overflow: hidden;
+	z-index: -1;
+}
+
+.wrap::after {
+	content: "";
+	width: 1000%;
+	aspect-ratio: 1;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	translate: -50% -50%;
+	transform-origin: 100% 0;
+	background: url(https://images.unsplash.com/photo-1511593358241-7eea1f3c84e5?q=80&w=3174&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D), red;
+	background-size: cover;
+	animation: rotate 30s infinite alternate ease-in-out;
+}
+
+@keyframes rotate {
+	100% {
+		transform: rotate(30deg);
+	}
+}
+
+.swiss {
+	--bg: black;
+  padding: 2rem;
+  background: linear-gradient(var(--bg), var(--bg)) padding-box;
+  font-size: clamp(3rem, 8vw + 1rem, 12rem);
+  font-weight: 200;
+  border: 12px solid hsl(0 0% 0% / 0.25);
+  mix-blend-mode: darken;
+  color: hsl(210 80% 70%);
+  position: relative;
+  z-index: 2;
+  filter: brightness(2);
+}
