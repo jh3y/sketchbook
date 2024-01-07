@@ -1,0 +1,135 @@
+@import "normalize.css";
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	font-family:  "SF Pro Text", "SF Pro Icons", "AOS Icons", "Helvetica Neue", Helvetica, Arial, sans-serif, system-ui;
+	background: hsl(0 0% 10%);
+}
+
+:root {
+  --card-width: 400px;
+}
+
+.track {
+  width: 100vw;
+  position: relative;
+  height: 100vh;
+}
+
+ul {
+  display: flex;
+  gap: 2rem;
+  padding: 0;
+  margin: 0;
+  padding-inline: 50vw;
+  scroll-snap-type: x mandatory;
+  max-width: 100%;
+  list-style-type: none;
+  overflow: auto;
+  height: 100%;
+ 	align-content: center;
+ 	align-items: center;
+}
+
+li {
+	scroll-snap-align: center;
+	padding: 0;
+	margin: 0;
+}
+
+li:nth-of-type(1) { --hue: 0;}
+li:nth-of-type(2) { --hue: 140;}
+li:nth-of-type(3) { --hue: 45;}
+li:nth-of-type(4) { --hue: 210;}
+li:nth-of-type(5) { --hue: 280;}
+
+article {
+  width: clamp(300px, 50vmin, 600px);
+	aspect-ratio: 4 / 3;
+	background:
+		radial-gradient(circle at center, hsl(0 0% 100% / 0.65), transparent) fixed,
+		linear-gradient(hsl(var(--hue) 100% 0% / 0.25), transparent),
+		linear-gradient(transparent, hsl(var(--hue) 0% 10% / 0.5)),
+		hsl(var(--hue, 10) 0% 6%);
+	box-shadow:
+		0 1px hsl(0 0% 100% / 0.5) inset,
+		0 10px 20px -10px black;
+	border-radius: 1rem;
+	border-top: 2px solid hsl(var(--hue, 10) 80% 60% / 0.75);
+}
+
+.track__indicators {
+	height: 20px;
+	position: absolute;
+	top: calc(50% + ((var(--card-width) * (3 / 4)) * 0.5) + 2rem);
+	left: 50%;
+	translate: -50% 0;
+	display: flex;
+}
+.indicator {
+	--color: hsl(0 0% 86%);
+	background: linear-gradient(var(--color), var(--color)) padding-box;
+	flex: 1;
+	border-radius: 100px;
+	height: 100%;
+	min-width: 20px;
+	cursor: pointer;
+	padding: 0;
+	border: 4px solid transparent;
+}
+
+body::before {
+	--line: hsl(0 0% 95% / 0.15);
+	content: "";
+	height: 100vh;
+	width: 100vw;
+	position: fixed;
+	background:
+		linear-gradient(90deg, var(--line) 1px, transparent 1px 10vmin) 0 -5vmin / 10vmin 10vmin,
+		linear-gradient(var(--line) 1px, transparent 1px 10vmin) 0 -5vmin / 10vmin 10vmin;
+	mask: linear-gradient(-15deg, transparent 30%, white);
+	top: 0;
+	z-index: -1;
+	transform: translate3d(0, 0, -100vmin);
+}
+
+@supports (animation-timeline: scroll()) {
+
+	.track {
+		timeline-scope: --one, --two, --three, --four, --five;
+	}
+	
+	.track__indicators {
+		aspect-ratio: 7 / 1;
+	}
+	
+	li:nth-of-type(1) { view-timeline: --one inline;  }
+	li:nth-of-type(2) { view-timeline: --two inline;  }
+	li:nth-of-type(3) { view-timeline: --three inline;}
+	li:nth-of-type(4) { view-timeline: --four inline; }
+	li:nth-of-type(5) { view-timeline: --five inline; }
+	
+	.indicator {
+		--buffer: calc(var(--card-width) * 0.9);
+		animation: blink both linear;
+		animation-range: contain calc(50% - var(--buffer)) contain calc(50% + var(--buffer));
+	}
+	
+	.indicator:nth-of-type(1) { animation-timeline: --one; }
+	.indicator:nth-of-type(2) { animation-timeline: --two; }
+	.indicator:nth-of-type(3) { animation-timeline: --three; }
+	.indicator:nth-of-type(4) { animation-timeline: --four; }
+	.indicator:nth-of-type(5) { animation-timeline: --five; }
+
+	@keyframes blink {
+		50% { flex: 3; }
+	}
+}

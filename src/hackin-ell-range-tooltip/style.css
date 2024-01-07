@@ -1,0 +1,181 @@
+@import "normalize.css" layer(normalize);
+
+@font-face {
+  font-family: "Geist Sans";
+  src: url("https://assets.codepen.io/605876/GeistVF.ttf") format("truetype");
+}
+
+*,
+*:after,
+*:before {
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  place-items: center;
+  min-height: 100vh;
+  font-family:  "Geist Sans", "SF Pro Text", "SF Pro Icons", "AOS Icons", "Helvetica Neue", Helvetica, Arial, sans-serif, system-ui;
+  background: hsl(0 0% 6%);
+}
+
+body::before {
+  --line: hsl(0 0% 95% / 0.15);
+  content: "";
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  background:
+    linear-gradient(90deg, var(--line) 1px, transparent 1px 10vmin) 0 -5vmin / 10vmin 10vmin,
+    linear-gradient(var(--line) 1px, transparent 1px 10vmin) 0 -5vmin / 10vmin 10vmin;
+  mask: linear-gradient(-15deg, transparent 30%, white);
+  top: 0;
+  z-index: -1;
+  transform: translate3d(0, 0, -100vmin);
+}
+
+@layer foundation {
+  .control {
+    position: relative;
+    display: grid;
+    place-items: center;
+    margin: 0 auto;
+    padding: 1rem;
+    border-radius: 100px;
+    scale: 2;
+    transition: background 0.2s;
+    background: hsl(0 0% 0% / calc(var(--active, 0) * 0.5));
+  }
+
+  .control:is(:hover, :has([type="range"]:focus-visible)) {
+    --active: 1;
+  }
+
+  [type="range"] {
+    width: 200px;
+  }
+
+  [type="range"]:hover {
+    cursor: -webkit-grab;
+  }
+  [type="range"]:active {
+    cursor: -webkit-grabbing;
+  }
+
+  [type=range]:focus-visible {
+    outline-offset: 0.25rem;
+    outline-color: transparent;
+  }
+
+  .tooltip {
+    border-radius: 6px;
+    color: hsl(0 0% 98%);
+    display: grid;
+    font-size: 0.875rem;
+    place-items: center;
+    position: absolute;
+    left: 1rem;
+    bottom: 100%;
+    pointer-events: none;
+  }
+
+  .tooltip::after {
+    font-variant: tabular-nums;
+    poition: absolute;
+    font-weight: 40;
+  }
+}
+
+
+@layer scrolls {
+  @property --value {
+    initial-value: 0;
+    syntax: '<integer>';
+    inherits: true;
+  }
+
+  @keyframes sync {
+    to { --value: 100; }
+  }
+
+  [type=range] {
+    overflow: hidden;
+    accent-color: hsl(var(--value) 90% 66%);
+  }
+
+  .control {
+    animation: sync both linear reverse;
+    animation-timeline: --thumb;
+    animation-range: contain;
+  }
+
+  :root {
+    timeline-scope: --thumb;
+  }
+
+  [type="range"]::-webkit-slider-thumb {
+    anchor-name: --thumb;
+    view-timeline-name: --thumb;
+    view-timeline-axis: inline;
+  }
+
+}
+
+
+@layer tip {
+  
+  .tooltip {
+    counter-reset: val var(--value);
+  }
+  
+  .tooltip::after {
+    content: "Value: " counter(val);
+  }
+
+}
+
+@layer anchoring {
+  @supports (anchor-name: --rad) {
+    .tooltip {
+      font-size: 1rem;
+      aspect-ratio: 4 / 3;
+      width: 3rem;
+      position: absolute;
+      anchor-default: --thumb;
+      left: anchor(center);
+      bottom: calc(anchor(top) + 25%);
+      translate: -50% 0;
+      transform-origin: 50% 100%;
+      background: hsl(0 0% 0%);
+      border: 1px solid hsl(0 0% 50%);
+      box-shadow: 0 1px hsl(0 0% 100% / 0.75) inset, 0 5px 10px -5px black;
+      scale: var(--active, 0);
+      opacity: var(--active, 0);
+      transition: scale 0.25s, opacity 0.25s;
+    }
+    .tooltip::after {
+      content: counter(val);
+    }
+  }
+}
+
+@layer bounce {
+  @supports (animation-timing-function: linear(1, 1)) {
+    .tooltip {
+      rotate: calc(clamp(-60, var(--delta-x) * -1, 60) * 1deg);
+      transition: scale 0.2s, opacity 0.2s, rotate 1s linear(
+        0, 0.2178 2.1%, 1.1144 8.49%,
+        1.2959 10.7%, 1.3463 11.81%,
+        1.3705 12.94%, 1.3726, 1.3643 14.48%,
+        1.3151 16.2%, 1.0317 21.81%,
+        0.941 24.01%, 0.8912 25.91%,
+        0.8694 27.84%, 0.8698 29.21%,
+        0.8824 30.71%, 1.0122 38.33%, 1.0357,
+        1.046 42.71%, 1.0416 45.7%,
+        0.9961 53.26%, 0.9839 57.54%,
+        0.9853 60.71%, 1.0012 68.14%,
+        1.0056 72.24%, 0.9981 86.66%, 1
+      );
+    }
+  }
+}
