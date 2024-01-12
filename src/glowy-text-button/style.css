@@ -1,0 +1,56 @@
+@import "normalize.css";
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+:root {
+	--hue: calc(0 + (var(--xp) * 500));
+	--bg: hsl(0 0% 10%);
+	--size: 100px;
+	--glow: radial-gradient(
+			50% 50% at center,
+			hsl(var(--hue) 80% 85%),
+			hsl(var(--hue) 80% 70%),
+			transparent
+		)
+		calc((var(--x) * 1px) - (var(--size) * 0.5))
+		calc((var(--y) * 1px) - (var(--size) * 0.5)) / var(--size) var(--size) no-repeat fixed;
+}
+
+body {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	font-family:  "SF Pro Text", "SF Pro Icons", "AOS Icons", "Helvetica Neue", Helvetica, Arial, sans-serif, system-ui;
+	background: var(--bg);
+}
+
+button {
+	padding: 1rem 2rem;
+	border-radius: 1rem;
+	text-transform: uppercase;
+	font-weight: bold;
+	letter-spacing: 0.1ch;
+	background: var(--bg);
+	border: 4px solid transparent;
+	box-shadow: 0 1px hsl(0 0% 100% / 0.15) inset;
+	cursor: pointer;
+	background:
+		linear-gradient(var(--bg), var(--bg)) padding-box,
+		var(--glow),
+		linear-gradient(black, black) border-box;
+	transition: background-size 0.24s;
+}
+
+button span {
+	background: var(--glow), black;
+	background-clip: text;
+	color: transparent;
+}
+
+:root:has(button:active) {
+	--size: 300px;
+}

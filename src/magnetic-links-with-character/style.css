@@ -1,0 +1,186 @@
+@import "normalize.css" layer(normalize);
+
+@font-face {
+  font-family: "Geist Sans";
+  src: url("https://assets.codepen.io/605876/GeistVF.ttf") format("truetype");
+}
+
+@layer foundation {
+	*,
+	*:after,
+	*:before {
+		box-sizing: border-box;
+	}
+
+	:root {
+		--theme: hsl(30 90% 70%);
+		accent-color: var(--theme);
+	}
+
+	body {
+		display: grid;
+		place-items: center;
+		min-height: 100vh;
+		font-family:  "Geist Sans", "SF Pro Text", "SF Pro Icons", "AOS Icons", "Helvetica Neue", Helvetica, Arial, sans-serif, system-ui;
+		font-weight: 80;
+	}
+
+	.bear {
+		position: fixed;
+		bottom: 2rem;
+		right: 2rem;
+		width: 44px;
+		color: hsl(0 0% 10%);
+		filter: grayscale(1);
+		opacity: 0.75;
+	}
+
+	body::before {
+    --line: hsl(0 0% 20% / 0.2);
+    content: "";
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    background:
+      linear-gradient(90deg, var(--line) 1px, transparent 1px 10vmin) 0 -5vmin / 10vmin 10vmin,
+      linear-gradient(var(--line) 1px, transparent 1px 10vmin) 0 -5vmin / 10vmin 10vmin;
+    mask: linear-gradient(-15deg, transparent 60%, white);
+    top: 0;
+    z-index: -1;
+    transform: translate3d(0, 0, -100vmin);
+  }
+
+	nav ul {
+		display: flex;
+		flex-wrap: wrap;
+		list-style-type: none;
+		padding: 0;
+		margin: 0;
+	}
+	nav li {
+		border-radius: 0.875rem;
+		display: grid;
+		place-items: center;
+	}
+	nav a {
+		text-decoration: none;
+		color: hsl(0 0% 10%);
+		outline-offset: 0.5rem;
+		border-radius: 0.875rem;
+	}
+	nav a span {
+		display: inline-block;
+	}
+
+	.controls {
+		position: fixed;
+		top: 1rem;
+		right: 1rem;
+		display: flex;
+		gap: 0.5rem;
+		color: hsl(0 0% 50%);
+		display: grid;
+		grid-template-columns: auto 1fr;
+	}
+}
+
+@layer trickery {
+	:root {
+		--elastic-out: linear(
+	    0, 0.2178 2.1%, 1.1144 8.49%,
+	    1.2959 10.7%, 1.3463 11.81%,
+	    1.3705 12.94%, 1.3726, 1.3643 14.48%,
+	    1.3151 16.2%, 1.0317 21.81%,
+	    0.941 24.01%, 0.8912 25.91%,
+	    0.8694 27.84%, 0.8698 29.21%,
+	    0.8824 30.71%, 1.0122 38.33%, 1.0357,
+	    1.046 42.71%, 1.0416 45.7%,
+	    0.9961 53.26%, 0.9839 57.54%,
+	    0.9853 60.71%, 1.0012 68.14%,
+	    1.0056 72.24%, 0.9981 86.66%, 1
+	  );
+	}
+	nav {
+		--padding-x: calc(var(--item-inline, 1) * 1rem);
+		--padding-y: calc(var(--item-block, 0.5) * 1rem);
+	}
+	/* Implementation for following tab */
+	ul:is(:hover, :focus-within) { --follow: 1; }
+	:root:has(#follow:checked) ul::after {
+		content: "";
+		background: hsl(0 0% 95%);
+		border-radius: 0.875rem;
+		position: fixed;
+		opacity: var(--follow, 0);
+		top: calc((var(--at) * 1px) + (var(--item-block) * 1rem));
+		left: calc((var(--al) * 1px) + (var(--item-inline) * 1rem));
+		height: calc((var(--ah) * 1px) - (var(--item-block) * 2rem));
+		width: calc((var(--aw) * 1px) - (var(--item-inline) * 2rem));
+		z-index: -1;
+		pointer-events: none;
+		translate:
+			calc(clamp(-1, var(--list-x), 1) * var(--padding-x, 1rem))
+			calc(clamp(-1, var(--list-y), 1) * var(--padding-y, 1rem));
+/*		transition: top 0.2s, left 0.2s, width 0.2s, height 0.2s;*/
+		transition:
+			top 0.25s,
+			left 0.25s,
+			width 0.25s,
+			height 0.25s,
+			opacity 0.25s,
+			translate var(--speed, 0.25s) var(--ease, ease-out);
+	}
+	:root:has(#follow:checked) a {
+		background-color: transparent;
+	}
+	ul:has(li:hover a) {
+		--ease: ease;
+		--speed: 0.1s;
+	}
+	ul:has(li a:is(:hover, :focus-within)) {
+		--speed: 0s;
+	}
+	/* End follow implementation	*/
+	nav li {
+		padding: var(--padding-y) var(--padding-x);
+		outline: 2px dashed transparent;
+		transition: outline-color 0.5s;
+	}
+	:root:has(#outline:checked) nav li {
+		outline-color: var(--theme);
+	}
+	nav li:hover {
+		--active: 1;
+	}
+	nav li:hover a {
+		--ease: ease;
+		--speed: 0.1s;
+	}
+	nav li a:is(:hover, :focus-within) {
+		--active: 1;
+		--speed: 0s;
+	}
+	nav a {
+		--accent: hsl(0 0% calc((100 - (var(--active, 0) * 5)) * 1%));
+		background-color: var(--accent);
+		padding: 1rem;
+		outline-color: var(--accent);
+	}
+	nav a span {
+		--padding-x: calc(1rem * var(--text-offset, 0.25));
+		--padding-y: calc(1rem * var(--text-offset, 0.25));
+	}
+	:where(nav a, nav a span) {
+		translate:
+			calc(clamp(-1, var(--magnet-x), 1) * var(--padding-x, 1rem))
+			calc(clamp(-1, var(--magnet-y), 1) * var(--padding-y, 1rem));
+		transition: translate var(--speed, 0.25s) var(--ease, ease-out), outline-color 0.25s, background-color 0.25s;
+	}
+}
+
+
+
+
+
+
+

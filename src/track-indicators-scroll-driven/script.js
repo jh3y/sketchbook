@@ -2,20 +2,21 @@ import gsap from 'https://cdn.skypack.dev/gsap@3.12.0'
 import ScrollTrigger from 'https://cdn.skypack.dev/gsap@3.12.0/ScrollTrigger'
 
 
-const INDICATORS = document.querySelector('.track__indicators')
+// If you wanted to use <button> for the interactions.
+// const INDICATORS = document.querySelector('.track__indicators')
 
-const SHIFT = event => {
-  if (event.target.tagName === 'BUTTON') {
-    const TARGET = [...event.target.parentNode.children].indexOf(event.target)
-    const LI = document.querySelector(`li:nth-of-type(${TARGET + 1})`)
-    LI.scrollIntoView({
-      behavior: 'smooth',
-      inline: 'center'
-    })
-  }
-}
+// const SHIFT = event => {
+//   if (event.target.tagName === 'BUTTON') {
+//     const TARGET = [...event.target.parentNode.children].indexOf(event.target)
+//     const LI = document.querySelector(`li:nth-of-type(${TARGET + 1})`)
+//     LI.scrollIntoView({
+//       behavior: 'smooth',
+//       inline: 'center'
+//     })
+//   }
+// }
 
-INDICATORS.addEventListener('click', SHIFT)
+// INDICATORS.addEventListener('click', SHIFT)
 
 if (!CSS.supports('animation-timeline: scroll()')) {
   gsap.registerPlugin(ScrollTrigger)

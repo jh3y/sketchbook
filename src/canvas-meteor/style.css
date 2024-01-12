@@ -11,10 +11,62 @@ body {
 	place-items: center;
 	min-height: 100vh;
 	font-family:  "SF Pro Text", "SF Pro Icons", "AOS Icons", "Helvetica Neue", Helvetica, Arial, sans-serif, system-ui;
-	background: hsl(0 0% 10%);
+	background: linear-gradient(50deg, hsl(0 0% 50% / 0.25), transparent), hsl(0 0% 0%);
+	overflow: hidden;
 }
 
 .meteor {
 	aspect-ratio: 1;
 	width: 200px;
+	filter: drop-shadow(0 0 25px orange);
+	background: radial-gradient(hsl(30 80% 50% / 0.05), transparent 50%);
+/*	outline: 2px dashed hsl(0 0% 50% / 0.15);*/
+	position: absolute;
+	left: 50%;
+	bottom: 100%;
+	translate: -50% -50%;
+	animation: scale var(--speed) calc(var(--speed) * -0.5) infinite linear ;
+}
+
+@keyframes scale {
+	to { transform: translateY(calc(100cqh + 200%)); }
+}
+
+.line {
+	--speed: 6s;
+	width: 2px;
+	position: relative;
+	height: 150vmax;
+	background: hsl(0 0% 40% / 0.15);
+	rotate: 50deg;
+	position: fixed;
+	top: 10%;
+	left: 50%;
+	translate: 0 -50%;
+	container-type: size;
+}
+
+.line:nth-of-type(2) {
+	--speed: 10s;
+	top: 40%;
+}
+
+.line:nth-of-type(3) {
+	--speed: 8s;
+	top: 90%;
+}
+
+.line:nth-of-type(4) {
+	--speed: 12s;
+	top: 60%;
+}
+
+article {
+	width: 40vmin;
+	aspect-ratio: 4 / 3;
+	background: hsl(0 0% 25% / 0.25);
+	border: 1px solid hsl(0 0% 40%);
+	border-radius: 12px;
+	z-index: 2;
+	backdrop-filter: blur(4px);
 }

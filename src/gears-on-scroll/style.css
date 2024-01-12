@@ -1,0 +1,170 @@
+@import "normalize.css";
+
+@font-face {
+	font-family: 'Geist Sans';
+	src: url('https://assets.codepen.io/605876/GeistVF.ttf') format('truetype');
+}
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+:root {
+	--gutter-size: 120px;
+}
+
+body {
+	min-height: 100vh;
+	font-family:  "Geist Sans", "SF Pro Text", "SF Pro Icons", "AOS Icons", "Helvetica Neue", Helvetica, Arial, sans-serif, system-ui;
+	padding-inline: var(--gutter-size);
+	font-weight: 80;
+	color: hsl(0 0% 10%);
+}
+
+body::after {
+	content: "";
+	width: var(--gutter-size);
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	background: hsl(0 0% 80%);
+}
+
+.belt {
+	--color: white;
+	--size: calc(var(--gutter-size) / 6);
+	content: "";
+	width: var(--size);
+	position: fixed;
+	top: 0;
+	left: calc(100% - var(--gutter-size));
+	background:
+		linear-gradient(var(--color), var(--color)) 0 0 / calc(var(--size) / 2) var(--size) no-repeat repeat,
+		linear-gradient(-10deg, transparent 80%, var(--color) 81%) 0 0 / calc(var(--size) * 0.8) var(--size) no-repeat repeat,
+		linear-gradient(10deg, var(--color) 20%, transparent 21%) 0 0 / calc(var(--size) * 0.8) var(--size) no-repeat repeat;
+	filter: drop-shadow(0 0 6px hsl(0 0% 50%));
+	clip-path: inset(0 -200% 0 0);
+	height: calc(100vh + (var(--size) * 20));
+	z-index: 2;
+}
+
+header {
+	height: 100vh;
+	display: grid;
+	place-items: center;
+}
+
+section {
+	height: 100vh;
+	width: 100%;
+	display: grid;
+	place-items: center;
+}
+
+h2 {
+	font-size: clamp(2rem, 1vw + 1rem, 6rem);
+	font-weight: 80;
+}
+
+main {
+	width: 80ch;
+	max-width: 100%;
+	margin: 0 auto;
+	padding: 0 1rem;
+}
+
+.gears {
+	color: hsl(0 0% 40%);
+	position: fixed;
+	top: 0;
+	right: 0;
+	width: var(--gutter-size);
+	z-index: 2;
+	filter: drop-shadow(0 1px 2px hsl(0 0% 50%));
+}
+
+h1 {
+	font-size: clamp(2rem, 6vw + 1rem, 12rem);
+	text-transform: uppercase;
+	font-family: Impact;
+	padding: 0 1rem;
+	color: hsl(0 0% 10%);
+}
+
+nav {
+	width: 48px;
+	position: fixed;
+	bottom: 2rem;
+	right: calc(var(--gutter-size) * 0.5);
+	z-index: 10;
+	translate: calc(50% + (var(--gutter-size) / 12)) 0;
+	opacity: 0.75;
+}
+
+nav a {
+	color: hsl(0 0% 10%);
+}
+
+footer {
+	padding: 2rem 1rem;
+	text-align: center;
+}
+
+/**
+ * 10 tooth vs. 16 tooth cog
+ * So the smaller moves at 1.6 times the rate and the bigger is 10 / 16
+ * */
+
+.gears svg:first-of-type {
+	width: 96%;
+	position: absolute;
+	left: 100%;
+	translate: -80% -22%;
+}
+
+.gears svg:last-of-type {
+	width: 66%;
+	translate: 16% 102%;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+@media(max-width: 600px) {
+	:root {
+		--gutter-size: 56px;
+	}
+	body {
+		padding-inline: unset;
+		padding-right: var(--gutter-size);
+	}
+}
+
+@supports (animation-timeline: scroll()) {
+	.gears svg:first-of-type {
+		--end: calc((720 * (10 / 16)) * -1deg);
+	}
+	.gears svg:last-of-type {
+		--end: 720deg;
+	}
+	.gears svg {
+		animation: work both linear;
+		animation-timeline: scroll();
+	}
+
+	@keyframes work {
+		to { rotate: var(--end, 360deg); }
+	}
+
+	.belt {
+		animation: belt both linear;
+		animation-timeline: scroll();
+	}
+
+	@keyframes belt {
+		to { translate: 0 calc(var(--size) * -20); }
+	}
+}
