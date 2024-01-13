@@ -1,0 +1,100 @@
+@import "normalize.css";
+
+@font-face {
+  font-family: "Geist Sans";
+  src: url("https://assets.codepen.io/605876/GeistVF.ttf") format("truetype");
+}
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+	min-height: 100vh;
+	font-family:  "Geist Mono", "SF Pro Text", "SF Pro Icons", "AOS Icons", "Helvetica Neue", Helvetica, Arial, sans-serif, system-ui;
+}
+
+:is(h1, h2) {
+	font-size: clamp(2rem, 4vw + 1rem, 6rem);
+}
+
+.sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border-width: 0;
+}
+
+[data-split] {
+	--font-size: clamp(1rem, 2vmin + 1rem, 1.75rem);
+	font-size: var(--font-size);
+}
+
+.reader {
+	view-timeline: --reader block;
+	border: 4px dashed orange;
+}
+
+header {
+	height: 100vh;
+	display: grid;
+	place-items: center;
+}
+
+section:not(.reader) {
+	min-height: 100vh;
+	display: grid;
+	place-items: center;
+}
+.content {
+	position: sticky;
+	top: 0;
+	min-height: 100vh;
+	width: 80ch;
+	padding: 2rem 0;
+	max-width: calc(100% - 2rem);
+	display: grid;
+	place-items: center;
+	margin: 0 auto;
+	line-height: 1.25;
+}
+
+.content img {
+	--scale: 1.5;
+	--rotate: 10deg;
+	width: calc(var(--font-size) * 1.5);
+	aspect-ratio: 1;
+	margin-right: 1ch;
+	display: inline-block;
+	translate: 0 25%;
+	opacity: 0.2;
+	animation: fill both linear;
+	animation-timeline: --reader;
+	z-index: 2;
+	position: relative;
+	animation-range:
+		contain calc(((var(--start, 0) * var(--ppc)) * 1px))
+		contain calc(((var(--end, 0) * var(--ppc)) * 1px));
+}
+
+@media(max-width: 768px) {
+	.content img { display: none; }
+}
+
+.content span {
+	opacity: 0.2;
+	animation: fill both steps(1, end);
+	animation-timeline: --reader;
+	animation-range:
+		contain calc(((var(--start, 0) * var(--ppc)) * 1px))
+		contain calc(((var(--end, 0) * var(--ppc)) * 1px));
+}
+
+@keyframes fill { to { opacity: 1; scale: var(--scale, 1); rotate: var(--rotate, 0deg); } }
