@@ -1,0 +1,117 @@
+@import "normalize.css";
+
+@font-face {
+  font-family: "Geist Sans";
+  src: url("https://assets.codepen.io/605876/GeistVF.ttf") format("truetype");
+}
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	font-family:  "Geist Sans", "SF Pro Text", "SF Pro Icons", "AOS Icons", "Helvetica Neue", Helvetica, Arial, sans-serif, system-ui;
+	font-weight: 80;
+}
+
+button {
+	height: 48px;
+	padding: 0;
+	display: grid;
+	border-radius: 8px;
+	border: 2px solid black;
+	letter-spacing: 0.25px;
+	cursor: pointer;
+	position: relative;
+	background: black;
+	color: white;
+	font-weight: 80;
+	scale: 2;
+}
+
+button:is(:hover, :focus-visible) {
+	--active: 1;
+}
+
+button > span:nth-of-type(1) {
+	height: 100%;
+	width: 100%;
+	border-radius: 8px;
+	position: absolute;
+	inset: 0;
+}
+
+button:is(:hover, :focus-visible) .container {
+	width: 100%;
+}
+
+.container {
+	--mask-image: url(./chev-mask.png);
+	--spread: 24px;
+	--size: 28px;
+	width: 58px;
+	height: 100%;
+	background: hsl(75 100% 65%);
+	position: absolute;
+	left: 0;
+	transition: width 0.25s;
+	border-radius: 6px;
+	box-shadow: 0 10px 10px -5px hsl(0 0% 0% / 0.5);
+	container-type: inline-size;
+}
+
+.primary {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: hsl(0 0% 0% / 0.15);
+	z-index: 2;
+	mask: var(--mask-image) 50% 50% / var(--size) var(--size) no-repeat;
+	container-type: inline-size;
+}
+
+:where(.primary, .complimentary)::after {
+	--distance: calc(100cqi + 100%);
+	content: "";
+	height: calc(var(--size) * 4);
+	aspect-ratio: 1;
+	position: absolute;
+	left: 0%;
+	top: 50%;
+	translate: -50% -50%;
+	background: radial-gradient(hsl(0 0% 0%), transparent);
+	animation: fly-by calc((2 - var(--active, 0)) * 1s) infinite linear;
+}
+
+@keyframes fly-by {
+	0% { translate: -100% -50%; }
+	100% { translate: var(--distance) -50%; }
+}
+
+.complimentary {
+	content: "";
+	position: absolute;
+	inset: 0;
+	opacity: var(--active, 0);
+	transition: opacity 0.25s;
+	background: hsl(0 0% 0% / 0.15);
+	mask:
+		var(--mask-image) calc(50% - (var(--spread) * 1)) 50% / var(--size) var(--size) no-repeat,
+		var(--mask-image) calc(50% - (var(--spread) * 2)) 50% / var(--size) var(--size) no-repeat,
+		var(--mask-image) calc(50% - (var(--spread) * 3)) 50% / var(--size) var(--size) no-repeat,
+		var(--mask-image) calc(50% + (var(--spread) * 1)) 50% / var(--size) var(--size) no-repeat,
+		var(--mask-image) calc(50% + (var(--spread) * 2)) 50% / var(--size) var(--size) no-repeat,
+		var(--mask-image) calc(50% + (var(--spread) * 3)) 50% / var(--size) var(--size) no-repeat;
+}
+
+button > span:nth-of-type(2) {
+	padding: 0 1.1rem 0 calc(58px + 1.1rem);
+	display: grid;
+	place-items: center;
+	height: 100%;
+}

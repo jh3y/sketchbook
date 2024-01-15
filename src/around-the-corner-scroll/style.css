@@ -1,0 +1,253 @@
+@import "normalize.css";
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+:root {
+	--size: 300px;
+	--radius: 32px;
+	--padding: 64px;
+	--bg: hsl(180 0% 33%);
+	--bar: hsl(0 0% 100% / 0.5);
+	--panel: hsl(20 60% 50%);
+}
+
+body {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	background: hsl(0 0% 2%);
+	font-family:  "SF Pro Text", "SF Pro Icons", "AOS Icons", "Helvetica Neue", Helvetica, Arial, sans-serif, system-ui;
+}
+
+/**
+ * Think the idea here would be to translate a fake scrollbar up/down
+ * Clip the edges and rotate a clipped bordered element on the ends
+ * If we need the fatness, we need to go with something like a morphing SVG
+ * Or we might get away with transform-origin 100% 0 and scale 1.1 to get the thicc
+ * Might be easier to drop two SVG at each end though for that.
+ * */
+
+
+ul {
+ 	height: 100%;
+ 	width: 100%;
+ 	overflow: auto;
+ 	background: var(--bg);
+ 	border-radius: var(--radius);
+ 	display: grid;
+ 	grid-auto-flow: row;
+ 	gap: 1rem;
+ 	padding: 0;
+ 	margin: 0;
+ 	padding: var(--padding) 0;
+ 	list-style-type: none;
+ 	scroll-snap-type: y mandatory;
+}
+
+:root {
+	timeline-scope: --scroller;
+}
+ul {
+	scroll-timeline: --scroller;
+}
+
+:root:has(#visible:checked) ul::-webkit-scrollbar {
+ 	display: none;
+}
+:root:has(#visible:checked) ul {
+	scroll-timeline: --scroller;
+	scrollbar-width: 0;
+	-ms-overflow-style: none;
+}
+
+ul::after {
+	content: "";
+	pointer-events: none;
+	position: absolute;
+	inset: 0;
+	border-radius: var(--radius);
+	background: linear-gradient(hsl(0 0% 0% / 0.1), transparent);
+}
+
+.scroller {
+	width: var(--size);
+ 	aspect-ratio: 3 / 4;
+	position: relative;
+	container-type: size;
+}
+
+.scroller > svg {
+	pointer-events: none;
+	z-index: 2;
+}
+
+.scroller > svg,
+.scroller .scroller__wrap {
+	opacity: var(--rounded, 0);
+}
+
+:root:has(#rounded:checked) {
+	--rounded: 1;
+}
+
+.scroller__wrap {
+	width: 8px;
+  height: 100%;
+  position: absolute;
+  right: 4px;
+  top: 0;
+  z-index: 2;
+  bottom: 0;
+  pointer-events: none;
+  clip-path: inset(var(--radius) 0 var(--radius) 0);
+}
+
+.scroller__bar {
+ 	width: 8px;
+ 	left: 0px;
+ 	height: 80px;
+ 	top: 0;
+ 	z-index: 2;
+ 	position: absolute;
+ 	animation-name: scroll;
+ 	animation-fill-mode: both;
+ 	animation-timing-function: linear;
+ 	animation-timeline: --scroller;
+ 	z-index: 4;
+}
+
+.controls {
+	color: hsl(0 0% 100% / 0.5);
+	accent-color: var(--panel);
+	position: fixed;
+	top: 2rem;
+	right: 2rem;
+	display: grid;
+	grid-template-columns: 1fr auto;
+	gap: 0.5rem 1rem;
+}
+
+.scroller__bar * {
+	height: 100%;
+	pointer-events: none;
+	width: 100%;
+}
+
+.scroller svg:first-of-type {
+	width: calc(var(--radius) * 2);
+	aspect-ratio: 1;
+	overflow: visible;
+	position: absolute;
+	top: 8px;
+	right: 8px;
+}
+
+.scroller svg path {
+	stroke: var(--bar);
+}
+
+.scroller svg:first-of-type path:last-of-type,
+.scroller svg:last-of-type path:last-of-type {
+	stroke-dasharray: 70 200;
+	stroke-dashoffset: 0;
+	animation-name: curl;
+	animation-fill-mode: both;
+	animation-timing-function: linear;
+	animation-timeline: --scroller;
+	animation-range: 0 var(--padding);
+}
+
+.scroller svg {
+	clip-path: inset(-100% -100% calc(100% - calc(var(--radius) * 0.75)) 0);
+}
+
+.scroller svg:last-of-type path:last-of-type {
+	animation-direction: reverse;
+	animation-range: calc(100% - var(--padding)) 100%
+}
+
+@keyframes curl {
+	0% {
+		stroke-dashoffset: 0;
+		stroke-dasharray: 5 120;
+	}
+	100% {
+		stroke-dashoffset: -56;
+		stroke-dasharray: 120 120;
+	}
+}
+
+.scroller svg:last-of-type {
+	width: calc(var(--radius) * 2);
+	aspect-ratio: 1;
+	overflow: visible;
+	position: absolute;
+	bottom: 8px;
+	right: 8px;
+	transform: rotateX(180deg);
+}
+
+.bar__bottom {
+	position: absolute;
+	bottom: 0;
+	animation-name: squash;
+	animation-fill-mode: both;
+	animation-timing-function: linear;
+	animation-timeline: --scroller;
+	animation-range: calc(100% - var(--padding)) 100%;
+}
+
+.bar__top {
+	position: absolute;
+	top: 0;
+	animation-name: squish;
+	animation-fill-mode: both;
+	animation-timing-function: linear;
+	animation-timeline: --scroller;
+	animation-range: 0 var(--padding);
+	transform-origin: 50% 0%;
+}
+
+.bar__bar {
+	height: 100%;
+	width: 100%;
+	background: var(--bar);
+ 	border-radius: 100px;
+}
+
+@keyframes scroll {
+	to {
+		translate: 0 calc(100cqh - 100%);
+	}
+}
+@keyframes squash {
+	to {
+		height: calc(var(--radius) * 0.5);
+	}
+}
+@keyframes squish {
+	0% {
+		height: calc(var(--radius) * 0.5);
+	}
+}
+
+
+li {
+ 	background: var(--panel);
+ 	height: calc(var(--size) * 0.75);
+ 	width: 100%;
+ 	border-radius: var(--radius);
+ 	scroll-snap-align: center;
+}
+
+li:first-of-type {
+ 	scroll-snap-align: start;
+}
+
+li:last-of-type {
+ 	scroll-snap-align: end;
+}

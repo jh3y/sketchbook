@@ -1,0 +1,145 @@
+@import "normalize.css";
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+:root {
+	--size: 300px;
+	--radius: 32;
+	--padding: 64px;
+	--bg: hsl(180 0% 33%);
+	--bar: hsl(0 0% 100% / 0.5);
+	--panel: hsl(20 60% 50%);
+	timeline-scope: --scroller;
+}
+
+body {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	background: hsl(0 0% 2%);
+	font-family: "SF Pro Text", "SF Pro Icons", "AOS Icons", "Helvetica Neue", Helvetica, Arial, sans-serif, system-ui;
+}
+
+/**
+ * Think the idea here would be to translate a fake scrollbar up/down
+ * Clip the edges and rotate a clipped bordered element on the ends
+ * If we need the fatness, we need to go with something like a morphing SVG
+ * Or we might get away with transform-origin 100% 0 and scale 1.1 to get the thicc
+ * Might be easier to drop two SVG at each end though for that.
+ * */
+
+.scroller {
+	position: relative;
+	width: 300px;
+	aspect-ratio: 3 / 4;
+	resize: both;
+	overflow: hidden;
+	padding: 0 0.5rem 0 0;
+}
+
+.bar__thumb,
+.bar__track {
+	opacity: 0;
+	transition: opacity 0.2s;
+}
+
+[data-rounded-scroll] .scroller:hover :is(.bar__thumb, .bar__track) {
+	opacity: 1;
+}
+
+.scroller > svg {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	right: 0.5rem;
+	pointer-events: none;
+	height: 100%;
+	width: calc(var(--radius) * 2px);
+	overflow: visible !important;
+}
+
+[data-rounded-scroll] .scroller ul::-webkit-scrollbar {
+  display: none;
+}
+
+ul::-webkit-scrollbar { display: none; opacity: 0 !important; }
+
+[data-rounded-scroll] .scroller ul {
+	scrollbar-width: 0;
+	scrollbar-width: none;
+	-ms-overflow-style: none;
+}
+
+.scroller path {
+	stroke-width: calc(var(--stroke-width) * 1px);
+}
+
+.bar__thumb {
+	stroke: hsl(0 0% 100% / var(--bar-alpha, 0.5));
+	stroke-dasharray: var(--thumb-size) var(--track-length);
+}
+
+@supports (animation-timeline: scroll()) {
+	.bar__thumb {
+		animation: scroll both linear;
+		animation-timeline: --scroller;
+	}	
+}
+
+/* Keyframes are generated via JavaScript for dynamic stuff */
+
+.bar__track {
+	stroke: hsl(0 0% 100% / var(--track-alpha, 0));
+}
+
+.scroller ul {
+ 	height: 100%;
+ 	width: 100%;
+ 	overflow: auto;
+ 	background: var(--bg);
+ 	border-radius: calc(var(--radius) * 1px);
+ 	display: grid;
+ 	grid-auto-flow: row;
+ 	gap: 1rem;
+ 	margin: 0;
+ 	padding: calc(var(--padding) * 1px) 0;
+ 	list-style-type: none;
+ 	scroll-snap-type: y mandatory;
+ 	scroll-timeline: --scroller;
+ 	scroll-behavior: smooth;
+}
+
+.scroller li {
+ 	background: var(--panel);
+ 	height: calc(var(--size) * 0.75);
+ 	width: 100%;
+ 	border-radius: calc(var(--radius) * 1px);
+ 	scroll-snap-align: center;
+}
+
+.scroller li:first-of-type {
+ 	scroll-snap-align: start;
+}
+
+.scroller li:last-of-type {
+ 	scroll-snap-align: end;
+}
+
+body::before {
+	--line: hsl(0 0% 95% / 0.15);
+	content: "";
+	height: 100vh;
+	width: 100vw;
+	position: fixed;
+	background:
+		linear-gradient(90deg, var(--line) 1px, transparent 1px 10vmin) 0 -5vmin / 10vmin 10vmin,
+		linear-gradient(var(--line) 1px, transparent 1px 10vmin) 0 -5vmin / 10vmin 10vmin;
+	mask: linear-gradient(-15deg, transparent 30%, white);
+	top: 0;
+	z-index: -1;
+	transform: translate3d(0, 0, -100vmin);
+}

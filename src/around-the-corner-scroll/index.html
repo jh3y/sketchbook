@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, maximum-scale=1.0" />
+    <title>around-the-corner-scroll</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div class="controls">
+      <label for="visible">Hide scrollbar?</label>
+      <input type="checkbox" id="visible">
+      <label for="rounded">Rounded scrollbar?</label>
+      <input type="checkbox" id="rounded">
+    </div>
+    <div class="scroller">
+      <svg viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg">
+        <path d="M32,0 L32,0 a24,24 0 0 1 24,24 L56,32" fill="none" stroke="white" stroke-width="7" stroke-linecap="round" />
+      </svg>
+      <div class="scroller__wrap">
+        <div class="scroller__bar bar">
+          <div class="bar__top">
+            <div class="bar__bottom">
+              <div class="bar__bar"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <ul>
+        <li></li>
+        <li></li>
+        <li></li>
+      </ul>
+      <svg viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg">
+        <path d="M32,0 L32,0 a24,24 0 0 1 24,24 L56,32" fill="none" stroke="white" stroke-width="7" stroke-linecap="round" />
+      </svg>
+    </div>
+    <script type="module" src="./script.js"></script>
+  </body>
+</html>

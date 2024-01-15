@@ -24,12 +24,17 @@ body {
 	position: absolute;
 	left: 50%;
 	bottom: 100%;
-	translate: -50% -50%;
+	translate: -50% 0%;
 	animation: scale var(--speed) calc(var(--speed) * -0.5) infinite linear ;
 }
 
 @keyframes scale {
-	to { transform: translateY(calc(100cqh + 200%)); }
+	to { transform: translateY(calc(100cqh + (var(--buffer, 200%)))); }
+}
+
+body > .line {
+	top: 10%;
+	translate: 0 -50%;
 }
 
 .line {
@@ -40,9 +45,7 @@ body {
 	background: hsl(0 0% 40% / 0.15);
 	rotate: 50deg;
 	position: fixed;
-	top: 10%;
 	left: 50%;
-	translate: 0 -50%;
 	container-type: size;
 }
 
@@ -56,10 +59,10 @@ body {
 	top: 90%;
 }
 
-.line:nth-of-type(4) {
+/*.line:nth-of-type(4) {
 	--speed: 12s;
 	top: 60%;
-}
+}*/
 
 article {
 	width: 40vmin;
@@ -69,4 +72,17 @@ article {
 	border-radius: 12px;
 	z-index: 2;
 	backdrop-filter: blur(4px);
+	position: relative;
+}
+
+article .line {
+	--buffer: 50%;
+	position: absolute;
+	bottom: 100%;
+	rotate: 0deg;
+}
+
+article .meteor {
+	animation-iteration-count: 1;
+	animation-fill-mode: forwards;
 }
