@@ -47,8 +47,15 @@ body {
 	transition: opacity 0.2s;
 }
 
+
 [data-rounded-scroll] .scroller:hover :is(.bar__thumb, .bar__track) {
 	opacity: 1;
+}
+
+@media(hover:none) {
+	[data-rounded-scroll] .scroller :is(.bar__thumb, .bar__track) {
+		opacity: 1;
+	}	
 }
 
 .scroller > svg {

@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, maximum-scale=1.0" />
+    <title>inverse-scroller</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div class="controls">
+      <label for="direction">Orientation</label>
+      <select id="direction">
+        <option value="horizontal">Horizontal</option>
+        <option value="vertical">Vertical</option>
+      </select>
+      <label for="flip">Flip Scrollbar</label>
+      <input type="checkbox" id="flip">
+      <label for="speed">Flip Speed</label>
+      <input type="range" id="speed" min="0" max="2" step="0.1" value="0">
+      <label for="context">Context Aware (Chrome)</label>
+      <input type="checkbox" id="context">
+    </div>
+    <header>
+      <h1>
+        Scroll and the<br>bar changes 🤙
+      </h1>
+    </header>
+    <section>
+      <div class="wrapper">
+        <ul>
+          <li>1</li>
+          <li>2</li>
+          <li>3</li>
+          <li>4</li>
+          <li>5</li>
+          <li>6</li>
+          <li>7</li>
+          <li>8</li>
+          <li>9</li>
+          <li>10</li>
+        </ul>
+      </div>
+    </section>
+    <script type="module" src="./script.js"></script>
+  </body>
+</html>
