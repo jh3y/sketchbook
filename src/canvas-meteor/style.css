@@ -18,8 +18,8 @@ body {
 .meteor {
 	aspect-ratio: 1;
 	width: 200px;
-	filter: drop-shadow(0 0 25px orange);
-	background: radial-gradient(hsl(30 80% 50% / 0.05), transparent 50%);
+	filter: url(#drop);
+/*	background: radial-gradient(hsl(30 80% 50% / 0.05), transparent 50%);*/
 /*	outline: 2px dashed hsl(0 0% 50% / 0.15);*/
 	position: absolute;
 	left: 50%;
@@ -32,16 +32,16 @@ body {
 	to { transform: translateY(calc(100cqh + (var(--buffer, 200%)))); }
 }
 
-body > .line {
+.line:not(.line--collider) {
 	top: 10%;
 	translate: 0 -50%;
 }
 
 .line {
 	--speed: 6s;
-	width: 2px;
 	position: relative;
 	height: 150vmax;
+	width: 2px;
 	background: hsl(0 0% 40% / 0.15);
 	rotate: 50deg;
 	position: fixed;
@@ -51,18 +51,8 @@ body > .line {
 
 .line:nth-of-type(2) {
 	--speed: 10s;
-	top: 40%;
-}
-
-.line:nth-of-type(3) {
-	--speed: 8s;
 	top: 90%;
 }
-
-/*.line:nth-of-type(4) {
-	--speed: 12s;
-	top: 60%;
-}*/
 
 article {
 	width: 40vmin;
@@ -75,14 +65,48 @@ article {
 	position: relative;
 }
 
-article .line {
-	--buffer: 50%;
+.line--collider {
 	position: absolute;
-	bottom: 100%;
-	rotate: 0deg;
+	top: unset;
+	bottom: calc(50% + ((3 / 4) * 20vmin));
+	translate: 0 0;
+	transform-origin: 50% 100%;
 }
 
-article .meteor {
+.line:nth-of-type(3) {
+	position: absolute;
+	top: unset;
+	bottom: 50%;
+	translate: 0 0;
+	transform-origin: 50% 100%;
+	left: calc(50% + 20vmin);
+}
+
+.line--collider::after {
+	content: "";
+	position: absolute;
+	top: 100%;
+	left: 50%;
+	height: 100%;
+	width: 2px;
+	background: hsl(0 0% 40% / 0.15);
+	translate: -50% 0;
+	z-index: -1;
+}
+
+.line--collider .meteor {
 	animation-iteration-count: 1;
 	animation-fill-mode: forwards;
+}
+
+.sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border-width: 0;
 }

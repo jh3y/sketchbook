@@ -14,14 +14,21 @@
     <div class="line">
       <canvas class="meteor"></canvas>
     </div>
-    <div class="line">
-      <canvas class="meteor"></canvas>
-    </div>
     <article>
-      <div class="line">
-        <canvas class="meteor"></canvas>
-      </div>
     </article>
+    <div class="line line--collider">
+      <canvas class="meteor" data-offset="-40"></canvas>
+    </div>
+    <div class="line line--collider">
+      <canvas class="meteor" data-offset="50"></canvas>
+    </div>
+    <svg class="sr-only" viewBox="0 0 30 10" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <filter id="drop">
+          <feDropShadow dx="0" dy="0" stdDeviation="16" flood-color="orange" />
+        </filter>
+      </defs>
+    </svg>
     <script type="module" src="./script.js"></script>
   </body>
 </html>
