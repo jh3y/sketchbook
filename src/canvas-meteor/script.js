@@ -40,8 +40,6 @@ class Meteor {
         size: 0,
         alpha: 1,
       }
-      // Don't use the CSS animation for this one. Use GSAP's animation hooks.
-      gsap.set(that.canvas, { animation: 'none' })
       const explode = () => {
         // When this collision happens, we need to do some GSAP trickery to take the tail down, etc.
         // Big ole timeline of making the explosion
@@ -79,7 +77,7 @@ class Meteor {
               that.collided = true
             },
             onComplete: function () {
-              that.scaleMeteor(Math.random() > 0.25)
+              that.ignite(Math.random() > 0.25)
             },
           })
           .to(that, {
@@ -117,36 +115,62 @@ class Meteor {
         // These could be like, debris pieces or something at different angles...
         // Use GSAP's Physics2D for that and then have them with different gravity
       }
-      that.scaleMeteor = (collide) => {
-        if (that.scale) that.scale.kill()
-        that.scale = gsap.timeline({
-          onStart: function() {
-            that.collided = false
-            that.particles = that.genParticles(gsap.utils.random(50, 100, 1))
-            that.setParticlesMotion()
-            that.exploder.size = 0
-            that.exploder.alpha = 1
-            gsap.set(that.canvas, { opacity: 1 })
-            that.options.length = gsap.utils.random(50, 80, 1)
-            that.options.width = gsap.utils.random(4, 8, 1)
-            that.meteorWidth = that.options.width
-            that.meteorLength = that.options.length
-          }
-        })
-          .set(that.canvas, { yPercent: 0, y: 0 })
-          .to(that.canvas, {
-            ease: 'none',
-            duration: collide ? gsap.utils.random(5, 10, 1) : gsap.utils.random(10, 20, 1),
-            y: collide ? '100cqh' : '200cqh',
-            yPercent: 50,
-            onComplete: function () {
-              if (collide) explode()
-              else that.scaleMeteor(Math.random() > 0.25)
-            },
-          })
-        that.scale.play()
+
+      // Don't use the CSS animation for this one. Use GSAP's animation hooks.
+      // gsap.set(that.canvas, { animation: 'none' })
+      that.canvas.addEventListener('animationend', () => {
+        console.info('reset animation')
+        if (that.imminentCollision) explode()
+        else that.ignite(Math.random() > 0.25)
+      })
+
+      that.ignite = (ignite) => {
+        // If there was a collision, reset all the things
+        if (that.collided) {
+          that.collided = false
+          that.particles = that.genParticles(gsap.utils.random(50, 100, 1))
+          that.setParticlesMotion()
+          that.exploder.size = 0
+          that.exploder.alpha = 1
+          that.options.length = gsap.utils.random(50, 80, 1)
+          that.options.width = gsap.utils.random(4, 8, 1)
+          that.meteorWidth = that.options.width
+          that.meteorLength = that.options.length
+        }
+        const speed = ignite ? gsap.utils.random(4, 8, 0.1) : gsap.utils.random(8, 16, 0.1)
+        const delay = ignite ? 0 : gsap.utils.random(-5, 0, 0.1)
+        that.imminentCollision = ignite
+        that.canvas.style.setProperty('--distance', ignite ? '100cqh' : '200cqh')
+        that.canvas.style.setProperty('--buffer', ignite ? '50%' : '100%')
+        that.canvas.style.setProperty('--speed', `${speed}s`)
+        that.canvas.style.setProperty('--delay', `${delay}s`)
+        // Restart the animation
+        const anim = that.canvas.getAnimations()[0]
+        anim.cancel()
+        anim.play()
       }
-      that.scaleMeteor(false)
+      that.ignite(false)
+      // that.scaleMeteor = (collide) => {
+      //   if (that.scale) that.scale.kill()
+      //   that.scale = gsap.timeline({
+      //     onStart: function() {
+      
+      //     }
+      //   })
+      //     .set(that.canvas, { yPercent: 0, y: 0 })
+      //     .to(that.canvas, {
+      //       ease: 'none',
+      //       duration: collide ? gsap.utils.random(5, 10, 1) : gsap.utils.random(10, 20, 1),
+      //       y: collide ? '100cqh' : '200cqh',
+      //       yPercent: 50,
+      //       onComplete: function () {
+      //         if (collide) explode()
+      //         else that.scaleMeteor(Math.random() > 0.25)
+      //       },
+      //     })
+      //   that.scale.play()
+      // }
+      // that.scaleMeteor(false)
     }
   }
   /**
