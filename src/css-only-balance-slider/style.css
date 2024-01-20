@@ -113,9 +113,12 @@ body::before {
   }
 
   [type="range"]::-webkit-slider-thumb {
-  	/*-webkit-appearance: none;
-	  opacity: 0;*/
-	  opacity: 0;
+    appearance: none;
+    -webkitappearance: none;
+    height: 120px;
+    width: 40px;
+    margin-top: 0px;
+	  opacity: 1;
 	}
 	[type="range"]::-webkit-slider-runnable-track {
   	-webkit-appearance: none;
@@ -125,7 +128,6 @@ body::before {
 	  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d; 
 	}
 	[type=range]::-moz-range-track {
-	  -webkit-appearance: none;
 	  height: 120px;
 	  background: hsl(10 80% 50% / 0.5);
 	  margin-top: -60px; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
@@ -147,6 +149,8 @@ body::before {
 
   [type=range] {
     overflow: hidden;
+    opacity: 0;
+    touch-action: none;
   }
 
   .control {

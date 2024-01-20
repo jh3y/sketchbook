@@ -9,5 +9,6 @@ if (!CSS.supports('animation-timeline: scroll()')) {
     LABEL.style.setProperty('--shift', INPUT.value > 40 && INPUT.value < 68 ? 1 : 0)
   }
   INPUT.addEventListener('input', update)
+  INPUT.addEventListener('pointerdown', update)
   update()
 }
