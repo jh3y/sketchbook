@@ -1,0 +1,46 @@
+@import "normalize.css";
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+}
+
+canvas {
+	background: hsl(0 0% 5%);
+	position: absolute;
+	width: 16rem;
+	aspect-ratio: 1;
+	top: 50%;
+	left: 50%;
+	translate: -50% -50%;
+  transform: rotateY(180deg);
+  z-index: -1;
+  border-radius: 6px;
+}
+
+button {
+	border-radius: 6px;
+/*	overflow: hidden;*/
+	padding: 1rem 2rem;
+	background: transparent;
+	position: relative;
+	font-size: 16px;
+	border: 2px solid lime;
+}
+
+button span {
+	z-index: 5;
+	font-family: "JetBrains Mono", monospace;
+	font-weight: bold;
+	text-transform: uppercase;
+	color: white;
+	letter-spacing: 7px;
+	opacity: 0;
+}

@@ -1,0 +1,295 @@
+@import "normalize.css" layer(https://unpkg.com/normalize.css);
+
+@font-face {
+  font-family: "Geist Sans";
+  src: url("https://assets.codepen.io/605876/GeistVF.ttf") format("truetype");
+}
+
+*,
+*:after,
+*:before {
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  place-items: center;
+  min-height: 100vh;
+  font-family:  "Geist Sans", "SF Pro Text", "SF Pro Icons", "AOS Icons", "Helvetica Neue", Helvetica, Arial, sans-serif, system-ui;
+  background: hsl(0 0% 6%);
+}
+
+body::before {
+  --line: hsl(0 0% 95% / 0.15);
+  content: "";
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  background:
+    linear-gradient(90deg, var(--line) 1px, transparent 1px 10vmin) 0 -5vmin / 10vmin 10vmin,
+    linear-gradient(var(--line) 1px, transparent 1px 10vmin) 0 -5vmin / 10vmin 10vmin;
+  mask: linear-gradient(-15deg, transparent 30%, white);
+  top: 0;
+  z-index: -1;
+  transform: translate3d(0, 0, -100vmin);
+}
+
+@layer foundation {
+  .control {
+    position: relative;
+    display: grid;
+    place-items: center;
+    margin: 0 auto;
+  }
+
+  .sr-only {
+  	position: absolute;
+		width: 1px;
+		height: 1px;
+		padding: 0;
+		margin: -1px;
+		overflow: hidden;
+		clip: rect(0, 0, 0, 0);
+		white-space: nowrap;
+		border-width: 0;
+  }
+
+  .control:focus-within,
+  .control:hover {
+    --active: 1;
+  }
+
+  [type="range"] {
+    width: 300px;
+    opacity: 0;
+    height: 60px;
+  }
+
+  [type="range"]:hover {
+    cursor: -webkit-grab;
+  }
+  [type="range"]:active {
+    cursor: -webkit-grabbing;
+  }
+
+  [type=range]:focus-visible {
+    outline-offset: 0.25rem;
+    outline-color: transparent;
+  }
+
+  @property --shift {
+  	initial-value: 0;
+  	inherits: true;
+  	syntax: '<integer>';
+  }
+
+  .tooltip {
+    font-size: 1rem;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 50%;
+    pointer-events: none;
+    transform: translateY(calc(var(--shift, 0) * 50%));
+    transition: transform var(--speed) var(--timing);
+    z-index: 2;
+  }
+  @keyframes shift {
+  	0%, 31%, 61%, 100% { --shift: 0; }
+  	32%, 60% { --shift: 1; }
+  }
+
+  .tooltip::after,
+  .tooltip::before {
+    font-variant: tabular-nums;
+    position: absolute;
+    top: 50%;
+    translate: 0 -50%;
+    font-weight: bold;
+    color: white;
+    font-weight: 40;
+    font-family: monospace;
+  }
+
+  [type="range"]::-webkit-slider-thumb {
+  	/*-webkit-appearance: none;
+	  opacity: 0;*/
+	  opacity: 0;
+	}
+	[type="range"]::-webkit-slider-runnable-track {
+  	-webkit-appearance: none;
+	  height: 120px;
+	  background: hsl(10 80% 50% / 0.5);
+	  margin-top: -60px; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
+	  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d; 
+	}
+	[type=range]::-moz-range-track {
+	  -webkit-appearance: none;
+	  height: 120px;
+	  background: hsl(10 80% 50% / 0.5);
+	  margin-top: -60px; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
+	  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d; 
+	}
+}
+
+
+@layer scrolls {
+  @property --value {
+    initial-value: 0;
+    syntax: '<integer>';
+    inherits: true;
+  }
+
+  @keyframes sync {
+    to { --value: 100; }
+  }
+
+  [type=range] {
+    overflow: hidden;
+  }
+
+  .control {
+    animation: sync both linear reverse, shift both linear;
+    animation-timeline: --thumb;
+    animation-range: contain;
+  }
+
+  .control__track {
+  	--coffee: hsl(24 74% calc(24% + (30% * ((100 - var(--value, 0)) / 100)) / 1) / 0.4);
+  	--milk: hsl(0 0% 100% / calc(0.1 + (0.4 * ((100 - var(--value, 0)) / 100))));
+  	height: calc(50% + (var(--shift) * 50%));
+  	width: 100%;
+  	position: absolute;
+  	bottom: 0;
+  	pointer-events: none;
+  	transition: height var(--speed) var(--timing);
+  }
+
+  .control__track::before {
+  	content: "";
+  	position: absolute;
+  	top: 0;
+  	bottom: 0;
+  	left: 0;
+  	width: calc(var(--value, 0) * 1% - 0.5rem);
+  	background: var(--coffee);
+  	border-radius: 4px;
+  	transition: width var(--update);
+  }
+  .control__track::after {
+  	content: "";
+  	position: absolute;
+  	top: 0;
+  	bottom: 0;
+  	right: 0;
+  	width: calc((100 - var(--value, 0)) * 1% - 0.5rem);
+  	background: var(--milk);
+  	border-radius: 4px;
+  	transition: width var(--update);
+  }
+  .control__indicator {
+  	height: 75%;
+  	border-radius: 4px;
+  	width: 4px;
+  	position: absolute;
+  	top: 50%;
+  	background: hsl(0 0% 100% / calc((var(--active, 0) * 0.5) + 0.5));
+  	left:calc(var(--value, 0) * 1%);
+  	z-index: 2;
+  	translate: -50% -50%;
+  	transition: left var(--update);
+  }
+
+  :root {
+    --speed: 0.65s;
+    --update: 0s;
+    --timing: linear(
+	    0, 0.5007 7.21%, 0.7803 12.29%,
+	    0.8883 14.93%, 0.9724 17.63%,
+	    1.0343 20.44%, 1.0754 23.44%,
+	    1.0898 25.22%, 1.0984 27.11%,
+	    1.1014 29.15%, 1.0989 31.4%,
+	    1.0854 35.23%, 1.0196 48.86%,
+	    1.0043 54.06%, 0.9956 59.6%,
+	    0.9925 68.11%, 1
+	  );
+    timeline-scope: --thumb;
+  }
+
+  @supports(animation-timeline: scroll()) {
+	  :root {
+	    --speed: 0.65s;
+	    --update: 0.1s;
+	    --timing: linear(
+		    0, 0.5007 7.21%, 0.7803 12.29%,
+		    0.8883 14.93%, 0.9724 17.63%,
+		    1.0343 20.44%, 1.0754 23.44%,
+		    1.0898 25.22%, 1.0984 27.11%,
+		    1.1014 29.15%, 1.0989 31.4%,
+		    1.0854 35.23%, 1.0196 48.86%,
+		    1.0043 54.06%, 0.9956 59.6%,
+		    0.9925 68.11%, 1
+		  );
+	    timeline-scope: --thumb;
+	  }
+
+	  [type="range"]::-webkit-slider-thumb {
+	    view-timeline-name: --thumb;
+	    view-timeline-axis: inline;
+	  }
+  }
+
+}
+
+
+@layer tip {
+  
+  .tooltip {
+    counter-reset: low var(--value) high calc(100 - var(--value));
+  }
+  
+  .tooltip::before {
+  	--range: calc((70 - (var(--value) / 100 * 10)) * 1%);
+  	color: hsl(24 74% 54%);
+    content: "COFFEE " counter(low) "%";
+    mask: linear-gradient(90deg, hsl(0 0% 100% / 0.6) var(--range), hsl(0 0% 100% / 1) var(--range));
+    left: 0.5rem;
+
+  }
+  .tooltip::after {
+    --range: calc((50 - (var(--value) / 100 * 10)) * 1%);
+    content: counter(high) "% MILK";
+    mask: linear-gradient(90deg, hsl(0 0% 100% / 1) var(--range), hsl(0 0% 100% / 0.5) var(--range));
+    right: 0.5rem;
+  }
+
+}
+
+/* Socials stuff */
+.x-link, .bear-link {
+	color: hsl(0 0% 100%);
+	position: fixed;
+	bottom: 1rem;
+	left: 1rem;
+	width: 48px;
+	aspect-ratio: 1;
+	display: grid;
+	place-items: center;
+	opacity: 0.8;
+}
+
+.bear-link {
+	bottom: unset;
+	top: 1rem;
+}
+
+:where(.x-link, .bear-link):is(:hover, :focus-visible) {
+	opacity: 1;
+}
+.bear-link svg {
+	width: 75%;
+}
+.x-link svg {
+	width: 50%;
+}
