@@ -1,0 +1,244 @@
+@import "normalize.css";
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	font-family:  "SF Pro Text", "SF Pro Icons", "AOS Icons", "Helvetica Neue", Helvetica, Arial, sans-serif, system-ui;
+	color: hsl(0 0% 100%);
+	overflow-x: hidden;
+}
+
+section {
+	min-height: 100vh;
+	width: 100vw;
+}
+
+section:nth-of-type(1),
+section:nth-of-type(3) {
+	background: hsl(0 0% 100%);
+}
+
+main {
+	overflow: auto;
+	overflow-x: hidden;
+	height: 100vh;
+	width: 100vw;
+/*	scale: 0.5;*/
+	outline: 1rem dashed red;
+}
+
+h2 {
+	font-size: clamp(2rem, 3vw + 1rem, 8rem);
+}
+
+.section__content {
+	min-height: 100vh;
+	width: 100vw;
+	display: grid;
+	place-items: center;
+	position: sticky;
+	top: 0;
+	overflow: hidden;
+}
+
+section:nth-of-type(1),
+section:nth-of-type(3) {
+	color: hsl(0 0% 0%);
+}
+section:nth-of-type(1) .section__content {
+	overflow: hidden;
+}
+
+section:nth-of-type(2) {
+  z-index: 2;
+	color: hsl(0 0% 0%);
+	min-height: 200vh;
+	background: hsl(0 0% 0%);
+}
+
+section:nth-of-type(2) p {
+	--opacity: 1;
+	color: hsl(0 0% 100%);
+	font-size: clamp(1.625rem, 2vw + 1rem, 8rem);
+  letter-spacing: 0;
+  font-weight: bold;
+  line-height: 1;
+  width: 30ch;
+  max-width: calc(100% - 4rem);
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+}
+
+section:nth-of-type(1) svg {
+	--opacity: 1;
+	font-weight: 600;
+	font-size: clamp(2rem, 10vw + 1rem, 10rem);
+	transform-origin: 50% 50%;
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	opacity: 0.4;
+	transform: translate(-50%, -50%);
+	overflow: hidden;
+}
+
+section:nth-of-type(3) {
+  z-index: 4;
+}
+
+section:nth-of-type(3) svg {
+	width: 30vmin;
+	position: fixed;
+	stroke: hsl(0 0% 0%);
+	right: 10%;
+	bottom: 10%;
+	rotate: 10deg;
+}
+
+section:nth-of-type(1) .section__content {
+	overflow: hidden;
+	transform-style: preserve-3d;
+	perspective: 100vh;
+}
+
+svg text {
+	font-size: clamp(2rem, 6vw + 1rem, 6rem);
+	font-weight: 600;
+}
+
+section:nth-of-type(1) {
+	height: 200vh;
+}
+
+.video-wrap {
+	position: fixed;
+	inset: 0;
+	opacity: 0;
+}
+
+.video-wrap::after {
+	content: "";
+	background: hsl(0 0% 0% / 0.65);
+	inset: 0;
+	position: absolute;
+}
+
+video {
+	object-fit: cover;
+	width: 100%;
+	height: 100vh;
+	filter: saturate(1) brightness(1);
+
+}
+
+nav {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	border-bottom: 1px solid hsl(0 0% 50%);
+	height: 52px;
+	background: hsl(0 0% 20% / 0.75);
+	backdrop-filter: blur(4px);
+	z-index: 5;
+}
+
+
+.nav__content {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 800px;
+	max-width: 100%;
+	padding: 0 1rem;
+	margin: 0 auto;
+	height: 100%;
+}
+
+nav a {
+	text-decoration: none;
+	background: hsl(210 100% 45%);
+	color: hsl(0 0% 98%);
+	font-weight: 400;
+	padding: 0.5rem 1rem;
+	border-radius: 100px;
+	font-size: 0.875rem;
+}
+
+nav img {
+	height: 50%;
+	justify-self: start;
+}
+
+.signature path {
+	--draw: 1.025;
+	--end: 1.025;
+  stroke-dasharray: var(--end);
+  stroke-dashoffset: var(--draw);
+}
+
+.signature :is(.eye, .nose) {
+	fill: transparent;
+}
+
+@supports (animation-timeline: scroll()) {
+  section { view-timeline-name: --section; }
+
+  section:nth-of-type(1) svg {
+  	transform: unset;
+  	translate: -50% -50%;
+    animation: blow-out both ease-in, fade-in both ease-in;
+  	animation-timeline: --section;
+	  animation-range: exit-crossing 10% exit 0%, exit-crossing 10% exit-crossing 25%;
+  }
+  section:nth-of-type(2) p {
+    animation: fade-in both linear, fade-out both linear;
+    animation-timeline: --section;
+    animation-range: entry 10% entry 35%, exit 0% exit 25%;
+  }
+  .video-wrap {
+    animation: fade-in both linear, fade-out both linear;
+    animation-timeline: --section;
+    animation-range: entry 0% entry 25%, exit 10% exit 35%;
+  }
+  .video-wrap::after {
+  	opacity: 0;
+  }
+
+  .signature path {
+  	animation: draw both linear;
+  	animation-timeline: --section;
+  	animation-range: entry 50% entry 80%;
+  }
+  .signature :is(.eye, .nose) {
+  	animation: draw both linear, fill both linear;
+  	animation-timeline: --section;
+  }
+  .signature :is(.ear, .eye) {
+  	animation-range: entry 80% entry 90%;
+  }
+  .signature .nose {
+  	animation-range: entry 90% entry 100%;
+  }
+
+  @keyframes fade-in { to { opacity: var(--opacity, 0.2); }}
+  @keyframes fade-out { to { opacity: 0; }}
+  @keyframes draw { to { stroke-dashoffset: 0; }}
+  @keyframes fill { to { fill: currentColor; }}
+  @keyframes blow-out {
+    0%, 95% { background: transparent; }
+    to { transform: translate3d(0.04ch, 0, 99vh); background: black; }
+  }
+}

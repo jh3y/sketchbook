@@ -1,0 +1,316 @@
+@import "normalize.css";
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+:root {
+	/**
+	 * Do some Math
+	 * 1. Got a container. 100vw - 2rem wide.
+	 * 2. Minus the left padding of 10vw.
+	 * 3. Split up into fractions.
+	 * 4. Give equally.
+	 * 5. Multiply by the aspect ratios defined.
+	 * 6. Work out distance to travel based on that.
+	 * */
+	 --left-pad: calc(48px + 2rem);
+	 --container-width: calc(100vw - 1rem - var(--left-pad));
+	 --column-one: calc(var(--container-width) * (1.2 / 3.2));
+	 --column-two: calc(var(--container-width) * (2 / 3.2));
+	 --col-one-height: min(70vh, calc((380 / 272) * var(--column-one)));
+	 --col-two-height: min(110vh, calc((1148 / 940) * var(--column-two)));
+	 --catch-up: calc(var(--col-two-height) - var(--col-one-height));
+	/*	Fractions are 1.2 + 2 === 3 */
+	--heading: clamp(2rem, 6vw + 1rem, 10rem);
+}
+
+body {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	font-family:  "SF Pro Text", "SF Pro Icons", "AOS Icons", "Helvetica Neue", Helvetica, Arial, sans-serif, system-ui;
+}
+:where(main, section) {
+	width: 100%;
+}
+
+header {
+	height: 100vh;
+	display: grid;
+	place-items: center;
+	align-content: center;
+	margin-bottom: 25vh;
+}
+section:last-of-type {
+	height: 50vh;
+	display: grid;
+	place-items: center;
+	align-content: center;
+}
+
+section:last-of-type h2:last-of-type {
+	font-size: calc(var(--heading) * 0.15);
+	text-transform: uppercase;
+}
+img {
+	background: hsl(0 0% 90%);
+	width: 100%;
+	height: 100%;
+	border-radius: 6px;
+	object-fit: cover;
+	mix-blend-mode: plus-lighter;
+}
+
+footer {
+	padding: 2rem;
+}
+
+h1 {
+	font-size: var(--heading);
+	margin: 0;
+	position: relative;
+}
+h1 span {
+	position: absolute;
+	bottom: 100%;
+	left: 50%;
+	display: inline-block;
+	translate: -50% 50%;
+	font-size: calc(var(--heading) * 0.2);
+	text-transform: uppercase;
+	color: hsl(6 100% 50%);
+}
+h2 {
+	font-size: calc(var(--heading) * 0.8);
+}
+section > h2 {
+	text-align: center;
+}
+header h2 {
+	text-transform: uppercase;
+	opacity: 0.8;
+	font-size: calc(var(--heading) * 0.25);
+}
+:where(h1, h2, p) {
+	margin: 0;
+}
+main {
+	display: flex;
+	flex-direction: column;
+	gap: 12rem;
+}
+
+
+/* The main container that splits the two columns */
+
+.image-box {
+	display: grid;
+	gap: 1rem;
+	padding: 1rem 1rem 1rem var(--left-pad);
+	min-height: 100vh;
+	grid-template-columns: 1.2fr 2fr;
+}
+
+section:nth-of-type(3) .image-box,
+section:nth-of-type(4) .image-box {
+	grid-template-columns: 2fr 1.2fr;
+}
+
+/* Swapper container */
+.swapper {
+	height: var(--col-one-height);
+	width: 100%;
+	position: relative;
+	transform: translate3d(0, 0, 0);
+	border-radius: 6px;
+}
+
+.swapper img:first-of-type {
+	opacity: 0;
+}
+
+.progress {
+	position: absolute;
+	height: min(100px, 15%);
+	width: 6px;
+	top: 50%;
+	translate: 0 -50%;
+	display: flex;
+	flex-direction: column;
+	gap: 5%;
+	z-index: 10;
+}
+
+.progress > div {
+	border-radius: 100px;
+	background: hsl(0 0% 100% / 0.25);
+	transition: flex 0.25s ease-in-out;
+}
+
+.progress > div {
+	flex: 10;
+	position: relative;
+}
+
+.progress div > div {
+	position: absolute;
+	top: 0;
+	width: 100%;
+	border-radius: 100px;
+	height: 0%;
+	background: white;
+}
+
+.progress > div:last-of-type {
+	flex: calc(1 + (var(--flip, 0) * 99));
+}
+
+.swapper:first-of-type .progress {
+	right: 6px;
+}
+.swapper:last-of-type .progress {
+	left: 6px;
+}
+
+.caption {
+	position: absolute;
+	bottom: 100%;
+	padding: 1rem;
+	font-size: 12px;
+	width: 40ch;
+	max-width: 90%;
+	text-align: right;
+	right: 6px;
+	text-transform: uppercase;
+	display: grid;
+	gap: 0.25rem;
+}
+
+.caption h2 {
+	font-size: 12px;
+}
+.swapper img {
+	position: absolute;
+}
+
+.controller {
+	height: var(--col-two-height);
+	width: 100%;
+	border-radius: 6px;
+}
+
+.swapper, .controller {
+	background: black;
+}
+
+@supports (animation-timeline: scroll()) {
+	@property --flip {
+		inherits: true;
+		initial-value: 0;
+		syntax: '<number>';
+	}
+	@keyframes fade { to { opacity: 0; }}
+	@keyframes fill-up { to { height: 100%; }}
+	@keyframes move { to { translate: 0 var(--catch-up); }}
+	@keyframes flip { to { --flip: 1; }}
+
+	.image-box {
+		/* The ViewTimeline for use by the children */
+		view-timeline: --container;
+	}
+
+	.swapper {
+		/* Translates from top to bottom of the container	*/
+		animation: move both linear, flip both steps(1);
+		animation-timeline: --container, view();
+		animation-range: 50vh calc(100vh + (var(--col-two-height) * 0.25)), cover 50% cover 50%;
+	}
+
+	.swapper img {
+		animation: fade both linear;
+		animation-timeline: view();
+		animation-range: cover 45% cover 55%;
+	}
+
+	.swapper img:first-of-type {
+		opacity: 1;
+		animation-direction: reverse;
+	}
+
+	.progress div > div {
+		animation: fill-up both linear;
+		animation-timeline: --container;
+	}
+	.progress div:first-of-type > div {
+		animation-range: 50vh calc(50vh + (var(--col-two-height) * 0.125));
+	}
+	.progress div:last-of-type > div {
+		animation-range: calc(75vh + (var(--col-two-height) * 0.25)) calc(100vh + (var(--col-two-height) * 0.25))
+	}
+
+	@media(max-width: 768px) {
+		.controller {
+			height: calc(var(--col-two-height) * 1.5);
+		}
+		.swapper {
+			view-timeline-name: --swapper;
+			width: 65%;
+			min-width: 300px;
+			height: calc(var(--col-one-height) * 2);
+			animation: flip both steps(1, end);
+			animation-timeline: view();
+			animation-range: 50vh calc(75vh + (var(--col-two-height) * 0.25));
+		}
+		.swapper img {
+			mix-blend-mode: normal;
+			animation-timeline: view();
+		}
+		.progress div > div {
+			animation-timeline: --swapper;
+		}
+	}
+}
+
+@media(max-width: 768px) {
+	main {
+		gap: 6rem;
+	}
+	section .image-box {
+		display: flex;
+		flex-direction: column;
+		gap: 8rem;
+	}
+}
+
+
+
+/* Socials stuff */
+.x-link, .bear-link {
+	color: hsl(0 0% 10%);
+	position: fixed;
+	bottom: 1rem;
+	left: 1rem;
+	width: 48px;
+	aspect-ratio: 1;
+	display: grid;
+	place-items: center;
+	opacity: 1;
+}
+
+.bear-link {
+	bottom: unset;
+	top: 1rem;
+}
+
+:where(.x-link, .bear-link):is(:hover, :focus-visible) {
+	opacity: 1;
+}
+.bear-link svg {
+	width: 75%;
+}
+.x-link svg {
+	width: 50%;
+}

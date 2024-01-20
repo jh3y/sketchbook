@@ -1,0 +1,147 @@
+@import "normalize.css";
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+:root {
+	--accent: 280;
+	--speed: 0.25;
+	--transition: calc(var(--speed) * 1s);
+	--timing: ease-out;
+}
+
+body {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	font-family:  "SF Pro Text", "SF Pro Icons", "AOS Icons", "Helvetica Neue", Helvetica, Arial, sans-serif, system-ui;
+	background: hsl(var(--accent) 80% 90%);
+	overflow: hidden;
+}
+
+main {
+	scale: 2;
+}
+
+button {
+	border-radius: 100px;
+	padding: 0.5rem 1rem;
+	cursor: pointer;
+	position: relative;
+	font-size: .875rem;
+	font-weight: 500;
+	border: 0;
+	color: hsl(0 0% 40%);
+	background: hsl(var(--accent) 80% 98%);
+	box-shadow: 0 2px 6px hsl(0 0% 0% / 0.25);
+	outline-color: hsl(var(--accent) 80% 40%);
+}
+
+button::before {
+	content: "";
+	position: absolute;
+	inset: -8px;
+	z-index: -1;
+	box-shadow: 0 1px hsl(0 0% 100% / 1) inset;
+	background:
+		radial-gradient(circle at center, hsl(var(--accent) 80% 60%) 50%, transparent 50%) 4px 4px / 6px 6px no-repeat,
+		radial-gradient(circle at center, hsl(var(--accent) 80% 60%) 50%, transparent 50%) 4px calc(100% - 4px) / 6px 6px no-repeat,
+		radial-gradient(circle at center, hsl(var(--accent) 80% 60%) 50%, transparent 50%) calc(100% - 4px) 4px / 6px 6px no-repeat,
+		radial-gradient(circle at center, hsl(var(--accent) 80% 60%) 50%, transparent 50%) calc(100% - 4px) calc(100% - 4px) / 6px 6px no-repeat,
+		hsl(var(--accent) 80% 80%);
+	border-radius: 6px;
+}
+
+button svg {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	translate: -50% -50%;
+	width: 24px;
+	overflow: visible !important;
+}
+
+button svg path {
+	stroke: currentColor;
+	stroke-width: 4;
+	transform-box: fill-box;
+	transform-origin: 50% 50%;
+	transition: translate var(--transition), scale var(--transition);
+	transition-timing-function: var(--timing);
+
+}
+
+button svg path:not(:nth-of-type(2)) {
+	--offset: 30%;
+	--distance: 50cqi;
+	translate: calc((var(--offset) * var(--coefficient)) + (var(--intent, 0) * (var(--distance) * var(--coefficient)))) 0;
+	scale: calc(1 + var(--intent));
+}
+
+button svg path:nth-of-type(2) {
+	rotate: calc(15deg + (var(--intent, 0) * 75deg));
+	scale: 1 calc(1 + var(--intent, 0));
+	translate: 0 calc(var(--intent, 0) * 30cqh);
+	stroke-width: calc(4 - (var(--intent, 0) * 2));
+	opacity: calc(1 - (var(--intent, 0) * 0.8));
+	transition: stroke-width var(--transition), rotate var(--transition), translate var(--transition), scale var(--transition), opacity var(--transition);
+	transition-timing-function: var(--timing);
+}
+
+button svg path:nth-of-type(1) {
+	--coefficient: -1;
+}
+button svg path:nth-of-type(3) {
+	--coefficient: 1;
+}
+
+button .container {
+	overflow: hidden;
+	position: absolute;
+	inset: 0;
+	container-type: size;
+	border-radius: 100px;
+}
+
+button .text {
+	scale: var(--intent, 0);
+	opacity: var(--intent, 0);
+	transform-origin: 50% 100%;
+	display: inline-block;
+	transition: scale var(--transition), opacity var(--transition);
+	transition-timing-function: var(--timing);
+}
+
+button:is(:hover, :focus-visible) {
+	--intent: 1;
+}
+
+
+.x-link, .bear-link {
+	position: fixed;
+	bottom: 1rem;
+	left: 1rem;
+	width: 48px;
+	aspect-ratio: 1;
+	display: grid;
+	place-items: center;
+	opacity: 0.5;
+}
+
+.bear-link {
+	bottom: unset;
+	top: 1rem;
+}
+
+:where(.x-link, .bear-link):is(:hover, :focus-visible) {
+	opacity: 1;
+}
+.bear-link svg {
+	width: 75%;
+}
+.x-link svg {
+	width: 50%;
+}

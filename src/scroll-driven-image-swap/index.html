@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, user-scalable=0, maximum-scale=1.0"
+    />
+    <title>scroll-driven-image-swap</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <!-- 
+    Dark images for future reference
+    https://fastly.picsum.photos/id/331/1080/1080.jpg?hmac=sKtPuOzOG1d8p_sVxG4BEL0XGOMPDCvjpN43H9zqW9M
+    https://fastly.picsum.photos/id/1033/1080/1080.jpg?hmac=O43_Fmtq6is3ysXH7ZLNS4iNqCcoWCIEftNR8UK0L5s
+    https://fastly.picsum.photos/id/276/1080/1080.jpg?hmac=pG45tIWy75GRtpIeaTVDRN253cNaC6blVhe2-EQYTZY
+    https://fastly.picsum.photos/id/536/1080/1080.jpg?hmac=TfR6GPF3n9B6s9bK4hbWAh_1qU8AGdKEOMiQd_nZIhs
+    https://fastly.picsum.photos/id/378/1080/1080.jpg?hmac=U_xpCJPibwUl5MELHA1W48oscgI19Tsu_zCsFSBen5g
+    https://fastly.picsum.photos/id/827/1080/1080.jpg?hmac=wB2CZUPy2O2MgG8okJtTZZadwwADt7XpjNRIz9fOeME
+    https://fastly.picsum.photos/id/781/1080/1080.jpg?hmac=jkgggUr9sBP4qCFAKygIg2lgkcwlZXzll0rwptlFHH4
+    https://fastly.picsum.photos/id/117/1080/1080.jpg?hmac=-9Jpnmxo4_zX7bESbfC1x4y5bAxow3Cvhejo-gZsCIE
+    https://fastly.picsum.photos/id/659/1080/1080.jpg?hmac=_To6fpzA0QnMsx3PTeTwtVxjjbnnNN2rliHf9q0UDNU
+    https://fastly.picsum.photos/id/358/1080/1080.jpg?hmac=MbMwFskGUIBLvCw3ww1djE0ZnUN3iRw1a9tR_VCSURM
+    https://fastly.picsum.photos/id/362/1080/1080.jpg?hmac=vzwn2CXU8s21DH7LVZRAozOwmkP5S2iWl2ssJvCv2QA
+    https://fastly.picsum.photos/id/983/1080/1080.jpg?hmac=_pzYklUuqWk6z0X9h9p9xNKJr2sThQoadn5YRCVHa88
+    https://fastly.picsum.photos/id/825/1080/1080.jpg?hmac=XUiCHv4mdtexe6QpAmD4Y_d81clCeLoZKYO6xGtRU6M
+   -->
+  <body>
+    <header>
+      <h1><span>All-New</span>CSS Pro</h1>
+      <h2>Scroll-driven crossfades</h2>
+    </header>
+    <main>
+      <section>
+        <div class="image-box">
+          <div class="swapper">
+            <div class="progress">
+              <div><div></div></div>
+              <div><div></div></div>
+            </div>
+            <div class="caption">
+              <h2>Tiny amounts of CSS</h2>
+              <p>Scroll-driven animations give you the ability to drive your CSS animations on scroll.</p>
+            </div>
+            <img src="https://fastly.picsum.photos/id/331/1080/1080.jpg?hmac=sKtPuOzOG1d8p_sVxG4BEL0XGOMPDCvjpN43H9zqW9M" alt="" width="1080" />
+            <img src="https://fastly.picsum.photos/id/536/1080/1080.jpg?hmac=TfR6GPF3n9B6s9bK4hbWAh_1qU8AGdKEOMiQd_nZIhs" alt="" width="1080" />
+          </div>
+          <div class="controller">
+            <img src="https://fastly.picsum.photos/id/1033/1080/1080.jpg?hmac=O43_Fmtq6is3ysXH7ZLNS4iNqCcoWCIEftNR8UK0L5s" alt="" width="1080" />
+          </div>
+        </div>
+      </section>
+      <section>
+        <div class="image-box">
+          <div class="controller">
+            <img src="https://fastly.picsum.photos/id/827/1080/1080.jpg?hmac=wB2CZUPy2O2MgG8okJtTZZadwwADt7XpjNRIz9fOeME" alt="" width="1080" />
+          </div>
+          <div class="swapper">
+            <div class="progress">
+              <div><div></div></div>
+              <div><div></div></div>
+            </div>
+            <div class="caption">
+              <h2>Cross fading</h2>
+              <p>The trick is one animation to take opacity from 1 to 0. One image uses reverse animation-direction.</p>
+            </div>
+            <img src="https://fastly.picsum.photos/id/378/1080/1080.jpg?hmac=U_xpCJPibwUl5MELHA1W48oscgI19Tsu_zCsFSBen5g" alt="" width="1080" />
+            <img src="https://fastly.picsum.photos/id/781/1080/1080.jpg?hmac=jkgggUr9sBP4qCFAKygIg2lgkcwlZXzll0rwptlFHH4" alt="" width="1080" />
+          </div>
+        </div>
+      </section>
+      <section>
+        <div class="image-box">
+          <div class="swapper">
+            <div class="progress">
+              <div><div></div></div>
+              <div><div></div></div>
+            </div>
+            <div class="caption">
+              <h2>mix-blend-mode</h2>
+              <p>For a better looking fade, use mix-blend-mode: plus-lighter on the images.</p>
+            </div>
+            <!-- https://fastly.picsum.photos/id/117/1080/1080.jpg?hmac=-9Jpnmxo4_zX7bESbfC1x4y5bAxow3Cvhejo-gZsCIE
+            https://fastly.picsum.photos/id/659/1080/1080.jpg?hmac=_To6fpzA0QnMsx3PTeTwtVxjjbnnNN2rliHf9q0UDNU
+            https://fastly.picsum.photos/id/358/1080/1080.jpg?hmac=MbMwFskGUIBLvCw3ww1djE0ZnUN3iRw1a9tR_VCSURM -->
+            <img src="https://fastly.picsum.photos/id/117/1080/1080.jpg?hmac=-9Jpnmxo4_zX7bESbfC1x4y5bAxow3Cvhejo-gZsCIE" alt="" width="1080" />
+            <img src="https://fastly.picsum.photos/id/659/1080/1080.jpg?hmac=_To6fpzA0QnMsx3PTeTwtVxjjbnnNN2rliHf9q0UDNU" alt="" width="1080" />
+          </div>
+          <div class="controller">
+            <img src="https://fastly.picsum.photos/id/358/1080/1080.jpg?hmac=MbMwFskGUIBLvCw3ww1djE0ZnUN3iRw1a9tR_VCSURM" alt="" width="1080" />
+          </div>
+        </div>
+      </section>
+      <section>
+        <!-- https://fastly.picsum.photos/id/362/1080/1080.jpg?hmac=vzwn2CXU8s21DH7LVZRAozOwmkP5S2iWl2ssJvCv2QA
+        https://fastly.picsum.photos/id/983/1080/1080.jpg?hmac=_pzYklUuqWk6z0X9h9p9xNKJr2sThQoadn5YRCVHa88
+        https://fastly.picsum.photos/id/825/1080/1080.jpg?hmac=XUiCHv4mdtexe6QpAmD4Y_d81clCeLoZKYO6xGtRU6M -->
+        <div class="image-box">
+          <div class="controller">
+            <img src="https://fastly.picsum.photos/id/362/1080/1080.jpg?hmac=vzwn2CXU8s21DH7LVZRAozOwmkP5S2iWl2ssJvCv2QA" alt="" width="1080" />
+          </div>
+          <div class="swapper">
+            <div class="progress">
+              <div><div></div></div>
+              <div><div></div></div>
+            </div>
+            <div class="caption">
+              <h2>Driver</h2>
+              <p>Drive the animation based on the container position. Use calc for other effects.</p>
+            </div>
+            <img src="https://fastly.picsum.photos/id/983/1080/1080.jpg?hmac=_pzYklUuqWk6z0X9h9p9xNKJr2sThQoadn5YRCVHa88" alt="" width="1080" />
+            <img src="https://fastly.picsum.photos/id/825/1080/1080.jpg?hmac=XUiCHv4mdtexe6QpAmD4Y_d81clCeLoZKYO6xGtRU6M" alt="" width="1080" />
+          </div>
+        </div>
+      </section>
+      <section>
+        <h2>fin.</h2>
+        <h2>Bookmark and follow for more.<br>Polyfilled with GSAP.</h2>
+      </section>
+    </main>
+    <footer>jh3yy &copy; 2024 ʕ •ᴥ•ʔ</footer>
+    <a class="bear-link" href="https://jhey.dev/links" target="_blank" rel="noreferrer noopener">
+      <svg class="w-9" viewBox="0 0 969 955" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="161.191" cy="320.191" r="133.191" stroke="currentColor" stroke-width="20"></circle><circle cx="806.809" cy="320.191" r="133.191" stroke="currentColor" stroke-width="20"></circle><circle cx="695.019" cy="587.733" r="31.4016" fill="currentColor"></circle><circle cx="272.981" cy="587.733" r="31.4016" fill="currentColor"></circle><path d="M564.388 712.083C564.388 743.994 526.035 779.911 483.372 779.911C440.709 779.911 402.356 743.994 402.356 712.083C402.356 680.173 440.709 664.353 483.372 664.353C526.035 664.353 564.388 680.173 564.388 712.083Z" fill="currentColor"></path><rect x="310.42" y="448.31" width="343.468" height="51.4986" fill="#FF1E1E"></rect><path fill-rule="evenodd" clip-rule="evenodd" d="M745.643 288.24C815.368 344.185 854.539 432.623 854.539 511.741H614.938V454.652C614.938 433.113 597.477 415.652 575.938 415.652H388.37C366.831 415.652 349.37 433.113 349.37 454.652V511.741L110.949 511.741C110.949 432.623 150.12 344.185 219.845 288.24C289.57 232.295 384.138 200.865 482.744 200.865C581.35 200.865 675.918 232.295 745.643 288.24Z" fill="currentColor"></path></svg>
+    </a>
+    <a class="x-link" href="https://twitter.com/intent/follow?screen_name=jh3yy" target="_blank" rel="noreferrer noopener">
+      <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>X</title><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg>
+    </a>
+    <script type="module" src="./script.js"></script>
+  </body>
+</html>
