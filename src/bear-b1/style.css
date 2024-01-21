@@ -1,0 +1,98 @@
+@import "normalize.css";
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	font-family:  "SF Pro Text", "SF Pro Icons", "AOS Icons", "Helvetica Neue", Helvetica, Arial, sans-serif, system-ui;
+	background: hsl(0 0% 10%);
+}
+
+.b1 {
+	--rise: 8%;
+	--rotate: 8deg;
+	width: 100px;
+	animation: rise 1s infinite linear;
+	translate: 0 calc(var(--rise) * -1);
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-80%, -60%);
+	z-index: 10;
+}
+
+img {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	translate: calc(-50% + 6px) -50%;
+	width: 350px;
+}
+
+body::after {
+	content: "";
+	width: 150px;
+	aspect-ratio: 1;
+	background: hsl(0 0% 0% / 1);
+	z-index: 4;
+	top: 50%;
+	left: 50%;
+	translate: -50% -50%;
+	position: absolute;
+}
+
+.cap-peak {
+	fill: red;
+	transform-box: fill-box;
+	transform-origin: 66% 70%;
+	animation: rotate 1s infinite linear;
+	scale: 1 0.94;
+	rotate: var(--rotate);
+}
+
+.cap-strap {
+	fill: red;
+}
+
+.cap-body {
+	fill: hsl(0 0% 12%);
+}
+
+.eye {
+	--start: 1;
+	--end: 0;
+	transform-box: fill-box;
+	transform-origin: 50% 50%;
+	animation: blink 2.5s calc(var(--eye-delay, 0) * -1s) infinite steps(1);
+}
+.closed-eyes {
+	--start: 0;
+	--end: 1;
+	animation: blink 2.5s calc(var(--eye-delay, 0) * -1s) infinite steps(1);
+}
+
+@keyframes rotate {
+	50% {
+		rotate: calc(var(--rotate) * -1);
+	}
+}
+
+@keyframes rise {
+	50% {
+		translate: 0 var(--rise);
+	}
+}
+@keyframes blink {
+  0%, 40%, 50%, 100% {
+    scale: 1 var(--start);
+  }
+  41%, 49% {
+    scale: 1 var(--end);
+  }
+}
