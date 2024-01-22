@@ -15,7 +15,6 @@ body {
 }
 
 :root {
-  --card-width: 400px;
   --card-width: clamp(300px, 50vmin, 600px);
 }
 
@@ -116,9 +115,6 @@ body::before {
 
 @supports (animation-timeline: scroll()) {
 
-	.track {
-		timeline-scope: --one, --two, --three, --four, --five;
-	}
 	
 	.track__indicators {
 		aspect-ratio: 7 / 1;
@@ -130,18 +126,22 @@ body::before {
 	li:nth-of-type(4) { view-timeline: --four inline; }
 	li:nth-of-type(5) { view-timeline: --five inline; }
 	
+	.indicator:nth-of-type(1) { animation-timeline: --one; }
+	.indicator:nth-of-type(2) { animation-timeline: --two; }
+	.indicator:nth-of-type(3) { animation-timeline: --three; }
+	.indicator:nth-of-type(4) { animation-timeline: --four; }
+	.indicator:nth-of-type(5) { animation-timeline: --five; }
+	
+	.track {
+		timeline-scope: --one, --two, --three, --four, --five;
+	}
+	
 	.indicator {
 		--buffer: calc(var(--card-width) * 0.9);
 		animation: blink both linear;
 		animation-range: contain calc(50% - var(--buffer)) contain calc(50% + var(--buffer));
 	}
 	
-	.indicator:nth-of-type(1) { animation-timeline: --one; }
-	.indicator:nth-of-type(2) { animation-timeline: --two; }
-	.indicator:nth-of-type(3) { animation-timeline: --three; }
-	.indicator:nth-of-type(4) { animation-timeline: --four; }
-	.indicator:nth-of-type(5) { animation-timeline: --five; }
-
 	@keyframes blink {
 		50% { flex: 3; }
 	}
