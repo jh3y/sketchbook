@@ -25,60 +25,35 @@ body {
 }
 
 body {
+	counter-reset: digit-one 0 digit-two 0 output 0;
 }
 
 .calculator {
 	font-family: monospace;
-	counter-reset: digit-one 0 digit-two 0 output 0;
 }
-
 
 .calculator__move:has(:checked) {
-	--first: calc(var(--index, 0) * var(--multiplier, 1));
-	--second: calc(var(--index-two, 0) * var(--multiplier, 1));
-	--output: calc(var(--first) + var(--second));
-	counter-increment: digit-one var(--first) digit-two var(--second) output var(--output);
-}
-
-/*.calculator__move:has(:checked):has(~ .calculator__operands) {
-	--first: calc(var(--index, 0) * var(--multiplier, 1));
+	--first: calc(var(--index-one, 0) * var(--multiplier-one, 1));
 	counter-increment: digit-one var(--first);
-}*/
-
-/*.calculator__operands ~ .calculator__move:has(:checked) {
-
-}*/
-
-/*.calculator__operands ~ .calculator__move:has(:checked) {
-	--second: calc(var(--index-two, 0) * var(--multiplier, 1));
-	--output: calc(var(--first) * var(--second));
-	counter-increment: digit-two var(--second);
-}*/
-
-/*:root:has(#o-plus:checked) .calculator__move:has(:checked) {
-	--first: calc(var(--index, 0) * var(--multiplier, 1));
-	--second: calc(var(--index-two, 0) * var(--multiplier, 1));
-	--output: calc(var(--first) + var(--second));
-	counter-increment: digit-one var(--first) digit-two var(--second) output var(--output);
 }
-:root:has(#o-minus:checked) .calculator__move:has(:checked) {
-	--first: calc(var(--index, 0) * var(--multiplier, 1));
-	--second: calc(var(--index-two, 0) * var(--multiplier, 1));
-	--output: calc(var(--first) - var(--second));
-	counter-increment: digit-one var(--first) digit-two var(--second) output var(--output);
+
+.calculator:has([data-move="0"] > :nth-of-type(1):checked) { --index-one: 4; }
+
+.calculator:has([data-move="0"] > :checked) { --one: var(--index-one); }
+.calculator:has([data-move="1"] > :checked) { --two: var(--index-one); }
+.calculator:has([data-move="2"] > :checked) { --three: var(--index-one); }
+.calculator:has([data-move="3"] > :checked) { --four: var(--index-one); }
+.calculator:has([data-move="4"] > :checked) { --fiv: var(--index-one); }
+
+/* Jus' need to make sure you pass the --first onto the second if you can */
+.calculator__operands ~ .calculator__move:has(:checked) {
+	/* How do you pass this onto where we need it... */
+	--base: calc(var(--one, 0));
+	--second: calc(var(--index-two, 0) * var(--multiplier-two, 1));
+	--output: calc(var(--base) * var(--second));
+	counter-increment: digit-two var(--second) output var(--output);
 }
-:root:has(#o-divide:checked) .calculator__move:has(:checked) {
-	--first: calc(var(--index, 0) * var(--multiplier, 1));
-	--second: calc(var(--index-two, 0) * var(--multiplier, 1));
-	--output: calc(var(--first) / var(--second));
-	counter-increment: digit-one var(--first) digit-two var(--second) output var(--output);
-}
-:root:has(#o-multiply:checked) .calculator__move:has(:checked) {
-	--first: calc(var(--index, 0) * var(--multiplier, 1));
-	--second: calc(var(--index-two, 0) * var(--multiplier, 1));
-	--output: calc((var(--first) * 1) * (var(--second) * 1));
-	counter-increment: digit-one var(--first) digit-two var(--second) output var(--output);
-}*/
+
 
 .calculator__move:has(:checked),
 .calculator__move:not(:has(:checked)) ~ .calculator__move:not(.calculator__operands ~ .calculator__move) {
@@ -86,23 +61,29 @@ body {
 	opacity: 0.2;
 }
 
+.calculator__move:has(~ .calculator__operands) { --multiplier-one: 1; }
+.calculator__move:has(~ .calculator__operands):has(+ .calculator__move > :checked) { --multiplier-one: 10; }
+.calculator__move:has(~ .calculator__operands):has(+ .calculator__move + .calculator__move > :checked) { --multiplier-one: 100; }
+.calculator__move:has(~ .calculator__operands):has(+ .calculator__move + .calculator__move + .calculator__move > :checked) { --multiplier-one: 1000; }
+.calculator__move:has(~ .calculator__operands):has(+ .calculator__move + .calculator__move + .calculator__move + .calculator__move > :checked) { --multiplier-one: 10000; }
 
-.calculator__move { --multiplier: 1; }
-.calculator__move:has(+ .calculator__move > :checked) { --multiplier: 10; }
-.calculator__move:has(+ .calculator__move + .calculator__move > :checked) { --multiplier: 100; }
-.calculator__move:has(+ .calculator__move + .calculator__move + .calculator__move > :checked) { --multiplier: 1000; }
-.calculator__move:has(+ .calculator__move + .calculator__move + .calculator__move + .calculator__move > :checked) { --multiplier: 10000; }
+.calculator__operands ~ .calculator__move { --multiplier-two: 1; }
+.calculator__operands ~ .calculator__move:has(+ .calculator__move > :checked) { --multiplier-two: 10; }
+.calculator__operands ~ .calculator__move:has(+ .calculator__move + .calculator__move > :checked) { --multiplier-two: 100; }
+.calculator__operands ~ .calculator__move:has(+ .calculator__move + .calculator__move + .calculator__move > :checked) { --multiplier-two: 1000; }
+.calculator__operands ~ .calculator__move:has(+ .calculator__move + .calculator__move + .calculator__move + .calculator__move > :checked) { --multiplier-two: 10000; }
 
-.calculator__move:has(~ .calculator__operands):has(:nth-of-type(1):checked) { --index: 0; }
-.calculator__move:has(~ .calculator__operands):has(:nth-of-type(2):checked) { --index: 1; }
-.calculator__move:has(~ .calculator__operands):has(:nth-of-type(3):checked) { --index: 2; }
-.calculator__move:has(~ .calculator__operands):has(:nth-of-type(4):checked) { --index: 3; }
-.calculator__move:has(~ .calculator__operands):has(:nth-of-type(5):checked) { --index: 4; }
-.calculator__move:has(~ .calculator__operands):has(:nth-of-type(6):checked) { --index: 5; }
-.calculator__move:has(~ .calculator__operands):has(:nth-of-type(7):checked) { --index: 6; }
-.calculator__move:has(~ .calculator__operands):has(:nth-of-type(8):checked) { --index: 7; }
-.calculator__move:has(~ .calculator__operands):has(:nth-of-type(9):checked) { --index: 8; }
-.calculator__move:has(~ .calculator__operands):has(:nth-of-type(10):checked) { --index: 9; }
+/* This index needs to be passed onto the second one */
+.calculator__move:has(~ .calculator__operands):has(:nth-of-type(1):checked) { --index-one: 0; }
+.calculator__move:has(~ .calculator__operands):has(:nth-of-type(2):checked) { --index-one: 1; }
+.calculator__move:has(~ .calculator__operands):has(:nth-of-type(3):checked) { --index-one: 2; }
+.calculator__move:has(~ .calculator__operands):has(:nth-of-type(4):checked) { --index-one: 3; }
+.calculator__move:has(~ .calculator__operands):has(:nth-of-type(5):checked) { --index-one: 4; }
+.calculator__move:has(~ .calculator__operands):has(:nth-of-type(6):checked) { --index-one: 5; }
+.calculator__move:has(~ .calculator__operands):has(:nth-of-type(7):checked) { --index-one: 6; }
+.calculator__move:has(~ .calculator__operands):has(:nth-of-type(8):checked) { --index-one: 7; }
+.calculator__move:has(~ .calculator__operands):has(:nth-of-type(9):checked) { --index-one: 8; }
+.calculator__move:has(~ .calculator__operands):has(:nth-of-type(10):checked) { --index-one: 9; }
 
 .calculator__operands ~ .calculator__move:has(:nth-of-type(1):checked) { --index-two: 1; }
 .calculator__operands ~ .calculator__move:has(:nth-of-type(2):checked) { --index-two: 1; }
@@ -116,11 +97,11 @@ body {
 .calculator__operands ~ .calculator__move:has(:nth-of-type(10):checked) { --index-two: 9; }
 
 .first::after {
-	content: counter(digit-one);
+	content: "first:" counter(digit-one);
 }
 .second::after {
-	content: counter(digit-two);
+	content: "second:" counter(digit-two);
 }
 .output::after {
-	content: counter(output);
+	content: "result:" counter(digit-one) "+" counter(digit-two) "=" counter(output);
 }

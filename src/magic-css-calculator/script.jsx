@@ -28,11 +28,11 @@ const App = () => {
         <label for="o-divide">÷</label>   
       </div>
       {new Array(moves).fill(0).map((_, index) => (
-        <div className="calculator__move" data-move={index}>
+        <div className="calculator__move" data-move={moves + index}>
           {new Array(10).fill(0).map((_, digit) => (
             <>
-              <input id={`d-${index}-${digit}`} type="checkbox" className="calculator__digit" />
-              <label for={`d-${index}-${digit}`}>{digit}</label>   
+              <input id={`d-${moves + index}-${digit}`} type="checkbox" className="calculator__digit" />
+              <label for={`d-${moves + index}-${digit}`}>{digit}</label>   
             </>
           ))}
         </div>
