@@ -1,0 +1,39 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+}
+
+.box {
+  position: absolute;
+  inset: 0;
+}
+.box--one {
+  background: hsl(210 80% 50%);
+}
+.box--two {
+  background: hsl(10 80% 50%);
+}
+
+.wrapper {
+  width: 90vmin;
+  aspect-ratio: 1;
+  background: hsl(0 0% 96%);
+  position: relative;
+  resize: both;
+  overflow: hidden;
+}
+
+/* Masking magic */ 
+.box {
+  --multiplier: 1px;
+  mask-image: url(https://simpleicons.org/icons/x.svg);
+  mask-size: calc(var(--size, 50) * var(--multiplier));
+  mask-repeat: no-repeat;
+  mask-position: calc(var(--x, 0) * var(--multiplier)) calc(var(--y, 0) * var(--multiplier));
+  transition: mask 0.2s;
+}

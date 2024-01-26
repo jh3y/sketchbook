@@ -1,0 +1,190 @@
+* {
+  box-sizing: border-box;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+:root {
+  --color: hsl(0 0% 6%);
+  --bg: hsl(0 0% 98%);
+}
+
+.dark {
+  --color: hsl(0 0% 98%);
+  --bg: hsl(0 0% 6%);
+}
+
+h1 {
+  font-size: clamp(2rem, 4vw + 1rem, 8rem);
+}
+
+.tp-container {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+}
+
+.theme-toggle {
+  color: var(--color);
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  width: 48px;
+  aspect-ratio: 1;
+  padding: 0;
+  border: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  background: transparent;
+  transition: background 0.2s;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.theme-toggle:is(:hover, :focus-visible) {
+  background: hsl(0 0% 90%);
+}
+
+.dark .theme-toggle:is(:hover, :focus-visible) {
+  background: hsl(0 0% 30%);
+}
+
+.theme-toggle[aria-pressed=true] svg path:last-of-type {
+  display: block;
+}
+
+.theme-toggle svg {
+  color: currentColor;
+  width: 50%;
+}
+
+.theme-toggle[aria-pressed=true] svg path:first-of-type,
+.theme-toggle svg path:last-of-type {
+  display: none;
+}
+
+
+body {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  align-content: center;
+  color: var(--color);
+  background: var(--bg);
+  font-family: SF Pro Display, SF Pro Icons, Helvetica Neue, Helvetica, Arial, sans-serif;
+}
+
+::view-transition-new(root),
+::view-transition-old(root) {
+  animation: none;
+  mix-blend-mode: normal;
+  height: 100%;
+  width: 100%;
+}
+
+::view-transition-new(root) {
+  z-index: 2;
+}
+::view-transition-old(root),
+.dark::view-transition-new(root) {
+  animation: none;
+}
+
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  mask-repeat: no-repeat;
+}
+.dark::view-transition-old(root) {
+  mask-image: url('./moon.svg');
+}
+.dark::view-transition-new(root) {
+  z-index: -1;
+  animation: none;
+}
+.light::view-transition-new(root) {
+  mask-image: url('./sunshine.svg');
+}
+
+/*::view-transition-new(root),
+::view-transition-old(root) {
+  mix-blend-mode: normal;
+}*/
+
+/*::view-transition-new(root) {
+  animation-name: reveal-light;
+}*/
+
+/*::view-transition-old(root),
+.dark::view-transition-old(root) {
+  animation: none;
+}*/
+/*.dark::view-transition-new(root) {
+  animation-name: reveal-dark;
+}*/
+
+
+
+/*.dark::view-transition-old(root) {
+  animation-name: none;
+}*/
+
+/* View Transitions */
+/*::view-transition-group(root) {
+  animation-duration: 1.25s;
+}
+
+/**
+ * Gotta be based on this
+ * (CONFIG_ONE.x + CONFIG_ONE.size * 0.5) - (CONFIG_TWO.size * 0.5)
+ * 
+ * (X + (SIZE * 0.5)) - (RESULT * 0.5)
+ * 
+ * */
+/*::view-transition-new(root) {
+  animation-name: reveal-light;
+  mask-image: url(./sunshine.svg);
+}
+
+::view-transition-old(root),
+.dark::view-transition-new(root) {
+  animation: none;
+}
+.dark::view-transition-old(root) {
+  animation-name: reveal-dark;
+  mask-image: url(./sunshine.svg);
+  mask-size: 10000vmax 10000vmax;
+}
+
+::view-transition-new(root),
+::view-transition-old(root) {
+  mask-position: calc(100% - 48px) 48px;
+}
+
+@keyframes reveal-dark {
+  to {
+    mask-size: 0 0;
+  }
+}
+
+@keyframes reveal-light {
+  to {
+    mask-position: calc(((100% - 48px) + 12px) - 500vmax) 48px;
+    mask-size: 1000vmax 1000vmax;
+  }
+}
+
+
+
+*/

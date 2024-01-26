@@ -1,0 +1,403 @@
+@import "normalize.css";
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+:root {
+	--bg: hsl(0 0% 90%);
+	--nav: hsl(0 0% 100%);
+	--color: hsl(0 0% 30%);
+}
+
+:root.dark {
+	--bg: hsl(0 0% 0%);
+	--nav: hsl(0 0% 14%);
+	--color: hsl(0 0% 90%);
+}
+
+body {
+	place-items: center;
+	min-height: 100vh;
+	font-family:  "SF Pro Text", "SF Pro Icons", "AOS Icons", "Helvetica Neue", Helvetica, Arial, sans-serif, system-ui;
+	background: var(--bg);
+	color: var(--color);
+}
+
+nav {
+	height: 60px;
+	position: sticky;
+	top: 0;
+	left: 0;
+	right: 0;
+	text-transform: uppercase;
+	font-family: monospace;
+	font-size: 14px;
+	background: var(--nav);
+}
+
+.nav__content {
+	width: 1100px;
+	display: flex;
+	max-width: calc(100% - 2rem);
+	margin: 0 auto;
+	height: 100%;
+	gap: 1rem;
+	position: relative;
+	justify-content: space-between;
+	background: var(--nav);
+}
+
+.nav__control {
+	width: 60px;
+}
+
+label {
+	display: grid;
+	place-items: center;
+	height: 100%;
+	width: 100%;
+	cursor: pointer;
+}
+
+.nav__control svg {
+	width: 24px;
+	stroke-width: 2.5;
+	rotate: calc(var(--active-nav, 0) * 45deg);
+	transition: rotate var(--speed);
+}
+
+input:focus-visible + label {
+	outline: 1px solid red;
+}
+
+.nav__content > a svg {
+	width: 32px;
+/*	color: hsl(0 0% 15%);*/
+}
+
+.sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border-width: 0;
+}
+
+.nav__options a {
+	position: relative;
+	padding: 1rem 2rem;
+	height: 60px;
+}
+
+.nav__options svg {
+	height: 16px;
+	stroke-width: 2.5px;
+}
+
+.nav__options {
+	position: absolute;
+	right: -1rem;
+	top: 100%;
+	background: var(--nav);
+	width: calc(100% + 2rem);
+	translate: 0 calc(-100% + (var(--active-nav, 0) * (100% + 2px)));
+	transition: translate var(--speed);
+	z-index: -1;
+}
+
+a:focus-visible {
+	outline: 1px solid red;
+}
+
+:root:has(#menu:checked) {
+	--active-nav: 1;
+}
+
+.nav__options a:not(:last-of-type) {
+	border-bottom: 2px solid var(--bg	);
+}
+
+nav a {
+	display: flex;
+	place-items: center;
+	padding: 1rem;
+	text-decoration: none;
+	justify-content: space-between;
+	color: currentColor;
+}
+
+nav a:is(:hover, :focus-visible) {
+	--active: 1;
+}
+
+.link svg {
+	opacity: var(--active, 0);
+	rotate: calc(var(--active, 0) * -45deg);
+	scale: calc(1 + (var(--active, 0) * 0.1));
+	transition: opacity calc(var(--speed) * 1.5), rotate var(--speed), scale var(--speed);
+}
+
+.ebook {
+	display: none;
+}
+
+@media(min-width: 1200px) {
+	.ebook {
+		display: flex;
+	}
+}
+
+/* The :hover stuff */
+:root {
+  --speed: 0.25s;
+}
+
+@media(min-width: 768px) {
+	:root {
+	  --lerp-0: 1; /* === sin(90deg) */
+	  --lerp-1: calc(sin(30deg));
+	  --lerp-2: calc(sin(20deg));
+	  --lerp-3: calc(sin(10deg));
+	  --lerp-4: 0;
+	  --speed: 0.25s;
+	}
+	.nav__control {
+		display: none;
+	}
+	.nav__options {
+		flex: 1;
+		display: grid;
+		grid-auto-flow: column;
+		grid-auto-columns: 1fr;
+		position: static;
+		width: auto;
+		translate: 0 0;
+		z-index: 1;
+		/*position: absolute;
+		right: -1rem;
+		top: 100%;
+		background: var(--nav);
+		width: calc(100% + 2rem);
+		translate: 0 calc(-100% + (var(--active-nav, 0) * (100% + 2px)));
+		transition: translate var(--speed);*/
+	}
+
+	.nav__options a:not(:last-of-type) {	
+		border-bottom: 0;
+	}
+
+	.link::before {
+		content: "";
+		position: absolute;
+		height: 300%;
+		border-right: 2px solid var(--bg);
+		bottom: 0;
+		background: var(--nav);
+		z-index: -1;
+		left: 0;
+		right: 0;
+	}
+	.link {
+		translate: 0 calc(var(--lerp, 0) * 80%);
+		transition: translate var(--speed);
+	}
+
+	:is(.link:hover, .link:focus-visible) {
+	  --lerp: var(--lerp-0);
+	  z-index: 5;
+	}
+	.link:has( + :is(.link:hover, .link:focus-visible)),
+	:is(.link:hover, .link:focus-visible) + .link {
+	  --lerp: var(--lerp-1);
+	  z-index: 4;
+	}
+	.link:has( + .link + :is(.link:hover, .link:focus-visible)),
+	:is(.link:hover, .link:focus-visible) + .link + .link {
+	  --lerp: var(--lerp-2);
+	  z-index: 3;
+	}
+	.link:has( + .link + .link + :is(.link:hover, .link:focus-visible)),
+	:is(.link:hover, .link:focus-visible) + .link + .link + .link {
+	  --lerp: var(--lerp-3);
+	  z-index: 2;
+	}
+	.link:has( + .link + .link + .link + :is(.link:hover, .link:focus-visible)),
+	:is(.link:hover, .link:focus-visible) + .link + .link + .link + .link {
+	  --lerp: var(--lerp-4);
+	  z-index: 1;
+	}
+}
+
+
+/* Socials stuff */
+.x-link, .bear-link {
+	color: currentColor;
+	position: fixed;
+	bottom: 1rem;
+	left: 1rem;
+	width: 48px;
+	aspect-ratio: 1;
+	display: grid;
+	place-items: center;
+	opacity: 0.8;
+}
+
+.bear-link {
+	bottom: unset;
+	top: 1rem;
+}
+
+:where(.x-link, .bear-link):is(:hover, :focus-visible) {
+	opacity: 1;
+}
+.bear-link svg {
+	width: 75%;
+}
+.x-link svg {
+	width: 50%;
+}
+
+.eye {
+	transform-box: fill-box;
+	transform-origin: 50% 50%;
+  animation: blink 6s -2s infinite;
+}
+
+@keyframes blink {
+  0%, 46%, 48%, 50%, 100% {
+    scale: 1 1;
+  }
+  47%, 49% {
+    scale: 1 0.01;
+  }
+}
+
+
+/* Theme toggle */
+.theme-toggle {
+  color: var(--color);
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  width: 48px;
+  aspect-ratio: 1;
+  padding: 0;
+  border: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  background: transparent;
+  transition: background 0.2s;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.theme-toggle:is(:hover, :focus-visible) {
+  background: var(--nav);
+}
+
+.theme-toggle[aria-pressed=true] svg path:last-of-type {
+  display: block;
+}
+
+.theme-toggle svg {
+  color: currentColor;
+  width: 50%;
+}
+
+.theme-toggle[aria-pressed=true] svg path:first-of-type,
+.theme-toggle svg path:last-of-type {
+  display: none;
+}
+
+/* View Transitions */
+::view-transition-group(root) {
+	animation-duration: 1.25s;
+} 
+::view-transition-old(root),
+::view-transition-new(root) {
+	mix-blend-mode: normal;
+}
+
+::view-transition-old(root) {
+	animation: none;
+}
+
+::view-transition-new(root) {
+	z-index: 2;
+}
+
+::view-transition-new(root),
+::view-transition-old(root) {
+  animation: none;
+  mix-blend-mode: normal;
+  height: 100%;
+  width: 100%;
+}
+
+::view-transition-new(root) {
+  z-index: 2;
+  animation: slice 1s;
+}
+
+/*@keyframes slice {
+	0% { clip-path: inset(100% 0 0 0); }
+	100% { clip-path: inset(0 0 0 0); }
+}*/
+
+/* polygon clipper */
+@keyframes slice {
+	0% {
+		clip-path: polygon(
+			/* Start in the top left	*/
+			0 -110%,
+			/* Make columns as you go across */
+			25% -110%,
+			25% -110%,
+			50% -110%,
+			50% -110%,
+			75% -110%,
+			75% -110%,
+			100% -110%,
+			/* Then make sure they are mirrored */
+			100% -110%,
+			75% -110%,
+			75% -110%,
+			50% -110%,
+			50% -110%,
+			25% -110%,
+			25% -110%,
+			0 -110%
+		);
+	}
+	100% {
+		clip-path: polygon(
+			/* Start in the top left	*/
+			0 0,
+			/* Make columns as you go across */
+			25% 0,
+			25% 0,
+			50% 0,
+			50% 0,
+			75% 0,
+			75% 0,
+			100% 0,
+			/* Then make sure they are mirrored */
+			100% 102%,
+			75% 102%,
+			75% 110%,
+			50% 110%,
+			50% 106%,
+			25% 106%,
+			25% 100%,
+			0 100%
+		);
+	}
+}

@@ -199,24 +199,6 @@ body {
 
 .calculator:has(#calculate:checked) .final::after { display: block; }
 
-/*.step:has(:checked), .step:first-of-type:has(:checked) {
-  --hue: 10;
-  opacity: 0.2;
-}
-
-
-.step:has(:checked) + .step:not(.step:has(:checked)) {
-  --hue: 210;
-  opacity: 1;
-}
-
-.calculator__move:not([data-move="0"]),
-.calculator__move:not(:has(:checked)) + .calculator__move,
-.calculator__move:has(:checked) {
-	pointer-events: none;
-	opacity: 0.2;
-}*/
-
 .calculator__move:first-of-type:has(:checked),
 .calculator__move:not(.calculator__move:first-of-type) {
 	pointer-events: none;
@@ -228,7 +210,6 @@ body {
 	pointer-events: all;
 	opacity: 1;
 }
-
 
 /* Styles using Subgrid */
 .calculator {
