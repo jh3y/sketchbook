@@ -1,0 +1,281 @@
+@import "normalize.css" layer(https://unpkg.com/normalize.css);
+
+@font-face {
+  font-family: "Geist Sans";
+  src: url("https://assets.codepen.io/605876/GeistVF.ttf") format("truetype");
+}
+
+*,
+*:after,
+*:before {
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  place-items: center;
+  min-height: 100vh;
+  font-family:  "Geist Sans", "SF Pro Text", "SF Pro Icons", "AOS Icons", "Helvetica Neue", Helvetica, Arial, sans-serif, system-ui;
+  background: hsl(0 0% 6%);
+}
+
+body::before {
+  --line: hsl(0 0% 95% / 0.15);
+  content: "";
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  background:
+    linear-gradient(90deg, var(--line) 1px, transparent 1px 10vmin) 0 -5vmin / 10vmin 10vmin,
+    linear-gradient(var(--line) 1px, transparent 1px 10vmin) 0 -5vmin / 10vmin 10vmin;
+  mask: linear-gradient(-15deg, transparent 30%, white);
+  top: 0;
+  z-index: -1;
+  transform: translate3d(0, 0, -100vmin);
+}
+
+@layer foundation {
+  .control {
+    position: relative;
+    display: grid;
+    place-items: center;
+    margin: 0 auto;
+/*    scale: 2;*/
+  }
+
+  .control::before {
+  	content: "";
+  	inset: -0.5rem;
+  	border: 4px solid transparent;
+  	border-radius: 100px;
+  	position: absolute;
+  	background: red;
+  	mask:
+	    linear-gradient(white, white),
+	    linear-gradient(white, white);
+  	mask-composite: exclude;
+  	mask-clip: border-box, padding-box;
+  	box-shadow: 0 0 10px blue inset;
+  }
+
+  .control__beams {
+  	position: absolute;
+  	inset: -0.5rem;
+  	pointer-events: none;
+  	container-type: size;
+  }
+
+ 	.control__beam-track {
+ 		position: absolute;
+ 		border-radius: 100px;
+ 		inset: 0 0 0 0;
+ 	}
+
+ 	.control__beam-track::after {
+ 		content: "";
+ 		border: 4px solid hsl(210 80% 50%);
+ 		position: absolute;
+ 		border-radius: 100px;
+ 		inset: 0;
+ 		z-index: 2;
+ 		--start: calc(var(--value, 0) - 99);
+ 		clip-path: inset(
+ 			0
+ 			/**
+ 			 * 100% -
+ 			 * start: 50cqh * 1%
+ 			 * middle: 100% - 100cqh
+ 			 * */
+ 			calc(
+ 				100% -
+ 					(50cqh * clamp(0, var(--value, 0), 1)) -
+ 					((100% - 100cqh) * (var(--value) / 100)) -
+ 					((50cqh) * clamp(0, var(--value, 0) - 99, 1))
+ 			)
+ 			0
+ 			0);
+		/**
+		 * Some trickery here. Want to toggle at the ends ideally.
+		 * 0 = 100%
+		 * 50cqh = 1% 
+		 * Then you have 98% to play with
+		 * Then the final 1%
+		 * */
+ 		transition: clip-path 0.2s;
+ 	}
+
+
+  .sr-only {
+  	position: absolute;
+		width: 1px;
+		height: 1px;
+		padding: 0;
+		margin: -1px;
+		overflow: hidden;
+		clip: rect(0, 0, 0, 0);
+		white-space: nowrap;
+		border-width: 0;
+  }
+
+  .control:focus-within,
+  .control:hover {
+    --active: 1;
+  }
+
+  [type="range"] {
+    width: 300px;
+    opacity: 0;
+    height: 60px;
+  }
+
+  [type="range"]:hover {
+    cursor: -webkit-grab;
+  }
+  [type="range"]:active {
+    cursor: -webkit-grabbing;
+  }
+
+  [type=range]:focus-visible {
+    outline-offset: 0.25rem;
+    outline-color: transparent;
+  }
+
+  @property --shift {
+  	initial-value: 0;
+  	inherits: true;
+  	syntax: '<integer>';
+  }
+
+  [type="range"]::-webkit-slider-thumb {
+    appearance: none;
+    -webkit-appearance: none;
+    height: 120px;
+    width: 40px;
+    margin-top: 0px;
+	  opacity: 1;
+	}
+	[type="range"]::-webkit-slider-runnable-track {
+  	-webkit-appearance: none;
+	  height: 120px;
+	  background: hsl(10 80% 50% / 0.5);
+	  margin-top: -60px; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
+	  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d; 
+	}
+	[type=range]::-moz-range-track {
+	  height: 120px;
+	  background: hsl(10 80% 50% / 0.5);
+	  margin-top: -60px; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
+	  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d; 
+	}
+}
+
+
+@layer scrolls {
+  @property --value {
+    initial-value: 0;
+    syntax: '<integer>';
+    inherits: true;
+  }
+
+  @keyframes sync {
+    to { --value: 100; }
+  }
+
+  [type=range] {
+    overflow: hidden;
+    touch-action: none;
+    border: 0;
+    padding: 0;
+    margin: 0;
+  }
+
+  .control {
+    animation: sync both linear reverse, shift both linear;
+    animation-timeline: --thumb;
+    animation-range: contain;
+  }
+
+  .control__track {
+  	height: 100%;
+  	width: 100%;
+  	border-radius: 100px;
+  	position: absolute;
+  	bottom: 0;
+  	pointer-events: none;
+/*  	background: red;*/
+		background: hsl(0 0% 14%);
+		box-shadow:
+		  0 -1px inset hsl(0 0% 100% / 0.5),
+			0 0 10px inset black;
+  }
+
+  .control__indicator {
+  	height: 100%;
+  	border-radius: 4px;
+/*  	width: 4px;*/
+		aspect-ratio: 1;
+		border-radius: 50%;
+  	position: absolute;
+  	top: 50%;
+/*  	background: hsl(0 0% 100% / calc((var(--active, 0) * 0.5) + 0.5));*/
+  	left:calc(var(--value, 0) * 1%);
+  	z-index: 2;
+  	translate: calc(var(--value, 0) * -1%) -50%;
+  	transition: left var(--update), translate var(--update);
+  }
+
+  .control__indicator::after {
+  	content: "";
+  	position: absolute;
+  	inset: 4%;
+  	border-radius: 50%;
+  	background: blue;
+  	border: 4px solid purple;
+  }
+
+  :root {
+    --update: 0.2s;
+    timeline-scope: --thumb;
+  }
+
+  @supports(animation-timeline: scroll()) {
+	  :root {
+	    --update: 0.1s;
+	    timeline-scope: --thumb;
+	  }
+
+	  [type="range"]::-webkit-slider-thumb {
+	    view-timeline-name: --thumb;
+	    view-timeline-axis: inline;
+	  }
+  }
+}
+
+
+/* Socials stuff */
+.x-link, .bear-link {
+	color: hsl(0 0% 100%);
+	position: fixed;
+	bottom: 1rem;
+	left: 1rem;
+	width: 48px;
+	aspect-ratio: 1;
+	display: grid;
+	place-items: center;
+	opacity: 0.8;
+}
+
+.bear-link {
+	bottom: unset;
+	top: 1rem;
+}
+
+:where(.x-link, .bear-link):is(:hover, :focus-visible) {
+	opacity: 1;
+}
+.bear-link svg {
+	width: 75%;
+}
+.x-link svg {
+	width: 50%;
+}
