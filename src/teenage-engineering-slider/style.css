@@ -1,0 +1,289 @@
+@import "normalize.css" layer(https://unpkg.com/normalize.css);
+
+@font-face {
+  font-family: "Geist Sans";
+  src: url("https://assets.codepen.io/605876/GeistVF.ttf") format("truetype");
+}
+
+*,
+*:after,
+*:before {
+  box-sizing: border-box;
+}
+
+body {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  font-family:  "Geist Sans", "SF Pro Text", "SF Pro Icons", "AOS Icons", "Helvetica Neue", Helvetica, Arial, sans-serif, system-ui;
+  background: hsl(0 0% 14%);
+  overflow: hidden;
+}
+
+:root {
+  --hue: 320;
+  --height: 56px;
+  --width: 246px;
+  --glow: var(--hue, 24) 90% 60%;
+  --accent: var(--hue, 24) 100% calc((60 + ((var(--value, 0) / 100) * 40)) * 1%);
+  --outset: -.5rem;
+  --thickness: 4px;
+  --update: 0.1s;
+}
+
+/* This one's for resetting the input styles and getting them out the way */
+@layer reset {
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+
+  [type=range]:hover {
+    cursor: -webkit-grab;
+  }
+  [type=range]:active {
+    cursor: -webkit-grabbing;
+  }
+  [type=range]:focus-visible {
+    outline-offset: 0.25rem;
+    outline-color: transparent;
+  }
+  
+  [type="range"] {
+    width: var(--width);
+    opacity: 1;
+    height: var(--height);
+    overflow: hidden;
+    touch-action: none;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    opacity: 0;
+  }
+
+  [type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    height: var(--height);
+    width: var(--height);
+    background: hsl(210 80% 25% / 0.75);
+    margin-top: 0;
+  }
+
+  [type=range]::-moz-range-thumb {
+    height: var(--height);
+    background: hsl(210 80% 25% / 0.5);
+    width: var(--height);
+    margin-top: 30px;
+  }
+  [type="range"]::-webkit-slider-runnable-track {
+    -webkit-appearance: none;
+    appearance: none;
+    height: var(--height);
+    background: hsl(210 80% 50% / 0.2);
+  }
+  [type=range]::-moz-range-track {
+    height: var(--height);
+    background: hsl(210 80% 50% / 0.2);
+  }
+  .control:focus-within,
+  .control:hover {
+    --active: 1;
+  }
+}
+
+@layer controls {
+  .control {
+    position: relative;
+    height: var(--height);
+  }
+  .control::before {
+    content: "";
+    width: 1px;
+    height: calc(var(--height) * 1.75);
+    border-radius: 2px;
+    background: black;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    translate: -50% -50%;
+    pointer-events: none;
+    z-index: 2;
+    mask: linear-gradient(
+      white calc(50% - (var(--height) * 0.14)), 
+      transparent calc(50% - (var(--height) * 0.14)) calc(50% + (var(--height) * 0.14)),
+      white calc(50% + (var(--height) * 0.14))
+    );
+  }
+  .control__track {
+    pointer-events: none;
+    height: 28%;
+    width: 100%;
+    background: hsl(0 0% 4%);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    border-radius: 100px;
+    translate: -50% -50%;
+    box-shadow:
+      0 0 2px 0 hsl(0 0% 0%) inset,
+      -1px 1px 1px -1px hsl(0 0% 100% / 0.5);
+
+  }
+  .control__thumb {
+    pointer-events: none;
+    height: var(--height);
+    aspect-ratio: 1;
+    background: red;
+    border-radius: 50%;
+    position: absolute;
+    top: 0;
+    left: calc(var(--value, 0) * 1%);
+    translate: calc((-50% + (var(--height) * 0.14)) - ((var(--value, 0) / 100) * (var(--height) * 0.28))) 0%;
+    z-index: 3;
+  }
+  .control__thumb::after {
+    content: "";
+    height: 100%;
+    aspect-ratio: 1;
+    border: 1px solid transparent;
+    background:
+      linear-gradient(hsl(0 0% 0% / 0.1), hsl(0 0% 0% / 0)) padding-box,
+      linear-gradient(hsl(0 0% 40%), hsl(0 0% 40%)) padding-box,
+      linear-gradient(90deg, hsl(var(--hue) 80% 50% / calc(var(--value) / 150)) 25%, transparent 60%) border-box,
+      linear-gradient(60deg, hsl(0 0% 16%) 40%, hsl(0 0% 100%)) border-box;
+    box-shadow:
+      4px 0 4px -2px hsl(var(--hue) 80% 50% / calc(var(--value, 0) / 150)) inset,
+      -2px 2px 4px -1px hsl(0 0% 100% / 0.5) inset,
+      1px 0px 2px 0px hsl(0 0% 10% / 1) inset,
+      1px -1px 1px 0px hsl(0 0% 20% / 1) inset,
+      4px -4px 4px 0px hsl(0 0% 20% / 0.5) inset;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+  }
+  .control__thumb::before {
+    content: "";
+    position: absolute;
+    height: 200%;
+    width: 100%;
+    background: radial-gradient(hsl(0 0% 0% / 0.25), transparent 75%);
+    transform-origin: 50% calc(var(--height) * 0.5);
+    rotate: 55deg;
+  }
+  .control__led {
+    height: 24%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    background:
+      radial-gradient(calc(var(--height) * 0.2) calc(var(--height) * 0.2) at 65% 75%, hsl(0 0% 100% / 0.15) 10%, transparent 60%),
+      hsl(var(--hue) 80% 50% / calc(0.5 + (var(--value, 0) / 100)));
+    z-index: 2;
+    box-shadow:
+      0 0 2px black inset,
+      0.5px -0.5px 0px 0px hsl(0 0% 100% / 0.8) inset,
+      0 0 calc((var(--value, 0) / 100) * 10px) calc((var(--value, 0) / 100) * 5px) hsl(var(--hue) 80% 50% / 0.5);
+  }
+
+  .control__beam {
+    box-shadow:
+      0 2px 4px black inset,
+      0 -1px 2px hsl(0 0% 100% / 0.5) inset;
+    height: 100%;
+    width: 100%;
+    border-radius: 100px;
+    position: relative;
+  }
+
+  .control__beam::before,
+  .control__beam::after {
+    width: calc(var(--value, 0) * 1%);
+    height: 100%;
+    content: "";
+    border-radius: 100px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: hsl(var(--hue) 80% 50% / calc(0.25 + (var(--value, 0) / 100)));
+    z-index: -1;
+  }
+  .control__beam::after {
+    opacity: 0.15;
+    filter: brightness(1.25) blur(8px) drop-shadow(0 0 20px hsl(var(--hue) 100% 50%));
+    z-index: 2;  
+  }
+}
+
+
+@layer scrolls {
+  @supports(animation-timeline: scroll()) {
+	  :root {
+	    timeline-scope: --thumb;
+	  }
+
+    @property --value {
+      initial-value: 0;
+      syntax: '<integer>';
+      inherits: true;
+    }
+
+    @keyframes sync {
+      to { --value: 100; }
+    }
+
+    .control {
+      animation: sync both linear reverse;
+      animation-timeline: --thumb;
+      animation-range: contain;
+    }
+
+	  [type="range"]::-webkit-slider-thumb {
+	    view-timeline-name: --thumb;
+	    view-timeline-axis: inline;
+	  }
+  }
+}
+
+
+/* Socials stuff */
+@layer socials {
+  .x-link, .bear-link {
+  	color: hsl(0 0% 100%);
+  	position: fixed;
+  	bottom: 1rem;
+  	left: 1rem;
+  	width: 48px;
+  	aspect-ratio: 1;
+  	display: grid;
+  	place-items: center;
+  	opacity: 0.8;
+  }
+
+  .bear-link {
+  	bottom: unset;
+  	top: 1rem;
+  }
+
+  :where(.x-link, .bear-link):is(:hover, :focus-visible) {
+  	opacity: 1;
+  }
+  .bear-link svg {
+  	width: 75%;
+  }
+  .x-link svg {
+  	width: 50%;
+  }
+}
