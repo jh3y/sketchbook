@@ -128,9 +128,6 @@ mark {
   --highlight: hsl(var(--hue, 45) 80% var(--lightness));
   counter-increment: highlight 1;
   background: transparent;
-  animation: highlight steps(1) both;
-  animation-timeline: view();
-  animation-range: entry 100% cover 25%;
 }
 
 .dark mark {
@@ -174,21 +171,32 @@ mark::after {
   width: 32px;
   aspect-ratio: 1;
   border-radius: 12px;
-  background: var(--highlight);
   font-weight: 80;
   top: 0;
   left: 100%;
   translate: 50% 0;
   font-size: 0.875rem;
+  background: var(--highlight);
   scale: var(--highlighted);
   transition: scale 0.2s;
 }
 
-@keyframes highlight {
-  to {
-    --highlighted: 1;
-  }
+
+@supports(animation-timeline: scroll()) {
+	mark {
+		animation: highlight steps(1) both;
+	  animation-timeline: view();
+	  animation-range: entry 100% cover 25%;
+	}
+
+	@keyframes highlight {
+	  to {
+	    --highlighted: 1;
+	  }
+	}
 }
+
+/* View Transition stuff */
 
 ::view-transition-new(root) {
 	animation: grow 1s;

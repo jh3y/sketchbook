@@ -12,14 +12,15 @@
   </head>
   <body>
     <div class="control">
-      <input id="track" type="range" min="0" max="100" value="86" />
+      <input id="track" type="range" min="0" max="100" value="86" step="1" />
       <div class="control__track">
-        <div class="control__indicator"></div>
+        <div class="control__indicator">
+          <div class="control__thumb"></div>
+        </div>
       </div>
       <div class="control__beams">
-        <div class="control__beam-corner"></div>
         <div class="control__beam-track"></div>
-        <div class="control__beam-corner"></div>
+        <div class="control__beam-track"></div>
       </div>
     </div>
     <a
