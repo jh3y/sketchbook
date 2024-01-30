@@ -11,7 +11,6 @@ const CONFIG = {
 
 const applyChange = () => {
   const isDark = TOGGLE.matches('[aria-pressed=true]') ? false : true
-  console.info({ isDark })
   TOGGLE.setAttribute('aria-pressed', isDark)
   // document.querySelector('img').src = `https://picsum.photos/1280/720?random=${isDark ? 12 : 10}`
   document.documentElement.className = isDark ? 'dark' : 'light'
