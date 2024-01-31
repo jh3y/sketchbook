@@ -1,0 +1,153 @@
+@import "normalize.css" layer(normalize);
+
+@font-face {
+  font-family: "Geist Sans";
+  src: url("https://assets.codepen.io/605876/GeistVF.ttf") format("truetype");
+}
+
+
+
+
+@layer foundation {
+	*,
+	*:after,
+	*:before {
+		box-sizing: border-box;
+	}
+	
+	body {
+		min-height: 100vh;
+		background: hsl(0 0% 100%);
+		font-family:  "Geist Sans", "SF Pro Text", "SF Pro Icons", "AOS Icons", "Helvetica Neue", Helvetica, Arial, sans-serif, system-ui;
+		font-weight: 80;
+	}
+	
+	header {
+		min-height: 100vh;
+	}
+
+	video {
+		position: sticky;
+		top: 0;
+		height: 100vh;
+		width: 100vw;
+		object-fit: cover;
+	}
+
+	header > section {
+		position: relative;
+		top: 0;
+		height: 100vh;
+		width: 100%;
+		translate: 0 -100%;
+		display: grid;
+		place-items: center;
+		color: hsl(0 0% 100%);
+		z-index: 2;
+		will-change: translate;
+	}
+
+	h1 {
+		--font-size: clamp(2rem, 4vw + 1rem, 8rem);
+		font-size: var(--font-size);
+		text-align: center;
+		display: grid;
+		gap: 0.5rem 0;
+		line-height: 0.9;
+		text-wrap: balance;
+		font-weight: 120;
+		max-width: 20ch;
+	}
+
+	h1 span:first-of-type {
+		font-size: calc(var(--font-size) * 0.35);
+	}
+
+	header > section::before {
+		content: "";
+		position: absolute;
+		inset: -100% 0 -100% 0;
+		background: hsl(0 0% 0% / 0.65);
+		pointer-events: none;
+		opacity: var(--opacity, 1);
+		z-index: -1;
+	}
+
+	main {
+		min-height: 100vh;
+		display: grid;
+		place-items: center;
+	}
+
+	main > section {
+		font-size: clamp(2rem, 3vw + 1rem, 8rem);
+		font-weight: 100;
+	}
+
+	footer {
+		padding: 2rem;
+		display: grid;
+		place-items: center;
+	}
+}
+
+@layer scrolls {
+	@supports (animation-timeline: scroll()) {
+		header {
+			transform-origin: 50% 0%;
+			animation: scale-down both ease-in;
+			animation-timeline: view();
+			animation-range: exit;
+			view-timeline: --header;
+		}
+
+		@keyframes scale-down {
+			to {
+				scale: 0.8 0.8;
+			}
+		}
+
+		header > section::before {
+			animation: fade both linear;
+			animation-timeline: --header;
+			animation-range: exit-crossing 0% exit 0%;
+		}
+
+		@keyframes fade {
+			to {
+				opacity: 0;
+			}
+		}
+	}
+}
+
+@layer socials {
+  .x-link,
+  .bear-link {
+    color: hsl(0 0% 100%);
+    position: fixed;
+    bottom: 1rem;
+    left: 1rem;
+    width: 48px;
+    aspect-ratio: 1;
+    display: grid;
+    place-items: center;
+    opacity: 0.8;
+    mix-blend-mode: difference;
+  }
+
+  .bear-link {
+    bottom: unset;
+    top: 1rem;
+  }
+
+  :where(.x-link, .bear-link):is(:hover, :focus-visible) {
+    opacity: 1;
+  }
+  .bear-link svg {
+    width: 75%;
+  }
+  .x-link svg {
+    width: 50%;
+  }
+}
