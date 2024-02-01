@@ -1,234 +1,368 @@
-@import "normalize.css";
+@import 'normalize.css' layer(normalize);
 
-*,
-*:after,
-*:before {
-	box-sizing: border-box;
+@layer foundation {
+	*,
+	*:after,
+	*:before {
+		box-sizing: border-box;
+	}
+
+	:root {
+		--bg: hsl(0 0% 98%);
+	}
+
+	body {
+		display: grid;
+		place-items: center;
+		min-height: 100vh;
+		font-family: 'SF Pro Text', 'SF Pro Icons', 'AOS Icons', 'Helvetica Neue',
+			Helvetica, Arial, sans-serif, system-ui;
+		overflow: hidden;
+		background: var(--bg);
+	}
+
+	section {
+		height: 100vh;
+		display: grid;
+		place-items: center;
+		position: fixed;
+		inset: 0;
+	}
 }
 
-:root {
-	--bg: hsl(0 0% 98%);
+/* This one's for resetting the input styles and getting them out the way */
+@layer reset {
+	.sr-only {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		padding: 0;
+		margin: -1px;
+		overflow: hidden;
+		clip: rect(0, 0, 0, 0);
+		white-space: nowrap;
+		border-width: 0;
+	}
 
-	--shadow-multiplier: calc(var(--value, 0) / 100);
-  --bg-size: 20%;
-  --bg-size: calc(var(--value, 0) * 1%);
-  --shadow-width: calc(clamp(0, var(--value, 0), 50) * 200%);
-  --shadow-reveal: calc(var(--value, 0) / 100);
-  --shadow-spread: calc(var(--value, 0) / 100);
-/*  --tab-darkness: 80;*/
+	[type='range']:hover {
+		cursor: -webkit-grab;
+	}
+	[type='range']:active {
+		cursor: -webkit-grabbing;
+	}
+	[type='range']:focus-visible {
+		outline-offset: 0.25rem;
+		outline-color: transparent;
+	}
+
+	[type='range'] {
+		width: 200%;
+		opacity: 1;
+		height: 100%;
+		overflow: hidden;
+		touch-action: none;
+		border: 0;
+		padding: 0;
+		margin: 0;
+		opacity: 0;
+		position: absolute;
+		left: 0;
+		z-index: 10;
+	}
+
+	[type='range']::-webkit-slider-thumb {
+		-webkit-appearance: none;
+		appearance: none;
+		height: 100%;
+		width: 100cqh;
+		background: hsl(210 80% 25% / 0.75);
+		margin-top: 0;
+	}
+
+	[type='range']::-moz-range-thumb {
+		height: 100cqh;
+		background: hsl(210 80% 25% / 0.5);
+		width: 100cqh;
+		margin-top: 30px;
+	}
+	[type='range']::-webkit-slider-runnable-track {
+		-webkit-appearance: none;
+		appearance: none;
+		height: 100cqh;
+		background: hsl(210 80% 50% / 0.2);
+	}
+	[type='range']::-moz-range-track {
+		height: 100cqh;
+		background: hsl(210 80% 50% / 0.2);
+	}
 }
 
-body {
-	display: grid;
-	place-items: center;
-	min-height: 100vh;
-	font-family:  "SF Pro Text", "SF Pro Icons", "AOS Icons", "Helvetica Neue", Helvetica, Arial, sans-serif, system-ui;
-	overflow: hidden;
-	background: var(--bg);
+@layer tear-strip {
+	/*.tear-strip:focus-within {
+		outline: 10px solid hsl(0 0% 0% / 0.15);
+	}*/
+
+	.tear-strip :not(input) {
+		pointer-events: none;
+	}
+
+	.strip-adder {
+		position: fixed;
+		top: 2rem;
+		right: 2rem;
+		width: 48px;
+		aspect-ratio: 1;
+		z-index: 22;
+		border-radius: 50%;
+		border: 0;
+		display: grid;
+		place-items: center;
+		padding: 0;
+		background: hsl(0 0% 90% / var(--alpha, 0));
+		transition: background 0.2s;
+	}
+
+	.strip-adder svg {
+		width: 65%;
+		color: hsl(0 0% 10% / var(--alpha, 0.5));
+		transition: color 0.2s;
+	}
+
+	.strip-adder:is(:hover, :focus-visible) {
+		--alpha: 1;
+	}
+
+	.reference {
+		opacity: 1;
+		position: fixed;
+		top: 50%;
+		left: 50%;
+		translate: -50% -150%;
+	}
+
+	.tear-strip {
+		--tab-darkness: calc(20 + (60 * (var(--value, 0) / 100)));
+		--shadow-multiplier: calc(var(--value, 0) / 100);
+		--bg-size: 20%;
+		--bg-size: calc(var(--value, 0) * 1%);
+		--shadow-width: calc((var(--value, 0) - 50 / 100) * 200%);
+		--shadow-reveal: calc(var(--value, 0) / 100);
+		--shadow-spread: calc(var(--value, 0) / 100);
+		--tab-darkness: 80;
+
+		font-size: 1.3rem;
+		font-weight: bold;
+		width: clamp(300px, 470px, 28vw);
+		width: 340px;
+		height: 78px;
+		display: grid;
+		place-items: center;
+		/*	translate: 0 -80%;*/
+		position: relative;
+		border: 4px dashed hsl(0 0% 85%);
+		border-radius: 100px;
+		background: linear-gradient(hsl(0 0% 91%), hsl(0 0% 91%)) padding-box;
+		color: hsl(0, 0%, 70%);
+		container-type: size;
+	}
+
+	@media(max-width: 768px) {
+		.tear-strip {
+			width: 180px;
+		}
+		.strip-text {
+			translate: 50% 0;
+			z-index: -1;
+		}
+		.strip-text span:nth-of-type(2) {
+			display: none;
+		}
+		.tear-strip__content[aria-hidden=true] {
+			padding: 0.25rem;
+		}
+	}
+
+	.tear-strip:is(:hover, :focus-visible) {
+		--intent: 1;
+	}
+	.tear-strip:active {
+		--active: 1;
+	}
+
+	.tear-strip__content {
+		position: absolute;
+		font-size: 1rem;
+		text-align: right;
+	}
+
+	.tear-strip__strip {
+		position: absolute;
+		inset: 0;
+		background: var(--bg);
+		display: flex;
+		border-radius: 100px;
+		align-items: center;
+		justify-content: center;
+		clip-path: inset(-100% 0 -100% 1px);
+		color: hsl(0, 0%, 71%);
+		font-weight: 500;
+		/*	THIS FOR THE STRIP */
+		/*	clip-path: inset(-100% -1000% -100% 319.098px);*/
+		clip-path: inset(-100% -1000% -100% calc(var(--value, 0) * 1%));
+	}
+
+	.tear-strip__shadow {
+		position: absolute;
+		height: 100%;
+		width: 20px;
+		transform-origin: 100% 50%;
+		left: 0;
+		opacity: calc(1 - (((var(--value, 0) - 90) / 10) * 1));
+		translate: -75% 0;
+		transform: translateX(calc(((var(--value, 0) / 100) * (100cqi - 20%))));
+	}
+
+	.tear-strip__shadow::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(90deg, transparent, hsl(0 0% 10% / 0.5));
+		filter: blur(8px);
+		/* Way to step the opacity based on one value	*/
+		opacity: calc(
+			/*	When you're 10% in	*/ (1 * (clamp(0, var(--value, 0), 10) / 10))
+		);
+	}
+
+	.tear-strip__back {
+		position: absolute;
+		height: 100%;
+		width: 100%;
+		border-radius: 100px;
+		right: 100%;
+
+		translate: none;
+		rotate: none;
+		scale: none;
+		transform-origin: 0% 50%;
+		/* THIS FOR THE BACK */
+		transform: translate(calc(var(--value, 0) * 2%), 0px);
+	}
+
+	.tear-strip__backing {
+		background: linear-gradient(
+			90deg,
+			hsl(0 0% calc(var(--tab-darkness, 40) * 1%) / var(--bg-alpha, 1)),
+			hsl(0 0% 100% / var(--bg-alpha, 1)),
+			hsl(0 0% 80% / var(--bg-alpha, 1))
+		);
+		background-position: 100% 50%;
+		background-repeat: no-repeat;
+		background-color: hsl(0 0% 93%);
+		background-size: var(--bg-size) 100%;
+		position: absolute;
+		inset: 0;
+		border-radius: 1000px;
+	}
+
+	.tear-strip__backing::before {
+		content: '';
+		position: absolute;
+		inset: 0 -8px 0 0;
+		filter: blur(4px);
+		background: radial-gradient(100% 100%, hsl(0 0% 10% / 0.5), transparent 80%);
+		border-radius: 1000px;
+		z-index: -1;
+		opacity: var(--shadow-reveal, 0);
+	}
+
+	.tear-strip__back-shadow {
+		position: absolute;
+		border-radius: 1000px;
+		background: transparent;
+		right: 0;
+		top: 50%;
+		height: 100%;
+		translate: 0 -50%;
+		width: calc((var(--shadow-width) * var(--shadow-multiplier, 0.8)) * 1px);
+		width: calc(var(--value, 0) * 0.8%);
+		z-index: -1;
+		min-width: 100px;
+		box-shadow: 0 0 calc(var(--shadow-spread, 0) * 100cqh) hsl(10 0% calc((30 + ((var(--value, 0) / 100) * 40)) * 1%) / calc(0.25 + (var(--value, 0) / 100)));
+	}
+
+	.tear-strip__strip svg {
+		background: hsl(78, 75%, 57%);
+		border-radius: 50%;
+		width: 48px;
+		padding: 10px;
+		position: absolute;
+		left: 11px;
+		color: white;
+		stroke-width: 2.5px;
+		transform-origin: 100% 50%;
+
+		translate: none;
+		rotate: none;
+		scale: none;
+		/* THIS SVG MOVES BETWEEN A RANGE */
+		transform: translate(calc((var(--value, 0) / 100) * 150%), 0%)
+			scale(calc(1 - ((var(--value, 0) / 100) * 1)), 1);
+	}
+
+	.tear-strip__handle {
+		position: absolute;
+		left: 0;
+		top: 0;
+		bottom: 0;
+		aspect-ratio: 1;
+		background: hsl(210 80% 50% / 0.1);
+		opacity: calc((var(--intent, 0) * 1) - var(--active, 0));
+		border-radius: 50%;
+		transform-origin: 100% 50%;
+		translate: calc((var(--value, 0) / 100) * (200cqi + -100%));
+	}
+
+	.sr-only {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		padding: 0;
+		margin: -1px;
+		overflow: hidden;
+		clip: rect(0, 0, 0, 0);
+		white-space: nowrap;
+		border-width: 0;
+	}
 }
 
-section {
-	height: 100vh;
-	display: grid;
-	place-items: center;
-	position: fixed;
-	inset: 0;
-}
+@layer scrolls {
+  @supports (animation-timeline: scroll()) {
+    :root {
+      timeline-scope: --thumb;
+    }
 
-.tear-strip:focus-within {
-	outline: 10px solid hsl(0 0% 0% / 0.15);
-}
+    @property --value {
+      initial-value: 0;
+      syntax: "<integer>";
+      inherits: true;
+    }
 
-.strip-adder {
-	position: fixed;
-	top: 2rem;
-	right: 2rem;
-	width: 48px;
-	aspect-ratio: 1;
-	z-index: 22;
-	border-radius: 50%;
-	border: 0;
-	display: grid;
-	place-items: center;
-	padding: 0;
-	background: hsl(0 0% 90% / var(--alpha, 0));
-	transition: background 0.2s;
-}
+    @keyframes sync {
+      to {
+        --value: 100;
+      }
+    }
 
-.strip-adder svg {
-	width: 65%;
-	color: hsl(0 0% 10% / var(--alpha, 0.5));
-	transition: color 0.2s;
-}
+    .tear-strip {
+      animation: sync both linear reverse;
+      animation-timeline: --thumb;
+      animation-range: contain;
+    }
 
-.strip-adder:is(:hover, :focus-visible) {
-	--alpha: 1;
-}
-
-.reference {
-	opacity: 1;
-	position: fixed;
-	top: 50%;
-	left: 50%;
-	translate: -50% -150%;
-}
-
-.tear-strip {
-	--tab-darkness: calc(20 + (60 * (var(--value, 0) / 100)));
-
-	font-size: 1.3rem;
-	font-weight: bold;
-	width: clamp(300px, 470px, 28vw);
-	width: 340px;
-	height: 78px;
-	display: grid;
-	place-items: center;
-/*	translate: 0 -80%;*/
-	position: relative;
-	border: 4px dashed hsl(0 0% 91%);
-	border-radius: 100px;
-	background: linear-gradient(hsl(0 0% 91%), hsl(0 0% 91%)) padding-box;
-	color: hsl(0, 0%, 70%);
-
-}
-
-.tear-strip__content {
-	position: absolute;
-	font-size: 1rem;
-	text-align: right;
-}
-
-.tear-strip__strip {
-	position: absolute;
-	inset: 0;
-	background: var(--bg);
-	display: flex;
-	border-radius: 100px;
-	align-items: center;
-	justify-content: center;
-	clip-path: inset(-100% 0 -100% 1px);
-	color: hsl(0, 0%, 71%);
-	font-weight: 500;
-/*	THIS FOR THE STRIP */
-/*	clip-path: inset(-100% -1000% -100% 319.098px);*/
-	clip-path: inset(-100% -1000% -100% calc(var(--value, 0) * 1%));
-}
-
-.tear-strip__shadow {
-	position: absolute;
-	height: 100%;
-	width: 20px;
-	background: linear-gradient(90deg, transparent, hsl(0 0% 10% / 0.5));
-	filter: blur(8px);
-	transform-origin: 100% 50%;
-	left: 0;
-	opacity: 0;
-}
-
-.tear-strip__back {
-	position: absolute;
-	height: 100%;
-	width: 100%;
-	border-radius: 100px;
-	right: 100%;
-
-	translate: none;
-  rotate: none;
-  scale: none;
-  transform-origin: 0% 50%;
-/* THIS FOR THE BACK */
-  transform: translate(calc(var(--value, 0) * 2%), 0px) scale(calc(0.9 + (0.1 * (var(--value, 0) / 100))), 1);
-}
-
-.tear-strip__backing {
-	background: linear-gradient(90deg, hsl(0 0% calc(var(--tab-darkness, 40) * 1%) / var(--bg-alpha, 1)), hsl(0 0% 100% / var(--bg-alpha, 1)), hsl(0 0% 80% / var(--bg-alpha, 1)));
-	background-position: 100% 50%;
-	background-repeat: no-repeat;
-	background-color: hsl(0 0% 93%);
-	background-size: var(--bg-size) 100%;
-	position: absolute;
-	inset: 0;
-	border-radius: 1000px;
-}
-
-.tear-strip__backing::before {
-	content: "";
-	position: absolute;
-	inset: 0 -8px 0 0;
-	filter: blur(4px);
-	background: radial-gradient(100% 100%, hsl(0 0% 10% / 0.5), transparent 80%);
-	border-radius: 1000px;
-	z-index: -1;
-	opacity: var(--shadow-reveal, 0);
-}
-
-.tear-strip__back-shadow {
-	position: absolute;
-	border-radius: 1000px;
-	background: transparent;
-	right: 0;
-	top: 50%;
-	height: 100%;
-	translate: 0 -50%;
-	width: calc((var(--shadow-width) * var(--shadow-multiplier, 0.8)) * 1px);
-	z-index: -1;
-	min-width: 100px;
-	box-shadow:
-		0 0 calc(var(--shadow-spread, 0) * 60px) hsl(10 0% 50% / 0.35);
-}
-
-.tear-strip__strip svg {
-	background: hsl(78, 75%, 57%);
-	border-radius: 50%;
-	width: 48px;
-	padding: 10px;
-	position: absolute;
-	left: 11px;
-	color: white;
-	stroke-width: 2.5px;
-	transform-origin: 100% 50%;
-
-  translate: none;
-  rotate: none;
-  scale: none;
-/* THIS SVG MOVES BETWEEN A RANGE */
-/*  transform: translate(50%, 0%) scale(0.75, 1);*/
-}
-
-.tear-strip__handle {
-	position: absolute;
-	left: 0;
-	top: 0;
-	bottom: 0;
-	aspect-ratio: 1;
-	translate: 0% 0;
-	background: hsl(280 0% 75% / var(--alpha, 0));
-	border-radius: 50%;
-	scale: 1.35;
-	transition: background 0.2s;
-}
-
-.tear-strip__handle:hover:not(:active) {
-	--alpha: 0.25;
-}
-
-.tear-strip__handle::before {
-	content: "";
-	width: 200%;
-	position: absolute;
-	height: 100%;
-	left: 50%;
-	translate: -50% 0;
-}
-
-.sr-only {
-	position: absolute;
-	width: 1px;
-	height: 1px;
-	padding: 0;
-	margin: -1px;
-	overflow: hidden;
-	clip: rect(0, 0, 0, 0);
-	white-space: nowrap;
-	border-width: 0;
+    [type="range"]::-webkit-slider-thumb {
+      view-timeline-name: --thumb;
+      view-timeline-axis: inline;
+    }
+  }
 }

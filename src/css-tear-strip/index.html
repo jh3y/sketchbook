@@ -11,7 +11,6 @@
     <link rel="stylesheet" href="./style.css" />
   </head>
   <body>
-    <input type="range" min="0" max="100" step="1" value="0">
     <div class="tear-strip">
       <div class="tear-strip__content" aria-hidden="true" aria-live="off">
         <p>inner radius = outer radius - padding</p>
@@ -37,21 +36,10 @@
           <div class="tear-strip__back-shadow"></div>
           <div class="tear-strip__backing"></div>
         </div>
-        <span class="strip-text">Tear open</span>
+        <span class="strip-text"><span>Tear</span><span>&nbsp;open</span></span>
       </div>
-      <div
-        class="tear-strip__handle handle"
-        style="
-          transform: translate(-100%, 0%) translate(638.195px, 0px)
-            scale(1.35, 1.35);
-          translate: none;
-          rotate: none;
-          scale: none;
-          touch-action: none;
-          cursor: grab;
-          user-select: none;
-        "
-      ></div>
+      <div class="tear-strip__handle handle"></div>
+      <input type="range" min="0" max="100" step="1" value="0">
     </div>
     <script type="module" src="./script.js"></script>
   </body>
