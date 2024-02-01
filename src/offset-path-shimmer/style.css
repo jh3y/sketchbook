@@ -1,0 +1,216 @@
+@import "normalize.css";
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+.scene {
+	transform-style: preserve-3d;
+}
+body {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	font-family:  "SF Pro Text", "SF Pro Icons", "AOS Icons", "Helvetica Neue", Helvetica, Arial, sans-serif, system-ui;
+	background: hsl(0 0% 6%);
+}
+
+body::before {
+	--line: hsl(0 0% 95% / 0.15);
+	--size: 80px;
+	content: "";
+	height: 100vh;
+	width: 100vw;
+	position: fixed;
+	background:
+		linear-gradient(90deg, var(--line) 1px, transparent 1px var(--size)) 50% 50% / var(--size) var(--size),
+		linear-gradient(var(--line) 1px, transparent 1px var(--size)) 50% 50% / var(--size) var(--size);
+	mask: linear-gradient(-15deg, transparent 30%, white);
+	top: 0;
+	z-index: -1;
+	transform: translate3d(0, 0, -100vmin);
+}
+
+:root {
+	--saturation: 100%;
+	--update: 0.1s;
+	--intent: 0;
+	--active: 0;
+	--hue: 320;
+	--radius: 100;
+	--border: 2;
+}
+
+.el {
+	--border-radius: calc(var(--radius, 0) * 1px);
+	--border-width: calc(var(--border) * 1px);
+	padding: 1rem 2rem;
+	position: relative;
+	border-radius: var(--border-radius);
+	color: hsl(0 0% 98%);
+	font-weight: bold;
+	border: var(--border-width) solid hsl(0 0% 20%);
+	scale: calc(1 + (var(--intent) * 0.1) - (var(--active) * 0.02));
+}
+
+button.el {
+	cursor: pointer;
+	background:
+		radial-gradient(80% 100% at center 120%, hsl(0 0% 100% / 0.5), transparent),
+		linear-gradient(hsl(var(--hue, 0) var(--saturation) 50% / calc(var(--intent, 0) * 0.25)), hsl(var(--hue, 0) var(--saturation) 50% / calc(var(--intent, 0) * 0.65))),
+		hsl(0 0% 12%);
+	box-shadow:
+		0 1px inset hsl(0 0% 100% / 0.5),
+		0 -1px inset hsl(0 0% 0% / 1);
+	transition: background var(--update), scale var(--update);
+}
+
+button.el:active {
+	--active: 1;
+}
+button.el:is(:hover, :focus-visible) {
+	--intent: 1;
+}
+
+article.el {
+	background: hsl(0 0% 12%);
+}
+
+button.el .el__content {
+	outline-color: hsl(var(--hue) 80% 50% / 0.5);
+	outline-offset: 0.5rem;
+	color: hsl(0 0% calc((70 + (var(--intent) * 30)) * 1%));
+	transition: color var(--update);
+}
+
+article.el {
+	width: 260px;
+	aspect-ratio: 3 / 4;
+}
+
+[data-glow] {
+	position: absolute;
+	inset: calc(var(--border-width) * -1);
+	border: var(--border-width) solid transparent;
+	border-radius: var(--border-radius);
+	mask: linear-gradient(transparent, transparent), linear-gradient(white, white);
+	mask-clip: padding-box, border-box;
+	mask-composite: intersect;
+	pointer-events: none;
+	container-type: inline-size;
+}
+
+[data-glow]::after,
+[data-glow]::before {
+	content: "";
+	height: calc(var(--glow) * 1px);
+	aspect-ratio: 1 / 1;
+	offset-anchor: calc(var(--anchor) * 1%) 50%;
+	background:
+		radial-gradient(circle at right, hsl(0 0% 100% / 0.75), transparent 50%),
+		radial-gradient(circle at right, hsl(var(--hue) var(--saturation) var(--lightness, 50%) / 1) 50%, transparent);
+	opacity: var(--opacity);
+/*	offset-path: rect(0 100% 100% 0 round var(--border-radius));*/
+	offset-path: rect(0 50px 50px 0 round calc(var(--glow) * 1px));
+	position: absolute;
+	display: inline-block;
+	animation: loop calc(var(--speed) * 1s) infinite linear;
+}
+
+[data-glow]::before {
+	display: none;
+}
+
+[data-double=true] [data-glow]::before {
+	display: inline-block;
+	animation-delay: calc(var(--speed) * -0.5s);
+}
+
+[data-inset=true] button {
+	border-width: 0;
+}
+[data-inset=true] [data-glow] {
+	inset: 0;
+}
+
+[data-monochrome=true] {
+	--saturation: 0%;
+	--lightness: 100%;
+}
+
+article {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	justify-content: flex-end;
+}
+
+h3 {
+	text-align: right;
+	display: grid;
+	gap: 0.25rem;
+	font-weight: bold;
+	font-size: 1.875rem;
+	text-wrap: balance;
+}
+
+h3 span:nth-of-type(2) {
+	font-size: 1rem;
+	font-weight: 300;
+}
+
+@keyframes loop {
+	from { offset-distance: 0%; }
+	to { offset-distance: 100%; }
+}
+
+
+.scene > [data-glow] {
+	opacity: 0;
+	--border-radius: calc(var(--radius, 0) * 1px);
+	--border-width: calc(var(--border) * 1px);
+	position: absolute;
+	inset: 0;
+	background: hsl(0 0% 12% / 0.5);
+	outline: calc(var(--border-width) * 2) dashed hsl(var(--hue) var(--saturation,100%) var(--lightness, 50%));
+	outline-offset: var(--border-width);
+	border-radius: var(--border-radius);
+	mask: unset;
+}
+
+[data-explode=true] > [data-glow] {
+	opacity: 1;
+	transform: translate3d(0, 0, 100px);
+	transition: opacity 1s 1.5s, transform 1s 1.5s;
+}
+
+
+[data-explode=true].scene {
+	transform: translateX(-25%) rotateX(-25deg) rotateY(35deg);
+	transition: transform 1s;
+}
+.scene {
+	transition: transform 1s 1.5s;
+	position: relative;
+}
+
+[data-explode=true] .el {
+	transform: translate3d(0, 0, -100px);
+	transition: transform 1s 1.5s;
+}
+
+[data-glow] {
+	transition: opacity 1s, transform 1s;
+}
+
+.el, button.el {
+	transition: transform 1s;
+}
+
+.tweakpane {
+	position: fixed;
+	top: 0.5rem;
+	right: 0.5rem;
+	z-index: 9999;
+}

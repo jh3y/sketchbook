@@ -1,0 +1,132 @@
+@import "normalize.css";
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+:root {
+	--grass: hsl(160 90% 26%);
+	--track: hsl(0 0% 20%);
+	--sand: hsl(45 50% 60%);
+	--white: hsl(0 0% 80%);
+}
+body {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	background: var(--grass);
+	font-family: "SF Pro Text", "SF Pro Icons", "AOS Icons", "Helvetica Neue", Helvetica, Arial, sans-serif, system-ui;
+}
+
+.stadium {
+	width: 50vmin;
+	aspect-ratio: 4 / 3;
+	resize: both;
+	overflow: hidden;
+	container-type: size;
+	min-width: 260px;
+	min-height: 260px;
+}
+
+.track::after {
+	content: "";
+	width: 20cqmin;
+	height: 6cqmin;
+	background:
+		linear-gradient(45deg, #000 25%, transparent 25%, transparent),
+	  linear-gradient(-45deg, #000 25%, transparent 25%, transparent),
+	  linear-gradient(45deg, transparent 75%, #000 75%),
+		linear-gradient(-45deg, transparent 75%, #000 75%), var(--white);
+	background-size: 2cqmin 2cqmin;
+	position: absolute;
+	top: 50%;
+	z-index: 2;
+	left: 0;
+}
+
+.track {
+	width: 100%;
+	height: 100%;
+	border-radius: 26cqmin;
+	background: var(--track);
+	position: relative;
+	container-type: inline-size;
+}
+
+.stadium::after {
+	content: "";
+	position: absolute;
+	inset: 20cqmin;
+	background: var(--sand);
+	border-radius: 12cqmin;
+}
+
+.track::before {
+	content: "";
+	position: absolute;
+	border: 1cqmin dashed var(--white);
+	inset: 10cqmin;
+	border-radius: 16cqmin;
+}
+
+.car {
+	--bounds: 10cqmin;
+	width: 10cqmin;
+	aspect-ratio: 70/39;
+	offset-anchor: 80% 50%;
+	container-type: size;
+	offset-path: rect(var(--bounds) calc(100% - var(--bounds)) calc(100% - var(--bounds)) var(--bounds) round 16cqmin);
+	animation: drive 4s infinite linear;
+	z-index: 4;
+}
+
+.car::after {
+	content: "";
+	position: absolute;
+	background: url(https://assets.codepen.io/605876/little-red-car.png);
+	width: 100cqh;
+	height: 100cqw;
+	background-size: cover;
+	rotate: 90deg;
+	top: 50%;
+	left: 50%;
+	translate: -50% -50%;
+}
+
+@keyframes drive {
+	to {
+		offset-distance: 100%;
+	}
+}
+
+@layer socials {
+  .x-link,
+  .bear-link {
+    color: hsl(0 0% 100%);
+    position: fixed;
+    bottom: 1rem;
+    left: 1rem;
+    width: 48px;
+    aspect-ratio: 1;
+    display: grid;
+    place-items: center;
+    opacity: 0.8;
+  }
+
+  .bear-link {
+    bottom: unset;
+    top: 1rem;
+  }
+
+  :where(.x-link, .bear-link):is(:hover, :focus-visible) {
+    opacity: 1;
+  }
+  .bear-link svg {
+    width: 75%;
+  }
+  .x-link svg {
+    width: 50%;
+  }
+}
