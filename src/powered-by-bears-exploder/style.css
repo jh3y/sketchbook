@@ -1,0 +1,238 @@
+
+@layer foundation {	
+	@font-face {
+	  font-family: "Geist Sans";
+	  src: url("https://assets.codepen.io/605876/GeistVF.ttf") format("truetype");
+	}
+
+
+	*,
+	*::after,
+	*::before {
+	  box-sizing: border-box;
+/*	  transform-style: preserve-3d;*/
+	}
+
+	:root {
+	  --theme: hsl(var(--hue, 10) 90% 44%);
+	  --spark: hsl(var(--hue, 10) 70% 94%);
+	  --width: 4%;
+	  --size: clamp(200px, 25vmin, 400px);
+	}
+
+	body {
+	  display: grid;
+	  place-items: center;
+	  min-height: 100vh;
+	  background: hsl(0 0% 6%);
+	  font-family: "Geist Sans", sans-serif;
+	  overflow: hidden;
+	}
+}
+
+@layer chip {
+	.chip {
+	  width: calc(var(--size) * 1.24);
+	  aspect-ratio: 1;
+	  position: relative;
+	}
+
+	.chip__plate {
+	  box-shadow:
+	    1px 0 inset hsl(0 0% 100% / 0.35),
+	    -1px 0 inset hsl(0 0% 50% / 0.25),
+	    0 -1px inset hsl(0 0% 50% / 0.25),
+	    0 1px inset hsl(0 0% 100% / 0.35);
+	  background:
+	    linear-gradient(-45deg, transparent, hsl(0 0% 100% / 0.5), transparent),
+	    hsl(240 4% 16%);
+	  border-radius: calc(var(--size) * 0.04);
+		position: absolute;
+	  inset: calc(var(--size) * 0.12);
+	  z-index: 2;
+	}
+
+	.chip__stamp {
+	  text-transform: uppercase;
+	  position: absolute;
+	  bottom: 12%;
+	  right: 12%;
+	  color: hsl(0 0% 100% / 0.75);
+	  text-shadow: -1px -1px black;
+	  font-size: calc(var(--size) * 0.08);
+	  font-weight: 80;
+	  letter-spacing: 0.2ch;
+	  z-index: 4;
+	}
+
+	.chip__stamp::after {
+	  content: var(--stamp);
+	}
+
+	.chip__border {
+	  transform-style: preserve-3d;
+	  content: "";
+	  background: hsl(0 0% 0% / 0.2);
+	  border-radius: calc(var(--size) * 0.08);
+	  border: 1px solid hsl(0 0% 50% / 0.35);
+	  backdrop-filter: blur(8px);
+	  position: absolute;
+	  inset: 0;
+	  z-index: -1;
+	}
+
+	.chip__stream {
+	  position: absolute;
+	  top: 50%;
+	  left: 50%;
+	  width: calc(var(--stream-width, 400) * 1%);
+	  height: 80%;
+	  background: hsl(35 100% 50% / 0);
+	  z-index: -2;
+	  translate: 0 -50%;
+	  mask: linear-gradient(90deg, white 40%, transparent 50%);
+	  clip-path: inset(0 50% 0 0);
+	  transform: translate3d(0, 0, -2px);
+	}
+	img {
+	  width: 56%;
+	  position: absolute;
+	  left: 50%;
+	  top: 50%;
+	  translate: -50% -50%;
+	  filter: grayscale(1) drop-shadow(1px 1px 0px hsl(0 0% 100% / 0.65));
+	  opacity: 0.65;
+	  z-index: 3;
+	}
+
+	.chip__stream::after {
+	  content: "";
+	  position: absolute;
+	  inset: 0;
+	  filter: blur(calc(var(--blur, 0) * 1px));
+	  background:
+	    /* Top stream */
+	    linear-gradient(90deg,
+	      transparent 6%, var(--theme) 14%, var(--spark) 16%, transparent 16.5% 45%, var(--theme) 60%, var(--spark) 65%, transparent 65.5%
+	    ) 0 15% / 50% var(--width) repeat-x,
+	    /* Middle stream */
+	    linear-gradient(90deg,
+	      transparent 24%, var(--theme) 44%, var(--spark) 46%, transparent 46.5%
+	    ) 0 50% / 50% var(--width) repeat-x,
+	    /* Bottom stream */
+	    linear-gradient(90deg,
+	      transparent 10%, var(--theme) 26%, var(--spark) 28%, transparent 28.5% 65%, var(--theme) 70%, var(--spark) 75%, transparent 75.5%
+	    ) 0 85% / 50% var(--width) repeat-x,
+	    hsl(210 80% 50% / 0);
+    translate: calc(var(--tx, -50) * 1%) 0;
+    animation: slide calc(var(--speed, 0.5) * 1s) infinite linear var(--play-state, running);
+	}
+
+	.chip__stream::before {
+		content: "clipped window";
+		text-align: center;
+		display: grid;
+		place-items: center;
+		padding: 2rem;
+		font-size: 2rem;
+		font-weight: 20;
+		color: white;
+		position: absolute;
+		left: 0%;
+		width: 50%;
+		height: 100%;
+		top: 0%;
+		border: 4px dashed white;
+		opacity: 0;
+	}
+
+	[data-diff=true] .chip__stream::after {
+		--stream-one: hsl(var(--hue) 80% 50%);
+		--stream-two: hsl(calc(var(--hue) + 90) 80% 50%);
+		--stream-three: hsl(calc(var(--hue) + 180) 80% 50%);
+		background:
+	    /* Top stream */
+	    linear-gradient(90deg,
+	      transparent 6%, var(--stream-one) 14%, var(--spark) 16%, transparent 16.5% 45%, var(--stream-one) 60%, var(--spark) 65%, transparent 65.5%
+	    ) 0 15% / 50% var(--width) repeat-x,
+	    /* Middle stream */
+	    linear-gradient(90deg,
+	      transparent 24%, var(--stream-two) 44%, var(--spark) 46%, transparent 46.5%
+	    ) 0 50% / 50% var(--width) repeat-x,
+	    /* Bottom stream */
+	    linear-gradient(90deg,
+	      transparent 10%, var(--stream-three) 26%, var(--spark) 28%, transparent 28.5% 65%, var(--stream-three) 70%, var(--spark) 75%, transparent 75.5%
+	    ) 0 85% / 50% var(--width) repeat-x,
+	    hsl(210 80% 50% / 0);
+	  mask: linear-gradient(90deg, hsl(0 0% 100% / 1) 49.5%, hsl(0 0% 100% / 0.5) 50%);
+	}
+
+	@keyframes slide {
+	  to { translate: 0 0; }
+	}
+}
+
+
+@layer explode {
+	:root {
+		--depth: 150px;
+	}
+	.scene {
+		--stamp: "@jh3yy";
+		transition: transform 1s 2.5s, scale 1s 5s;
+		transform-style: preserve-3d;
+	}
+	[data-explode=true] {
+		scale: 0.75;
+		transform: rotateX(-24deg) rotateY(-40deg);
+		transition: scale 1s, transform 1s 1.5s;
+	}
+
+	.chip {
+		transform-style: preserve-3d;
+	}
+
+	[data-explode=true] .chip__border {
+		transform: translate3d(0, 0, calc(var(--depth) * -1));
+		transition: transform 1s 2.5s;
+	}
+
+	[data-explode=true] .chip__stamp {
+		transform: translate3d(0, 0, var(--depth));
+		transition: transform 1s 2.5s;
+	}
+
+	[data-explode=true] .chip__stream {
+		transform: translate3d(0, 0, calc(var(--depth) * -2));
+		transition: transform 1s 2.5s;
+	}
+
+	[data-unmask=true] .chip__stream {
+		mask: none;
+		clip-path: none;
+	}
+
+	[data-explode=true] .chip__stream::after {
+		transition: background-color 1s 2.5s;
+		background-color: hsl(0 0% 90% / 0.1);
+	}
+	[data-explode=true] .chip__stream::before {
+		opacity: 0.25;
+		transition: opacity 1s 3.5s;
+	}
+
+	.chip__stream::before {
+		transition: opacity 1s;
+	}
+
+	.chip__stream::after {
+		transition: background-color 1s 1.5s;
+	}
+
+	.chip__stream,
+	.chip__stamp,
+	.chip__border {
+		transition: transform 1s 1.5s;
+	}
+	
+}
