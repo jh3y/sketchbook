@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, user-scalable=0, maximum-scale=1.0"
+    />
+    <title>svg-bars-loader</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <!-- Say each one is gonna be 50 width 7*2 -->
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 350">
+      <defs>
+        <filter id="goo">
+          <feGaussianBlur
+           id="SvgjsFeGaussianBlur1000"
+           result="SvgjsFeGaussianBlur1000"
+           in="SourceGraphic"
+           stdDeviation="20">
+         </feGaussianBlur>
+         <feColorMatrix
+          id="SvgjsFeColorMatrix1001"
+          result="SvgjsFeColorMatrix1001"
+          in="SvgjsFeGaussianBlur1000"
+          values="
+            1 0 0 0 0                                      
+            0 1 0 0 0
+            0 0 1 0 0
+            0 0 0 15 -10"
+          type="matrix"></feColorMatrix>
+          <feComposite
+            id="SvgjsFeComposite1002"
+            result="SvgjsFeComposite1002"
+            in="SvgjsFeColorMatrix1001"
+            operator="atop">
+          </feComposite>
+        </filter>
+        <linearGradient id="g" x1="100%" x2="0" y1="0" y2="80%" gradientTransform="rotate(10)">
+          <stop offset="10%" stop-color="hsl(10, 90%, 50%)" />
+          <stop offset="22%" stop-color="hsl(35, 90%, 50%)" />
+          <stop offset="38%" stop-color="hsl(45, 90%, 50%)" />
+          <stop offset="50%" stop-color="hsl(180, 90%, 50%)" />
+          <stop offset="70%" stop-color="hsl(210, 90%, 50%)" />
+          <stop offset="84%" stop-color="hsl(280, 90%, 50%)" />
+          <stop offset="100%" stop-color="hsl(320, 90%, 50%)" />
+        </linearGradient>
+        <mask id="mask">
+          <g>
+            <circle cx="50" cy="25" r="25" fill="white"></circle>
+            <line x1="50" x2="50" y1="100" y2="250" stroke-width="50" stroke="white" stroke-linecap="round"></line>
+            <circle cx="50" cy="325" r="25" fill="white"></circle>
+          </g>
+          <g>
+            <circle cx="150" cy="25" r="25" fill="white"></circle>
+            <line x1="150" x2="150" y1="100" y2="250" stroke-width="50" stroke="white" stroke-linecap="round"></line>
+            <circle cx="150" cy="325" r="25" fill="white"></circle>
+          </g>
+          <g>
+            <circle cx="250" cy="25" r="25" fill="white"></circle>
+            <line x1="250" x2="250" y1="100" y2="250" stroke-width="50" stroke="white" stroke-linecap="round"></line>
+            <circle cx="250" cy="325" r="25" fill="white"></circle>
+          </g>
+          <g>
+            <circle cx="350" cy="25" r="25" fill="white"></circle>
+            <line x1="350" x2="350" y1="100" y2="250" stroke-width="50" stroke="white" stroke-linecap="round"></line>
+            <circle cx="350" cy="325" r="25" fill="white"></circle>
+          </g>
+          <g>
+            <circle cx="450" cy="25" r="25" fill="white"></circle>
+            <line x1="450" x2="450" y1="100" y2="250" stroke-width="50" stroke="white" stroke-linecap="round"></line>
+            <circle cx="450" cy="325" r="25" fill="white"></circle>
+          </g>
+          <g>
+            <circle cx="550" cy="25" r="25" fill="white"></circle>
+            <line x1="550" x2="550" y1="100" y2="250" stroke-width="50" stroke="white" stroke-linecap="round"></line>
+            <circle cx="550" cy="325" r="25" fill="white"></circle>
+          </g>
+          <g>
+            <circle cx="650" cy="25" r="25" fill="white"></circle>
+            <line x1="650" x2="650" y1="100" y2="250" stroke-width="50" stroke="white" stroke-linecap="round"></line>
+            <circle cx="650" cy="325" r="25" fill="white"></circle>
+          </g>
+        </mask>
+      </defs>
+      <rect x="0" y="0" width="100%" height="100%" fill="url(#g)" mask="url(#mask)"></rect>
+    </svg>
+    <script type="module" src="./script.js"></script>
+  </body>
+</html>

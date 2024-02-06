@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, user-scalable=0, maximum-scale=1.0"
+    />
+    <title>svg-css-challenge-01</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div class="controls">
+      <label for="gradient">Mask [Level 2]</label>
+      <input type="checkbox" id="gradient">
+      <label for="reverse">Erase [Level 3]</label>
+      <input type="checkbox" id="reverse">
+    </div>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 100">
+      <defs>
+        <linearGradient id="g" gradientTransform="rotate(90)">
+          <stop offset="0%" stop-color="hsl(293, 54%, 59%)" />
+          <stop offset="25%" stop-color="hsl(196, 75%, 56%)" />
+          <stop offset="50%" stop-color="hsl(233, 87%, 47%)" />
+          <stop offset="75%" stop-color="hsl(355, 87%, 49%)" />
+          <stop offset="100%" stop-color="hsl(20, 91%, 49%)" />
+        </linearGradient>
+        <mask id="shape">
+          <path d="M 25,10 a15,15 0 0 1 0,30 L25,60 a15,15 0 0 1 0,30" stroke-width="2" pathLength="1" />
+          <path d="M 25,10 a15,15 0 1 0 0,30 L25,60 a15,15 0 1 0 0,30" stroke-width="2" pathLength="1" />
+        </mask>
+        <rect id="base" x="0" y="0" width="50" height="100" fill="url(#g)" mask="url(#shape)" />
+      </defs>
+      <use href="#base" />
+    </svg>
+    <script type="module" src="./script.js"></script>
+  </body>
+</html>

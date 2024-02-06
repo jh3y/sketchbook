@@ -1,0 +1,69 @@
+@import "normalize.css";
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	background: hsl(210 30% 10%);
+}
+
+svg {
+	width: 50vmin;
+}
+
+:root {
+	--speed: .875s;
+}
+
+g:nth-of-type(1) { --delay: 0.35; }
+g:nth-of-type(2) { --delay: 0.5; }
+g:nth-of-type(3) { --delay: 0.75; }
+g:nth-of-type(4) { --delay: 1; }
+g:nth-of-type(5) { --delay: 0.75; }
+g:nth-of-type(6) { --delay: 0.5; }
+g:nth-of-type(7) { --delay: 0.35; }
+
+line {
+	transform-origin: 50% 50%;
+	translate: 0 -50%;
+	animation: drop var(--speed) calc((sin(var(--delay)) * -1s)) infinite alternate ease-in-out;
+}
+
+@keyframes drop {
+	0%, 5% {
+		translate: 0 -50%;
+	}
+	95%, 100% {
+		translate: 0 50%;
+	}
+}
+
+line,
+circle {
+	transform-box: fill-box;
+}
+
+circle:first-of-type {
+	transform-origin: 50% 100%;
+	animation: pulse calc(var(--speed) * 2) calc((sin(var(--delay)) * -1s)) infinite ease-in-out;
+}
+
+circle:last-of-type {
+	transform-origin: 50% 0%;
+	animation: pulse calc(var(--speed) * 2) calc(((sin(var(--delay)) * -1s) + (var(--speed) * -1))) infinite ease-in-out;
+}
+
+@keyframes pulse {
+	0%, 20% { transform: scale(1); }
+	50%, 100% { transform: scale(0); }
+}
+
+svg {
+	overflow: visible !important;
+}
