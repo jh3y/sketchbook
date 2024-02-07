@@ -10,6 +10,7 @@ body {
 	display: grid;
 	place-items: center;
 	min-height: 100vh;
+	background: hsl(0 0% 15%);
 }
 
 canvas {
@@ -20,7 +21,7 @@ canvas {
 	top: 50%;
 	left: 50%;
 	translate: -50% -50%;
-  transform: rotateY(180deg);
+/*  transform: rotateY(180deg);*/
   z-index: -1;
   border-radius: 6px;
 }
@@ -33,6 +34,7 @@ button {
 	position: relative;
 	font-size: 16px;
 	border: 2px solid lime;
+	scale: 2;
 }
 
 button span {
@@ -41,6 +43,8 @@ button span {
 	font-weight: bold;
 	text-transform: uppercase;
 	color: white;
-	letter-spacing: 7px;
+	letter-spacing: 6px;
+	/* Hide the text	*/
 	opacity: 0;
+	padding-left: 6px;
 }
