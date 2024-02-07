@@ -1,0 +1,146 @@
+@import "normalize.css";
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	font-family:  "SF Pro Text", "SF Pro Icons", "AOS Icons", "Helvetica Neue", Helvetica, Arial, sans-serif, system-ui;
+	background: url(https://assets.codepen.io/605876/black-bg-opt.jpeg?format=auto), hsl(0 0% 0%);
+  background-size: cover;
+  background-position: center bottom;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: hsl(0 0% 0% / 0.75);
+  z-index: -1;
+}
+
+.controls {
+	position: fixed;
+	top: 1rem;
+	right: 1rem;
+	display: grid;
+	grid-template-columns: auto 1fr;
+	gap: 0.5rem 1rem;
+	color: white;
+	font-weight: 300;
+}
+
+label {
+	cursor: pointer;
+}
+
+.dock {
+	--spacing: 1.5rem;
+	overflow: hidden;
+	resize: horizontal;
+	width: 422px;
+	min-width: 344px;
+	max-width: calc(100% - 2rem);
+	max-height: calc(56px + (2 * var(--spacing)));
+}
+
+nav {
+	display: flex;
+	gap: var(--spacing);
+	padding: var(--spacing);
+	overflow: auto;
+	background: hsl(0 0% 40% / 0.5);
+	backdrop-filter: blur(4px);
+	border-radius: 24px;
+	clip-path: inset(0 0 0 0 round 24px);
+	scroll-snap-type: x mandatory;
+	scrollbar-color: hsl(0 0% 10% / 0.5) transparent;
+	scrollbar-width: thin;
+	box-shadow: 0 1px hsl(0 0% 100% / 0.5) inset;
+	height: 100%;
+	width: 100%;
+	align-items: center;
+}
+
+a {
+	display: grid;
+	place-items: center;
+	width: 56px;
+	height: 56px;
+	background: linear-gradient(hsl(0 0% 100% / 0.15), #0000), hsl(0 0% 4%);
+	border-radius: 8px;
+	flex: 1 0 auto;
+	scroll-snap-align: center;
+	width: 56px;
+	height: 56px;
+	box-shadow:
+		0 -1px hsl(0 0% 0% / 0.5) inset,
+		0 2px 4px hsl(0 0% 0% / 0.5),
+		0 1px hsl(0 0% 100% / 0.5) inset;
+}
+
+a svg {
+	width: 65%;
+	color: white;
+	fill: white;
+}
+
+:root:has(#direction:checked) nav {
+	flex-direction: column;
+	scroll-snap-type: y mandatory;
+}
+:root:has(#direction:checked) .dock {
+	flex-direction: column;
+	min-width: 0;
+	max-height: calc(100vh - 2rem);
+	min-height: 340px;
+	width: unset;
+	resize: vertical;
+	max-width: calc(56px + (var(--spacing) * 2));
+}
+
+@supports (animation-timeline: scroll()) {
+	a {
+		animation-name: scale, scale;
+		animation-fill-mode: both;
+		animation-timing-function: ease-in-out;
+		animation-direction: normal, reverse;
+		animation-timeline: view(inline);
+		animation-range: entry 0 entry 150%, exit -50% exit 100%;
+	}
+
+	:root:has(#direction:checked) a {
+		animation-timeline: view();
+	}
+
+	@keyframes scale {
+		0% { scale: 0.25; }
+	}
+
+	@keyframes blur {
+		0% {
+			scale: 0.25;
+			filter: blur(24px);
+		}
+	}
+	:root:has(#blur:checked) a {
+		animation-name: blur, blur;
+	}
+
+	:root:has(#parallax:checked) svg {
+		animation-name: icon, icon;
+		animation-fill-mode: both;
+		animation-timing-function: ease-in;
+		animation-direction: normal, reverse;
+		animation-timeline: view(inline);
+		animation-range: entry -50% entry 250%, exit -150% exit 150%;
+	}
+	@keyframes icon {
+		0% { scale: 0; }
+	}
+}
