@@ -33,6 +33,8 @@ body::before {
 	gap: 0.5rem 1rem;
 	color: white;
 	font-weight: 300;
+	align-items: center;
+	accent-color: red;
 }
 
 label {
@@ -84,6 +86,13 @@ a {
 		0 1px hsl(0 0% 100% / 0.5) inset;
 }
 
+:root:has(#blur:checked) a {
+	filter: blur(calc(var(--blur, 0) * 24px));
+}
+:root:has(#parallax:checked) a svg {
+	scale: var(--parallax, 0);
+}
+
 a svg {
 	width: 65%;
 	color: white;
@@ -111,7 +120,7 @@ a svg {
 		animation-timing-function: ease-in-out;
 		animation-direction: normal, reverse;
 		animation-timeline: view(inline);
-		animation-range: entry 0 entry 150%, exit -50% exit 100%;
+		animation-range: entry 0% entry 150%, exit -50% exit 100%;
 	}
 
 	:root:has(#direction:checked) a {

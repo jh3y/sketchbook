@@ -279,3 +279,16 @@ BUTTON.addEventListener('click', DOWNLOAD)
 // ctx.drawImage(Img, 0, 0, 100, 100);
 
 // ctx.restore();
+
+
+/**
+ * 1. When a column is made active, check for any that are not.
+ * 2. When the number equals word length, Make iterations until column isn't active.
+ * 3. 4,5,6,6,7 random iterations that include any extra columns
+ * 4. At the end of iterations switch back to the new word.
+ * 5. Clear up all the remaining streams if you can... Not sure how to tail them out...
+ * 6. For optimization, only play/pause when the button is active.
+ * 7. You can do an initial render to get the word back
+ * 
+ * 
+ * */
