@@ -1,0 +1,199 @@
+@import "normalize.css" layer(normalize);
+
+
+@layer base {
+	*,
+	*:after,
+	*:before {
+		box-sizing: border-box;
+	}
+
+	body {
+		min-height: 100vh;
+		display: flex;
+		flex-direction: column;
+		font-family: "SF Pro Text", "SF Pro Icons", "AOS Icons", "Helvetica Neue", Helvetica, Arial, sans-serif, system-ui;
+		background: hsl(0 0% 2%);
+		color: hsl(0 0% 98%);
+	}
+
+
+	.content {
+		width: 1200px;
+		max-width: calc(100% - 2rem);
+		margin: 0 auto;
+	}
+
+	main {
+		flex: 1;
+
+	}
+
+
+	@counter-style pad-example {
+	  system: extends decimal;
+	  suffix: ". ";
+	  pad: 2 "0";
+	}
+
+	ol {
+		padding: 0;
+		margin: 0;
+	  list-style: pad-example;
+		list-style-position: inside;
+	}
+
+	header {
+		min-height: 50vh;
+		display: flex;
+		place-items: center;
+	}
+
+	h1 {
+		font-size: clamp(2.5rem, 6vw + 1rem, 10rem);
+		margin: 0;
+		display: inline-block;
+	}
+
+	h2 {
+		font-size: clamp(1.2rem, 1vw + 1rem, 3rem);
+	}
+
+	header p {
+		font-size: clamp(1rem, 1vw + 1rem, 2rem);
+	}
+
+	header p:first-line, header span {
+		color: hsl(10 80% 50%);
+	}
+
+	header {
+		cursor: none;
+	}
+
+	footer {
+		padding: 2rem;
+		text-align: center;
+	}
+
+	[href^=mailto] {
+		text-decoration: none;
+		color: white;
+		cursor: none;
+	}
+
+
+}
+
+@layer custom-cursor {
+	.custom-cursor {
+		position: fixed;
+		left: calc(var(--x) * 1px);
+		top: calc(var(--y) * 1px);
+		translate: -50% -50%;
+		pointer-events: none;
+		cursor: none;
+	}
+
+}
+
+@layer custom-cursor.contact {
+	.contact {
+		display: flex;
+		align-items: center;
+		white-space: nowrap;
+		gap: 0.5rem;
+		font-size: 1.25rem;
+		background: white;
+		color: hsl(0 0% 0% / var(--active, 0));
+		padding: 1rem 2rem;
+		border-radius: 100px;
+		border: 2px solid black;
+		cursor: none;
+		opacity: var(--intent, 0);
+		transition: opacity 0.2s, clip-path 0.5s;
+		pointer-events: none;
+		clip-path: inset(calc(50% - 12px) calc(50% - 12px) calc(50% - 12px) calc(50% - 12px) round 100px);
+	}
+	.contact svg {
+		fill: currentColor;
+		width: 24px;
+		transition: rotate 1.25s;
+		rotate: calc(var(--active) * 360deg);
+	}
+
+	:root:has(header:hover) .contact { --intent: 1; }
+
+	:root:has([href^=mailto]:hover) .custom-cursor .contact {
+		--active: 1;
+		clip-path: inset(0 0 0 0 round 100px);
+	}
+
+	@supports (transition-timing-function: linear(1, 1)) {
+		.contact svg {
+			transition-timing-function: linear(
+		    0, -0.0028 13.88%, 0.0081 21.23%,
+		    0.002 23.37%, -0.0208 27.14%,
+		    -0.023 28.64%, -0.0178, -0.0061 30.83%,
+		    0.0588 34.64%, 0.0651 35.39%,
+		    0.0653 36.07%, 0.0514, 0.0184 38.3%,
+		    -0.1687 42.21%, -0.1857 43.04%,
+		    -0.181 43.8%, -0.1297 44.93%,
+		    -0.0201 46.08%, 1.0518 54.2%, 1.1471,
+		    1.1853 56.48%, 1.1821 57.25%,
+		    1.1573 58.11%, 0.9709 62%, 0.9458,
+		    0.9347 63.92%, 0.9349 64.61%,
+		    0.9412 65.36%, 1.0061 69.17%, 1.0178,
+		    1.023 71.36%, 1.0208 72.86%,
+		    0.998 76.63%, 0.9919 78.77%,
+		    1.0028 86.12%, 1
+		  );
+		}
+		.contact {
+			--ease: linear(
+		    0, 0.0027, 0.0106 7.29%, 0.0425, 0.0957,
+		    0.1701 29.16%, 0.2477, 0.3401 41.23%,
+		    0.5982 55.18%, 0.7044 61.56%, 0.7987,
+		    0.875 75%, 0.9297, 0.9687, 0.9922, 1
+		  );
+			transition: opacity 0.2s, clip-path 0.2s var(--ease), color 0.2s;
+		}
+	}
+}
+
+
+
+
+@layer socials {
+  .x-link,
+  .bear-link {
+    color: hsl(0 0% 100%);
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    width: 48px;
+    aspect-ratio: 1;
+    display: grid;
+    place-items: center;
+    opacity: 0.8;
+    mix-blend-mode: difference;
+  }
+
+  .bear-link {
+  	display: none;
+    bottom: unset;
+    top: 1rem;
+    right: 1rem;
+    left: unset;
+  }
+
+  :where(.x-link, .bear-link):is(:hover, :focus-visible) {
+    opacity: 1;
+  }
+  .bear-link svg {
+    width: 75%;
+  }
+  .x-link svg {
+    width: 50%;
+  }
+}
