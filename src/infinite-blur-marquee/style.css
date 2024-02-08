@@ -1,0 +1,197 @@
+@import "normalize.css";
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	font-family: monospace , sans-serif, system-ui;
+  overflow: hidden;
+  background: hsl(0 0% 2%);
+}
+
+body::before {
+	--line: hsl(0 0% 95% / 0.25);
+	--size: 60px;
+	content: "";
+	height: 100vh;
+	width: 100vw;
+	position: fixed;
+	background:
+		linear-gradient(90deg, var(--line) 1px, transparent 1px var(--size)) 0 -5vmin / var(--size) var(--size),
+		linear-gradient(var(--line) 1px, transparent 1px var(--size)) 0 -5vmin / var(--size) var(--size);
+	mask: linear-gradient(-15deg, transparent 60%, white);
+	top: 0;
+	z-index: -1;
+}
+
+.container {
+  height: 100%;
+  width: 100%;
+  position: relative;
+  pointer-events: none;
+}
+
+.resizable[data-spill=true] .container::after {
+	content: "";
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	background: hsl(10 0% 50% / 0.25);
+	width: calc(var(--scale) * 10000vw);
+	height: calc(var(--scale) * 10000vh);
+	pointer-events: none;
+	translate: -50% -50%;
+	mask:
+		linear-gradient(white, white) 50% 50% / 100% 100% no-repeat,
+		linear-gradient(white, white) 50% 50% / 100cqi 100cqh no-repeat;
+	mask-composite: exclude;
+}
+
+.resizable {
+	resize: both;
+	overflow: hidden;
+	width: 50vmin;
+	container-type: size;
+  scale: var(--scale);
+  width: 340px;
+  height: 100px;
+}
+
+.resizable[data-spill=true] {
+	overflow: visible;
+	outline: 4px dashed white;
+}
+
+.resizable:active {
+	outline: 2px solid hsl(0 0% 100% / 0.5);
+}
+
+[data-spill=true] .container {
+	mask: unset;
+	overflow: visible;
+}
+
+.resizable {
+	min-height: 100px;
+	min-width: 300px;
+}
+
+ul {
+	display: flex;
+	gap: 1rem;
+	padding: 0;
+	margin: 0;
+	list-style-type: none;
+}
+
+.container ul {
+	height: 100%;
+	width: fit-content;
+	padding: 0;
+	align-items: center;
+	pointer-events: none;
+}
+
+li {
+	height: 80%;
+	aspect-ratio: 16 / 9;
+	font-size: clamp(2rem, 4vw + 1rem, 8rem);
+	display: grid;
+	place-items: center;
+}
+
+li svg {
+	fill: white;
+	height: 65%;
+}
+
+[data-play-state=running] :is(ul, li) {
+	animation-play-state: running !important;
+}
+[data-play-state=paused] :is(ul, li) {
+	animation-play-state: paused !important;
+}
+
+.container {
+	mask: linear-gradient(90deg, transparent, black 15% 85%, transparent);
+	width: 100%;
+	display: grid;
+	min-height: 100px;
+	min-width: 300px;
+}
+
+/* Blur component */
+.blur {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	width: 25%;
+	z-index: 2;
+	pointer-events: none;
+}
+
+.blur--right {
+	right: 0;
+}
+
+.blur--left {
+	left: 0;
+	rotate: 180deg;
+}
+
+.blur div {
+	position: absolute;
+	inset: 0;
+	z-index: var(--index);
+  mask: linear-gradient(
+  	90deg,
+  	transparent calc(var(--index) * 12.5%),
+  	black calc((var(--index) + 1) * 12.5%),
+  	black calc((var(--index) + 2) * 12.5%),
+  	transparent calc((var(--index) + 3) * 12.5%)
+  );
+	backdrop-filter: blur(calc((var(--index, 0) * var(--blur, 0)) * 2px));
+}
+
+.blur {
+	opacity: 0;
+}
+
+[data-blurring=true] .blur {
+	opacity: 1;
+}
+
+/* The animation stuff */
+@media(prefers-reduced-motion: no-preference) {
+	[data-translate=items] ul {
+		gap: 0;
+	}
+	[data-translate=items][data-direction=horizontal].container {
+		padding-inline: 0;
+	}
+	
+	[data-translate=items] li {
+		--duration: calc(var(--speed) * 1s);
+		--delay: calc((var(--duration) / var(--count)) * (var(--index, 0) * -1));
+		animation: slide var(--duration) var(--delay) infinite linear paused;
+		translate: var(--origin-x) var(--origin-y);
+	}
+	[data-translate=items][data-direction=horizontal] li {
+		--origin-x: calc(((var(--count) - var(--index)) + var(--inset, 0)) * 100%);
+		--origin-y: 0;
+		--destination-x: calc(calc((var(--index) + 1 + var(--outset, 0)) * -100%));
+		--destination-y: 0;
+	}
+	
+	@keyframes slide {
+		100% {
+			translate: var(--destination-x) var(--destination-y);
+		}
+	}
+}
