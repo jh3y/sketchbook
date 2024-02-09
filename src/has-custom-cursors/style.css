@@ -1,5 +1,4 @@
-@import "normalize.css" layer(normalize);
-
+@import 'normalize.css' layer(normalize);
 
 @layer base {
 	*,
@@ -12,93 +11,163 @@
 		min-height: 100vh;
 		display: flex;
 		flex-direction: column;
-		font-family: "SF Pro Text", "SF Pro Icons", "AOS Icons", "Helvetica Neue", Helvetica, Arial, sans-serif, system-ui;
+		font-family: 'SF Pro Text', 'SF Pro Icons', 'AOS Icons', 'Helvetica Neue',
+			Helvetica, Arial, sans-serif, system-ui;
 		background: hsl(0 0% 2%);
 		color: hsl(0 0% 98%);
+		cursor: none;
 	}
 
+	.bear {
+		position: fixed;
+		color: white;
+		left: 100%;
+		top: 100%;
+		translate: -50% -75%;
+		width: 70vmin;
+		opacity: 0.15;
+		pointer-events: none;
+	}
+
+	.eyes {
+		transform-box: fill-box;
+		transform-origin: 50% 50%;
+		animation: blink 6s infinite linear;
+	}
+
+	.bear .eyes {
+		animation-delay: -2s;
+	}
+
+	@keyframes blink {
+		0%,
+		46%,
+		48%,
+		50%,
+		100% {
+			scale: 1 1;
+		}
+		47%,
+		49% {
+			scale: 1 0.01;
+		}
+	}
 
 	.content {
-		width: 1200px;
-		max-width: calc(100% - 2rem);
+		width: 800px;
+		max-width: calc(100% - 4rem);
 		margin: 0 auto;
 	}
 
 	main {
 		flex: 1;
-
 	}
 
-
 	@counter-style pad-example {
-	  system: extends decimal;
-	  suffix: ". ";
-	  pad: 2 "0";
+		system: extends decimal;
+		suffix: '. ';
+		pad: 2 '0';
 	}
 
 	ol {
 		padding: 0;
 		margin: 0;
-	  list-style: pad-example;
+		list-style: pad-example;
 		list-style-position: inside;
+		font-size: var(--text-2);
+		display: flex;
+		flex-direction: column;
+		align-items: start;
+	}
+
+	li {
+		padding: 0.25rem 0;
+		opacity: 0.8;
+		/*		display: inline-block;*/
 	}
 
 	header {
-		min-height: 50vh;
+		padding: 80px 0 2rem 0;
+		min-height: 40vh;
 		display: flex;
 		place-items: center;
 	}
 
+	:root {
+		--text-1: clamp(2.5rem, 5vw + 1rem, 8rem);
+		--text-2: clamp(1.5rem, 1vw + 1rem, 4rem);
+		--text-3: clamp(1rem, 0.75vw + 1rem, 2rem);
+	}
+
 	h1 {
-		font-size: clamp(2.5rem, 6vw + 1rem, 10rem);
+		font-size: var(--text-1);
 		margin: 0;
 		display: inline-block;
 	}
 
-	h2 {
-		font-size: clamp(1.2rem, 1vw + 1rem, 3rem);
+	h2,
+	header p {
+		font-size: var(--text-3);
 	}
 
 	header p {
-		font-size: clamp(1rem, 1vw + 1rem, 2rem);
+		width: 40ch;
+		max-width: 100%;
 	}
 
-	header p:first-line, header span {
-		color: hsl(10 80% 50%);
+	header p:first-line,
+	header span {
+		color: hsl(10 90% 50%);
 	}
 
-	header {
+	header,
+	ol {
 		cursor: none;
 	}
 
+	.track {
+		height: 240px;
+		background: purple;
+	}
+
 	footer {
+		opacity: 0.6;
 		padding: 2rem;
 		text-align: center;
 	}
 
-	[href^=mailto] {
+	h1 [href] {
 		text-decoration: none;
-		color: white;
-		cursor: none;
 	}
 
-
+	[href^='mailto'] {
+		color: white;
+		text-underline-offset: 6px;
+		cursor: none;
+	}
 }
 
 @layer custom-cursor {
 	.custom-cursor {
 		position: fixed;
-		left: calc(var(--x) * 1px);
-		top: calc(var(--y) * 1px);
+		left: calc(var(--x, -100) * 1px);
+		top: calc(var(--y, -100) * 1px);
 		translate: -50% -50%;
 		pointer-events: none;
 		cursor: none;
+		width: 24px;
+		height: 24px;
+		background: white;
+		border-radius: 50%;
 	}
-
 }
 
 @layer custom-cursor.contact {
 	.contact {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		translate: -50% -50%;
 		display: flex;
 		align-items: center;
 		white-space: nowrap;
@@ -113,7 +182,10 @@
 		opacity: var(--intent, 0);
 		transition: opacity 0.2s, clip-path 0.5s;
 		pointer-events: none;
-		clip-path: inset(calc(50% - 12px) calc(50% - 12px) calc(50% - 12px) calc(50% - 12px) round 100px);
+		clip-path: inset(
+			calc(50% - 12px) calc(50% - 12px) calc(50% - 12px) calc(50% - 12px) round
+				100px
+		);
 	}
 	.contact svg {
 		fill: currentColor;
@@ -122,9 +194,11 @@
 		rotate: calc(var(--active) * 360deg);
 	}
 
-	:root:has(header:hover) .contact { --intent: 1; }
+	:root:has(header:hover) .contact {
+		--intent: 1;
+	}
 
-	:root:has([href^=mailto]:hover) .custom-cursor .contact {
+	:root:has([href^='mailto']:hover) .custom-cursor .contact {
 		--active: 1;
 		clip-path: inset(0 0 0 0 round 100px);
 	}
@@ -132,68 +206,214 @@
 	@supports (transition-timing-function: linear(1, 1)) {
 		.contact svg {
 			transition-timing-function: linear(
-		    0, -0.0028 13.88%, 0.0081 21.23%,
-		    0.002 23.37%, -0.0208 27.14%,
-		    -0.023 28.64%, -0.0178, -0.0061 30.83%,
-		    0.0588 34.64%, 0.0651 35.39%,
-		    0.0653 36.07%, 0.0514, 0.0184 38.3%,
-		    -0.1687 42.21%, -0.1857 43.04%,
-		    -0.181 43.8%, -0.1297 44.93%,
-		    -0.0201 46.08%, 1.0518 54.2%, 1.1471,
-		    1.1853 56.48%, 1.1821 57.25%,
-		    1.1573 58.11%, 0.9709 62%, 0.9458,
-		    0.9347 63.92%, 0.9349 64.61%,
-		    0.9412 65.36%, 1.0061 69.17%, 1.0178,
-		    1.023 71.36%, 1.0208 72.86%,
-		    0.998 76.63%, 0.9919 78.77%,
-		    1.0028 86.12%, 1
-		  );
+				0,
+				-0.0028 13.88%,
+				0.0081 21.23%,
+				0.002 23.37%,
+				-0.0208 27.14%,
+				-0.023 28.64%,
+				-0.0178,
+				-0.0061 30.83%,
+				0.0588 34.64%,
+				0.0651 35.39%,
+				0.0653 36.07%,
+				0.0514,
+				0.0184 38.3%,
+				-0.1687 42.21%,
+				-0.1857 43.04%,
+				-0.181 43.8%,
+				-0.1297 44.93%,
+				-0.0201 46.08%,
+				1.0518 54.2%,
+				1.1471,
+				1.1853 56.48%,
+				1.1821 57.25%,
+				1.1573 58.11%,
+				0.9709 62%,
+				0.9458,
+				0.9347 63.92%,
+				0.9349 64.61%,
+				0.9412 65.36%,
+				1.0061 69.17%,
+				1.0178,
+				1.023 71.36%,
+				1.0208 72.86%,
+				0.998 76.63%,
+				0.9919 78.77%,
+				1.0028 86.12%,
+				1
+			);
 		}
 		.contact {
 			--ease: linear(
-		    0, 0.0027, 0.0106 7.29%, 0.0425, 0.0957,
-		    0.1701 29.16%, 0.2477, 0.3401 41.23%,
-		    0.5982 55.18%, 0.7044 61.56%, 0.7987,
-		    0.875 75%, 0.9297, 0.9687, 0.9922, 1
-		  );
+				0,
+				0.0027,
+				0.0106 7.29%,
+				0.0425,
+				0.0957,
+				0.1701 29.16%,
+				0.2477,
+				0.3401 41.23%,
+				0.5982 55.18%,
+				0.7044 61.56%,
+				0.7987,
+				0.875 75%,
+				0.9297,
+				0.9687,
+				0.9922,
+				1
+			);
 			transition: opacity 0.2s, clip-path 0.2s var(--ease), color 0.2s;
 		}
 	}
 }
 
+@layer custom-cursor.preview {
+	:root:has(ol:hover) .preview {
+		--intent: 1;
+	}
+	.preview {
+		position: absolute;
+		bottom: 0;
+		left: 50%;
+		translate: -50% 0;
+		display: inline-block;
+		border-radius: 50%;
+		cursor: none;
+		width: 24px;
+		height: 24px;
+		opacity: var(--intent, 0);
+		transition: opacity 0.2s, clip-path 0.2s;
+		pointer-events: none;
+		background: hsl(
+			0 calc(var(--active) * 100%) calc(100% - (var(--active) * 50%)) / 1
+		);
+	}
 
+	li:hover {
+		opacity: 1;
+	}
 
+	li:has(~ li:hover),
+	li:hover ~ li {
+		opacity: 0.2;
+	}
+
+	:root:has(ol li:hover) .preview {
+		--active: 1;
+	}
+
+	:root:has(ol li:nth-of-type(1):hover) .preview__img img:nth-of-type(1),
+	:root:has(ol li:nth-of-type(2):hover) .preview__img img:nth-of-type(2),
+	:root:has(ol li:nth-of-type(3):hover) .preview__img img:nth-of-type(3) {
+		--show: 1;
+	}
+
+	:root:has(ol li:hover) .preview__img {
+		clip-path: inset(0 0 0 0 round 0);
+	}
+
+	.preview__img {
+		width: 100px;
+		height: 100px;
+		position: absolute;
+		border: 1px solid white;
+		bottom: 0;
+		left: 50%;
+		translate: -50% calc(var(--active, 0) * -2rem);
+		transition: translate 0.2s, clip-path 0.2s;
+		background: white;
+		clip-path: inset(calc(100% - 12px) calc(50% - 6px) 0 calc(50% - 6px) round 100px);
+	}
+
+	.preview__img img {
+		width: 100%;
+		height: 100%;
+		opacity: var(--show, 0);
+		position: absolute;
+		inset: 0;
+		object-fit: cover;
+	}
+}
 
 @layer socials {
-  .x-link,
-  .bear-link {
-    color: hsl(0 0% 100%);
-    position: fixed;
-    top: 1rem;
-    left: 1rem;
-    width: 48px;
-    aspect-ratio: 1;
-    display: grid;
-    place-items: center;
-    opacity: 0.8;
-    mix-blend-mode: difference;
-  }
+	nav {
+		position: fixed;
+		top: 0;
+		width: 100%;
+		padding: 0.5rem 1rem;
+		background: hsl(0 0% 0% / 0.25);
+		backdrop-filter: blur(4px);
+		display: flex;
+		justify-content: flex-end;
+	}
+	.x-link {
+		color: hsl(0 0% 100%);
+		width: 48px;
+		aspect-ratio: 1;
+		display: grid;
+		place-items: center;
+		opacity: 0.8;
+		mix-blend-mode: difference;
+		cursor: none;
+	}
 
-  .bear-link {
-  	display: none;
-    bottom: unset;
-    top: 1rem;
-    right: 1rem;
-    left: unset;
-  }
+	.follow {
+		background: hsl(0 0% 98%);
+		color: hsl(0 0% 6%);
+		border-radius: 100px;
+		position: absolute;
+		right: 0;
+		top: 50%;
+		translate: 0 -50%;
+		white-space: nowrap;
+		padding: 1rem 1rem;
+		display: flex;
+		opacity: var(--intent, 0);
+		align-items: center;
+		gap: 0.5rem;
+		transform-origin: 100% 50%;
+		transition: scale 0.2s, clip-path 0.2s;
+		pointer-events: none;
+		background: white;
+		border: 1px solid black;
+		clip-path: inset(calc(50% - 12px) 0 calc(50% - 12px) calc(100% - 24px) round 100px);
+	}
 
-  :where(.x-link, .bear-link):is(:hover, :focus-visible) {
-    opacity: 1;
-  }
-  .bear-link svg {
-    width: 75%;
-  }
-  .x-link svg {
-    width: 50%;
-  }
+	.follow__text {
+		opacity: var(--active, 0);
+	}
+
+	.follow__globe {
+		width: 16px;
+		overflow: hidden;
+		opacity: var(--active, 0);
+	}
+
+	:root:has(nav:hover) .follow {
+		--intent: 1;
+	}
+
+	:root:has(.x-link:hover) .follow {
+		--active: 1;
+		height:;
+		clip-path: inset(0 0 0 0 round 100px);
+	}
+
+	.follow__globes {
+		animation: spin 0.5s infinite steps(3);
+		display: inline-block;
+	}
+
+	@keyframes spin {
+		to { translate: -100% 0; }
+	}
+
+	:where(.x-link, .bear-link):is(:hover, :focus-visible) {
+		opacity: 1;
+	}
+
+	.x-link svg {
+		width: 50%;
+	}
 }
