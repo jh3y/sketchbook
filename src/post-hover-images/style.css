@@ -1,0 +1,178 @@
+@import "normalize.css" layer(normalize.css);
+
+@layer base {
+	*,
+	*:after,
+	*:before {
+		box-sizing: border-box;
+	}
+
+	body {
+		min-height: 100vh;
+		display: flex;
+		flex-direction: column;
+		font-family:  "SF Pro Text", "SF Pro Icons", "AOS Icons", "Helvetica Neue", Helvetica, Arial, sans-serif, system-ui;
+	}
+
+	header {
+		padding: 4rem 0;
+		position: sticky;
+		top: 0;
+	}
+
+
+	ol {
+		cursor: none;
+		padding: 0;
+		margin: 0;
+/*		list-style-position: inside;*/
+	}
+
+	.eyes {
+		transform-box: fill-box;
+		transform-origin: 50% 50%;
+		animation: blink 6s infinite linear;
+	}
+
+	.eyes {
+		animation-delay: -2s;
+	}
+
+	@keyframes blink {
+		0%,
+		46%,
+		48%,
+		50%,
+		100% {
+			scale: 1 1;
+		}
+		47%,
+		49% {
+			scale: 1 0.01;
+		}
+	}
+	
+	@counter-style pad-tens {
+	  system: extends decimal;
+	  suffix: ". ";
+	  pad: 2 "0";
+	}
+
+	li:not(:last-of-type) {
+		border-bottom: 2px solid hsl(0 0% 10% / 0.5);
+
+	}
+
+	li::marker {
+		font-size: clamp(.875rem, 1vw + 1rem, 2rem);
+		font-family: monospace;
+		vertical-align: middle;
+		font-weight: 100;
+		color: hsl(0 0% 10% / 0.5);
+	}
+
+	main {
+		flex: 1;
+	}
+
+	:root {
+		--font-size: clamp(2rem, 8vw + 1rem, 10rem);
+	}
+
+	h1 {
+		font-size: var(--font-size);
+	}
+
+	h1 span:nth-of-type(1) {
+		font-size: 1.5rem;
+		opacity: 0.5;
+	}
+	h1 span:nth-of-type(2) {
+		font-size: clamp(1.875rem, 4vw + 1rem, 2rem);
+		text-transform: uppercase;
+	}
+
+	li:is(:hover, :focus-within) {
+		opacity: 1;
+		z-index: 2;
+	}
+
+	li:hover {
+		--active: 1;
+	}
+	li:has(~ li:is(:hover, :focus-within)),
+	li:is(:hover, :focus-within) ~ li {
+		opacity: 0.25;
+	}
+
+	li img {
+		opacity: var(--active, 0);
+		position: fixed;
+		pointer-events: none;
+		left: calc(var(--x) * 1px);
+		top: calc(var(--y) * 1px);
+		translate: -50% -50%;
+		cursor: none;
+		border-radius: 6px;
+	}
+
+	a {
+		padding: 2rem 0;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		text-decoration: none;
+		color: hsl(0 0% 10%);
+		font-weight: 300;
+		cursor: none;
+	}
+
+	li:is(:hover, :focus-within) {
+		border-bottom-color: #0000;
+	}
+
+	a:focus-visible {
+		outline-color: hsl(0 100% 50%);
+		outline-offset: 0.5rem;
+	}
+
+	a span {
+		font-size: clamp(.875rem, 0.5vw + 1rem, 2rem);
+		flex: 0 0 auto;
+	}
+
+	ol {
+		font-size: clamp(1.25rem, 2vw + 1rem, 2rem);
+	}
+
+	li {
+		position: relative;
+	}
+
+	:root:has(li:nth-of-type(10)) {
+		ol {
+		  list-style-type: pad-tens;
+		}
+	}
+
+	section {
+		width: 800px;
+		max-width: calc(100% - 2rem);
+		margin: 0 auto;
+	}
+
+	footer {
+		padding: 2rem;
+		text-align: center;
+	}
+}
+
+@layer socials {
+	.bear-link {
+		color: hsl(0 0% 10%);
+		position: fixed;
+		top: 1rem;
+		right: 1rem;
+		width: 48px;
+	}
+}
