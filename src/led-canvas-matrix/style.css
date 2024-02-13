@@ -1,0 +1,16 @@
+* {
+  box-sizing: border-box;
+}
+html {
+  background: black;
+}
+body > canvas {
+  position: fixed;
+  inset: 0;
+  background: var(--cell, black);
+  mask: linear-gradient(transparent, white);
+}
+
+div.tp-dfwv {
+  width: 320px;
+}
