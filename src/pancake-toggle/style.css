@@ -1,0 +1,121 @@
+@import "normalize.css";
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	font-family:  "SF Pro Text", "SF Pro Icons", "AOS Icons", "Helvetica Neue", Helvetica, Arial, sans-serif, system-ui;
+	perspective: 50vmin;
+}
+
+img {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	translate: 50% -50%;
+	z-index: 2;
+/*	opacity: 0.4;*/
+	width: 66vmin;
+	pointer-events: none;
+}
+
+.sr-only {
+	position: absolute;
+	/*width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border-width: 0;*/
+	top: 1rem;
+	left: 1rem;
+}
+
+#flip:checked + .pancake-toggle {
+	--flip: 1;
+}
+
+.pancake-toggle * {
+	display: inline-block;
+	transform-style: preserve-3d;
+}
+
+.pancake-toggle {
+	width: 25vmin;
+	aspect-ratio: 1;
+	border-radius: 50%;
+	background: black;
+	position: relative;
+	rotate: -36deg;
+	transform-style: preserve-3d;
+/*	transform: rotateY(0deg);*/
+}
+
+.pan__shuffle {
+	height: 100%;
+	width: 100%;
+	position: absolute;
+	inset: 0;
+	background: red;
+	transition: 0.1s translate;
+}
+
+.pan {
+	height: 100%;
+	width: 100%;
+	position: absolute;
+	inset: 0;
+}
+
+.pan__flip {
+	height: 100%;
+	width: 100%;
+	position: absolute;
+	inset: 0;
+}
+
+.pan > .pan__flip {
+	translate: calc(var(--flip, 0) * 50%) 0;
+	transform: rotateY(calc(var(--flip, 0) * 10deg)) translate3d(0, 0, calc(var(--flip, 0) * -30px));
+	transition: translate 0.25s 0.5s, transform 0.25s 0.5s;
+}
+
+.pan .pan__shuffle { transition-delay: 0; }
+.pan .pan__shuffle > .pan__shuffle { transition-delay: 0.1s; }
+.pan .pan__shuffle > .pan__shuffle > .pan__shuffle { transition-delay: 0.2s; }
+.pan .pan__shuffle > .pan__shuffle > .pan__shuffle > .pan__shuffle { transition-delay: 0.3s; }
+
+.pan .pan__shuffle,
+.pan .pan__shuffle > .pan__shuffle > .pan__shuffle {
+	translate: calc(var(--flip, 0) * -50%) 0;
+}
+.pan .pan__shuffle > .pan__shuffle,
+.pan .pan__shuffle > .pan__shuffle > .pan__shuffle > .pan__shuffle {
+	translate: calc(var(--flip, 0) * 50%) 0;
+}
+
+.pan__body {
+	height: 100%;
+	width: 100%;
+	background: purple;
+	border-radius: 50%;
+}
+
+.pan__handle {
+	position: absolute;
+	height: 14%;
+	width: 68%;
+	right: 90%;
+	top: 50%;
+	translate: 0 -50%;
+
+	background: purple;
+}

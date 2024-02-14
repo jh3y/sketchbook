@@ -1,0 +1,232 @@
+@import "normalize.css" layer(normalize);
+
+@layer base {
+	* {
+	  box-sizing: border-box;
+	}
+
+	:root {
+		--bg: hsl(0 0% 10%);
+		--color: hsl(0 0% 85%);
+		color-scheme: dark only;
+
+	}
+
+	body {
+	  display: grid;
+	  place-items: center;
+	  min-height: 100vh;
+	  accent-color: hsl(250 90% 70%);
+	  background: var(--bg);
+	  font-family: 'SF Pro Text', 'SF Pro Icons', 'AOS Icons', 'Helvetica Neue';
+	  line-height: 1.6;
+	  color: var(--color);
+	}
+
+	body::before {
+		--line: hsl(0 0% 95% / 0.25);
+		--size: 60px;
+		content: "";
+		height: 100vh;
+		width: 100vw;
+		position: fixed;
+		background:
+			linear-gradient(90deg, var(--line) 1px, transparent 1px var(--size)) 0 -5vmin / var(--size) var(--size),
+			linear-gradient(var(--line) 1px, transparent 1px var(--size)) 0 -5vmin / var(--size) var(--size);
+		mask: linear-gradient(-15deg, transparent 80%, white);
+		top: 0;
+		z-index: -1;
+	}
+	p::selection {
+		background: hsl(10 100% 50% / 0.5);
+	}
+}
+
+@layer scroller {
+	.scroller {
+	  width: 36ch;
+	  aspect-ratio: 3 / 4;
+	  overflow: auto;
+	  position: relative;
+	  background: canvas;
+	  padding: 0 1rem;
+	  resize: both;
+	  border-radius: 0.5rem;
+	  box-shadow: 0 0 2rem -1rem hsl(0 0% 10% / 0.75);
+	}
+	
+	.scroller svg {
+	  width: 24px;
+	}
+}
+
+@layer indicator {
+	[data-style="indicator"] {
+		.indicator {
+		  position: sticky;
+		  display: flex;
+		  align-items: center;
+		  justify-content: center;
+		  background: canvas;
+		  height: 48px;
+		  scale: 1 1;
+		  /* Scroll stuff */
+		  --scroll-buffer: 2rem;
+		  opacity: 0;
+		  animation: fade-in both linear;
+		  animation-timeline: scroll(nearest);
+		  animation-range: 0 var(--scroll-buffer);
+		}
+
+		.indicator--top {
+		  top: 0;
+		  border-bottom: 1px solid currentColor;
+		}
+
+		.indicator--bottom {
+		  bottom: 0;
+		  border-top: 1px solid currentColor;
+		  animation-range: calc(100% - var(--scroll-buffer)) 100%;
+		  animation-direction: reverse;
+		}
+
+	}
+	@keyframes fade-in {
+	  to {
+	    opacity: 1;
+	  }
+	}
+}
+
+@layer shadow {
+	[data-style="shadow"] {
+		section {
+			border-radius: 0;
+		}
+		.scroller {
+			padding: 0;
+			background: transparent;
+		}
+		.scroller p {
+			padding: 0 1rem;
+		}
+
+		.indicator {
+			position: sticky;
+			height: 10px;
+			width: 100%;
+		}
+
+		.indicator::after {
+			content: "";
+			position: absolute;
+			height: 16px;
+			width: 100%;
+			background: var(--shadow-color, #000);
+		}
+
+		.indicator--top::after {
+			top: 0;
+			border-top: 1px solid hsl(0 0% 100% / 0.2);
+			mask: linear-gradient(white, transparent);
+		}
+		.indicator--bottom::after {
+			bottom: 0;
+			border-bottom: 1px solid hsl(0 0% 100% / 0.2);
+			mask: linear-gradient(transparent, white);
+		}
+
+		.indicator svg {
+			display: none;
+		}
+		.indicator--top {
+			transform-origin: 50% 100%;
+			top: 0;
+		}
+		.indicator--bottom {
+			transform-origin: 50% 0%;
+			bottom: 0;
+		}
+
+
+		/* Animation stuff */
+		.indicator {
+			--scroll-buffer: 1rem;
+			animation: reveal both linear;
+		  animation-timeline: scroll(nearest);
+		  animation-range: 0 var(--scroll-buffer);
+		}
+		.indicator--bottom {
+			animation-range: calc(100% - var(--scroll-buffer)) 100%;
+		  animation-direction: reverse;
+		}
+
+	}
+	@keyframes reveal {
+		0% { scale: 1 0; }
+	}
+}
+
+@layer mask {	
+	[data-style="mask"] {
+		section {
+			border-radius: 0;
+		}
+		.scroller {
+			--mask-size: 48px;
+			padding: 0;
+			background: transparent;
+			mask:
+			  linear-gradient(white, transparent) 50% 0 / 100% 0 no-repeat,
+			  linear-gradient(white, white) 50% 50% / 100% 100% no-repeat,
+			  linear-gradient(transparent, white) 50% 100% / 100% 100px no-repeat;
+			mask-composite: xor;
+			animation: mask-up both linear, mask-down both linear;
+			animation-timeline: scroll(self);
+			animation-range: 0 2rem, calc(100% - 2rem) 100%;
+		}
+
+		.scroller p {
+			padding: 0 1rem;
+		}
+
+		.indicator {
+			display: none;
+		}
+
+	}
+	@keyframes mask-up {
+		100% {
+			mask-size: 100% 100px, 100% 100%, 100% 100px;
+		}
+	}
+	@keyframes mask-down {
+		100% {
+			mask-size: 100% 100px, 100% 100%, 100% 0;
+		}
+	}
+	
+}
+
+
+
+@layer socials {
+  .bear-link {
+    color: hsl(0 0% 100%);
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    width: 48px;
+    aspect-ratio: 1;
+    display: grid;
+    place-items: center;
+    opacity: 0.8;
+  }
+
+  :where(.x-link, .bear-link):is(:hover, :focus-visible) {
+    opacity: 1;
+  }
+  .bear-link svg {
+    width: 75%;
+  }
+}

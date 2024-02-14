@@ -1,16 +1,54 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:ital,wght@0,400;0,700;1,400;1,700&family=DM+Mono:wght@300&display=swap');
+
 * {
   box-sizing: border-box;
 }
 html {
   background: black;
 }
-body > canvas {
+.container {
   position: fixed;
   inset: 0;
   background: var(--cell, black);
-  mask: linear-gradient(transparent, white);
+}
+
+.container::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: black;
+  mask: linear-gradient(white, transparent);
 }
 
 div.tp-dfwv {
   width: 320px;
+}
+
+.container canvas {
+  height: 100%;
+  width: 100%;
+}
+
+h1 {
+  font-family: 'Orbitron', monospace;
+  color: white;
+  font-size: clamp(2rem, 4vw + 1rem, 8rem);
+  position: fixed;
+  z-index: 2;
+  text-transform: uppercase;
+  margin: 0;
+  text-align: right;
+  line-height: 1;
+  opacity: 1;
+  bottom: 2rem;
+  right: 2rem;
+}
+
+.bear-link {
+  color: white;
+  position: fixed;
+  z-index: 99999;
+  top: 1rem;
+  left: 1rem;
+  width: 48px;
 }
