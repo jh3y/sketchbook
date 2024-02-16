@@ -1,0 +1,169 @@
+@import "normalize.css";
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	font-family:  "SF Pro Text", "SF Pro Icons", "AOS Icons", "Helvetica Neue", Helvetica, Arial, sans-serif, system-ui;
+	background: hsl(0 0% 4%);
+	color: hsl(0 0% 100%);
+}
+
+.controls {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	border-radius: 100px;
+	background: radial-gradient(circle at 0 50%, hsl(215 99% 67%), transparent) border-box, hsl(239 100% 75%);
+	border: 4px solid transparent;
+	padding-left: 0.5rem;
+	position: relative;
+	color: hsl(0 0% 4%);
+}
+
+.controls::after {
+	content: "";
+	position: absolute;
+	inset: -4px;
+	border-radius: 100px;
+	pointer-events: none;
+	box-shadow:
+		0 1px inset hsl(0 0% 100% / 0.5),
+		0 -1px inset hsl(0 0% 0% / 0.5);
+}
+
+button {
+	width: 40px;
+	aspect-ratio: 1;
+	padding: 0;
+	display: grid;
+	place-items: center;
+	background: transparent;
+	border: 0;
+	border-radius: 50%;
+	cursor: pointer;
+	transition: background 0.25s;
+}
+
+button:hover {
+	background: hsl(215, 99%, 58%);
+}
+
+button svg {
+	width: 32px;
+	fill: currentColor;
+}
+
+.tabs {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	position: relative;
+	cursor: pointer;
+}
+
+.tabs__indicator {
+	position: absolute;
+	width: 50%;
+	height: 100%;
+	background: black;
+	border-radius: 100px;
+	overflow: hidden;
+	transition: translate 0.25s;
+	pointer-events: none;
+}
+.tabs__track {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	width: 200%;
+	color: white;
+	transition: translate 0.25s;
+}
+
+.divider {
+	width: 2px;
+	height: 24px;
+	background: currentColor;
+	margin-right: 0.5rem;
+}
+
+button:focus-visible {
+	outline-color: hsl(239 100% 75%);
+}
+input:focus-visible ~ .tabs__indicator {
+	outline: 2px solid hsl(239 100% 95%);
+	outline-offset: 2px;
+}
+
+label {
+	font-size: 1.35rem;
+	font-weight: 500;
+	text-align: center;
+	padding: 0.5rem 1rem;
+	cursor: pointer;
+	transition: background 0.25s;
+	border-radius: 100px;
+}
+
+label:hover {
+	background: hsl(239 100% 70% / 0.5);
+}
+
+.sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border-width: 0;
+}
+
+input:nth-of-type(2):checked ~ .tabs__indicator {
+	translate: 100% 0;
+}
+input:nth-of-type(2):checked ~ .tabs__indicator .tabs__track {
+	translate: -50% 0;
+}
+
+body::before {
+	--line: hsl(0 0% 95% / 0.15);
+	--size: 60px;
+	content: "";
+	height: 100vh;
+	width: 100vw;
+	position: fixed;
+	background:
+		linear-gradient(90deg, var(--line) 1px, transparent 1px var(--size)) 50% 50% / var(--size) var(--size),
+		linear-gradient(var(--line) 1px, transparent 1px var(--size)) 50% 50% / var(--size) var(--size);
+	mask: linear-gradient(-15deg, transparent 30%, white);
+	top: 0;
+	z-index: -1;
+	transform: translate3d(0, 0, -100vmin);
+}
+
+.bear-link {
+	color: currentColor;
+	position: fixed;
+	top: 1rem;
+	left: 1rem;
+	width: 48px;
+	aspect-ratio: 1;
+	display: grid;
+	place-items: center;
+	opacity: 0.8;
+}
+
+:where(.x-link, .bear-link):is(:hover, :focus-visible) {
+	opacity: 1;
+}
+.bear-link svg {
+	width: 75%;
+}
