@@ -1,38 +1,54 @@
-@import "normalize.css" layer(normalize);
+@import url('https://unpkg.com/normalize.css') layer(normalize);
 
 @layer base {
 	* {
-	  box-sizing: border-box;
+		box-sizing: border-box;
 	}
 
 	:root {
 		--bg: hsl(0 0% 10%);
 		--color: hsl(0 0% 85%);
+		--line: hsl(0 0% 95% / 0.25);
+		--shadow: hsl(0 0% 0% / var(--shadow-alpha, 1));
+		--border: hsl(0 0% 20%);
 		color-scheme: dark only;
+	}
 
+	[data-light='true'] {
+		--bg: hsl(0 0% 85%);
+		--color: hsl(0 0% 10%);
+		--line: hsl(0 0% 5% / 0.25);
+		--shadow: hsl(0 0% 10% / var(--shadow-alpha, 1));
+		--border: hsl(0 0% 10%);
+		color-scheme: light only;
 	}
 
 	body {
-	  display: grid;
-	  place-items: center;
-	  min-height: 100vh;
-	  accent-color: hsl(250 90% 70%);
-	  background: var(--bg);
-	  font-family: 'SF Pro Text', 'SF Pro Icons', 'AOS Icons', 'Helvetica Neue';
-	  line-height: 1.6;
-	  color: var(--color);
+		display: grid;
+		place-items: center;
+		min-height: 100vh;
+		accent-color: hsl(250 90% 70%);
+		background: var(--bg);
+		font-family: 'SF Pro Text', 'SF Pro Icons', 'AOS Icons', 'Helvetica Neue';
+		line-height: 1.6;
+		color: var(--color);
 	}
 
 	body::before {
-		--line: hsl(0 0% 95% / 0.25);
 		--size: 60px;
-		content: "";
+		content: '';
 		height: 100vh;
 		width: 100vw;
 		position: fixed;
-		background:
-			linear-gradient(90deg, var(--line) 1px, transparent 1px var(--size)) 0 -5vmin / var(--size) var(--size),
-			linear-gradient(var(--line) 1px, transparent 1px var(--size)) 0 -5vmin / var(--size) var(--size);
+		background: linear-gradient(
+					90deg,
+					var(--line) 1px,
+					transparent 1px var(--size)
+				)
+				0 -5vmin / var(--size) var(--size),
+			linear-gradient(var(--line) 1px, transparent 1px var(--size)) 0 -5vmin / var(
+					--size
+				) var(--size);
 		mask: linear-gradient(-15deg, transparent 80%, white);
 		top: 0;
 		z-index: -1;
@@ -43,147 +59,246 @@
 }
 
 @layer scroller {
-	.scroller {
-	  width: 36ch;
-	  aspect-ratio: 3 / 4;
-	  overflow: auto;
-	  position: relative;
-	  background: canvas;
-	  padding: 0 1rem;
-	  resize: both;
-	  border-radius: 0.5rem;
-	  box-shadow: 0 0 2rem -1rem hsl(0 0% 10% / 0.75);
+	.resizer {
+		width: 36ch;
+		aspect-ratio: 3 / 4;
+		resize: both;
+		overflow: hidden;
+    max-height: calc(100vh - 2rem);
 	}
-	
+	.scroller {
+		width: 100%;
+		height: 100%;
+		overflow: auto;
+		position: relative;
+		background: canvas;
+		padding: 0 1rem;
+		border-radius: 0.5rem;
+		box-shadow: 0 0 2rem -1rem hsl(0 0% 10% / 0.75);
+	}
+
 	.scroller svg {
-	  width: 24px;
+		width: 24px;
 	}
 }
 
 @layer indicator {
-	[data-style="indicator"] {
+	[data-style='indicator'] {
 		.indicator {
-		  position: sticky;
-		  display: flex;
-		  align-items: center;
-		  justify-content: center;
-		  background: canvas;
-		  height: 48px;
-		  scale: 1 1;
-		  /* Scroll stuff */
-		  --scroll-buffer: 2rem;
-		  opacity: 0;
-		  animation: fade-in both linear;
-		  animation-timeline: scroll(nearest);
-		  animation-range: 0 var(--scroll-buffer);
+			position: sticky;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			background: canvas;
+			height: 48px;
+			scale: 1 1;
+			/* Scroll stuff */
+		}
+
+		.indicator::after {
+			content: '';
+			position: absolute;
+			z-index: -1;
+			inset: 0 -1rem;
+			background: canvas;
 		}
 
 		.indicator--top {
-		  top: 0;
-		  border-bottom: 1px solid currentColor;
+			top: 0;
+			border-bottom: 1px solid currentColor;
+			opacity: calc(var(--scroll-progress-top) / 100);
 		}
 
 		.indicator--bottom {
-		  bottom: 0;
-		  border-top: 1px solid currentColor;
-		  animation-range: calc(100% - var(--scroll-buffer)) 100%;
-		  animation-direction: reverse;
+			bottom: 0;
+			border-top: 1px solid currentColor;
+			opacity: calc(1 - (var(--scroll-progress-bottom) / 100));
 		}
-
 	}
-	@keyframes fade-in {
-	  to {
-	    opacity: 1;
-	  }
+	@supports (animation-timeline: scroll()) {
+		[data-style='indicator'] {
+			.indicator {
+				--scroll-buffer: 2rem;
+        opacity: 0;
+				animation: fade-in both linear;
+				animation-timeline: scroll(nearest);
+				animation-range: 0 var(--scroll-buffer);
+			}
+			.indicator--bottom {
+				animation-range: calc(100% - var(--scroll-buffer)) 100%;
+				animation-direction: reverse;
+			}
+		}
+		@keyframes fade-in {
+			to {
+				opacity: 1;
+			}
+		}
 	}
 }
 
 @layer shadow {
-	[data-style="shadow"] {
-		section {
-			border-radius: 0;
-		}
-		.scroller {
-			padding: 0;
-			background: transparent;
-		}
-		.scroller p {
-			padding: 0 1rem;
-		}
-
-		.indicator {
-			position: sticky;
-			height: 10px;
-			width: 100%;
-		}
-
-		.indicator::after {
-			content: "";
-			position: absolute;
-			height: 16px;
-			width: 100%;
-			background: var(--shadow-color, #000);
-		}
-
-		.indicator--top::after {
-			top: 0;
-			border-top: 1px solid hsl(0 0% 100% / 0.2);
-			mask: linear-gradient(white, transparent);
-		}
-		.indicator--bottom::after {
-			bottom: 0;
-			border-bottom: 1px solid hsl(0 0% 100% / 0.2);
-			mask: linear-gradient(transparent, white);
-		}
-
-		.indicator svg {
-			display: none;
-		}
-		.indicator--top {
-			transform-origin: 50% 100%;
-			top: 0;
-		}
-		.indicator--bottom {
-			transform-origin: 50% 0%;
-			bottom: 0;
-		}
-
-
-		/* Animation stuff */
-		.indicator {
-			--scroll-buffer: 1rem;
-			animation: reveal both linear;
-		  animation-timeline: scroll(nearest);
-		  animation-range: 0 var(--scroll-buffer);
-		}
-		.indicator--bottom {
-			animation-range: calc(100% - var(--scroll-buffer)) 100%;
-		  animation-direction: reverse;
-		}
-
+	[data-style='shadow'] section {
+		border: 1px solid var(--border);
 	}
-	@keyframes reveal {
-		0% { scale: 1 0; }
+	[data-style='shadow'] .scroller {
+		padding: 0;
+		background: canvas;
+	}
+	[data-style='shadow'] .scroller p {
+		padding: 0 1rem;
+	}
+
+	[data-style='shadow'] .indicator {
+		position: sticky;
+		height: 10px;
+		width: 100%;
+	}
+
+	[data-style='shadow'] .indicator::after {
+		content: '';
+		position: absolute;
+		height: calc(var(--shadow-height) * 1px);
+		width: 100%;
+		background: var(--shadow);
+	}
+
+	[data-style='shadow'] .indicator--top::after {
+		top: 0;
+		mask: linear-gradient(white, transparent);
+	}
+	[data-style='shadow'] .indicator--bottom::after {
+		bottom: 0;
+		mask: linear-gradient(transparent, white);
+	}
+
+	[data-style='shadow'] .indicator svg {
+		display: none;
+	}
+	[data-style='shadow'] .indicator--top {
+		transform-origin: 50% 0%;
+		top: 0;
+		scale: 1 calc(var(--scroll-progress-top) / 100);
+	}
+	[data-style='shadow'] .indicator--bottom {
+		transform-origin: 50% 100%;
+		bottom: 0;
+		scale: 1 calc(1 - (var(--scroll-progress-bottom) / 100));
+	}
+
+	@supports (animation-timeline: scroll()) {
+		[data-style='shadow'] {
+			.indicator {
+				--scroll-buffer: 1rem;
+				animation: reveal both linear;
+				animation-timeline: scroll(nearest);
+				animation-range: 0 var(--scroll-buffer);
+			}
+			.indicator--bottom {
+				animation-range: calc(100% - var(--scroll-buffer)) 100%;
+				animation-direction: reverse;
+			}
+		}
+
+		@keyframes reveal {
+			0% {
+				scale: 1 0;
+			}
+		}
 	}
 }
 
-@layer mask {	
-	[data-style="mask"] {
-		section {
-			border-radius: 0;
+@layer opening {
+	[data-style='opening'] section {
+		border-radius: 0;
+	}
+	[data-style='opening'] .scroller {
+		padding: 0;
+		background: transparent;
+	}
+	[data-style='opening'] .scroller p {
+		padding: 0 1rem;
+	}
+
+	[data-style='opening'] .indicator {
+		position: sticky;
+		height: 10px;
+		width: 100%;
+	}
+
+	[data-style='opening'] .indicator::after {
+		content: '';
+		position: absolute;
+		height: calc(var(--shadow-height) * 1px);
+		width: 100%;
+		background: var(--shadow);
+	}
+
+	[data-style='opening'] .indicator--top::after {
+		top: 0;
+		border-top: 1px solid var(--border);
+		mask: linear-gradient(white, transparent);
+	}
+	[data-style='opening'] .indicator--bottom::after {
+		bottom: 0;
+		border-bottom: 1px solid var(--border);
+		mask: linear-gradient(transparent, white);
+	}
+
+	[data-style='opening'] .indicator svg {
+		display: none;
+	}
+	[data-style='opening'] .indicator--top {
+		transform-origin: 50% 100%;
+		top: 0;
+		scale: 1 calc(var(--scroll-progress-top) / 100);
+	}
+	[data-style='opening'] .indicator--bottom {
+		transform-origin: 50% 0%;
+		bottom: 0;
+		scale: 1 calc(1 - (var(--scroll-progress-bottom) / 100));
+	}
+
+	@supports (animation-timeline: scroll()) {
+		[data-style='opening'] {
+			/* Animation stuff */
+			.indicator {
+				--scroll-buffer: 1rem;
+				animation: reveal both linear;
+				animation-timeline: scroll(nearest);
+				animation-range: 0 var(--scroll-buffer);
+			}
+			.indicator--bottom {
+				animation-range: calc(100% - var(--scroll-buffer)) 100%;
+				animation-direction: reverse;
+			}
+		}
+		@keyframes reveal {
+			0% {
+				scale: 1 0;
+			}
+		}
+	}
+}
+
+@layer mask {
+	[data-style='mask'] {
+		.resizer {
+			border-radius: 12px;
+			background: canvas;
 		}
 		.scroller {
 			--mask-size: 48px;
 			padding: 0;
 			background: transparent;
-			mask:
-			  linear-gradient(white, transparent) 50% 0 / 100% 0 no-repeat,
-			  linear-gradient(white, white) 50% 50% / 100% 100% no-repeat,
-			  linear-gradient(transparent, white) 50% 100% / 100% 100px no-repeat;
-			mask-composite: xor;
-			animation: mask-up both linear, mask-down both linear;
-			animation-timeline: scroll(self);
-			animation-range: 0 2rem, calc(100% - 2rem) 100%;
+			mask: linear-gradient(white, transparent) 50% 0 / 100% 0 no-repeat,
+				linear-gradient(white, white) 50% 50% / 100% 100% no-repeat,
+				linear-gradient(transparent, white) 50% 100% / 100% 100px no-repeat;
+			mask-composite: exclude;
+			mask-size:
+				100% calc((var(--scroll-progress-top) / 100) * 100px),
+				100% 100%,
+				100% calc((100 - (100 * (var(--scroll-progress-bottom) / 100))) * 1px);
 		}
 
 		.scroller p {
@@ -193,40 +308,49 @@
 		.indicator {
 			display: none;
 		}
-
 	}
-	@keyframes mask-up {
-		100% {
-			mask-size: 100% 100px, 100% 100%, 100% 100px;
+	@supports (animation-timeline: scroll()) {
+		[data-style='mask'] {
+			.scroller {
+				mask: linear-gradient(white, transparent) 50% 0 / 100% 0 no-repeat,
+					linear-gradient(white, white) 50% 50% / 100% 100% no-repeat,
+					linear-gradient(transparent, white) 50% 100% / 100% 100px no-repeat;
+				mask-composite: exclude;
+				animation: mask-up both linear, mask-down both linear;
+				animation-timeline: scroll(self);
+				animation-range: 0 2rem, calc(100% - 2rem) 100%;
+			}
+		}
+		@keyframes mask-up {
+			100% {
+				mask-size: 100% 100px, 100% 100%, 100% 100px;
+			}
+		}
+		@keyframes mask-down {
+			100% {
+				mask-size: 100% 100px, 100% 100%, 100% 0;
+			}
 		}
 	}
-	@keyframes mask-down {
-		100% {
-			mask-size: 100% 100px, 100% 100%, 100% 0;
-		}
-	}
-	
 }
 
-
-
 @layer socials {
-  .bear-link {
-    color: hsl(0 0% 100%);
-    position: fixed;
-    top: 1rem;
-    left: 1rem;
-    width: 48px;
-    aspect-ratio: 1;
-    display: grid;
-    place-items: center;
-    opacity: 0.8;
-  }
+	.bear-link {
+		color: currentColor;
+		position: fixed;
+		top: 1rem;
+		left: 1rem;
+		width: 48px;
+		aspect-ratio: 1;
+		display: grid;
+		place-items: center;
+		opacity: 0.8;
+	}
 
-  :where(.x-link, .bear-link):is(:hover, :focus-visible) {
-    opacity: 1;
-  }
-  .bear-link svg {
-    width: 75%;
-  }
+	:where(.x-link, .bear-link):is(:hover, :focus-visible) {
+		opacity: 1;
+	}
+	.bear-link svg {
+		width: 75%;
+	}
 }
