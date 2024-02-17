@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, maximum-scale=1.0" />
+    <title>has-pricing-forms</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <header>
+      <h1>make CSS do the things you want</h1>
+      <p>Get started now and get access to 100s of CSS tips and tricks</p>
+      <div class="plan-controls">
+        <svg class="bear bear--cool" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 325 348">
+  <path fill="#AF7128" fill-rule="evenodd" d="M69.98 75.61A36.86 36.86 0 0 1 78.84 3a36.84 36.84 0 0 1 32.85 20.15A84.63 84.63 0 0 1 152 13h20a84.62 84.62 0 0 1 40.15 10.06A36.84 36.84 0 1 1 254 75.56C255.96 82.71 257 90.23 257 98v68.12a28.86 28.86 0 0 1 12.54 9.7l37.41 50.7a29 29 0 0 1-46.67 34.44L257 256.5V323a22 22 0 0 1-22 22h-44a22 22 0 0 1-22-22v-28.69a40.96 40.96 0 0 1-14 .17V323a22 22 0 0 1-22 22H89a22 22 0 0 1-22-22v-66.26l-3.11 4.22a29 29 0 0 1-46.67-34.44l37.41-50.7A28.86 28.86 0 0 1 67 166.2V98a85.1 85.1 0 0 1 2.98-22.39Z" clip-rule="evenodd"/>
+  <path fill="#000" d="m69.98 75.61 2.9.79a3 3 0 0 0-2.18-3.7l-.72 2.91Zm41.71-52.46-2.67 1.36a3 3 0 0 0 4.1 1.28l-1.43-2.64Zm100.46-.1-1.42 2.65a3 3 0 0 0 4.09-1.27l-2.67-1.37ZM254 75.57l-.74-2.9a3 3 0 0 0-2.16 3.7l2.9-.8Zm2.99 90.56h-3a3 3 0 0 0 1.89 2.79l1.11-2.79Zm12.54 9.7-2.41 1.79 2.41-1.78Zm37.41 50.7 2.42-1.78-2.42 1.78Zm-6.11 40.55 1.78 2.42-1.78-2.42Zm-40.56-6.11-2.41 1.78 2.41-1.78ZM257 256.5l2.41-1.78a3 3 0 0 0-5.41 1.78h3Zm-88 37.8h3a3 3 0 0 0-3.55-2.95l.55 2.95Zm-14 .17.47-2.96a3 3 0 0 0-3.47 2.96h3Zm-88-37.74h3a3 3 0 0 0-5.41-1.78l2.41 1.78Zm-3.11 4.22 2.41 1.78-2.41-1.78Zm-40.56 6.11-1.78 2.42 1.78-2.42Zm-6.11-40.55 2.41 1.78-2.41-1.78Zm37.41-50.7-2.41-1.78 2.41 1.79ZM67 166.2l1.13 2.78A3 3 0 0 0 70 166.2h-3ZM39 39.84c0 18.7 12.89 34.4 30.26 38.68l1.44-5.82A33.86 33.86 0 0 1 45 39.84h-6ZM78.84 0C56.84 0 39 17.84 39 39.84h6A33.84 33.84 0 0 1 78.84 6V0Zm35.53 21.79A39.84 39.84 0 0 0 78.84 0v6a33.84 33.84 0 0 1 30.18 18.5l5.35-2.71ZM152 10c-15.1 0-29.31 3.8-41.73 10.5l2.85 5.29A81.62 81.62 0 0 1 152 16v-6Zm20 0h-20v6h20v-6Zm41.56 10.42A87.63 87.63 0 0 0 172 10v6c14.01 0 27.2 3.51 38.73 9.7l2.84-5.28ZM244.97 0a39.84 39.84 0 0 0-35.48 21.7l5.34 2.73A33.84 33.84 0 0 1 244.95 6V0Zm39.83 39.84c0-22-17.83-39.84-39.84-39.84v6a33.84 33.84 0 0 1 33.84 33.84h6Zm-30.05 38.63a39.86 39.86 0 0 0 30.05-38.63h-6a33.86 33.86 0 0 1-25.52 32.81l1.47 5.82ZM260 98c0-8.04-1.08-15.82-3.1-23.23l-5.79 1.58A82.08 82.08 0 0 1 254 98h6Zm0 68.12V98h-6v68.12h6Zm-4.11 2.79a25.87 25.87 0 0 1 11.24 8.7l4.83-3.57a31.86 31.86 0 0 0-13.85-10.7l-2.22 5.57Zm11.24 8.7 37.4 50.69 4.84-3.56-37.41-50.7-4.83 3.57Zm37.4 50.69a26 26 0 0 1-5.47 36.36l3.56 4.82a32 32 0 0 0 6.75-44.75l-4.83 3.57Zm-5.47 36.36a26 26 0 0 1-36.36-5.48l-4.83 3.56a32 32 0 0 0 44.75 6.75l-3.56-4.83Zm-36.36-5.48-3.29-4.45-4.82 3.56 3.28 4.45 4.83-3.56ZM260 276v-19.5h-6V276h6Zm0 47v-47h-6v47h6Zm-25 25a25 25 0 0 0 25-25h-6a19 19 0 0 1-19 19v6Zm-44 0h44v-6h-44v6Zm-25-25a25 25 0 0 0 25 25v-6a19 19 0 0 1-19-19h-6Zm0-28.69V323h6v-28.69h-6Zm-4.5 3.69c2.74 0 5.43-.25 8.05-.74l-1.1-5.9c-2.26.42-4.58.64-6.95.64v6Zm-6.97-.55c2.27.36 4.6.55 6.97.55v-6c-2.05 0-4.06-.16-6.03-.48l-.94 5.93ZM158 323v-28.52h-6V323h6Zm-25 25a25 25 0 0 0 25-25h-6a19 19 0 0 1-19 19v6Zm-44 0h44v-6H89v6Zm-25-25a25 25 0 0 0 25 25v-6a19 19 0 0 1-19-19h-6Zm0-47v47h6v-47h-6Zm0-19.26V276h6v-19.26h-6Zm2.3 6 3.11-4.22-4.82-3.56-3.12 4.22 4.83 3.56Zm-44.75 6.75a32 32 0 0 0 44.75-6.75l-4.83-3.56a26 26 0 0 1-36.35 5.48l-3.57 4.82Zm-6.74-44.75a32 32 0 0 0 6.74 44.75l3.57-4.83a26 26 0 0 1-5.49-36.36l-4.82-3.56Zm37.4-50.7-37.4 50.7 4.82 3.56 37.41-50.7-4.82-3.56Zm13.66-10.63a31.87 31.87 0 0 0-13.65 10.63l4.82 3.57c2.95-4 6.82-6.9 11.1-8.64l-2.27-5.56ZM64 98v68.2h6V98h-6Zm3.09-23.18A88.1 88.1 0 0 0 64 98h6c0-7.48 1-14.72 2.87-21.6l-5.78-1.58Z"/>
+  <path fill="#FF1E1E" d="M117.32 70.67h88.37v13.25h-88.37z"/>
+  <path fill="#000" fill-rule="evenodd" d="M229.3 29.48c17.94 14.4 28.02 37.15 28.02 57.5h-61.65a24.88 24.88 0 0 0-24.88-24.72h-18.56A24.88 24.88 0 0 0 127.34 87H66c0-20.36 10.08-43.12 28.02-57.5C111.96 15.08 136.29 7 161.66 7c25.37 0 49.7 8.09 67.64 22.48Z" clip-rule="evenodd"/>
+  <circle cx="216.66" cy="113.08" r="8.08" fill="#000"/>
+  <circle cx="108.08" cy="113.08" r="8.08" fill="#000"/>
+  <path fill="#000" d="M183.16 127.68c0 8.21-9.86 17.45-20.84 17.45s-20.84-9.24-20.84-17.45c0-8.2 9.86-12.28 20.84-12.28s20.84 4.07 20.84 12.28Z"/>
+  <path stroke="#000" stroke-linecap="round" stroke-width="6" d="M201 333v12M225 333v12M98 333v12M122 333v12"/>
+  <circle cx="217" cy="113" r="21" fill="#000" stroke="#000" stroke-width="4"/>
+  <circle cx="108" cy="113" r="21" fill="#000" stroke="#000" stroke-width="4"/>
+  <path stroke="#000" stroke-width="4" d="M129 111.5s20.3-4.5 33.5-4.5 33.5 4.5 33.5 4.5M231.72 111.46l24-10M91.28 111.46l-24-10"/>
+  <path fill="#000" d="M27.54 251.78a3 3 0 1 0-4.83-3.56l4.83 3.56Zm-7.13 9.66 7.13-9.66-4.83-3.56-7.12 9.65 4.82 3.57ZM39.6 260.69a3 3 0 0 0-4.82-3.56l4.83 3.56Zm-7.12 9.65 7.13-9.65-4.83-3.56-7.12 9.65 4.82 3.56ZM291.05 256.78a3 3 0 0 0-4.1 4.4l4.1-4.4Zm8.78 8.18-8.78-8.18-4.1 4.4 8.79 8.17 4.09-4.39ZM301.27 245.8a3 3 0 0 0-4.1 4.4l4.1-4.4Zm8.78 8.18-8.78-8.17-4.1 4.38 8.79 8.18 4.09-4.39Z"/>
+  <mask id="a" width="46" height="46" x="85" y="90" maskUnits="userSpaceOnUse" style="mask-type:alpha">
+    <circle cx="108" cy="113" r="21" fill="#000" stroke="#000" stroke-width="4"/>
+  </mask>
+  <g fill="#D9D9D9" mask="url(#a)">
+    <path d="m105.52 82.52 8.43 3.16-18.52 49.42-8.42-3.15zM116.52 89l4.62 1.73-18.52 49.43-4.62-1.73z" opacity=".5"/>
+  </g>
+</svg>
+<svg class="bear bear--wave" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 325 348">
+  <path fill="#AF7128" fill-rule="evenodd" d="M42 39.84c0 17.3 11.91 31.8 27.98 35.77A85.1 85.1 0 0 0 67 98v48.62l-6.11-8.29a29 29 0 0 0-46.67 34.44l37.4 50.7a28.88 28.88 0 0 0 15.38 10.66V323a22 22 0 0 0 22 22h44a22 22 0 0 0 22-22v-28.52a41.07 41.07 0 0 0 14-.17V323a22 22 0 0 0 22 22h44a22 22 0 0 0 22-22v-66.5l3.28 4.46a29 29 0 0 0 46.67-34.44l-37.4-50.7a28.86 28.86 0 0 0-12.55-9.7V98c0-7.77-1.04-15.29-3-22.44A36.86 36.86 0 0 0 244.96 3c-14.3 0-26.7 8.15-32.8 20.06A84.62 84.62 0 0 0 172 13h-20a84.63 84.63 0 0 0-40.3 10.15A36.84 36.84 0 0 0 42 39.85Z" clip-rule="evenodd"/>
+  <path fill="#000" d="m69.98 75.61 2.9.79a3 3 0 0 0-2.18-3.7l-.72 2.91Zm-2.98 71-2.41 1.79a3 3 0 0 0 5.41-1.78h-3Zm-6.11-8.28-2.42 1.78 2.42-1.78Zm-40.56-6.11-1.78-2.41 1.78 2.41Zm-6.11 40.55 2.41-1.78-2.41 1.78Zm37.4 50.7 2.42-1.79-2.41 1.78Zm15.38 10.66h3a3 3 0 0 0-2.18-2.88l-.82 2.88Zm88 60.35.47-2.96a3 3 0 0 0-3.47 2.96h3Zm14-.17h3a3 3 0 0 0-3.55-2.95l.55 2.95Zm88-37.8 2.41-1.78a3 3 0 0 0-5.41 1.78h3Zm3.28 4.45-2.41 1.78 2.41-1.78Zm40.56 6.11 1.78 2.42-1.78-2.42Zm6.11-40.55 2.42-1.78-2.42 1.78Zm-37.4-50.7-2.42 1.79 2.41-1.78Zm-12.55-9.7h-3a3 3 0 0 0 1.89 2.79l1.11-2.79Zm-3-90.56-.73-2.9a3 3 0 0 0-2.16 3.7l2.9-.8Zm-41.85-52.5-1.42 2.64a3 3 0 0 0 4.09-1.27l-2.67-1.37Zm-100.46.09-2.67 1.36a3 3 0 0 0 4.1 1.28l-1.43-2.64Zm-41 49.55A33.86 33.86 0 0 1 45 39.84h-6c0 18.7 12.89 34.4 30.26 38.68l1.44-5.82ZM70 98c0-7.48 1-14.72 2.87-21.6l-5.78-1.58A88.1 88.1 0 0 0 64 98h6Zm0 48.62V98h-6v48.62h6Zm-11.53-6.5 6.12 8.28 4.82-3.56-6.1-8.29-4.84 3.56Zm-36.35-5.49a26 26 0 0 1 36.35 5.49l4.83-3.57a32 32 0 0 0-44.75-6.74l3.57 4.82ZM16.63 171a26 26 0 0 1 5.49-36.36l-3.57-4.82a32 32 0 0 0-6.74 44.75l4.82-3.57Zm37.41 50.7-37.4-50.7-4.83 3.57 37.4 50.69 4.83-3.57Zm13.78 9.56a25.87 25.87 0 0 1-13.78-9.57l-4.82 3.57a31.88 31.88 0 0 0 16.96 11.77l1.64-5.77ZM70 276v-41.87h-6V276h6Zm0 47v-47h-6v47h6Zm19 19a19 19 0 0 1-19-19h-6a25 25 0 0 0 25 25v-6Zm44 0H89v6h44v-6Zm19-19a19 19 0 0 1-19 19v6a25 25 0 0 0 25-25h-6Zm0-28.52V323h6v-28.52h-6Zm9.5-2.48c-2.05 0-4.06-.16-6.03-.48l-.94 5.93c2.27.36 4.6.55 6.97.55v-6Zm6.95-.64c-2.26.42-4.58.64-6.95.64v6c2.74 0 5.43-.25 8.05-.74l-1.1-5.9ZM172 323v-28.69h-6V323h6Zm19 19a19 19 0 0 1-19-19h-6a25 25 0 0 0 25 25v-6Zm44 0h-44v6h44v-6Zm19-19a19 19 0 0 1-19 19v6a25 25 0 0 0 25-25h-6Zm0-47v47h6v-47h-6Zm0-19.5V276h6v-19.5h-6Zm.59 1.79 3.28 4.45 4.83-3.56-3.29-4.45-4.82 3.56Zm3.28 4.45a32 32 0 0 0 44.75 6.75l-3.56-4.83a26 26 0 0 1-36.36-5.48l-4.83 3.56Zm44.75 6.75a32 32 0 0 0 6.75-44.75l-4.83 3.56a26 26 0 0 1-5.48 36.36l3.56 4.82Zm6.75-44.75-37.41-50.7-4.83 3.57 37.4 50.69 4.84-3.56Zm-37.41-50.7a31.86 31.86 0 0 0-13.85-10.7l-2.22 5.57a25.87 25.87 0 0 1 11.24 8.7l4.83-3.57ZM254 98v68.12h6V98h-6Zm-2.89-21.65A82.08 82.08 0 0 1 254 98h6c0-8.04-1.08-15.82-3.1-23.23l-5.79 1.58Zm27.68-36.5a33.86 33.86 0 0 1-25.52 32.8l1.47 5.82a39.86 39.86 0 0 0 30.05-38.63h-6ZM244.95 6a33.84 33.84 0 0 1 33.84 33.84h6c0-22-17.83-39.84-39.84-39.84v6Zm-30.13 18.43A33.84 33.84 0 0 1 244.95 6V0a39.84 39.84 0 0 0-35.47 21.7l5.34 2.73ZM172 16c14.01 0 27.2 3.51 38.73 9.7l2.84-5.28A87.63 87.63 0 0 0 172 10v6Zm-20 0h20v-6h-20v6Zm-38.88 9.79A81.62 81.62 0 0 1 152 16v-6c-15.1 0-29.31 3.8-41.73 10.5l2.85 5.29ZM78.84 6a33.84 33.84 0 0 1 30.18 18.5l5.35-2.71A39.84 39.84 0 0 0 78.84 0v6ZM45 39.84A33.84 33.84 0 0 1 78.84 6V0C56.84 0 39 17.84 39 39.84h6Z"/>
+  <path fill="#FF1E1E" d="M117.32 70.67h88.37v13.25h-88.37z"/>
+  <path fill="#000" fill-rule="evenodd" d="M229.3 29.48c17.94 14.4 28.02 37.15 28.02 57.5h-61.65a24.88 24.88 0 0 0-24.88-24.72h-18.56A24.88 24.88 0 0 0 127.34 87H66c0-20.36 10.08-43.12 28.02-57.5C111.96 15.08 136.29 7 161.66 7c25.37 0 49.7 8.09 67.64 22.48Z" clip-rule="evenodd"/>
+  <g class="eyes">
+    <circle cx="216.66" cy="113.08" r="8.08" fill="#000"/>
+    <circle cx="108.08" cy="113.08" r="8.08" fill="#000"/>
+  </g>
+  <path fill="#000" d="M183.16 127.68c0 8.21-9.86 17.45-20.84 17.45s-20.84-9.24-20.84-17.45c0-8.2 9.86-12.28 20.84-12.28s20.84 4.07 20.84 12.28Z"/>
+  <path stroke="#000" stroke-linecap="round" stroke-width="6" d="M201 333v12M225 333v12M98 333v12M122 333v12"/>
+  <path fill="#000" d="M30.96 140.8a3 3 0 1 0 4.38-4.1l-4.38 4.1Zm-8.2-8.75 8.2 8.76 4.38-4.1-8.2-8.76-4.38 4.1ZM20.01 151.06a3 3 0 0 0 4.38-4.1l-4.38 4.1Zm-8.2-8.75 8.2 8.75 4.38-4.1-8.2-8.76-4.38 4.1ZM290.19 257.22a3 3 0 0 0-4.38 4.1l4.38-4.1Zm8.21 8.74-8.21-8.74-4.38 4.1 8.22 8.75 4.37-4.1ZM301.12 246.95a3 3 0 1 0-4.38 4.1l4.38-4.1Zm8.21 8.74-8.21-8.74-4.38 4.1 8.22 8.75 4.38-4.11Z"/>
+</svg>
+        <div class="plan-toggle">
+          <input type="radio" name="plan" id="month" class="sr-only" checked></input>
+          <label for="month">Monthly</label>
+          <input type="radio" name="plan" id="annual" class="sr-only"></input>
+          <label for="annual">Annually</label>
+          <div class="plan-toggle__indicator indicator">
+            <div class="indicator__track">
+              <div for="month">Monthly</div>
+              <div for="annual">Annually</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="plans">
+        <strong>Save up to 28%</strong> when you subscribe annually 
+      </div>
+    </header>
+    <main>
+      <section>
+        <article>
+          <div>
+            <h2>Apprentice</h2>
+            <p>For those on a journey</p>
+          </div>
+          <div class="price price--apprenticeship">
+            <div class="register" aria-hidden="true">
+              <span>$</span>
+              <div class="digit">
+                <div class="digit__track">
+                  <div>9</div>
+                  <div>0</div>
+                  <div>1</div>
+                  <div>2</div>
+                  <div>3</div>
+                  <div>4</div>
+                  <div>5</div>
+                  <div>6</div>
+                  <div>7</div>
+                  <div>8</div>
+                  <div>9</div>
+                  <div>0</div>
+                </div>
+              </div>
+              <div class="digit">
+                <div class="digit__track">
+                  <div>9</div>
+                  <div>0</div>
+                  <div>1</div>
+                  <div>2</div>
+                  <div>3</div>
+                  <div>4</div>
+                  <div>5</div>
+                  <div>6</div>
+                  <div>7</div>
+                  <div>8</div>
+                  <div>9</div>
+                  <div>0</div>
+                </div>
+              </div>
+            </div>
+            <span class="sr-only">$14</span>
+            <span class="sr-only">$10</span>
+          </div>
+          <div class="billing">
+            <span aria-hidden="true">Billed monthly</span>
+            <span aria-hidden="true">Billed at $100 annually</span>
+            <span class="sr-only">Billed monthly</span>
+            <span class="sr-only">Billed at $100 annually</span>
+          </div>
+          <div class="actions">
+            <a href="#apprenticemonth">Begin Apprenticeship</a>
+            <a href="#apprenticeannual">Begin Apprenticeship</a>
+          </div>
+          <ul>
+            <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+  <path fill-rule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm3.857-9.809a.75.75 0 0 0-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z" clip-rule="evenodd" />
+</svg>
+Access entire library</li>
+            <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+  <path fill-rule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm3.857-9.809a.75.75 0 0 0-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z" clip-rule="evenodd" />
+</svg>
+Access all source code</li>
+            <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+  <path fill-rule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm3.857-9.809a.75.75 0 0 0-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z" clip-rule="evenodd" />
+</svg>
+Access to Discord</li>
+            <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+  <path fill-rule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm3.857-9.809a.75.75 0 0 0-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z" clip-rule="evenodd" />
+</svg>
+1 mentorship hour per month</li>
+            <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+  <path fill-rule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm3.857-9.809a.75.75 0 0 0-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z" clip-rule="evenodd" />
+</svg>
+2 demo requests</li>
+          </ul>
+        </article>
+        <article>
+          <div>
+            <h2>Master</h2>
+            <p>For those making the journey</p>
+          </div>
+          <div class="price price--mastery">
+            <div class="register" aria-hidden="true">
+              <span>$</span>
+              <div class="digit">
+                <div class="digit__track">
+                  <div>9</div>
+                  <div>0</div>
+                  <div>1</div>
+                  <div>2</div>
+                  <div>3</div>
+                  <div>4</div>
+                  <div>5</div>
+                  <div>6</div>
+                  <div>7</div>
+                  <div>8</div>
+                  <div>9</div>
+                  <div>0</div>
+                </div>
+              </div>
+              <div class="digit">
+                <div class="digit__track">
+                  <div>9</div>
+                  <div>0</div>
+                  <div>1</div>
+                  <div>2</div>
+                  <div>3</div>
+                  <div>4</div>
+                  <div>5</div>
+                  <div>6</div>
+                  <div>7</div>
+                  <div>8</div>
+                  <div>9</div>
+                  <div>0</div>
+                </div>
+              </div>
+            </div>
+            <span class="sr-only">$23</span>
+            <span class="sr-only">$16</span>
+          </div>
+          <div class="billing">
+            <span aria-hidden="true">Billed monthly</span>
+            <span aria-hidden="true">Billed at $160 annually</span>
+            <span class="sr-only">Billed monthly</span>
+            <span class="sr-only">Billed at $160 annually</span>
+          </div>
+          <div class="actions">
+            <a href="#masterymonth">Begin Mastery</a>
+            <a href="#masteryannual">Begin Mastery</a>
+          </div>
+          <ul>
+            <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+  <path fill-rule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm3.857-9.809a.75.75 0 0 0-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z" clip-rule="evenodd" />
+</svg>
+Access entire library</li>
+            <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+  <path fill-rule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm3.857-9.809a.75.75 0 0 0-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z" clip-rule="evenodd" />
+</svg>
+Access all source code</li>
+            <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+  <path fill-rule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm3.857-9.809a.75.75 0 0 0-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z" clip-rule="evenodd" />
+</svg>
+Access to Discord</li>
+            <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+  <path fill-rule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm3.857-9.809a.75.75 0 0 0-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z" clip-rule="evenodd" />
+</svg>
+2 mentorship hours per month</li>
+            <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+  <path fill-rule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm3.857-9.809a.75.75 0 0 0-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z" clip-rule="evenodd" />
+</svg>
+10 demo requests</li>
+          </ul>
+        </article>
+      </section>
+    </main>
+    <footer>
+      jhey &copy; 2024 ʕ – ᴥ – ʔ
+    </footer>
+    <svg class="balloon-bear" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 885 1059">
+      <rect width="115" height="52" x="527.5" y="961.5" fill="#AF7128" stroke="#000" stroke-width="6" rx="26" transform="rotate(-90 527.5 961.5)"/>
+      <path fill="#000" d="M551.67 948.2a3 3 0 1 0-6 0h6Zm0 12v-12h-6v12h6ZM564.34 948.2a3 3 0 1 0-6 0h6Zm0 12v-12h-6v12h6Z"/>
+      <path fill="#AF7128" d="M505.65 673.43a36.87 36.87 0 0 1 5.48-45.1 36.87 36.87 0 0 1 52.14.03 36.9 36.9 0 0 1 9.02 37.51A84.83 84.83 0 0 1 608 687.24l14.16 14.16a84.85 84.85 0 0 1 21.32 35.55 36.9 36.9 0 0 1 37.41 9.04 36.87 36.87 0 0 1 .04 52.14 36.87 36.87 0 0 1-44.94 5.59 84.97 84.97 0 0 1-13.74 17.98l-47.07 47.07-77.58 77.58a36.99 36.99 0 0 0-5.2 6.54l-15.77 25.2c-3.2 5.12-6.75 10.46-12.38 12.65a22.04 22.04 0 0 1-23.58-4.96l-13.11-11.85-7.4-6.86-9-9.24c-8.61-8.6-5.84-20.2-1.03-30.6l13.32-23.07c-2.05-1.4-4.71-4.7-6.52-6.5-1.56-1.56-3.05-4.79-4.31-6.53L397.3 912.3c-6.51 8.42-20.24 9.85-28.85 1.25l-26.2-25.53c-8.6-8.6-15.46-21.05-4.98-36.77l46.35-60a29.03 29.03 0 0 1-1.28-8.56l-.05-63.04a28.97 28.97 0 0 1 29-29 29.07 29.07 0 0 1 29.04 29.04l.01 14.83 47.37-47.37a84.96 84.96 0 0 1 17.94-13.72Z"/>
+      <path stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="6" d="m575.2 868.77 47.06-47.07A84.97 84.97 0 0 0 636 803.72a36.87 36.87 0 0 0 44.93-5.59 36.87 36.87 0 0 0-.04-52.13 36.9 36.9 0 0 0-37.41-9.05 84.85 84.85 0 0 0-21.32-35.55l-14.16-14.16a84.83 84.83 0 0 0-35.72-21.37 36.9 36.9 0 0 0-9.02-37.5 36.87 36.87 0 0 0-52.14-.04 36.87 36.87 0 0 0-5.48 45.1 84.96 84.96 0 0 0-17.94 13.73l-47.37 47.36V719.7a29.07 29.07 0 0 0-29.05-29.04 28.97 28.97 0 0 0-29 29l.05 63.04c0 2.98.45 5.85 1.28 8.55l-46.35 60.01c-10.48 15.72-3.62 28.17 4.98 36.77l26.2 25.53c8.6 8.6 22.34 7.17 28.85-1.25l15.33-21.17c1.26 1.74 2.75 4.97 4.3 6.53 1.82 1.8 4.48 5.1 6.53 6.5l-13.31 23.06c-4.82 10.4-7.6 22 1.01 30.61l9 9.24 7.4 6.86 13.12 11.85a22.04 22.04 0 0 0 23.58 4.96c5.63-2.19 9.18-7.53 12.38-12.65l15.76-25.2a36.99 36.99 0 0 1 5.21-6.54l39.81-39.82"/>
+      <path fill="#000" d="M411.78 705.19a3 3 0 0 0 6 0h-6Zm0-12.01v12l6 .01v-12l-6-.01ZM399.68 705.18a3 3 0 0 0 6 0h-6Zm-.01-12.01v12l6 .01v-12l-6-.01Z"/>
+      <path fill="#FF1E1E" d="m541.74 702.92 62.58 62.58-9.37 9.37-62.58-62.58z"/>
+      <path fill="#000" fill-rule="evenodd" d="M650.16 753.1c2.52 22.88-6.43 46.1-20.82 60.5l-43.66-43.66a24.88 24.88 0 0 0-.11-35.08l-13.2-13.19a24.88 24.88 0 0 0-35.08-.11l-43.43-43.44c14.39-14.4 37.62-23.35 60.5-20.82 22.88 2.52 45.83 14.03 63.8 32 17.96 17.97 29.47 40.91 32 63.8Z" clip-rule="evenodd"/>
+      <ellipse cx="582.1" cy="803.26" fill="#000" rx="8.09" ry="8.08" transform="rotate(45 582.1 803.26)"/>
+      <ellipse cx="505.2" cy="726.37" fill="#000" rx="8.09" ry="8.08" transform="rotate(45 505.2 726.37)"/>
+      <path fill="#000" d="M548.05 789.86c-5.8 5.8-19.33 5.36-27.1-2.42-7.78-7.77-8.23-21.3-2.43-27.1 5.81-5.8 15.68-1.7 23.45 6.08 7.77 7.77 11.88 17.64 6.08 23.44Z"/>
+      <path stroke="#000" stroke-linecap="round" stroke-width="6" d="m430.37 955.87-8.48 8.49M447.37 972.87l-8.49 8.48M357.44 882.93l-8.49 8.49M374.43 899.93l-8.49 8.49M426.5 821.5l-5-376"/>
+      <circle class="balloon-bear__balloon" cx="421.5" cy="273.5" r="169" fill-opacity=".5" stroke="#000" stroke-width="6"/>
+      <path class="balloon-bear__balloon" fill-opacity=".5" stroke="#000" stroke-linejoin="round" stroke-width="6" d="M405.5 444.5H437l9.5 20h-50l9-20Z"/>
+      <path stroke="#000" stroke-linecap="round" stroke-width="6" d="m380 757 62-42"/>
+      <path stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".5" stroke-width="30" d="M384.12 142.74a136 136 0 0 0-98.13 119.17"/>
+    </svg>
+    <a class="bear-link" href="https://twitter.com/intent/follow?screen_name=jh3yy" target="_blank" rel="noreferrer noopener">
+      <svg class="w-9" viewBox="0 0 969 955" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="161.191" cy="320.191" r="133.191" stroke="currentColor" stroke-width="20"></circle>
+        <circle cx="806.809" cy="320.191" r="133.191" stroke="currentColor" stroke-width="20"></circle>
+        <circle cx="695.019" cy="587.733" r="31.4016" fill="currentColor"></circle>
+        <circle cx="272.981" cy="587.733" r="31.4016" fill="currentColor"></circle>
+        <path d="M564.388 712.083C564.388 743.994 526.035 779.911 483.372 779.911C440.709 779.911 402.356 743.994 402.356 712.083C402.356 680.173 440.709 664.353 483.372 664.353C526.035 664.353 564.388 680.173 564.388 712.083Z" fill="currentColor"></path>
+        <rect x="310.42" y="448.31" width="343.468" height="51.4986" fill="#FF1E1E"></rect>
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M745.643 288.24C815.368 344.185 854.539 432.623 854.539 511.741H614.938V454.652C614.938 433.113 597.477 415.652 575.938 415.652H388.37C366.831 415.652 349.37 433.113 349.37 454.652V511.741L110.949 511.741C110.949 432.623 150.12 344.185 219.845 288.24C289.57 232.295 384.138 200.865 482.744 200.865C581.35 200.865 675.918 232.295 745.643 288.24Z" fill="currentColor"></path>
+      </svg>
+    </a>
+    <script type="module" src="./script.js"></script>
+  </body>
+</html>
