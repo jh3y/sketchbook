@@ -98,7 +98,8 @@ DigitalRain.prototype.init = function () {
   self.renderMatrix = () => self.render()
   self.resetOnSize = () => self.reset()
   window.addEventListener('resize', self.resetOnSize)
-  gsap.ticker.add(self.renderMatrix)
+  // gsap.ticker.add(self.renderMatrix)
+  self.renderMatrix()
   gsap.ticker.fps(self.options.fps)
   self.pause = () => {
     gsap.ticker.remove(self.renderMatrix)
@@ -111,11 +112,11 @@ DigitalRain.prototype.init = function () {
 DigitalRain.prototype.getColor = function (
   x,
   y,
-  { active, hue, row, len, lastLen, lastDestination, tailCounter }
+  { active, hue, row, len, lastLen, lastDestination, low, tailCounter }
 ) {
   const self = this
   // If y > row but less than last destination, work out the color as if row === column.lastDestination
-  const lower = 0.1
+  const lower = low
   const upper = 1
   let alpha = 0.1
 
@@ -155,6 +156,32 @@ DigitalRain.prototype.isCellLabel = function ({ x, y }) {
   return false
 }
 
+DigitalRain.prototype.isCellColumn = function(x) {
+  const self = this
+  const mid = Math.floor((self.columns - 1) * 0.5)
+  const low = mid - self.options.word.length * 0.5
+  const high = mid + self.options.word.length * 0.5
+  if (x > low && x <= high) return true
+  return false
+}
+
+DigitalRain.prototype.triggerColumns = function() {
+  const self = this
+  // Work out which column entries are the ones that need reps setting on them
+  const mid = Math.floor((self.columns - 1) * 0.5)
+  const low = mid - self.options.word.length * 0.5
+  const high = mid + self.options.word.length * 0.5
+  for (let i = 0; i < self.tracker.length; i++) {
+    // if (i > low || i <= high) {
+    //   self.tracker[i].reps = 3
+    //   self.tracker[i].active = true
+    // } else {
+      self.tracker[i].reps = 2
+      self.tracker[i].active = true
+    // }
+  }
+}
+
 DigitalRain.prototype.render = function () {
   const self = this
   self.context.clearRect(0, 0, self.canvas.width, self.canvas.height)
@@ -165,6 +192,11 @@ DigitalRain.prototype.render = function () {
     const column = self.tracker[x]
 
     if (!self.active && !self.isCellLabel({ x, y })) continue
+
+    // if (!self.isCellColumn(x) && self.tailoff && !column.active) {
+    //   column.active = true
+    //   column.reps = 3
+    // }
 
     // On the first row, let's bump the index
     if (y === 0 && Math.random() > 0.1) {
@@ -178,8 +210,7 @@ DigitalRain.prototype.render = function () {
     const row = column.row
     const chars = column[y > row ? 'cacheChars' : 'chars']
 
-
-    self.context.fillStyle = self.getColor(x, y, column)
+    self.context.fillStyle = self.getColor(x, y, {...column, low: column.complete ? 0 : 0.1 })
 
     if (chars[y] || self.isCellLabel({ x, y })) {
       if (Math.random() > 0.999 && y > row) {
@@ -204,28 +235,53 @@ DigitalRain.prototype.render = function () {
 
       let char = chars[y]
       if (self.isCellLabel({ x, y }) && !column.active) {
+        // How does this cater to odd name lengths...
         char =
           self.options.word.split('')[
             x -
               1 -
               (Math.floor((self.columns - 1) * 0.5) - self.options.word.length * 0.5)
           ]
-        if (self.active && column.row === 8) {
+        // This part triggers it into reps and wipes out the first word
+        if (self.active && column.row === Math.floor(self.rows * 0.5) && !column.complete) {
+          self.wiped += 1
+          if (self.wiped === self.options.word.length) {
+            console.info('at this point, need to set the new columns or make every column active....')
+            // Think at this point, you calculate which columns need to be set and set them after the word
+            // Issue here is to do with swapping the letters and the new columns need to be introduced
+            self.options.word = 'STEPHANIE'
+            self.triggerColumns()
+          }
+          // column.reps = 3
           column.active = true
-          // char = 'X'
+        }
+      }
+
+      // If it's an active column and it's a cellLabel then we can count the reps
+      if (column.row === Math.floor(self.rows * 0.5) && !column.complete && column.reps) {
+        column.reps -= 1
+        if (column.reps === 0) {
+          column.active = false
+          column.complete = true
         }
       }
 
       self.context.fillText(
-        char,
-        (x + 0.5) * self.fontSize,
-        (y + 0.25) * self.fontSize,
+        char || 'X',
+        (x + 0.34) * self.fontSize,
+        (y + 0.3) * self.fontSize,
         self.fontSize
       )
     }
     // Reset the column if we go past destination
     if (row > column.destination) {
-      self.tracker[x] = self.setColumn(column)
+
+      if (!column.complete) self.tracker[x] = self.setColumn(column)
+      if (column.complete && !column.dormant) {
+        column.dormant = true
+        self.completed += 1
+        if (self.completed === self.columns) console.info('word is complete')
+      }
     }
   }
 }
@@ -235,12 +291,31 @@ DigitalRain.prototype.activate = function () {
   self.active = true
 }
 
+DigitalRain.prototype.switchWord = function(word, iterations = 1) {
+  const self = this
+  // Used to track the number of columns that have been wiped out
+  self.wiped = 0
+  self.completed = 0
+  self.active = true
+  self.play()
+  // When you want to switch word. You do this:
+  /**
+   * 1. Set the render to active.
+   * 2. self.active = true
+   * 3. self.play()
+   * 4. Then you want to cast out the current word
+   * 5. self.word becomes self.newWord
+   * 6. Once that's settled self.word and self.newWord === undefined
+   * 7. self.pause()
+   * */
+}
+
 // Not gonna need this as it's for resetting the sizes
 DigitalRain.prototype.setSize = function () {
   const self = this
   const { height, width } = self.canvas.getBoundingClientRect()
-  self.canvas.height = height * 0.5 * self.__ratio
-  self.canvas.width = width * 0.5 * self.__ratio
+  self.canvas.height = height * 1 * self.__ratio
+  self.canvas.width = width * 1 * self.__ratio
   // Set the font size and get the rows/columns
   self.fontSize = Math.ceil(
     typeof self.size === 'function' ? self.size() : self.size
@@ -256,12 +331,17 @@ DigitalRain.prototype.setSize = function () {
 window.myDigitalRain = new DigitalRain(CANVAS, {
   ...DEFAULT_OPTIONS,
   word: 'DOWNLOAD',
+  // successWord: 'DOWNLOADED',
   // Start word and end word can switch between them
 })
 
+// It should be a method like switch word... 
+// With the iteration count on the end
+// myDigitalRain.switchWord('DOWNLOADED', 3)
+
 const BUTTON = document.querySelector('button')
 const DOWNLOAD = () => {
-  myDigitalRain.activate()
+  myDigitalRain.switchWord('DOWNLOADED', 3)
 }
 BUTTON.addEventListener('click', DOWNLOAD)
 

@@ -11,6 +11,7 @@ body {
 	place-items: center;
 	min-height: 100vh;
 	background: hsl(0 0% 15%);
+	scale: 2;
 }
 
 canvas {
@@ -34,7 +35,7 @@ button {
 	position: relative;
 	font-size: 16px;
 	border: 2px solid lime;
-	scale: 2;
+	scale: 1;
 }
 
 button span {
@@ -46,5 +47,6 @@ button span {
 	letter-spacing: 6px;
 	/* Hide the text	*/
 	opacity: 0;
-	padding-left: 6px;
+	text-indent: 6px;
+	color: red;
 }

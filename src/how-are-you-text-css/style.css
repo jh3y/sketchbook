@@ -1,0 +1,101 @@
+@import "normalize.css";
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	font-family:  "SF Pro Text", "SF Pro Icons", "AOS Icons", "Helvetica Neue", Helvetica, Arial, sans-serif, system-ui;
+	background: hsl(0 0% 2%);
+}
+
+h1 {
+	--font-size: clamp(2rem, 4vw + 1rem, 8rem);
+	font-size: var(--font-size);
+	color: white;
+}
+
+svg {
+	position: fixed;
+	bottom: 100%;
+}
+
+.sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border-width: 0;
+}
+
+.wave {
+	perspective: calc(var(--perspective) * 1px);
+	transform-style: preserve-3d;
+	display: inline-block;
+}
+
+.wave span {
+	display: inline-block;
+	transform-style: preserve-3d;
+	animation:
+		wave calc(var(--speed) * 1s) infinite,
+		hinge calc(var(--speed) * 1s) infinite,
+		sway calc(var(--speed) * 1s) infinite,
+		float calc(var(--speed) * 1s) infinite;
+	transform-origin: 100% 50%;
+	animation-delay: calc(
+    sin((var(--index) / var(--count)) * 45deg)
+    * 1 * (var(--stagger) * 1s)
+  );
+}
+
+@keyframes wave {
+	25% {
+		color: hsl(0 0% 90%);
+	}
+	0%, 10%, 40%, 100% {
+		color: var(--color);
+	}
+}
+
+@keyframes hinge {
+	12.5% {
+		rotate: y calc(var(--rotation) * 1deg);
+	}
+	37.5% {
+		rotate: y calc(var(--rotation) * -1deg);
+	}
+	50%, 100% {
+		rotate: y 0deg;
+	}
+}
+
+@keyframes sway {
+	12.5% {
+		translate: 10% 0;
+	}
+	37.5% {
+		translate: -10% 0;
+	}
+	50%, 100% {
+		translate: 0 0;
+	}
+}
+
+@keyframes float {
+	25% {
+		transform: translate3d(0, 0, calc(var(--depth) * 1px));
+	}
+	50%, 100% {
+		transform: translate3d(0, 0, 0);
+	}
+}
