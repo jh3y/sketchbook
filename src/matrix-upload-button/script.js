@@ -9,7 +9,7 @@ const CANVAS = document.querySelector('button canvas')
  * */
 
 const DEFAULT_OPTIONS = {
-  size: 16 * window.devicePixelRatio,
+  size: 20 * window.devicePixelRatio,
   family: 'JetBrains Mono, monospace',
   fps: 24,
   hue: 120,
@@ -172,18 +172,14 @@ DigitalRain.prototype.triggerColumns = function() {
   const low = mid - self.options.word.length * 0.5
   const high = mid + self.options.word.length * 0.5
   for (let i = 0; i < self.tracker.length; i++) {
-    // if (i > low || i <= high) {
-    //   self.tracker[i].reps = 3
-    //   self.tracker[i].active = true
-    // } else {
-      self.tracker[i].reps = 2
-      self.tracker[i].active = true
-    // }
+    self.tracker[i].reps = self.__iterations
+    self.tracker[i].active = true
   }
 }
 
 DigitalRain.prototype.render = function () {
   const self = this
+  console.info(new Date().toUTCString())
   self.context.clearRect(0, 0, self.canvas.width, self.canvas.height)
   // Need to try and iterate over every cell in the Matrix...
   for (let c = 0; c < self.characters; c++) {
@@ -192,11 +188,6 @@ DigitalRain.prototype.render = function () {
     const column = self.tracker[x]
 
     if (!self.active && !self.isCellLabel({ x, y })) continue
-
-    // if (!self.isCellColumn(x) && self.tailoff && !column.active) {
-    //   column.active = true
-    //   column.reps = 3
-    // }
 
     // On the first row, let's bump the index
     if (y === 0 && Math.random() > 0.1) {
@@ -226,33 +217,21 @@ DigitalRain.prototype.render = function () {
           self.glyphs[gsap.utils.random(0, self.glyphs.length - 1, 1)]
       }
 
-      // self.columns === 16 then half is 8
-      // 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
-      // [5, 6, 7, 8, 9, 10]
-
-      // Gotta work out what happens here.
-      // Go active then it can be scrubbed.
-
       let char = chars[y]
       if (self.isCellLabel({ x, y }) && !column.active) {
-        // How does this cater to odd name lengths...
-        char =
-          self.options.word.split('')[
-            x -
-              1 -
-              (Math.floor((self.columns - 1) * 0.5) - self.options.word.length * 0.5)
-          ]
+
+        let charIndex = x - (Math.floor((self.columns - 1) * 0.5) - (self.options.word.length * 0.5))
+        char = self.options.word.split('')[Number.isInteger(charIndex) ? charIndex - 1 : Math.floor(charIndex)]
+
         // This part triggers it into reps and wipes out the first word
         if (self.active && column.row === Math.floor(self.rows * 0.5) && !column.complete) {
           self.wiped += 1
           if (self.wiped === self.options.word.length) {
-            console.info('at this point, need to set the new columns or make every column active....')
             // Think at this point, you calculate which columns need to be set and set them after the word
             // Issue here is to do with swapping the letters and the new columns need to be introduced
-            self.options.word = 'STEPHANIE'
+            self.options.word = self.__word
             self.triggerColumns()
           }
-          // column.reps = 3
           column.active = true
         }
       }
@@ -280,34 +259,37 @@ DigitalRain.prototype.render = function () {
       if (column.complete && !column.dormant) {
         column.dormant = true
         self.completed += 1
-        if (self.completed === self.columns) console.info('word is complete')
+        if (self.completed === self.columns) {
+          // At this point, reset everything.
+          self.rebase()
+        }
       }
     }
   }
 }
 
-DigitalRain.prototype.activate = function () {
+DigitalRain.prototype.rebase = function () {
   const self = this
-  self.active = true
-}
+  self.active = false
+  if (self.__cb) self.__cb()
+  self.pause()
+  self.renderMatrix()
+} 
 
-DigitalRain.prototype.switchWord = function(word, iterations = 1) {
+DigitalRain.prototype.switchWord = function(word, iterations = 1, callback) {
   const self = this
   // Used to track the number of columns that have been wiped out
   self.wiped = 0
+  // In here, we need to reset all the columns
+  for (let c = 0; c < self.columns; c++) {
+    self.tracker[c] = self.setColumn({})
+  }
+  self.__word = word
+  self.__iterations = iterations
+  self.__cb = callback
   self.completed = 0
   self.active = true
   self.play()
-  // When you want to switch word. You do this:
-  /**
-   * 1. Set the render to active.
-   * 2. self.active = true
-   * 3. self.play()
-   * 4. Then you want to cast out the current word
-   * 5. self.word becomes self.newWord
-   * 6. Once that's settled self.word and self.newWord === undefined
-   * 7. self.pause()
-   * */
 }
 
 // Not gonna need this as it's for resetting the sizes
@@ -331,17 +313,22 @@ DigitalRain.prototype.setSize = function () {
 window.myDigitalRain = new DigitalRain(CANVAS, {
   ...DEFAULT_OPTIONS,
   word: 'DOWNLOAD',
-  // successWord: 'DOWNLOADED',
-  // Start word and end word can switch between them
 })
 
 // It should be a method like switch word... 
 // With the iteration count on the end
 // myDigitalRain.switchWord('DOWNLOADED', 3)
-
+let set = false
 const BUTTON = document.querySelector('button')
 const DOWNLOAD = () => {
-  myDigitalRain.switchWord('DOWNLOADED', 3)
+  if (set) {
+    myDigitalRain.switchWord('COMPLETE', 3, () => set = true)
+  } else {
+    myDigitalRain.switchWord('DOWNLOADED', 3, () => {
+      console.info('downloaded')
+      set = true
+    })
+  }
 }
 BUTTON.addEventListener('click', DOWNLOAD)
 
@@ -372,3 +359,14 @@ BUTTON.addEventListener('click', DOWNLOAD)
  * 
  * 
  * */
+
+// When you want to switch word. You do this:
+  /**
+   * 1. Set the render to active.
+   * 2. self.active = true
+   * 3. self.play()
+   * 4. Then you want to cast out the current word
+   * 5. self.word becomes self.newWord
+   * 6. Once that's settled self.word and self.newWord === undefined
+   * 7. self.pause()
+   * */

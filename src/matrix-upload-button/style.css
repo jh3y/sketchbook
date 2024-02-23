@@ -6,6 +6,10 @@
 	box-sizing: border-box;
 }
 
+html {
+	font-size: 20px;
+}
+
 body {
 	display: grid;
 	place-items: center;
@@ -33,7 +37,7 @@ button {
 	padding: 1rem 2rem;
 	background: transparent;
 	position: relative;
-	font-size: 16px;
+	font-size: 20px;
 	border: 2px solid lime;
 	scale: 1;
 }
