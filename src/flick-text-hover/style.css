@@ -1,0 +1,195 @@
+@import "normalize.css";
+
+@font-face {
+  font-family: "Geist Mono";
+  src: url(https://assets.codepen.io/605876/GeistMonoVariableVF.ttf);
+}
+
+*,
+*::before,
+*::after {
+	transform-style: preserve-3d;
+}
+
+body {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  font-family: "Geist Mono", monospace;
+  background: hsl(0 0% 2%);
+  color-scheme: dark only;
+}
+
+body::before {
+	--line: hsl(0 0% 95% / 0.15);
+	--size: 60px;
+	content: "";
+	height: 100vh;
+	width: 100vw;
+	position: fixed;
+	background:
+		linear-gradient(90deg, var(--line) 1px, transparent 1px var(--size)) 50% 50% / var(--size) var(--size),
+		linear-gradient(var(--line) 1px, transparent 1px var(--size)) 50% 50% / var(--size) var(--size);
+	mask: linear-gradient(-15deg, transparent 30%, white);
+	top: 0;
+	transform-style: flat;
+	pointer-events: none;
+	z-index: -1;
+}
+
+button {
+  font-family: "Geist Mono", monospace;
+  text-transform: uppercase;
+  color: canvasText;
+  padding: 1rem 2rem;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  position: relative;
+  line-height: 1.5;
+  transform-style: preserve-3d;
+}
+
+button::after {
+  content: ""; 
+  position: absolute;
+  inset: 0;
+  background: hsl(0 0% 100%);
+  opacity: calc(var(--intent, 0) * 0.0875);
+  transition: opacity 0.2s;
+}
+
+button:is(:hover, :focus-visible) {
+  --intent: 1;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+button > span:not(.sr-only) {
+  position: relative;
+  color: transparent;
+}
+
+button > span:not(.sr-only)::after {
+  content: attr(data-char);
+  position: absolute;
+  display: inline-block;
+  inset: 0;
+  color: canvasText;
+}
+
+button:is(:hover, :focus-visible) > span:not(.sr-only)::after {
+  animation: flash calc(var(--speed, 0.25) * 1s) calc(var(--index, 0) * 0.05s) steps(1, end);
+}
+
+@keyframes flash {
+  0%, 20%   { content: '_'; }
+  40%  { content: var(--char-1); }
+  60%  { content: var(--char-2); }
+  80%  { content: var(--char-3); }
+}
+
+[data-explode=true] button:is(:hover, :focus-visible) {
+	--intent: 0;
+}
+
+[data-explode=true]:has(button:is(:hover, :focus-visible)) .dummy {
+	--intent: 1;
+}
+
+[data-explode=true] #app {
+	transform: translate3d(0, 0, 100vmin) rotateX(-24deg) rotateY(40deg);
+}
+
+[data-explode=true] button {
+	scale: 2.4;
+}
+
+button:not(.dummy)::before {
+	content: ".char ::after";
+	position: absolute;
+	left: 100%;
+	white-space: nowrap;
+	translate: 0 -50%;
+	transform-origin: 0 50%;
+	scale: 0.5;
+	top: 50%;
+	text-transform: none;
+	pointer-events: none;
+	opacity: 0;
+}
+
+[data-explode=true] #app {
+	transition: transform 0.5s 1s;
+}
+
+[data-explode=true] button {
+	transform: translate3d(0, 0, 50px);
+	transition: transform 0.5s 2s, scale 0.5s 0s;
+}
+
+[data-explode=true] .dummy {
+	opacity: 1;
+	transform: translate3d(0, 0, -50px);
+	transition: transform 0.5s 2s, scale 0.5s 0s, opacity 0s 0s;
+}
+
+[data-explode=true] button:not(.dummy)::before {
+	opacity: 1;
+	transition: opacity 1s 3s;
+}
+
+button:not(.dummy)::before {
+	transition: opacity 0.5s 0s;
+}
+
+button {
+	transition: transform 0.5s 1s, scale 0.5s 3s, opacity 0s 3s;
+}
+
+#app {
+	transform: translate3d(0, 0, 100vmin) rotateX(0deg) rotateY(0deg);
+	transition: transform 0.5s 2s;
+}
+
+.dummy {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	translate: -50% -50%;
+	white-space: nowrap;
+	opacity: 0;
+	pointer-events: none;
+	color: hsl(0 0% 100% / 0.5);
+}
+
+/* Social */
+.bear-link {
+	color: canvasText;
+	position: fixed;
+	bottom: 1rem;
+	left: 1rem;
+	width: 48px;
+	aspect-ratio: 1;
+	display: grid;
+	place-items: center;
+	opacity: 0.8;
+}
+
+:where(.x-link, .bear-link):is(:hover, :focus-visible) {
+	opacity: 1;
+}
+.bear-link svg {
+	width: 75%;
+}
+
