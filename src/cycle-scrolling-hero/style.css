@@ -12,3 +12,22 @@ body {
 	min-height: 100vh;
 	font-family:  "SF Pro Text", "SF Pro Icons", "AOS Icons", "Helvetica Neue", Helvetica, Arial, sans-serif, system-ui;
 }
+
+header {
+	min-height: 200vh;
+	position: relative;
+	width: 100%;
+}
+
+.content {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 100vh;
+	width: 100vw;
+	background: red;
+	display: grid;
+	place-items: center;
+
+}
