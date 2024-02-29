@@ -14,35 +14,71 @@ body {
 	display: grid;
 	place-items: center;
 	min-height: 100vh;
-	background: hsl(0 0% 15%);
-	scale: 2;
+	background: hsl(0 0% 2%);
+	color: hsl(0 0% 100%);
 }
 
 canvas {
-	background: hsl(0 0% 5%);
+	background: hsl(0 0% 0%);
 	position: absolute;
 	width: 16rem;
 	aspect-ratio: 1;
 	top: 50%;
 	left: 50%;
 	translate: -50% -50%;
-/*  transform: rotateY(180deg);*/
-  z-index: -1;
   border-radius: 6px;
+}
+
+.canvas-container {
+	position: absolute;
+	inset: 0;
+	container-type: size;
 }
 
 button {
 	border-radius: 6px;
-/*	overflow: hidden;*/
-	padding: 1rem 2rem;
+	padding: 2rem 4rem;
 	background: transparent;
 	position: relative;
 	font-size: 20px;
-	border: 2px solid lime;
 	scale: 1;
+	cursor: pointer;
+	border: 0;
 }
 
-button span {
+.canvas-wrap {
+	height: 100%;
+	border: 1px solid hsl(0 0% 100% / 0.65);
+	width: 100%;
+	display: inline-block;
+	transition: width 0.2s, height 0.2s;
+	overflow: hidden;
+	left: 50%;
+	top: 50%;
+	translate: -50% -50%;
+	position: relative;
+	border-radius: 6px;
+}
+
+
+button:is(:hover, :focus-visible):not([disabled]) {
+	--active: 1;
+}
+
+button[disabled] .canvas-wrap {
+	width: 16rem;
+	height: 16rem;
+}
+
+button .canvas-wrap::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: hsl(0 0% 100% / 0.025);
+	opacity: var(--active, 0);
+}
+
+button > span:not(.canvas-container) {
 	z-index: 5;
 	font-family: "JetBrains Mono", monospace;
 	font-weight: bold;
@@ -52,5 +88,24 @@ button span {
 	/* Hide the text	*/
 	opacity: 0;
 	text-indent: 6px;
-	color: red;
+}
+
+
+.bear-link {
+	color: currentColor;
+	position: fixed;
+	top: 1rem;
+	left: 1rem;
+	width: 48px;
+	aspect-ratio: 1;
+	display: grid;
+	place-items: center;
+	opacity: 0.8;
+}
+
+:where(.x-link, .bear-link):is(:hover, :focus-visible) {
+	opacity: 1;
+}
+.bear-link svg {
+	width: 75%;
 }

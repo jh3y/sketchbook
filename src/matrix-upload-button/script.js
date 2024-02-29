@@ -112,7 +112,7 @@ DigitalRain.prototype.init = function () {
 DigitalRain.prototype.getColor = function (
   x,
   y,
-  { active, hue, row, len, lastLen, lastDestination, low, tailCounter }
+  { active, hue, row, len, lastLen, lastDestination, low, next, tailCounter }
 ) {
   const self = this
   // If y > row but less than last destination, work out the color as if row === column.lastDestination
@@ -135,21 +135,21 @@ DigitalRain.prototype.getColor = function (
   } else if (y > lastDestination) {
     alpha = lower
   }
-
-  if (self.isCellLabel({ x, y }) && !active) {
+  if ((next && self.isCellLabel({x, y, word: self.__word })) || (self.isCellLabel({ x, y, word: self.options.word }) && !next && (!active || self.__iterations === 0))) {
     return 'white'
   }
+
 
   return `hsl(${hue || self.options.hue}, 100%, ${
     row === y ? 100 : 70
   }%, ${alpha})`
 }
 
-DigitalRain.prototype.isCellLabel = function ({ x, y }) {
+DigitalRain.prototype.isCellLabel = function ({ x, y, word }) {
   const self = this
   const mid = Math.floor((self.columns - 1) * 0.5)
-  const low = mid - self.options.word.length * 0.5
-  const high = mid + self.options.word.length * 0.5
+  const low = mid - word.length * 0.5
+  const high = mid + word.length * 0.5
   if (x > low && x <= high && y === Math.round(self.rows * 0.5) - 1) {
     return true
   }
@@ -187,7 +187,7 @@ DigitalRain.prototype.render = function () {
     const y = Math.floor(c / self.columns)
     const column = self.tracker[x]
 
-    if (!self.active && !self.isCellLabel({ x, y })) continue
+    if (!self.active && !self.isCellLabel({ x, y, word: self.options.word })) continue
 
     // On the first row, let's bump the index
     if (y === 0 && Math.random() > 0.1) {
@@ -203,7 +203,7 @@ DigitalRain.prototype.render = function () {
 
     self.context.fillStyle = self.getColor(x, y, {...column, low: column.complete ? 0 : 0.1 })
 
-    if (chars[y] || self.isCellLabel({ x, y })) {
+    if (chars[y] || self.isCellLabel({ x, y, word: self.options.word })) {
       if (Math.random() > 0.999 && y > row) {
         column.cacheChars[y] = column.chars[y] = ''
       }
@@ -218,7 +218,7 @@ DigitalRain.prototype.render = function () {
       }
 
       let char = chars[y]
-      if (self.isCellLabel({ x, y }) && !column.active) {
+      if (self.isCellLabel({ x, y, word: self.options.word }) && (!column.active || self.__iterations === 0)) {
 
         let charIndex = x - (Math.floor((self.columns - 1) * 0.5) - (self.options.word.length * 0.5))
         char = self.options.word.split('')[Number.isInteger(charIndex) ? charIndex - 1 : Math.floor(charIndex)]
@@ -234,6 +234,15 @@ DigitalRain.prototype.render = function () {
           }
           column.active = true
         }
+      }
+
+      if (self.__iterations === 0 && (self.isCellLabel({ x, y, word: self.__word }) || self.isCellLabel({ x, y, word: self.options.word })) && column.row === Math.floor(self.rows * 0.5) && !column.switch) {
+        column.next = true
+      }
+
+      if (column.next && self.isCellLabel({ x, y, word: self.options.word })) {
+        let charIndex = x - (Math.floor((self.columns - 1) * 0.5) - (self.__word.length * 0.5))
+        char = self.__word.split('')[Number.isInteger(charIndex) ? charIndex - 1 : Math.floor(charIndex)] || chars[y]
       }
 
       // If it's an active column and it's a cellLabel then we can count the reps
@@ -271,7 +280,9 @@ DigitalRain.prototype.render = function () {
 DigitalRain.prototype.rebase = function () {
   const self = this
   self.active = false
+  self.options.word = self.__word
   if (self.__cb) self.__cb()
+  gsap.ticker.fps(self.options.fps)
   self.pause()
   self.renderMatrix()
 } 
@@ -282,10 +293,11 @@ DigitalRain.prototype.switchWord = function(word, iterations = 1, callback) {
   self.wiped = 0
   // In here, we need to reset all the columns
   for (let c = 0; c < self.columns; c++) {
-    self.tracker[c] = self.setColumn({})
+    self.tracker[c] = self.setColumn(iterations === 0 ? {active: true, reps: 1} : {})
   }
   self.__word = word
   self.__iterations = iterations
+  if (iterations === 0) gsap.ticker.fps(60)
   self.__cb = callback
   self.completed = 0
   self.active = true
@@ -318,16 +330,18 @@ window.myDigitalRain = new DigitalRain(CANVAS, {
 // It should be a method like switch word... 
 // With the iteration count on the end
 // myDigitalRain.switchWord('DOWNLOADED', 3)
-let set = false
+let count = 0
 const BUTTON = document.querySelector('button')
+const inc = () => {
+  count += 1
+  BUTTON.disabled = false
+}
 const DOWNLOAD = () => {
-  if (set) {
-    myDigitalRain.switchWord('COMPLETE', 3, () => set = true)
+  if (count % 2) {
+    myDigitalRain.switchWord('DOWNLOAD', 0, inc)
   } else {
-    myDigitalRain.switchWord('DOWNLOADED', 3, () => {
-      console.info('downloaded')
-      set = true
-    })
+    BUTTON.disabled = true
+    myDigitalRain.switchWord('DOWNLOADED', 3, inc)
   }
 }
 BUTTON.addEventListener('click', DOWNLOAD)
