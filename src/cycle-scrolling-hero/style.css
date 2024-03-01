@@ -1,33 +1,138 @@
-@import "normalize.css";
+@import 'normalize.css';
 
 *,
 *:after,
 *:before {
-	box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 body {
-	display: grid;
-	place-items: center;
-	min-height: 100vh;
-	font-family:  "SF Pro Text", "SF Pro Icons", "AOS Icons", "Helvetica Neue", Helvetica, Arial, sans-serif, system-ui;
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  font-family: 'SF Pro Text', 'SF Pro Icons', 'AOS Icons', 'Helvetica Neue',
+    Helvetica, Arial, sans-serif, system-ui;
+  timeline-scope: --scroller;
 }
 
 header {
-	min-height: 200vh;
-	position: relative;
-	width: 100%;
+  min-height: 200vh;
+  position: relative;
+  width: 100%;
+}
+
+.hero {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100vh;
+  width: 100vw;
+  background: red;
+  display: grid;
+  place-items: center;
+}
+
+.sticker {
+  width: 100%;
+  height: 100vh;
+  position: sticky;
+  background: green;
+  opacity: 0.5;
+  top: 0;
+}
+
+.sticker::after {
+  content: 'Sticker';
+  top: 0;
+  right: 0;
+  position: absolute;
+  font-size: 2rem;
+}
+
+.scroller::after {
+  content: 'Scroller';
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 2rem;
+}
+
+.scroller {
+  position: relative;
+  min-height: 200vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  view-timeline: --scroller;
 }
 
 .content {
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
-	height: 100vh;
-	width: 100vw;
-	background: red;
-	display: grid;
-	place-items: center;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  place-items: center;
+  justify-content: center;
+}
 
+.panel {
+  width: 50vmin;
+  aspect-ratio: 4 / 3;
+  border-radius: 6px;
+  border: 10px solid blue;
+  display: grid;
+  grid-template-rows: repeat(6, 1fr);
+  gap: 1rem;
+  text-align: center;
+}
+
+.panel > div {
+  background: red;
+  container-type: size;
+  display: flex;
+  justify-content: center;
+}
+
+.panel > div:nth-of-type(even) {
+  --x: -50vw;
+  --y: -400%;
+  --r: -80deg;
+}
+.panel > div:nth-of-type(odd) {
+  --x: 50vw;
+  --r: 50deg;
+  --h: 450cqh;
+  --y: -300%;
+}
+
+.panel > div > div {
+  width: 100cqi;
+  height: 100%;
+  background: purple;
+  display: block;
+  animation: grow both linear;
+  animation-timeline: --scroller;
+  animation-range: entry 0% exit 0%;
+}
+
+@keyframes grow {
+  0% {
+    translate: var(--x, 0) var(--y, 0);
+    height: var(--h, 100%);
+    rotate: var(--r, 0);
+    width: 0cqi;
+  }
+}
+
+.scroller .panel div {
+  display: none;
+}
+
+main {
+  height: 100vh;
+}
+
+h1 {
+  margin: 0;
 }
