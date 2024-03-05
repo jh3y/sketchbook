@@ -1,0 +1,152 @@
+@import 'normalize.css';
+
+*,
+*:after,
+*:before {
+  box-sizing: border-box;
+}
+
+body {
+  --line: hsl(0 0% 5% / 0.15);
+  min-height: 100vh;
+  font-family: 'SF Pro Text', 'SF Pro Icons', 'AOS Icons', 'Helvetica Neue',
+    Helvetica, Arial, sans-serif, system-ui;
+  color-scheme: light only;
+  background: canvas;
+  color: canvasText;
+}
+
+[data-dark='true'] body {
+  --line: hsl(0 0% 95% / 0.15);
+  color-scheme: dark only;
+}
+
+body::before {
+  --size: 60px;
+  content: '';
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  background: linear-gradient(
+        90deg,
+        var(--line) 1px,
+        transparent 1px var(--size)
+      )
+      50% 50% / var(--size) var(--size),
+    linear-gradient(var(--line) 1px, transparent 1px var(--size)) 50% 50% /
+      var(--size) var(--size);
+  mask: linear-gradient(-15deg, transparent 30%, white);
+  top: 0;
+  transform-style: flat;
+  pointer-events: none;
+  z-index: -1;
+}
+
+header {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+}
+
+h1 {
+  font-size: clamp(2rem, 3vw + 1rem, 8rem);
+  max-width: calc(100% - 2rem);
+  text-transform: uppercase;
+}
+
+.scroller {
+  min-height: calc(var(--scroll) * 1vh);
+  view-timeline: --section;
+  align-content: start;
+}
+
+.sticker {
+  min-height: 100vh;
+  position: sticky;
+  top: 0;
+  display: grid;
+  place-items: center;
+  font-size: clamp(1.625rem, 3vw + 1rem, 12rem);
+  text-transform: uppercase;
+}
+
+h3 {
+  font-size: clamp(1.5rem, 3vw + 1rem, 8rem);
+}
+
+h2 {
+  line-height: calc(var(--leading) * 1lh);
+  margin: 0;
+  -webkit-text-stroke: 0.35vmin
+    hsl(var(--stroke, 0 0% 0%) / calc((1 / var(--count)) * (var(--i) + 1)));
+  color: transparent;
+  color: canvas;
+  white-space: nowrap;
+}
+
+h2:last-of-type {
+  color: var(--color, canvasText);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+footer {
+  padding: 2rem;
+  text-align: center;
+}
+
+section {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+}
+
+div.tp-dfwv {
+  position: fixed;
+  width: 300px;
+}
+
+/* Social */
+.bear-link {
+  color: canvasText;
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  width: 48px;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  opacity: 0.8;
+}
+
+:where(.x-link, .bear-link):is(:hover, :focus-visible) {
+  opacity: 1;
+}
+.bear-link svg {
+  width: 75%;
+}
+
+@supports (animation-timeline: scroll()) {
+  h2 {
+    animation: reveal both steps(1, end);
+    animation-timeline: --section;
+    animation-range: entry 100% exit
+      calc(((var(--count) - var(--i)) * calc(var(--step) * -1%)));
+  }
+
+  @keyframes reveal {
+    0% {
+      scale: 0;
+    }
+  }
+}
