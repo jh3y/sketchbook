@@ -325,7 +325,7 @@ h1 {
   animation: shrink both linear;
   width: var(--entity-size);
   animation-timeline: --scroller;
-  animation-range: entry 0% exit -50%;
+  animation-range: entry 0% exit 0%;
 }
 
 .card--two .card__column:last-of-type,
@@ -449,10 +449,14 @@ h1 {
 }
 
 @keyframes shrink {
-  0% {
+  0%, 50% {
     width: calc(55cqi - 2rem);
     border-radius: 12px;
     height: calc(200cqh - 2rem);
+  }
+  85% {
+    height: var(--entity-size);
+    width: var(--entity-size);
   }
 }
 
