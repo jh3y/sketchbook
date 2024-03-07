@@ -1,0 +1,207 @@
+@import "normalize.css";
+
+@font-face {
+  font-family: "Geist Mono";
+  src: url("https://assets.codepen.io/605876/GeistMonoVariableVF.ttf") format("truetype");
+}
+
+:root {
+	--grid-offset: calc(50% + 80px);
+	--color: hsl(0 0% 6%);
+	--bg: hsl(0 0% 96%);
+	--color-alpha: hsl(0 0% 60%);
+	--selection: hsl(0 0% 80%);
+	--bg-size: 180px;
+	--grid-line: hsl(0 0% 80%);
+	--input-bg: hsl(0 0% 100% / 0.2);
+	--grid-accent: hsl(280 0% 10% / 0.1);
+	--glint: white;
+	--button-shade: 80%;
+}
+:root:focus-within {
+	--grid-accent: hsl(280 0% 10% / 0.35);
+}
+
+@media(prefers-color-scheme: dark) {
+	:root {
+		--button-shade: 30%;
+		--glint: black;
+		--grid-accent: hsl(280 0% 80% / 0.1);
+		--selection: hsl(0 0% 20%);
+		--color: hsl(0 0% 98%);
+		--bg: hsl(0 0% 6%);
+		--color-alpha: hsl(0 0% 50%);
+		--grid-line: hsl(0 0% 12%);
+		--input-bg: hsl(0 0% 0% / 0.2);
+	}
+	:root:focus-within {
+		--grid-accent: hsl(280 0% 80% / 0.35);
+	}
+}
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+
+body {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	font-family:  'Geist Mono', sans-serif, system-ui;
+	color: var(--color);
+	background: var(--bg);
+/*	background: black;*/
+}
+
+body::before {
+	content: "";
+	transition: background 0.2s;
+	background:
+		/*	How to create one square */
+		linear-gradient(var(--grid-accent) 0 2px, transparent 2px calc(100% - 2px), var(--grid-accent) calc(100% - 2px)) calc((var(--grid-offset) - (var(--bg-size) * 2)) - 1px) calc((var(--grid-offset) - var(--bg-size)) - 1px) / calc(var(--bg-size) + 2px) calc(var(--bg-size) + 2px) no-repeat,
+		linear-gradient(90deg, var(--grid-accent) 0 2px, transparent 2px calc(100% - 2px), var(--grid-accent) calc(100% - 2px)) calc((var(--grid-offset) - (var(--bg-size) * 2)) - 1px) calc((var(--grid-offset) - var(--bg-size)) - 1px) / calc(var(--bg-size) + 2px) calc(var(--bg-size) + 2px) no-repeat,
+		linear-gradient(transparent calc(var(--bg-size) - 2px), var(--grid-line) calc(var(--bg-size) - 2px) var(--bg-size)) var(--grid-offset) var(--grid-offset) / 100% var(--bg-size),
+		linear-gradient(90deg, transparent calc(var(--bg-size) - 2px), var(--grid-line) calc(var(--bg-size) - 2px) var(--bg-size)) var(--grid-offset) var(--grid-offset) / var(--bg-size) 100%, transparent;
+/*	background: var(--bg);*/
+	position: fixed;
+	inset: 0;
+	height: 100vh;
+	width: 100vw;
+	-webkit-mask: radial-gradient(circle at 0% 0%, hsl(0 0% 100% / 0.5), transparent);
+}
+
+.form-group:focus-within label {
+	color: var(--color);
+}
+.form-group:focus-within {
+	border-color: var(--color);
+	color: var(--color);
+}
+.form-group:focus-within button {
+	color: var(--color);
+}
+
+input {
+	font-family: "Geist Mono", monospace;
+	font-size: 1.75rem;
+	padding: 1rem 2rem;
+	letter-spacing: 0.1ch;
+	border-radius: 6px;
+	outline: none;
+	border: 0;
+	background: transparent;
+	color: var(--color);
+}
+
+.dummy {
+	font-size: 1.75rem;
+	display: flex;
+	height: 68px;
+	padding: 1rem 2rem;
+	color: var(--color);
+	overflow: hidden;
+}
+
+.dummy__char {
+	position: relative;
+	width: 1ch;
+}
+
+.dummy__char span {
+	position: absolute;
+	inset: 0;
+	display: inline-block;
+	height: 100%;
+}
+
+[data-visible=true] { --visible: 1; }
+
+.dummy__char:not(.dummy__char--static) span {
+	--speed: 0.625;
+	--delay: calc(sin((var(--index) / 12) * 45deg) * var(--speed) * 1s);
+	transition: translate 0.2s var(--delay);
+}
+.dummy__char:not(.dummy__char--static) span:last-of-type {
+	translate: 0 calc(-100% + (var(--visible, 0) * 100%));
+}
+.dummy__char:not(.dummy__char--static) span:first-of-type {
+	translate: 0 calc(var(--visible, 0) * 100%);
+}
+
+
+
+label {
+	position: absolute;
+	color: var(--color-alpha);
+	bottom: calc(100% + 0.5rem);
+	letter-spacing: 0.2ch;
+	transition: color 0.2s;
+}
+
+.form-group {
+	color: var(--color-alpha);
+	background: var(--input-bg);
+	position: relative;
+	display: flex;
+	border-color: var(--color-alpha);
+	border-style: solid;
+	transition: border-color 0.2s, color 0.2s;
+}
+
+.eye circle:nth-of-type(2) {
+	fill: var(--glint);
+}
+
+button {
+	padding: 0;
+	display: grid;
+	place-items: center;
+	height: 100%;
+	aspect-ratio: 1;
+	border-radius: 12px;
+	border: 0;
+	background: linear-gradient(hsl(0 0% var(--button-shade) / calc(var(--active, 0) * 0.5)), hsl(0 0% var(--button-shade) / calc(var(--active, 0) * 0.5))) padding-box;
+	border: 6px solid transparent;
+	transition: background 0.125s;
+	color: var(--color-alpha);
+	cursor: pointer;
+	outline: 0;
+	height: 68px;
+}
+
+.form-group__actions {
+/*	position: absolute;*/
+	right: 0;
+	z-index: 2;
+	top: 50%;
+	display: flex;
+	height: 100%;
+	color: var(--color);
+}
+
+input::selection {
+	background: var(--selection);
+}
+
+button:is(:focus-visible, :hover) {
+	--active: 1;
+}
+
+button svg {
+	width: 75%;
+}
+
+.sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border-width: 0;
+}
