@@ -21,6 +21,7 @@ const App = () => {
     const delay = gsap.utils.random(2, 8)
     const duration = BLINK_SPEED
     const repeat = Math.random() > 0.5 ? 3 : 1
+    if (blinkTl.current) blinkTl.current.kill()
     blinkTl.current = gsap.timeline({
       delay,
       onComplete: () => BLINK(),
@@ -62,8 +63,8 @@ const App = () => {
     window.addEventListener('pointermove', MOVE_EYE)
   }, [])
 
+  // Eye open/close animations
   React.useEffect(() => {
-    console.info(visible)
     if (visible) {
       blinkTl.current.kill()
       gsap.timeline({ onComplete: () => {
