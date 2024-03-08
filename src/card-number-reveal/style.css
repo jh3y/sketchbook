@@ -16,7 +16,17 @@
 	--input-bg: hsl(0 0% 100% / 0.2);
 	--grid-accent: hsl(280 0% 10% / 0.1);
 	--glint: white;
+	--control: hsl(0 0% 80%);
 	--button-shade: 80%;
+	--size: 68px;
+	--font: 1.75rem;
+}
+
+@media(max-width: 600px) {
+	:root {
+		--size: 48px;
+		--font: 1.25rem;
+	}
 }
 :root:focus-within {
 	--grid-accent: hsl(280 0% 10% / 0.35);
@@ -33,6 +43,7 @@
 		--color-alpha: hsl(0 0% 50%);
 		--grid-line: hsl(0 0% 12%);
 		--input-bg: hsl(0 0% 0% / 0.2);
+		--control: hsl(0 0% 20%);
 	}
 	:root:focus-within {
 		--grid-accent: hsl(280 0% 80% / 0.35);
@@ -53,6 +64,7 @@ body {
 	font-family:  'Geist Mono', sans-serif, system-ui;
 	color: var(--color);
 	background: var(--bg);
+	padding: 0.5rem;
 /*	background: black;*/
 }
 
@@ -84,30 +96,26 @@ body::before {
 	color: var(--color);
 }
 
-input {
-	font-family: "Geist Mono", monospace;
-	font-size: 1.75rem;
-	padding: 1rem 2rem;
-	letter-spacing: 0.1ch;
-	border-radius: 6px;
-	outline: none;
-	border: 0;
-	background: transparent;
-	color: var(--color);
-}
-
 .dummy {
-	font-size: 1.75rem;
+	font-size: var(--font);
 	display: flex;
-	height: 68px;
-	padding: 1rem 2rem;
+	height: var(--size);
+	padding-inline: 2rem;
 	color: var(--color);
 	overflow: hidden;
+	font-variant: tabular-nums;
+}
+
+@media(max-width: 600px) {
+	.dummy {
+		padding-inline: 1rem;
+	}
 }
 
 .dummy__char {
 	position: relative;
 	width: 1ch;
+	flex: 1;
 }
 
 .dummy__char span {
@@ -115,23 +123,32 @@ input {
 	inset: 0;
 	display: inline-block;
 	height: 100%;
+	line-height: var(--size);
 }
 
 [data-visible=true] { --visible: 1; }
 
 .dummy__char:not(.dummy__char--static) span {
-	--speed: 0.625;
+	--offset: 5%;
+	--transition: 0.125;
+	--speed: calc(var(--transition) * 4);
 	--delay: calc(sin((var(--index) / 12) * 45deg) * var(--speed) * 1s);
-	transition: translate 0.2s var(--delay);
+	transition: translate calc(var(--transition) * 1s) var(--delay), scale calc(var(--transition) * 1s) var(--delay), opacity calc(var(--transition) * 1s) var(--delay);
+	transition-timing-function: cubic-bezier(.51,.77,.88,1.23);
 }
 .dummy__char:not(.dummy__char--static) span:last-of-type {
-	translate: 0 calc(-100% + (var(--visible, 0) * 100%));
+	transform-origin: 50% 0;
+	translate: 0 calc((var(--offset) * -1) + (var(--visible, 0) * var(--offset)));
+	scale: calc(0.625 + (var(--visible, 0) * 0.375));
+	opacity: var(--visible, 0);
+
 }
 .dummy__char:not(.dummy__char--static) span:first-of-type {
-	translate: 0 calc(var(--visible, 0) * 100%);
+	translate: 0 calc(var(--visible, 0) * var(--offset));
+	transform-origin: 50% 100%;
+	scale: calc(1 - (var(--visible, 0) * 0.375));
+	opacity: calc(1 - var(--visible, 0));
 }
-
-
 
 label {
 	position: absolute;
@@ -139,6 +156,7 @@ label {
 	bottom: calc(100% + 0.5rem);
 	letter-spacing: 0.2ch;
 	transition: color 0.2s;
+	font-size: .875rem;
 }
 
 .form-group {
@@ -163,13 +181,17 @@ button {
 	aspect-ratio: 1;
 	border-radius: 12px;
 	border: 0;
-	background: linear-gradient(hsl(0 0% var(--button-shade) / calc(var(--active, 0) * 0.5)), hsl(0 0% var(--button-shade) / calc(var(--active, 0) * 0.5))) padding-box;
+	background: transparent;
 	border: 6px solid transparent;
 	transition: background 0.125s;
 	color: var(--color-alpha);
 	cursor: pointer;
 	outline: 0;
-	height: 68px;
+	height: var(--size);
+}
+
+button:hover {
+	background: linear-gradient(var(--control), var(--control)) padding-box;
 }
 
 .form-group__actions {
@@ -204,4 +226,52 @@ button svg {
 	clip: rect(0, 0, 0, 0);
 	white-space: nowrap;
 	border-width: 0;
+}
+
+.clipboard {
+	overflow: visible !important;
+}
+
+.clipboard > path {
+	transform-box: fill-box;
+	transform-origin: 50% 50%;
+}
+
+.clipboard__check {
+	stroke-dasharray: 1;
+	stroke-dashoffset: 1;
+	transition: stroke-dashoffset 0.2s;
+}
+
+[data-copied=true] .clipboard__check {
+	transition: stroke-dashoffset 0.2s 0.2s;
+}
+
+.clipboard__board {
+	rotate: 5deg;
+	translate: calc(20% + (var(--active, 0) * -5%)) -8%;
+	fill: var(--bg);
+}
+
+.clipboard__paper {
+	fill: var(--bg);
+	translate: calc(-50% + (var(--active, 0) * 25%)) calc(25% - (var(--active, 0) * 10%));
+	rotate: -5deg;
+}
+
+:is(.clipboard__paper, .clipboard__board) {
+	transition: translate 0.2s, rotate 0.2s;
+}
+
+button:is(:hover, :focus-visible) :is(.clipboard__paper, .clipboard__board) {
+	fill: var(--control);
+}
+
+[data-copied=true] :is(.clipboard__paper, .clipboard__board) {
+	translate: 0 0;
+	rotate: 0deg;
+}
+
+[data-copied=true] .clipboard__check {
+	stroke-dashoffset: 0;
 }
