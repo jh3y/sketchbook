@@ -1,0 +1,239 @@
+@import 'normalize.css';
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	font-family: 'SF Pro Text', 'SF Pro Icons', 'AOS Icons', 'Helvetica Neue',
+		Helvetica, Arial, sans-serif, system-ui;
+}
+
+body::before {
+  --size: 60px;
+  --line: hsl(0 0% 0% / 0.15);
+  content: '';
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  background: linear-gradient(
+        90deg,
+        var(--line) 1px,
+        transparent 1px var(--size)
+      )
+      50% 50% / var(--size) var(--size),
+    linear-gradient(var(--line) 1px, transparent 1px var(--size)) 50% 50% /
+      var(--size) var(--size);
+  mask: linear-gradient(-15deg, transparent 30%, white);
+  top: 0;
+  transform-style: flat;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Anchor styles are managed inline inside the head */
+#pop {
+	inset: unset;
+	/*  display: block;*/
+	width: 180px;
+	border: 0;
+	padding: 0;
+	background: transparent;
+	transform-style: preserve-3d;
+	overflow: visible;
+	font-weight: 300;
+}
+
+:root {
+	--speed: .5s;
+	--accent: hsl(30 80% 50%);
+	accent-color: var(--accent);
+}
+
+#pop.\:popover-open .popover__content ul {
+	animation: grow var(--speed) ease;
+}
+
+#pop:popover-open .popover__content ul {
+	animation: grow var(--speed) ease;
+}
+
+#pop.\:popover-open .popover__content::after,
+#pop.\:popover-open .popover__content {
+	animation: open var(--speed) ease;
+}
+
+#pop:popover-open .popover__content::after,
+#pop:popover-open .popover__content {
+	animation: open var(--speed) ease;
+}
+
+#pop.\:popover-open .popover__content::before {
+	animation: slam var(--speed) ease both;
+}
+#pop:popover-open .popover__content::before {
+	animation: slam var(--speed) ease both;
+}
+
+.popover__content::before {
+	--blur: 1rem;
+	content: '';
+	position: absolute;
+	inset: var(--blur) calc(var(--blur) * -1.25) calc(var(--blur) * -3)
+		calc(var(--blur) * -1.25);
+	background: hsl(0 0% 0% / 0.25);
+	clip-path: polygon(
+		0 0,
+		100% 0,
+		calc(100% + var(--blur)) calc(100% + var(--blur)),
+		calc(var(--blur) * -3) calc(100% + var(--blur))
+	);
+	z-index: -2;
+	transform-origin: 50% 0;
+	filter: blur(var(--blur));
+	border-radius: 1rem 1rem 6px 6px;
+	/*	mask: linear-gradient(transparent, white);*/
+}
+
+.popover__content::after {
+	content: "";
+	z-index: -1;
+	position: absolute;
+	inset: 0;
+	border-radius: 6px;
+	box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+		0 2px 4px -2px rgba(0, 0, 0, 0.1);
+}
+
+@keyframes open {
+	0% {
+		opacity: 0;
+	}
+}
+
+@keyframes slam {
+	to {
+		opacity: 0;
+		inset: 0;
+	}
+}
+
+@keyframes grow {
+	0% {
+		rotate: x 30deg;
+	}
+}
+
+[popovertarget] {
+	font-size: 0.875rem;
+	display: flex;
+	gap: 0.25rem;
+	align-items: center;
+	padding: 0.5rem 0.75rem;
+	background: hsl(0 0% 98%);
+	border-radius: 6px;
+	border: 1px solid hsl(0 0% 60%);
+	outline-color: var(--accent);
+	width: 160px;
+	cursor: pointer;
+}
+
+[popovertarget] svg {
+	width: 24px;
+	height: 1rem;
+	opacity: 0.5;
+}
+
+[popovertarget] span:first-of-type {
+	opacity: 0.5;
+}
+
+[popovertarget] span:last-of-type {
+	flex: 1;
+	text-align: left;
+}
+
+.popover__content {
+	position: relative;
+	transform-style: preserve-3d;
+	perspective: 500px;
+}
+
+.popover__content ul {
+	border: 1px solid hsl(0 0% 90%);
+	border-radius: 6px;
+	padding: 0.25rem;
+	background: hsl(0 0% 98%);
+	transform-origin: 50% 0;
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+	display: grid;
+	gap: 0.25rem;
+	transform-style: preserve-3d;
+}
+
+.popover__content button {
+	width: 100%;
+	display: flex;
+	border: 0;
+	background: transparent;
+	padding: 0;
+	margin: 0;
+	font-weight: 300;
+	color: hsl(0 0% 10%);
+	cursor: pointer;
+	position: relative;
+	overflow: hidden;
+	padding: 0.5rem;
+	font-size: 0.875rem;
+	justify-content: space-between;
+}
+
+.popover__content button svg {
+	stroke: var(--accent);
+	stroke-width: 3;
+	display: none;
+}
+
+.popover__content button[data-selected=true] svg {
+	display: block;
+}
+
+.popover__content button:is(:hover, :focus-visible) {
+	--intent: 1;
+}
+
+.popover__content button::after {
+	content: '';
+	position: absolute;
+	inset: 0;
+	background: hsl(0 0% 80%/ 0.25);
+	opacity: var(--intent, 0);
+}
+
+
+/* Social */
+.bear-link {
+  color: canvasText;
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  width: 48px;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  opacity: 0.8;
+}
+
+:where(.x-link, .bear-link):is(:hover, :focus-visible) {
+  opacity: 1;
+}
+.bear-link svg {
+  width: 75%;
+}
