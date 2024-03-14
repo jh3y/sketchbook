@@ -133,7 +133,9 @@ body::before {
 	--transition: 0.125;
 	--speed: calc(var(--transition) * 4);
 	--delay: calc(sin((var(--index) / 12) * 45deg) * var(--speed) * 1s);
-	transition: translate calc(var(--transition) * 1s) var(--delay), scale calc(var(--transition) * 1s) var(--delay), opacity calc(var(--transition) * 1s) var(--delay);
+	transition-property: translate, scale, opacity;
+	transition-duration: calc(var(--transition) * 1s);
+	transition-delay: var(--delay);
 	transition-timing-function: cubic-bezier(.51,.77,.88,1.23);
 }
 .dummy__char:not(.dummy__char--static) span:last-of-type {
