@@ -1,0 +1,246 @@
+@import "normalize.css";
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+[data-theme=light] {
+	--line: hsl(0 0% 10% / 0.15);
+	color-scheme: light only;
+	background: hsl(0 0% 98%);
+}
+[data-theme=dark] {
+	--line: hsl(0 0% 90% / 0.15);
+	color-scheme: dark only;
+	background: hsl(0 0% 2%);
+}
+
+body {
+	display: grid;
+	place-items: center;
+	align-content: center;
+	gap: 1rem;
+	min-height: 100vh;
+	font-family:  "SF Pro Text", "SF Pro Icons", "AOS Icons", "Helvetica Neue", Helvetica, Arial, sans-serif, system-ui;
+}
+
+body::before {
+  --size: 60px;
+  content: '';
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  background: linear-gradient(
+        90deg,
+        var(--line) 1px,
+        transparent 1px var(--size)
+      )
+      50% 50% / var(--size) var(--size),
+    linear-gradient(var(--line) 1px, transparent 1px var(--size)) 50% 50% /
+      var(--size) var(--size);
+  mask: linear-gradient(-15deg, transparent 30%, white);
+  top: 0;
+  transform-style: flat;
+  pointer-events: none;
+  z-index: -1;
+}
+
+aside {
+	padding: 0.5rem 0.75rem;
+	border-width: 1px;
+	border-style: solid;
+	border-radius: 6px;
+	display: flex;
+	gap: 0.5rem;
+	align-items: center;
+	font-weight: 300;
+	line-height: 1.5;
+	white-space: nowrap;
+	transition: all 0.2s;
+}
+
+@supports(color: color-mix(in oklch, red 0%, white)) {
+	[data-theme="dark"] aside {
+		border-color: color-mix(in oklch, var(--color) 5%, oklch(100% 0 0 / 15%));
+		background: color-mix(in oklch, var(--color) 50%, oklch(0% 0 0 / 50%));
+	  color: color-mix(in oklch, var(--color) 50%, oklch(100% 0 0));
+	}
+	[data-theme="light"] aside {
+		border-color: color-mix(in oklch, var(--color) 50%, oklch(100% 0 0 / 15%));
+		background: color-mix(in oklch, var(--color) 25%, oklch(100% 0 0 / 50%));
+	  color: color-mix(in oklch, var(--color) 100%, oklch(100% 0 0));
+	}
+	aside::selection {
+		background: color-mix(in oklch, var(--color) 90%, oklch(100% 0 0));
+		color: color-mix(in oklch, var(--color) 10%, oklch(100% 0 0));
+	}
+}
+
+@supports (color: rgb(from white r g b)) {
+	[data-theme=dark] aside {
+		border-color: oklch(from var(--color) l c h / 25%);
+		background: oklch(from var(--color) calc(l * 0.75) c h / 50%);
+	  color: oklch(from var(--color) calc(l * 1.5) c h);
+	}
+	
+	[data-theme=light] aside {
+		border-color: oklch(from var(--color) l c h / 25%);
+		background: oklch(from var(--color) calc(l * 1) c h / 20%);
+	  color: oklch(from var(--color) calc(l * 1) c h);
+	}
+
+	aside::selection {
+		background: oklch(from var(--color) calc(l * 1.1) c h);
+	  color: oklch(from var(--color) 1 c h);
+	}
+}
+
+aside svg {
+	width: 24px;
+}
+
+[data-type=error] {
+	--color: oklch(62.8% 0.25 29.23);
+	--color: red;
+}
+[data-type=ai] {
+	--color: oklch(58.11% 0.31 307.02);
+}
+[data-type=tip] {
+	--color: oklch(53.24% 0.23 256.22);
+}
+[data-type=warning] {
+	--color: oklch(61.47% 0.16 64.21);
+}
+[data-type=success] {
+	--color: oklch(47.06% 0.17 148.76);
+	--color: hsl(145 100% 25%);
+}
+[data-type=note] {
+	--color: oklch(41.84% 0 0);
+}
+
+[aria-pressed] {
+	position: fixed;
+	top: 1rem;
+	right: 1rem;
+	width: 48px;
+	aspect-ratio: 1;
+	display: grid;
+	place-items: center;
+	padding: 0;
+	border: 0;
+	background: transparent;
+	cursor: pointer;
+	border-radius: 6px;
+}
+
+button::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	border-radius: 6px;
+	background: hsl(0 0% 50% / 0.25);
+	opacity: var(--intent, 0);
+	transition: opacity 0.2s;
+}
+
+button:is(:hover, :focus-visible) {
+	--intent: 1;
+}
+
+[aria-pressed] svg {
+	width: 50%;
+}
+
+[aria-pressed=true] path:first-of-type,
+[aria-pressed=false] path:last-of-type {
+	display: none;
+}
+[aria-pressed=false] path:first-of-type,
+[aria-pressed=true] path:last-of-type {
+	display: block;
+}
+
+/* Social */
+.bear-link {
+  color: canvasText;
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  width: 48px;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  opacity: 0.8;
+}
+
+body > div {
+	position: relative;
+}
+
+.sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border-width: 0;
+}
+
+.color-picker {
+	position: absolute;
+	left: calc(100% + 0.5rem);
+	top: 50%;
+	width: 40px;
+	aspect-ratio: 1;
+	translate: 0 -50%;
+	display: grid;
+	place-items: center;
+	padding: 0;
+	border-radius: 6px;
+	background: transparent;
+	border: 0;
+	cursor: pointer;
+	color: hsl(0 0% 50%);
+	opacity: var(--active, 0);
+	transition: opacity 0.2s;
+}
+
+body > div:is(:hover, :focus-within) {
+	--active: 1;
+}
+
+.color-picker svg {
+	width: 24px;
+}
+
+:where(.x-link, .bear-link):is(:hover, :focus-visible) {
+  opacity: 1;
+}
+.bear-link svg {
+  width: 75%;
+}
+
+::view-transition-old(root) {
+	z-index: -1;
+	animation: none;
+}
+::view-transition-new(root) {
+	z-index: 2;
+	animation: unclip 1s both;
+}
+
+@keyframes unclip {
+	0% {
+		clip-path: inset(0 0 100% 100%);
+	}
+	100% {
+		clip-path: inset(0 0 0 0);
+	}
+}

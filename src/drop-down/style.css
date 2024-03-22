@@ -1,0 +1,242 @@
+@import 'normalize.css';
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	font-family: 'SF Pro Text', 'SF Pro Icons', 'AOS Icons', 'Helvetica Neue',
+		Helvetica, Arial, sans-serif, system-ui;
+}
+
+body::before {
+  --size: 60px;
+  --line: hsl(0 0% 0% / 0.15);
+  content: '';
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  background: linear-gradient(
+        90deg,
+        var(--line) 1px,
+        transparent 1px var(--size)
+      )
+      50% 50% / var(--size) var(--size),
+    linear-gradient(var(--line) 1px, transparent 1px var(--size)) 50% 50% /
+      var(--size) var(--size);
+  mask: linear-gradient(-15deg, transparent 30%, white);
+  top: 0;
+  transform-style: flat;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Anchor styles are managed inline inside the head */
+#pop {
+	inset: unset;
+	/*  display: block;*/
+	width: var(--width);
+	border: 0;
+	padding: 0;
+	background: transparent;
+	transform-style: preserve-3d;
+	overflow: visible;
+	font-weight: 300;
+	clip-path: inset(0 -100% -100vh -100%);
+}
+
+#pop::before {
+	content: "";
+	position: absolute;
+	bottom: 1px;
+	height: 4px;
+	width: 100%;
+	background: radial-gradient(hsl(0 0% 20% / 0.5), transparent 85%);
+	scale: 0 0;
+	opacity: 0;
+}
+
+:root {
+	--speed: 0.5s;
+	--accent: hsl(230 80% 50%);
+	--width: 160px;
+	--ease: ease-in;
+	accent-color: var(--accent);
+}
+
+@supports (animation-timing-function: linear(1, 1)) {
+	:root {
+		--speed: 0.875s;
+		--ease: linear(
+	    0, 0.0039, 0.0157, 0.0352, 0.0625 9.09%,
+	    0.1407, 0.25, 0.3908, 0.5625, 0.7654, 1,
+	    0.8907, 0.8125 45.45%, 0.7852, 0.7657,
+	    0.7539, 0.75, 0.7539, 0.7657, 0.7852,
+	    0.8125 63.64%, 0.8905, 1 72.73%, 0.9727,
+	    0.9532, 0.9414, 0.9375, 0.9414, 0.9531,
+	    0.9726, 1, 0.9883, 0.9844, 0.9883, 1
+	  );
+	}
+}
+
+#pop.\:popover-open .popover__content ul {
+	animation: drop var(--speed) var(--ease);
+}
+
+#pop:popover-open .popover__content ul {
+	animation: drop var(--speed) var(--ease);
+}
+
+#pop.\:popover-open::before {
+	animation: reveal var(--speed) var(--ease) both;
+}
+
+@keyframes reveal {
+	to { scale: 1; opacity: 1; }
+}
+
+#pop:popover-open::before {
+	animation: reveal var(--speed) var(--ease) both;
+}
+
+#pop {
+	transition: display 2s allow-discrete, overlay 2s allow-discrete;
+}
+
+#pop:popover-open .popover__content {
+	transition: translate 0s, opacity 0s;
+	translate: 0 0;
+	opacity: 1;
+}
+
+#pop.\:popover-open .popover__content {
+	transition: translate 0s;
+	translate: 0 0;
+}
+
+#pop .popover__content {
+	translate: 0 50vh;
+	opacity: 0;
+	transition: translate calc(var(--speed) * 0.5), opacity calc(var(--speed) * 0.5);
+}
+
+@keyframes drop {
+	0% {
+		translate: 0 -100%;
+	}
+}
+
+[popovertarget] {
+	font-size: 0.875rem;
+	display: flex;
+	gap: 0.25rem;
+	align-items: center;
+	padding: 0.5rem 0.75rem;
+	background: hsl(0 0% 98%);
+	border-radius: 6px;
+	border: 1px solid hsl(0 0% 60%);
+	outline-color: var(--accent);
+	width: var(--width);
+	cursor: pointer;
+}
+
+[popovertarget] svg {
+	width: 24px;
+	height: 1rem;
+	opacity: 0.5;
+}
+
+[popovertarget] span:first-of-type {
+	opacity: 0.5;
+}
+
+[popovertarget] span:last-of-type {
+	flex: 1;
+	text-align: left;
+}
+
+.popover__content {
+	position: relative;
+	transform-style: preserve-3d;
+	perspective: 500px;
+}
+
+.popover__content ul {
+	border: 1px solid hsl(0 0% 90%);
+	border-radius: 6px;
+	padding: 0.25rem;
+	background: hsl(0 0% 98%);
+	transform-origin: 50% 0;
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+	display: grid;
+	gap: 0.25rem;
+	transform-style: preserve-3d;
+}
+
+.popover__content button {
+	width: 100%;
+	display: flex;
+	border: 0;
+	background: transparent;
+	padding: 0;
+	margin: 0;
+	font-weight: 300;
+	color: hsl(0 0% 10%);
+	cursor: pointer;
+	position: relative;
+	overflow: hidden;
+	padding: 0.5rem;
+	font-size: 0.875rem;
+	justify-content: space-between;
+	outline: none;
+}
+
+.popover__content button svg {
+	stroke: var(--accent);
+	stroke-width: 3;
+	display: none;
+}
+
+.popover__content button[data-selected=true] svg {
+	display: block;
+}
+
+.popover__content button:is(:hover, :focus-visible) {
+	--intent: 1;
+}
+
+.popover__content button::after {
+	content: '';
+	position: absolute;
+	inset: 0;
+	background: hsl(0 0% 80%/ 0.25);
+	opacity: var(--intent, 0);
+}
+
+
+/* Social */
+.bear-link {
+  color: canvasText;
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  width: 48px;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  opacity: 0.8;
+}
+
+:where(.x-link, .bear-link):is(:hover, :focus-visible) {
+  opacity: 1;
+}
+.bear-link svg {
+  width: 75%;
+}
