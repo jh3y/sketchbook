@@ -119,12 +119,6 @@ nav button {
   padding-top: 2rem;
 }
 
-@supports(animation-timeline: scroll()) {
-  .hero {
-    position: absolute;
-  }
-}
-
 .sticker {
   width: 100%;
   min-height: 100vh;
@@ -282,19 +276,12 @@ h1 {
   object-fit: cover;
 }
 
-.card__avatar img {
-  z-index: 2;
-  animation: fade-in both linear;
-  animation-timeline: --scroller;
-  animation-range: entry 0% exit 0%;
-}
 
 .image svg {
   width: 50%;
 }
-
-@keyframes fade-in {
-  0%, 50% { opacity: 0; }
+.card__avatar img {
+  z-index: 2;
 }
 
 .card--one .card__column:first-of-type,
@@ -395,11 +382,6 @@ h1 {
 .password {
   background: #3B66BC;
 }
-.password svg {
-  animation: fade-in both linear;
-  animation-timeline: --scroller;
-  animation-range: entry 0% exit 0%;
-}
 .bluesky {
   background: #0285FF;
 }
@@ -425,86 +407,204 @@ h1 {
 }
 
 /* Animations */
+.card--one {
+  --x: calc(var(--span) * -1);
+  --y: -10%;
+  --r: -8deg;
+  --h: 160%;
+  --w: max(55cqi, 320px);
+}
+
+.card--two {
+  --x: calc(var(--span) * -1);
+  --y: -30%;
+  --r: 6deg;
+  --h: 300%;
+  --w: max(55cqi, 330px);
+}
+
+.card--three {
+  --x: calc(var(--span) * 1);
+  --y: -50%;
+  --r: 15deg;
+  --h: 360%;
+  --w: max(30cqi, 220px);
+}
+
+.card--four {
+  --x: calc(var(--span) * 1);
+  --y: 10%;
+  --r: 10deg;
+  --h: 160%;
+  --w: max(55cqi, 320px);
+}
+
+.card--five {
+  --x: calc(var(--span) * -1);
+  --y: -45%;
+  --r: -20deg;
+  --h: 525%;
+  --w: max(30cqi, 160px);
+}
+
+.card--six {
+  --x: calc(var(--span) * 1);
+  --y: -30%;
+  --r: -5deg;
+  --h: 400%;
+  --w: max(45cqi, 305px);
+}
 @supports (animation-timeline: scroll()) {
-  .card--one {
-    --x: calc(var(--span) * -1);
-    --y: -10%;
-    --r: -8deg;
-    --h: 160%;
-    --w: max(55cqi, 320px);
+
+  .hero {
+    position: absolute;
   }
 
-  .card--two {
-    --x: calc(var(--span) * -1);
-    --y: -30%;
-    --r: 6deg;
-    --h: 300%;
-    --w: max(55cqi, 330px);
-  }
-
-  .card--three {
-    --x: calc(var(--span) * 1);
-    --y: -50%;
-    --r: 15deg;
-    --h: 360%;
-    --w: max(30cqi, 220px);
-  }
-
-  .card--four {
-    --x: calc(var(--span) * 1);
-    --y: 10%;
-    --r: 10deg;
-    --h: 160%;
-    --w: max(55cqi, 320px);
-  }
-
-  .card--five {
-    --x: calc(var(--span) * -1);
-    --y: -45%;
-    --r: -20deg;
-    --h: 525%;
-    --w: max(30cqi, 160px);
-  }
-
-  .card--six {
-    --x: calc(var(--span) * 1);
-    --y: -30%;
-    --r: -5deg;
-    --h: 400%;
-    --w: max(45cqi, 305px);
-  }
-  
   .card {
     animation: grow both linear;
     animation-timeline: --scroller;
     animation-range: entry 0% exit 0%;
   }
+
+  .card__avatar img {
+    animation: fade-in both linear;
+    animation-timeline: --scroller;
+    animation-range: entry 0% exit 0%;
+  }
+
+  @keyframes fade-in {
+    0%, 50% { opacity: 0; }
+  }
+
+  .password svg {
+    animation: fade-in both linear;
+    animation-timeline: --scroller;
+    animation-range: entry 0% exit 0%;
+  }
+
+  .card__content {
+    animation: slide both linear;
+    animation-timeline: --scroller;
+    animation-range: entry 0% exit 0%;
+  }
+
+  .card--one .card__avatar,
+  .card--four .card__avatar {
+    --s: 2;
+    transform-origin: 0 50%;
+    animation: morph both linear;
+    animation-timeline: --scroller;
+    animation-range: entry 0% exit 0%;
+  }
+
+  .card--two .card__avatar {
+    animation: shrink both linear;
+    animation-timeline: --scroller;
+    animation-range: entry 0% exit 0%;
+  }
+
+  .card--two .card__column:last-of-type,
+  .card--three .card__column:last-of-type,
+  .card--five .card__column:last-of-type {
+    animation: slide both linear;
+    animation-timeline: --scroller;
+    animation-range: entry 0% exit 0%;
+  }
+
+  .card--six .card__column:last-of-type .card__company {
+    animation: cta-morph both linear, color-in both linear;
+    animation-timeline: --scroller;
+    animation-range: entry 0% exit 0%;
+  }
+
+  .card--five .card__dummy,
+  .card--six .card__dummy {
+    animation: expand both linear;
+    animation-timeline: --scroller;
+    animation-range: entry 0% exit 0%;
+  }
+
+  .cta {
+    animation: morph both linear;
+    animation-timeline: --scroller;
+    animation-range: entry 0% exit 0%;
+  }
+
+  @keyframes cta-morph {
+    0%, 30% {
+      translate: -1rem 0;
+      width: 120px;
+    }
+  }
+  @keyframes color-in {
+    0%, 50% {
+      background: var(--element);
+    }
+  }
+  @keyframes expand {
+    0%, 30% {
+      width: var(--w, 26cqi);
+    }
+  }
+  @keyframes shrink {
+    0%, 30% {
+      width: calc(var(--w) - 2rem);
+      border-radius: 12px;
+      height: calc(300cqh - 2rem);
+    }
+    85% {
+      height: var(--entity-size);
+      width: var(--entity-size);
+    }
+  }
+  @keyframes grow {
+    0% {
+      translate: var(--x, 0) var(--y, 0);
+      height: var(--h, 100%);
+      rotate: var(--r, 0);
+      width: var(--w, 10cqi);
+    }
+    15% {
+      rotate: var(--r, 0);
+    }
+    30% {
+      rotate: 0deg;
+      height: var(--h, 100%);
+      width: calc(var(--w, 10cqi));
+      translate: 0 var(--y, 0);
+    }
+  }
+
+  @keyframes morph {
+    0% {
+      scale: var(--s);
+    }
+  }
+
+  @keyframes slide {
+    0%,
+    30% {
+      translate: 0 -100cqh;
+    }
+    100% {
+      translate: 0 0;
+    }
+  }
 }
 
 
-.card__content {
-  animation: slide both linear;
-  animation-timeline: --scroller;
-  animation-range: entry 0% exit 0%;
-}
 
 .card--one .card__avatar,
 .card--four .card__avatar {
   --s: 2;
   transform-origin: 0 50%;
-  animation: morph both linear;
-  animation-timeline: --scroller;
-  animation-range: entry 0% exit 0%;
 }
 
 .card--two .card__avatar {
   position: absolute;
   z-index: 4;
   left: 1rem;
-  animation: shrink both linear;
   width: var(--entity-size);
-  animation-timeline: --scroller;
-  animation-range: entry 0% exit 0%;
   max-width: calc(100cqi - 2rem);
 }
 
@@ -512,9 +612,6 @@ h1 {
 .card--three .card__column:last-of-type,
 .card--five .card__column:last-of-type {
   align-self: flex-start;
-  animation: slide both linear;
-  animation-timeline: --scroller;
-  animation-range: entry 0% exit 0%;
 }
 
 .card--six .card__column:last-of-type {
@@ -523,32 +620,9 @@ h1 {
   min-width: 60px;
 }
 .card--six .card__column:last-of-type .card__company {
-  animation: cta-morph both linear, color-in both linear;
-  animation-timeline: --scroller;
-  animation-range: entry 0% exit 0%;
   border-radius: 100px;
   width: var(--entity-size);
 }
-@keyframes cta-morph {
-  0%, 30% {
-    translate: -1rem 0;
-    width: 120px;
-  }
-}
-@keyframes color-in {
-  0%, 50% {
-    background: var(--element);
-  }
-}
-
-/*.card--five {
-  overflow: visible;
-}*/
-
-/*.card--five .cta {
-  animation: none;
-  scale: 1;
-}*/
 
 .card--three .card__dummy,
 .card--five .card__dummy,
@@ -581,9 +655,6 @@ h1 {
 .card--six .card__dummy {
   gap: 1rem;
   width: 34cqi;
-  animation: expand both linear;
-  animation-timeline: --scroller;
-  animation-range: entry 0% exit 0%;
 }
 
 .card--six .card__dummy {
@@ -592,12 +663,6 @@ h1 {
 
 .card--six .grid__panel {
   aspect-ratio: 2 / 1;
-}
-
-@keyframes expand {
-  0%, 30% {
-    width: var(--w, 26cqi);
-  }
 }
 
 .text-wrap {
@@ -629,21 +694,6 @@ h1 {
   border-radius: 100px;
   scale: 0;
   --s: 1;
-  animation: morph both linear;
-  animation-timeline: --scroller;
-  animation-range: entry 0% exit 0%;
-}
-
-@keyframes shrink {
-  0%, 30% {
-    width: calc(var(--w) - 2rem);
-    border-radius: 12px;
-    height: calc(300cqh - 2rem);
-  }
-  85% {
-    height: var(--entity-size);
-    width: var(--entity-size);
-  }
 }
 
 .ring {
@@ -673,41 +723,6 @@ h1 {
   translate: -50% -50%;
   object-fit: cover;
 }
-
-@keyframes grow {
-  0% {
-    translate: var(--x, 0) var(--y, 0);
-    height: var(--h, 100%);
-    rotate: var(--r, 0);
-    width: var(--w, 10cqi);
-  }
-  15% {
-    rotate: var(--r, 0);
-  }
-  30% {
-    rotate: 0deg;
-    height: var(--h, 100%);
-    width: calc(var(--w, 10cqi));
-    translate: 0 var(--y, 0);
-  }
-}
-
-@keyframes morph {
-  0% {
-    scale: var(--s);
-  }
-}
-
-@keyframes slide {
-  0%,
-  30% {
-    translate: 0 -100cqh;
-  }
-  100% {
-    translate: 0 0;
-  }
-}
-
 
 .bear-link {
   color: canvasText;
