@@ -1,0 +1,307 @@
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap');
+@import "normalize.css";
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	font-family:  "EB Garamond", "SF Pro Text", "SF Pro Icons", "AOS Icons", "Helvetica Neue", Helvetica, Arial, sans-serif, system-ui;
+}
+
+body::before {
+	--size: 60px;
+	--line: hsl(0 0% 10% / 0.5);
+	content: '';
+	height: 100vh;
+	width: 100vw;
+	position: fixed;
+	background: linear-gradient(
+				90deg,
+				var(--line) 1px,
+				transparent 1px var(--size)
+			)
+			50% 50% / var(--size) var(--size),
+		linear-gradient(var(--line) 1px, transparent 1px var(--size)) 50% 50% /
+			var(--size) var(--size);
+	mask: linear-gradient(-15deg, transparent 50%, white);
+	top: 0;
+	transform-style: flat;
+	pointer-events: none;
+	z-index: -1;
+}
+
+:root {
+  --size: 20;
+  --radius: 2rem;
+  --img-size: calc(var(--size) * 1vmin);
+}
+
+h1 {
+	font-size: clamp(2rem, 4vw + 1rem, 8rem);
+	font-weight: 300;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  height: 100vh;
+  width: 100vw;
+  overflow: auto;
+}
+
+[data-scroll-snap=true] ul {
+  scroll-snap-type: y mandatory; 
+}
+[data-scroll-snap=true] li {
+  scroll-snap-align: center; 
+}
+
+li {
+  height: calc(var(--list-size, 30) * 1vh);
+  width: 100vw;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  max-inline-size: 100%;
+}
+
+h1 {
+  max-inline-size: 100%;
+}
+
+img {
+  border-radius: var(--radius);
+  width: var(--img-size);
+  aspect-ratio: 1;
+  object-fit: cover;
+  border: 0;
+  background: hsl(0 0% 50%);
+}
+
+@supports (animation-timeline: scroll()) {
+	li img {
+		animation-fill-mode: both;
+		animation-timing-function: var(--driven-ease, linear);
+		animation-timeline: view();
+		animation-range: entry var(--start, 0%) entry var(--finish, 200%);
+	}
+
+	@property --triggered {
+		initial-value: 0;
+		inherits: true;
+		syntax: '<number>';
+	}
+
+	@keyframes trigger {
+		to {
+			--triggered: 1;
+		}
+	}
+	/* Scroll triggered version */
+	[data-scroll-trigger=true] li {
+		animation-name: trigger;
+		animation-fill-mode: both;
+		animation-timing-function: steps(1);
+		animation-timeline: view();
+		animation-range: entry;
+	}
+	[data-scroll-trigger=true] li img {
+		animation-name: unset;
+	}
+	
+	[data-enter-style=curtains] img {
+	  animation-name: curtains;
+	  mask: linear-gradient(45deg, transparent 50%, black 50%);
+	  mask-repeat: no-repeat;
+	  mask-size: 200% 200%;
+	  mask-position: -100% 0;
+	}
+	
+	[data-scroll-trigger=true][data-enter-style=curtains] img {
+		transition: mask-position 0.5s var(--triggered-ease, linear);
+		mask-position: calc(-100% + (var(--triggered, 0) * 200%)) 0;
+	}
+
+	@keyframes curtains {
+	  to {
+	    mask-position: 100% 0;
+	  }
+	}
+
+	[data-enter-style=fade] img {
+	  animation-name: fade-across;
+	  mask: linear-gradient(transparent 50%, black 75%);
+	  mask-size: 400% 400%;
+	  mask-repeat: no-repeat;
+	  mask-position: 0% 0%;
+	}
+
+	[data-scroll-trigger=true][data-enter-style=fade] img {
+		transition: mask-position 0.5s var(--triggered-ease, linear);;
+		mask-position: 0 calc((var(--img-size) * -3) * var(--triggered, 0));
+	}
+
+	@keyframes fade-across {
+	  to {
+	    mask-position: 0 calc(var(--img-size) * -3);
+	  }
+	}
+
+	[data-enter-style=drape] img {
+	  animation-name: drape-over;
+	  mask: linear-gradient(45deg, transparent 50%, black 75%);
+	  mask-size: 400% 400%;
+	  mask-repeat: no-repeat;
+	  mask-position: var(--img-size) 0;
+	}
+
+	[data-scroll-trigger=true][data-enter-style=drape] img {
+		transition: mask-position 0.5s var(--triggered-ease, linear);;
+		mask-position: calc(var(--img-size) + ((var(--img-size) * -4) * var(--triggered, 0))) 0;
+	}
+
+	@keyframes drape-over {
+	  to {
+	    mask-position: calc(var(--img-size) * -3) 0;
+	  }
+	}
+
+	[data-enter-style=slides] img {
+	  animation-name: slides;
+	  mask:
+	    linear-gradient(90deg, transparent 50%, black 50%),
+	    linear-gradient(90deg, black 50%, transparent 50%),
+	    linear-gradient(90deg, transparent 50%, black 50%),
+	    linear-gradient(90deg, black 50%, transparent 50%),
+	    linear-gradient(90deg, transparent 50%, black 50%);
+	  mask-size: 200% calc(var(--img-size) * 0.21);
+	  mask-repeat: no-repeat;
+	  mask-position: /* 50 -> 0 and -100 -> -50*/
+	    calc(var(--img-size) * -2) 0vmin,
+	    var(--img-size) calc(var(--img-size) * 0.2),
+	    calc(var(--img-size) * -2) calc(var(--img-size) * 0.4), 
+	    var(--img-size) calc(var(--img-size) * 0.6),
+	    calc(var(--img-size) * -2) calc(var(--img-size) * 0.8);
+	}
+
+	[data-scroll-trigger=true][data-enter-style=slides] img {
+		transition: mask-position 0.5s var(--triggered-ease, linear);
+		mask-position: /* 50 -> 0 and -100 -> -50*/
+	    calc((var(--img-size) * -2) + (var(--img-size) * var(--triggered, 0))) 0vmin,
+	    calc(var(--img-size) * (1 - var(--triggered, 0))) calc(var(--img-size) * 0.2),
+	    calc((var(--img-size) * -2) + (var(--img-size) * var(--triggered, 0))) calc(var(--img-size) * 0.4), 
+	    calc(var(--img-size) * (1 - var(--triggered, 0))) calc(var(--img-size) * 0.6),
+	    calc((var(--img-size) * -2) + (var(--img-size) * var(--triggered, 0))) calc(var(--img-size) * 0.8);
+	}
+
+	@keyframes slides {
+	  to {
+	    mask-position: /* 50 -> 0 and -100 -> -50*/
+	    calc(var(--img-size) * -1) 0vmin,
+	    0vmin calc(var(--img-size) * 0.2),
+	    calc(var(--img-size) * -1) calc(var(--img-size) * 0.4), 
+	    0vmin calc(var(--img-size) * 0.6),
+	    calc(var(--img-size) * -1) calc(var(--img-size) * 0.8);
+	  }
+	}
+
+	[data-enter-style=fill] img {
+	  animation-name: box-fill;
+	  clip-path: inset(0 100% 100% 0 round var(--radius));
+	}
+
+	[data-scroll-trigger=true][data-enter-style=fill] img {
+		transition: clip-path 0.5s var(--triggered-ease, linear);
+		clip-path: inset(0 calc(100% * (1 - var(--triggered, 0))) calc(100% * (1 - var(--triggered, 0))) 0 round var(--radius));
+	}
+
+	@keyframes box-fill {
+	  to {
+	    clip-path: inset(0 0 0 0 round var(--radius));
+	  }
+	}
+
+	[data-enter-style=bloom] img {
+	  animation-name: bloom;
+	  clip-path: circle(0% at center);
+	}
+
+	[data-scroll-trigger=true][data-enter-style=bloom] img {
+		transition: clip-path 0.5s var(--triggered-ease, linear);
+		clip-path: circle(calc(var(--triggered) * 100%) at center);
+	}
+
+	@keyframes bloom {
+	  to {
+	    clip-path: circle(100% at center);
+	  }
+	}
+
+
+	[data-enter-style=land] img {
+	  animation-name: land;
+	}
+
+	[data-scroll-trigger=true][data-enter-style=land] img {
+		transition: opacity 0.5s var(--triggered-ease, linear), filter 0.5s var(--triggered-ease, linear), scale 0.5s var(--triggered-ease, linear);
+		opacity: var(--triggered, 0);
+		filter: brightness(calc(2 - (var(--triggered, 0))));
+		scale: calc(0.9 + (var(--triggered, 0) * 0.1));
+	}
+
+	@keyframes land {
+	  0% {
+	    opacity: 0;
+	    filter: brightness(2);
+	    scale: 0.9;
+	  }
+	}
+
+	[data-enter-style=saturate] img {
+	  animation-name: saturate;
+	  filter: saturate(2);
+	}
+
+	[data-scroll-trigger=true][data-enter-style=saturate] img {
+		transition: filter 0.5s var(--triggered-ease, linear);
+		filter: saturate(calc(var(--triggered, 0) * 2));
+	}
+
+	@keyframes saturate {
+	  0% {
+	    filter: saturate(0);
+	  }
+	}
+}
+
+
+div.tp-dfwv {
+	width: 320px;
+}
+
+/* Social */
+.bear-link {
+  color: canvasText;
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  width: 48px;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  opacity: 0.8;
+}
+
+:where(.x-link, .bear-link):is(:hover, :focus-visible) {
+  opacity: 1;
+}
+.bear-link svg {
+  width: 75%;
+}
