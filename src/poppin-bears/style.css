@@ -1,0 +1,564 @@
+@import "normalize.css";
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  display: grid;
+  min-height: 100vh;
+  place-items: center;
+  counter-reset: popped 0;
+  overflow: hidden;
+  background: hsl(210 80% 80%);
+  font-family: Optima, Candara, 'Noto Sans', source-sans-pro, sans-serif;
+  font-weight: bold;
+}
+
+.pop-counter {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: red;
+  font-family: sans-serif, system-ui;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  padding: 0.5rem;
+}
+
+main [popover]:not(#results, #level0):popover-open {
+  counter-increment: popped 1;
+}
+main [popover]:not(#results) :checked {
+  counter-increment: popped 1;
+}
+
+.pops:after {
+  content: counter(popped);
+  font-size: 1.25rem;
+  color: transparent;
+}
+main:after {
+  content: counter(popped);
+  top: 1rem;
+  left: calc(50% + 2.5rem);
+  top: anchor(--status top);
+  right: anchor(--status center);
+  position: fixed;
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: red;
+  font-family: sans-serif, system-ui;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  padding: 0.5rem;
+  z-index: 2;
+  opacity: var(--playing, 0);
+  transition: opacity 0.2s;
+}
+
+[role=image] {
+  display: inline-block;
+  translate: -50% 0;
+}
+
+.dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  background: hsl(0 0% 15%);
+  color: hsl(0 0% 98%);
+  padding: 2rem;
+  display: grid;
+  place-items: center;
+  transition: transform 0.25s;
+  transform: translateY(calc(var(--hide, 0) * 100vh));
+  border: 0.5rem double white;
+  border-radius: 0.5rem;
+  width: 70ch;
+  max-width: 100%;
+}
+
+.dialog-bear {
+  width: 100%;
+  height: 100%;
+}
+.intro-bear {
+  height: 100%;
+  width: clamp(250px, 20vmin + 1rem, 30rem);
+}
+
+.dialog--intro {
+  display: grid;
+  grid-template-columns: auto 1fr;
+}
+
+.score:after {
+  content: "You popped "counter(popped)" balloons!";
+  font-size: 1.5rem;
+}
+
+.intro {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.dialog button {
+  border: 10px solid white;
+  background: transparent;
+  padding: 1rem 2rem;
+  border-radius: 100px;
+  color: white;
+  font-weight: bold;
+  font-size: 1.25rem;
+  transition: background 0.2s;
+  cursor: pointer;
+}
+
+h1 {
+  font-size: 4rem;
+}
+
+.dialog p {
+  font-size: 1.25rem;
+}
+
+.dialog button:hover {
+  background: hsl(0 90% 50%);
+}
+
+.dialog--result {
+  display: grid;
+  gap: 1rem;
+  padding: 2rem 4rem;
+}
+
+.dialog--result h2 {
+  font-size: 3rem;
+  margin: 0;
+}
+
+#result:popover-open .dialog--result {
+  --hide: 0;
+  animation: pop-up 0.25s both;
+}
+
+@keyframes pop-up {
+  from {
+    transform: translateY(100vh);
+  }
+}
+
+:root:has(#level0:popover-open) .dialog--intro {
+  --hide: 1;
+}
+
+[popover] {
+  inset: unset;
+  position: fixed;
+  height: 100vh;
+  width: 100vw;
+  inset: 0;
+  top: 0;
+  border: 0;
+  padding: 0;
+  overflow: hidden;
+  background: transparent;
+}
+
+.bear {
+  --hue: 280;
+  position: absolute;
+  top: 100%;
+  left: calc(var(--x, 0) * 1%);
+  width: calc(var(--size, 0) * 1%);
+  translate: -50% 0;
+  min-width: 48px;
+  aspect-ratio: 1;
+  transform: rotateY(calc(var(--flip, 0) * 180deg));
+  animation: float calc(var(--speed) * 1s) calc(var(--delay) * 1s) infinite linear;
+}
+
+.bear button {
+  background: transparent;
+  border: 0;
+}
+
+@keyframes float {
+  to {
+    translate: -50% calc(-100vh - 600%);
+  }
+}
+
+.bear--golden .bear__fur {
+  fill: hsl(45 90% 70%);
+}
+
+.bear__balloon {
+  fill: hsl(var(--hue, 10) 80% 80% / var(--alpha, 0.65));
+  transition: fill 0.2s;
+}
+
+.bear__strap {
+  fill: hsl(var(--hue, 10) 100% 50%);
+}
+
+.bear [type=checkbox] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.bear svg {
+  pointer-events: none;
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  width: 254%;
+  left: 50%;
+  translate: -47.5% -9%;
+}
+
+.bear :is(button, label) {
+  width: 100%;
+  aspect-ratio: 1;
+  opacity: 1;
+  padding: 0;
+  border-radius: 50%;
+  display: block;
+  cursor: pointer;
+  position: absolute;
+  z-index: 2;
+} 
+
+[popover]:has(~ [popover]:popover-open) .bear:has(button) .bear__content {
+  pointer-events: none;
+  animation: drop 1s forwards, eliminate 1s steps(1, end) both;
+}
+
+.bear button {
+  border: 0;
+}
+
+.bear__content {
+  height: 100%;
+  width: 100%;
+}
+
+.bear:has(:checked) .bear__content {
+  pointer-events: none;
+  animation: drop 1s forwards, eliminate 1s steps(1, end) both;
+}
+
+.bear:has(:checked) .bear__balloon {
+  animation: pop 0.2s forwards;
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+}
+
+@keyframes pop {
+  to {
+    scale: 1.5;
+    opacity: 0;
+  }
+}
+
+
+@keyframes drop {
+  to {
+    translate: 0% calc(100vh + 600%);
+  }
+}
+@keyframes eliminate {
+  to {
+    opacity: 0;
+  }
+}
+
+.bear:has(:is(label, button):hover) {
+  --alpha: 1;
+}
+
+[popover]:has(+ [popover] + [popover]:popover-open) .bear {
+  opacity: 0;
+  animation: none;
+}
+
+[id*=level]:has(+ [popover]:not(#result):popover-open) .bear:not(:has(:checked)):not(:has(button)) .bear__content {
+  animation: fade-away 0.5s both;
+}
+
+@keyframes fade-away {
+  to {
+    opacity: 0;
+  }
+}
+
+.bear__eyes {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  rotate: 45deg;
+  animation: blink calc(var(--blink-speed, 6) * 1s) calc(var(--blink-delay, 2) * -1s) infinite;
+}
+
+@keyframes blink {
+  0%, 46%, 48%, 50%, 100% {
+    scale: 1 1;
+  }
+  47%, 49% {
+    scale: 1 0.01;
+  }
+}
+
+.backdrop,
+.backdrop > div {
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  inset: 0;
+}
+.cloud {
+  position: absolute;
+  top: 100%;
+  left: calc(var(--x, 0.5) * 1%);
+  translate: -50% 0;
+  transform: rotateY(calc(var(--flipped, 0) * 180deg));
+  width: calc(var(--size) * 1vmin);
+  animation: fluff calc(var(--speed, 0) * 1s) calc(var(--delay, 0) * 1s) linear reverse infinite;
+}
+
+.cloud path {
+  fill: hsl(0 0% calc(var(--shade, 90) * 1%));
+}
+
+@keyframes fluff {
+  to {
+    translate: -50% calc(-100vh + -100%);
+  }
+}
+
+.wave-header {
+  font-size: 3rem;
+  text-transform: uppercase;
+  background: hsl(10 80% 50%);
+  padding: 1rem;
+  position: absolute;
+  bottom: 4rem;
+  left: 0;
+  width: 50vw;
+  transform: skewX(-10deg);
+  color: hsl(0 0% 100%);
+  text-align: right;
+  margin: 0;
+  translate: -110% 0;
+  animation: wave 4s both;
+}
+
+@keyframes wave {
+  to {
+    translate: calc(100vw + 100%) 0;
+  }
+}
+
+
+
+
+/* Timer magic... */
+.timer {
+  color: var(--digit, red);
+  display: inline-flex;
+  font-size: 6vmin;
+  padding: 1.75vmin;
+  background: hsl(0 0% 0%);
+}
+
+.game-status {
+  anchor-name: --status;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: black;
+  position: absolute;
+  top: 1rem;
+  left: 50%;
+  translate: -50% 0;
+  z-index: 2;
+  opacity: var(--playing, 0);
+  transition: opacity 0.2s;
+}
+
+main > .game-status .timer {
+  font-size: 1.25rem;
+  padding: 0.5rem;
+}
+main > .game-status .timer .ms {
+  font-size: 0.75rem;
+}
+
+@property --ms-tens {
+  initial-value: 0;
+  inherits: true;
+  syntax: '<number>';
+}
+@property --ms-singles {
+  initial-value: 0;
+  inherits: true;
+  syntax: '<number>';
+}
+@property --s-tens {
+  initial-value: 0;
+  inherits: true;
+  syntax: '<number>';
+}
+@property --s-singles {
+  initial-value: 0;
+  inherits: true;
+  syntax: '<number>';
+}
+@property --m-tens {
+  initial-value: 0;
+  inherits: true;
+  syntax: '<number>';
+}
+@property --m-singles {
+  initial-value: 0;
+  inherits: true;
+  syntax: '<number>';
+}
+
+#result {
+  display: block;
+  translate: 0 100%;
+}
+
+#result:popover-open {
+  translate: 0 0;
+}
+
+.digit {
+  position: relative;
+  color: transparent;
+  font-family: 'Orbitron', sans-serif;
+  counter-reset: var(--counter-name) var(--counter-variable);
+  animation: var(--name, none) var(--duration, 1s) infinite steps(var(--steps)) var(--state);
+}
+.digit:after {
+  content: counter(var(--counter-name));
+  font-variant: tabular-nums;
+  color: var(--digit, red);
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+:root:has(#level0:popover-open) {
+  --state: running;
+  --playing: 1;
+}
+:root:has(#result:popover-open) {
+  --state: paused;
+  --playing: 0;
+}
+:root:has(#level0:popover-open) .ms--tens {
+  --name: ms-tens;
+}
+:root:has(#level0:popover-open) .ms--singles {
+  --name: ms-singles;
+}
+:root:has(#level0:popover-open) .s--tens {
+  --name: s-tens;
+}
+:root:has(#level0:popover-open) .s--singles {
+  --name: s-singles;
+}
+:root:has(#level0:popover-open) .m--tens {
+  --name: m-tens;
+}
+:root:has(#level0:popover-open) .m--singles {
+  --name: m-singles;
+}
+.game-timer {
+  font-size: 3vmin;
+  padding: 1vmin;
+}
+.game-timer .ms {
+  font-size: 2vmin;
+}
+.ms {
+  font-size: 4vmin;
+  transform: translate(0, -6%);
+}
+.ms--tens {
+  --duration: 1s;
+  --steps: 10;
+  --counter-name: ms-tens;
+  --counter-variable: var(--ms-tens);
+}
+.ms--singles {
+  --duration: 0.1s;
+  --steps: 10;
+  --counter-name: ms-singles;
+  --counter-variable: var(--ms-singles);
+}
+.s--tens {
+  --duration: 60s;
+  --steps: 6;
+  --counter-name: s-tens;
+  --counter-variable: var(--s-tens);
+}
+.s--singles {
+  --duration: 10s;
+  --steps: 10;
+  --counter-name: s-singles;
+  --counter-variable: var(--s-singles);
+}
+.m--tens {
+  --duration: 3600s;
+  --steps: 6;
+  --counter-name: m-tens;
+  --counter-variable: var(--m-tens);
+}
+.m--singles {
+  --duration: 600s;
+  --steps: 10;
+  --counter-name: m-singles;
+  --counter-variable: var(--m-singles);
+}
+@keyframes ms-tens {
+  to {
+    --ms-tens: 10;
+  }
+}
+@keyframes ms-singles {
+  to {
+    --ms-singles: 10;
+  }
+}
+@keyframes s-tens {
+  to {
+    --s-tens: 6;
+  }
+}
+@keyframes s-singles {
+  to {
+    --s-singles: 10;
+  }
+}
+@keyframes m-tens {
+  to {
+    --m-tens: 6;
+  }
+}
+@keyframes m-singles {
+  to {
+    --m-singles: 10;
+  }
+}

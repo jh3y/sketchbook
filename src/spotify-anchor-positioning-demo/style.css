@@ -1,0 +1,352 @@
+@import 'https://unpkg.com/normalize.css' layer(normalize);
+
+@layer base {
+	*,
+	*:after,
+	*:before {
+		box-sizing: border-box;
+	}
+
+	body {
+		min-height: 200vh;
+		font-family: sans-serif, system-ui;
+	}
+	:root {
+		color-scheme: light only;
+		--alpha: 0.15;
+		--backdrop: white;
+		--line: color-mix(in lch, canvasText 25%, transparent);
+		--shadow: 0 0 0 1px rgba(0, 0, 0, 0.08), 0px 1px 1px rgba(0, 0, 0, 0.02),
+			0px 4px 8px -4px rgba(0, 0, 0, 0.04),
+			0px 16px 24px -8px rgba(0, 0, 0, 0.06);
+	}
+
+	:root:has([aria-pressed='true']) {
+		color-scheme: dark only;
+		--alpha: 0.3;
+		--backdrop: black;
+		--line: color-mix(in lch, canvasText 15%, transparent);
+		--shadow: 0 0 0 1px hsla(0, 0%, 100%, 0.145),
+			0px 1px 1px rgba(0, 0, 0, 0.02), 0px 4px 8px -4px rgba(0, 0, 0, 0.04),
+			0px 16px 24px -8px rgba(0, 0, 0, 0.06);
+	}
+
+	:root:has([aria-pressed='true']) img {
+		filter: brightness(0.75);
+	}
+
+	body::before {
+		--size: 60px;
+		content: '';
+		height: 100vh;
+		width: 100vw;
+		position: fixed;
+		background: linear-gradient(
+					90deg,
+					var(--line) 1px,
+					transparent 1px var(--size)
+				)
+				50% 50% / var(--size) var(--size),
+			linear-gradient(var(--line) 1px, transparent 1px var(--size)) 50% 50% /
+				var(--size) var(--size);
+		mask: linear-gradient(-15deg, transparent 40%, white);
+		top: 0;
+		transform-style: flat;
+		pointer-events: none;
+		z-index: -1;
+	}
+
+	.sr-only {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		padding: 0;
+		margin: -1px;
+		overflow: hidden;
+		clip: rect(0, 0, 0, 0);
+		white-space: nowrap;
+		border-width: 0;
+	}
+
+	[popovertarget] svg {
+		transition: rotate 0.2s, transform 0.2s;
+	}
+
+	[popover] {
+		margin: 0;
+		inset: unset;
+		border: 0;
+		padding: 4px;
+		border-radius: 6px;
+		box-shadow: var(--shadow);
+		background: var(--backdrop);
+	}
+	/* Social */
+	.bear-link {
+		color: canvasText;
+		position: fixed;
+		top: 1rem;
+		left: 1rem;
+		width: 48px;
+		aspect-ratio: 1;
+		display: grid;
+		place-items: center;
+		opacity: 0.8;
+	}
+
+	:where(.x-link, .bear-link):is(:hover, :focus-visible) {
+		opacity: 1;
+	}
+	.bear-link svg {
+		width: 75%;
+	}
+
+	/*	Popover stuff */
+
+	ul {
+		margin: 0;
+		padding: 0;
+		list-style-type: none;
+	}
+
+	hr {
+		opacity: 0.25;
+	}
+
+	button {
+		width: 40px;
+		aspect-ratio: 1;
+		border-radius: 6px;
+		border: 0;
+		background: transparent;
+		cursor: pointer;
+		position: relative;
+	}
+
+	li,
+	a {
+		position: relative;
+	}
+
+	:is(button, li, a)::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		background: hsl(0 0% 50% / var(--alpha));
+		opacity: var(--intent, 0);
+		transition: opacity 0.2s;
+		border-radius: 6px;
+		pointer-events: none;
+	}
+
+	:is(button, li:not(:has(button, a)), a):is(:hover, :focus-visible) {
+		--intent: 1;
+	}
+
+	li {
+		white-space: nowrap;
+		height: 40px;
+		display: flex;
+		align-items: center;
+		padding: 0 0.5rem;
+	}
+
+	li:has(button, a) {
+		padding: 0;
+	}
+
+	[popover] a {
+		width: 100%;
+		height: 100%;
+		display: flex;
+		align-items: center;
+		padding: 0 0.5rem;
+		text-decoration: none;
+		color: currentColor;
+	}
+
+	[type='search'] {
+		height: 100%;
+		text-align: left;
+		padding: 0;
+		border: 0;
+		background: transparent;
+	}
+
+	[type='search'] + svg {
+		opacity: 0.5;
+	}
+
+	[popover] button {
+		width: 100%;
+		height: 100%;
+		aspect-ratio: auto;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 0 0.5rem;
+	}
+
+	[popover] {
+		--speed: 0.2s;
+		opacity: 0;
+		scale: 0.9;
+		filter: blur(10px);
+		transition: display var(--speed) allow-discrete,
+			overlay var(--speed) allow-discrete, opacity var(--speed),
+			scale var(--speed),
+			filter var(--speed);
+	}
+	[popover]:popover-open {
+		opacity: 1;
+		scale: 1;
+		filter: blur(0px);
+	}
+	@starting-style {
+		[popover]:popover-open {
+			opacity: 0;
+			scale: 0.9;
+			filter: blur(10px);
+		}
+	}
+}
+
+@layer theme {
+	.theme-toggle {
+		color: var(--color);
+		position: fixed;
+		top: 1rem;
+		right: 1rem;
+		width: 48px;
+		aspect-ratio: 1;
+		padding: 0;
+		border: 0;
+		display: grid;
+		place-items: center;
+		border-radius: 12px;
+		background: transparent;
+		transition: background 0.2s;
+		cursor: pointer;
+		z-index: 10;
+	}
+
+	.theme-toggle:is(:hover, :focus-visible) {
+		background: hsl(0 0% 90%);
+	}
+
+	.dark .theme-toggle:is(:hover, :focus-visible) {
+		background: hsl(0 0% 30%);
+	}
+
+	.theme-toggle[aria-pressed='true'] svg path:last-of-type {
+		display: block;
+	}
+
+	.theme-toggle svg {
+		color: currentColor;
+		width: 50%;
+	}
+
+	.theme-toggle[aria-pressed='true'] svg path:first-of-type,
+	.theme-toggle svg path:last-of-type {
+		display: none;
+	}
+
+	::view-transition-group(root) {
+		animation-duration: 1.25s;
+	}
+	::view-transition-new(root),
+	::view-transition-old(root) {
+		mix-blend-mode: normal;
+	}
+
+	::view-transition-new(root) {
+		animation-name: reveal-light;
+	}
+
+	::view-transition-old(root),
+	.dark::view-transition-old(root) {
+		animation: none;
+	}
+	.dark::view-transition-new(root) {
+		animation-name: reveal-dark;
+	}
+
+	@keyframes reveal-dark {
+		from {
+			clip-path: polygon(-30% 0, -30% 0, -15% 100%, -10% 115%);
+		}
+		to {
+			clip-path: polygon(-30% 0, 130% 0, 115% 100%, -10% 115%);
+		}
+	}
+
+	@keyframes reveal-light {
+		from {
+			clip-path: polygon(130% 0, 130% 0, 115% 100%, 110% 115%);
+		}
+		to {
+			clip-path: polygon(130% 0, -30% 0, -15% 100%, 110% 115%);
+		}
+	}
+}
+
+@layer cover {
+	.playing {
+		position: absolute;
+		width: 200px;
+		top: 20vh;
+		left: calc(50% - 100px);
+		font-size: 14px;
+		border-radius: 6px;
+		box-shadow: var(--shadow);
+	}
+	.playing img {
+		width: 100%;
+		objcet-fit: cover;
+		aspect-ratio: 1;
+		border-radius: 6px 6px 0 0;
+	}
+	.details {
+		display: grid;
+		gap: 0.25rem;
+		font-weight: 600;
+	}
+	.details div:last-of-type {
+		font-size: 12px;
+		font-weight: 200;
+	}
+	.playing__meta {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: 0.25rem calc(4px + 0.5rem);
+		padding-right: 0.25rem;
+		background: var(--backdrop);
+		border-radius: 0 0 6px 6px;
+		min-height: 40px;
+	}
+	.playing__meta svg {
+		width: 20px;
+		rotate: 90deg;
+	}
+}
+
+:root:has(#context:popover-open) [popovertarget='context'] svg {
+	rotate: 270deg;
+}
+:root:has(#share:popover-open) [popovertarget='share'] svg,
+:root:has(#playlist:popover-open) [popovertarget='playlist'] svg {
+	rotate: 270deg;
+}
+
+@supports (anchor-name: --anchor) {
+	[popover] {
+		inset: unset;
+		/*	  inset-area: bottom right;*/
+		top: anchor(top);
+		left: anchor(right);
+/*		inset-area: right span-bottom;*/
+		position-try-options: flip-block, flip-inline;
+	}
+}
