@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 @import "normalize.css";
 
 *,
@@ -7,8 +8,123 @@
 }
 
 body {
-	display: grid;
+	display: flex;
 	place-items: center;
+	justify-content: center;
 	min-height: 100vh;
 	font-family:  "SF Pro Text", "SF Pro Icons", "AOS Icons", "Helvetica Neue", Helvetica, Arial, sans-serif, system-ui;
+}
+
+body > img {
+	position: fixed;
+	z-index: 2;
+	pointer-events: none;
+	opacity: 0.5;
+	width: 750px;
+	translate: 0 -150px;
+}
+
+article {
+	width: 600px;
+	aspect-ratio: 2 / 1.1;
+	position: relative;
+	overflow: hidden;
+	border-radius: 4em;
+	max-width: calc(100% - 2rem);
+}
+
+article img {
+	position: absolute;
+	top: 0;
+	left: 50%;
+	translate: -50% 0;
+	height: 100%;
+	width: 110%;
+	object-fit: cover;
+	object-position: center 43%;
+	user-select: none;
+	pointer-events: none;
+}
+
+article img:first-of-type {
+	filter: saturate(1.5) brightness(0.9);
+}
+
+article h3 {
+	position: absolute;
+	left: 50%;
+	top: 6%;
+	margin: 0;
+	font-size: 8rem;
+	translate: -50% 0;
+	text-transform: uppercase;
+	font-family: 'Bebas Neue', sans-serif;
+	color: white;
+}
+
+.content {
+	min-height: 32%;
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+}
+
+.content svg {
+	width: 20px;
+}
+.content__content,
+.content__backdrop-wrapper {
+	height: 100%;
+	width: 100%;
+	position: absolute;
+	inset: 0;
+}
+
+.wrap {
+/*	filter: blur(0px);*/
+}
+
+.content__backdrop {
+	height: 100%;
+	width: 60%;
+	backdrop-filter: blur(20px);
+	filter: blur(0px);
+	position: absolute;
+	left: 50%;
+	translate: -50% 0;
+	mix-blend-mode: soft-light;
+	background: color-mix(in lch, #999 60%, transparent);
+	border-radius: 100% 100% 0 0 / 50% 50% 0 0;
+}
+
+.content p {
+	margin: 0;
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	font-size: 1.2rem;
+}
+
+.content p:first-of-type::after {
+	content: "";
+	position: absolute;
+	top: 1rem;
+	left: 50%;
+	width: 6ch;
+	background: white;
+	height: 1px;
+	translate: -50% 0;
+}
+
+.content p:last-of-type {
+	opacity: 0.8;
+}
+
+.content__content {
+	color: white;
+	display: grid;
+	gap: 0.2rem;
+	place-items: center;
+	align-content: center;
+	padding-bottom: .5rem;
 }
