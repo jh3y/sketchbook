@@ -1,0 +1,171 @@
+@font-face {
+  font-family: "Geist";
+  src: url("https://assets.codepen.io/605876/GeistVF.ttf") format("truetype");
+}
+
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --bg: hsl(0 0% 2%);
+}
+
+body {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  background: var(--bg);
+}
+
+main {
+  width: 60ch;
+  max-width: 100%;
+}
+
+body {
+  font-family: 'Geist', arial;
+  font-weight: 100;
+}
+
+ul {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  padding: 1rem;
+  list-style-type: none;
+}
+
+ul::after {
+  border-radius: 1rem;
+  content: "";
+  position: absolute;
+  background: hsl(0 0% 10%);
+  pointer-events: none;
+  z-index: -2;
+  inset:
+    calc(var(--top) * 1px)
+    calc(100% - (var(--right) * 1px))
+    calc(100% - (var(--bottom) * 1px))
+    calc(var(--left) * 1px);
+  transition: inset 0.2s;
+}
+
+ul[data-enhanced]:hover {
+  --active: 1;
+}
+ul[data-enhanced]::after {
+  opacity: var(--active, 0);
+  transition: opacity 0.2s, inset 0.2s 0.2s;
+}
+ul[data-enhanced]:hover::after {
+  transition: opacity 0.2s 0.2s, inset 0.2s;
+}
+
+@supports(anchor-name: --anchor) {
+  li:nth-of-type(1) article { anchor-name: --develop; }
+  li:nth-of-type(2) article { anchor-name: --preview; }
+  li:nth-of-type(3) article { anchor-name: --ship; }
+  li:nth-of-type(4) article { anchor-name: --profit; }
+
+  :root { --anchor: --develop; }
+  :root:has(li:nth-of-type(1):hover) { --anchor: --develop; }
+  :root:has(li:nth-of-type(2):hover) { --anchor: --preview; }
+  :root:has(li:nth-of-type(3):hover) { --anchor: --ship; }
+  :root:has(li:nth-of-type(4):hover) { --anchor: --profit; }  
+
+  ul::after {
+  	position-anchor: var(--anchor);
+    inset:
+      anchor(top)
+      anchor(right)
+      anchor(bottom)
+      anchor(left);
+  }
+
+  ul:has(li:hover) {
+    --active: 1;
+  }
+  ul::after {
+    opacity: var(--active, 0);
+    transition: opacity 0.2s, inset 0.2s 0.2s;
+  }
+  ul:hover::after {
+    transition: opacity 0.2s 0.2s, inset 0.2s;
+  }
+  
+  article::after {
+    content: unset;
+    display: none;
+  }
+}
+
+ul:not([data-enhanced]) article::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background: hsl(0 0% 10%);
+  border-radius: 1rem;
+  opacity: var(--li-active, 0);
+  transition: opacity 0.2s;
+}
+
+article {
+  color: hsl(0 0% 80%);
+  padding: 1rem;
+  display: grid;
+  gap: 0.5rem;
+  position: relative;
+}
+
+article::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(var(--bg) 0 2px, transparent 2px 38px) -20px -20px / 40px 40px,
+    linear-gradient(90deg, var(--bg) 0 2px, transparent 2px 38px) -20px -20px / 40px 40px;
+  mask: linear-gradient(-35deg, var(--bg) 0%, transparent 45%);
+  z-index: -1;
+  opacity: var(--li-active, 0);
+  transition: opacity 0.2s;
+}
+
+li:hover {
+  --li-active: 1;
+}
+
+article h3 {
+  margin: 0;
+  font-weight: 120;
+}
+
+article p {
+  margin: 0;
+  text-wrap: pretty;
+  background: linear-gradient(hsl(0 0% 80%), hsl(0 0% 50%));
+  color: transparent;
+  background-clip: text;
+  font-weight: 80;
+}
+
+article svg {
+  width: 44px;
+}
+
+article svg path {
+  stroke-width: 0.75;
+  stroke: hsl(var(--hue, 30) calc(var(--li-active, 0) * 60%) 60%);
+  transition: stroke 0.2s;
+}
+
+li:nth-of-type(1) { --hue: 30; }
+li:nth-of-type(2) { --hue: 280; }
+li:nth-of-type(3) { --hue: 210; }
+li:nth-of-type(4) { --hue: 120; }
