@@ -1,0 +1,153 @@
+@import "normalize.css";
+
+@font-face {
+  font-family: "Geist Sans";
+  src: url("https://assets.codepen.io/605876/GeistVF.ttf") format("truetype");
+}
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+:root {
+  color-scheme: dark only;
+	--line: color-mix(in lch, canvasText 15%, transparent);
+}
+
+:root[data-theme=light] {
+	color-scheme: light only;
+	--line: color-mix(in lch, canvasText 35%, transparent);
+}
+
+body {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	font-family:  "Geist Sans", sans-serif;
+	font-weight: 80;
+}
+
+body::before {
+	--size: 60px;
+	content: '';
+	height: 100vh;
+	width: 100vw;
+	position: fixed;
+	background: linear-gradient(
+				90deg,
+				var(--line) 1px,
+				transparent 1px var(--size)
+			)
+			50% 50% / var(--size) var(--size),
+		linear-gradient(var(--line) 1px, transparent 1px var(--size)) 50% 50% /
+			var(--size) var(--size);
+	mask: linear-gradient(-15deg, transparent 40%, white);
+	top: 0;
+	transform-style: flat;
+	pointer-events: none;
+	z-index: -1;
+}
+
+[data-gradient=true] h2 {
+
+}
+
+:root {
+  --primary-bg: linear-gradient(var(--primary), var(--primary));
+}
+
+[data-gradient=true] {
+  --primary-bg: conic-gradient(from var(--angle, 180deg) at 50% 70%,hsla(0,0%,98%,1) 0deg,#eec32d 72.0000010728836deg,#ec4b4b 144.0000021457672deg,#709ab9 216.00000858306885deg,#4dffbf 288.0000042915344deg,hsla(0,0%,98%,1) 1turn);
+}
+
+h2 {
+  font-weight: 120;
+	line-height: 1.025;
+  resize: both;
+  overflow: hidden;
+  width: 10ch;
+  background:
+    var(--primary-bg),
+    linear-gradient(var(--secondary) calc(var(--highlight) * 1lh) calc((var(--highlight) + var(--spread)) * 1lh), transparent);
+  background-repeat: no-repeat;
+  background-size: 
+    100% calc(var(--highlight) * 1lh),
+    100% calc(100% - (var(--highlight) * 1lh));
+ 	background-position: 0 0, 0 calc(var(--highlight) * 1lh);
+  background-clip: text;
+  color: transparent;
+  text-wrap: balance;
+  font-size: clamp(2rem, 1rem + 4vw, 12rem);
+  display: inline-block;
+  margin: 0;
+}
+
+.wrapper {
+  padding: 2rem;
+  background: var(--bg);
+  position: relative;
+}
+
+@media(prefers-reduced-motion: no-preference) {
+  @property --angle {
+    inherits: true;
+    initial-value: 180deg;
+    syntax: '<angle>';
+  }
+  @keyframes rotate {
+    to { --angle: 540deg; }
+  }
+  [data-gradient=true][data-animate=true] {
+    animation: rotate 6s infinite linear;
+  }
+}
+
+.bear-link {
+	color: canvasText;
+	position: fixed;
+	top: 1rem;
+	left: 1rem;
+	width: 48px;
+	aspect-ratio: 1;
+	display: grid;
+	place-items: center;
+	opacity: 0.8;
+}
+
+:where(.x-link, .bear-link):is(:hover, :focus-visible) {
+	opacity: 1;
+}
+.bear-link svg {
+	width: 75%;
+}
+
+div.tp-dfwv {
+	width: 300px;
+}
+
+::view-transition-group(root) {
+	animation-duration: 1.25s;
+}
+::view-transition-new(root),
+::view-transition-old(root) {
+	mix-blend-mode: normal;
+}
+
+::view-transition-new(root) {
+	animation-name: reveal-light;
+}
+
+::view-transition-old(root) {
+	animation: none;
+}
+
+@keyframes reveal-light {
+	from {
+		clip-path: polygon(130% 0, 130% 0, 115% 100%, 110% 115%);
+	}
+	to {
+		clip-path: polygon(130% 0, -30% 0, -15% 100%, 110% 115%);
+	}
+}
