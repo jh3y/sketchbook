@@ -1,0 +1,216 @@
+@import "normalize.css";
+
+html {
+	color-scheme: dark only;
+}
+
+:root {
+  --font-size: clamp(1rem, 2vw + 1rem, 5rem);
+  --speed: 0.25s;
+  --accent: hsl(320 80% 50%);
+}
+
+body {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  font-family: 'SF Pro Text', 'SF Pro Icons', 'AOS Icons', 'Helvetica Neue', Helvetica, Arial, sans-serif, system-ui;
+}
+
+body::before {
+	--line: color-mix(in lch, canvasText 25%, transparent);
+	--size: 60px;
+	content: "";
+	height: 100vh;
+	width: 100vw;
+	position: fixed;
+	background:
+		linear-gradient(90deg, var(--line) 1px, transparent 1px var(--size)) 0 -5vmin / var(--size) var(--size),
+		linear-gradient(var(--line) 1px, transparent 1px var(--size)) 0 -5vmin / var(--size) var(--size);
+	mask: linear-gradient(-15deg, transparent 60%, white);
+	top: 0;
+	z-index: -1;
+}
+
+::selection {
+  background: var(--accent);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.pass {
+	display: flex;
+	font-size: var(--font-size);
+	flex-direction: column;
+	gap: 0.25rem;
+	font-family: monospace;
+	max-width: calc(100% - 2rem);
+}
+
+.pass label {
+	font-size: 0.5em;
+	font-weight: 200;
+	color: color-mix(in lch, canvasText 60%, transparent);
+}
+
+.pass__header {
+	position: relative;
+	display: flex;
+	gap: 0.5rem;
+	align-items: center;
+}
+
+[aria-hidden=true] {
+	display: block;
+	padding: 0.5em 0;
+}
+
+button {
+	padding: 0;
+	display: grid;
+	place-items: center;
+	height: 100%;
+	aspect-ratio: 1;
+	border-radius: 6px;
+	border: 0;
+	background: transparent;
+	cursor: pointer;
+	outline: 0;
+	height: 44px;
+	width: 44px;
+	position: relative;
+	color: color-mix(in lch, canvasText 60%, transparent);;
+}
+
+button:is(:focus-visible, :hover) {
+	--active: 1;
+}
+
+button::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: color-mix(in lch, canvas 50%, hsl(0 0% 100% / 1));
+	opacity: calc(0.25 * var(--active, 0));
+	border-radius: 6px;
+	transition: opacity 0.2s;
+}
+
+button svg {
+	width: 65%;
+}
+
+.clipboard {
+	--bg: canvas;
+	--control: canvas;
+	overflow: visible !important;
+}
+
+.clipboard > path {
+	transform-box: fill-box;
+	transform-origin: 50% 50%;
+}
+
+.clipboard__check {
+	stroke-dasharray: 1;
+	stroke-dashoffset: 1;
+	transition: stroke-dashoffset 0.2s;
+}
+
+[data-copied=true] .clipboard__check {
+	transition: stroke-dashoffset 0.2s 0.2s;
+}
+
+.clipboard__board {
+	rotate: 5deg;
+	translate: calc(20% + (var(--active, 0) * -5%)) -8%;
+	fill: var(--bg);
+}
+
+.clipboard__paper {
+	fill: var(--bg);
+	translate: calc(-50% + (var(--active, 0) * 25%)) calc(25% - (var(--active, 0) * 10%));
+	rotate: -5deg;
+}
+
+:is(.clipboard__paper, .clipboard__board) {
+	transition: translate 0.2s, rotate 0.2s;
+}
+
+button:is(:hover, :focus-visible) :is(.clipboard__paper, .clipboard__board) {
+	fill: var(--control);
+}
+
+[data-copied=true] :is(.clipboard__paper, .clipboard__board) {
+	translate: 0 0;
+	rotate: 0deg;
+}
+
+[data-copied=true] .clipboard__check {
+	stroke-dashoffset: 0;
+}
+
+.whitespace {
+	position: relative;
+	padding: 0 4px;
+}
+
+.whitespace::after {
+	content: "";
+	height: 4px;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background: var(--accent);
+	position: absolute;
+}
+
+.char, .whitespace {
+	--speed: 5s;
+  --blurriness: calc(var(--font-size) * 0.25);
+  filter: blur(calc(var(--blur, 1) * var(--blurriness)));
+  transition: filter var(--speed);
+}
+.char {
+  display: inline-block;
+  position: relative;
+}
+
+.char::before {
+	content: "";
+	position: absolute;
+	inset: -2px;
+}
+
+:is(.char, .whitespace):hover {
+  --blur: 0;
+  --speed: 0.2s;
+}
+.bear-link {
+	color: canvasText;
+	position: fixed;
+	top: 1rem;
+	left: 1rem;
+	width: 48px;
+	aspect-ratio: 1;
+	display: grid;
+	place-items: center;
+	opacity: 0.8;
+}
+
+:where(.x-link, .bear-link):is(:hover, :focus-visible) {
+	opacity: 1;
+}
+.bear-link svg {
+	width: 75%;
+}
