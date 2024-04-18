@@ -1,0 +1,384 @@
+@import 'normalize.css';
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+:root {
+	--font-size: clamp(2rem, 8vmin + 1rem, 4rem);
+	--line: color-mix(in lch, canvasText 15%, transparent);
+	--base: 0.4;
+	--accent: hsl(8 100% 55%);
+	--header-height: 100vh;
+	--overlay: color-mix(in lch, canvas 70%, transparent);
+	color-scheme: dark only;
+}
+
+:root[data-theme='light'] {
+	--base: 0.3;
+	--line: color-mix(in lch, canvasText 35%, transparent);
+	--overlay: color-mix(in lch, canvas 70%, transparent);
+	color-scheme: light only;
+}
+
+html:not(:focus-within) {
+	scroll-behavior: smooth;
+}
+
+body {
+	min-height: 100vh;
+	font-family: 'SF Pro Text', 'SF Pro Icons', 'AOS Icons', 'Helvetica Neue',
+		Helvetica, Arial, sans-serif, system-ui;
+	background: canvas;
+}
+
+body::before {
+	--size: 60px;
+	content: '';
+	height: 100vh;
+	width: 100vw;
+	position: fixed;
+	background: linear-gradient(
+				90deg,
+				var(--line) 1px,
+				transparent 1px var(--size)
+			)
+			50% 50% / var(--size) var(--size),
+		linear-gradient(var(--line) 1px, transparent 1px var(--size)) 50% 50% /
+			var(--size) var(--size);
+	mask: linear-gradient(-15deg, transparent 40%, white);
+	top: 0;
+	transform-style: flat;
+	pointer-events: none;
+	z-index: -1;
+}
+
+:is(h1, h2) {
+	font-size: clamp(2rem, 3vw + 1rem, 6rem);
+}
+
+[href='#read'] {
+	position: absolute;
+	bottom: 2rem;
+	left: 50%;
+	translate: -50% 0;
+	width: 48px;
+	aspect-ratio: 1;
+	display: grid;
+	place-items: center;
+	color: canvasText;
+}
+[href='#read'] svg {
+	width: 75%;
+}
+
+.sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border-width: 0;
+}
+
+[data-split] {
+	font-size: var(--font-size);
+	font-weight: 600;
+}
+
+header {
+	min-height: var(--header-height);
+	display: grid;
+	place-items: center;
+	position: relative;
+	transform-origin: 50% 0%;
+}
+
+h1 {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	text-align: center;
+}
+
+h1 > span:first-of-type {
+	font-size: 0.35em;
+	color: var(--accent);
+	text-transform: uppercase;
+}
+
+header > section {
+	position: relative;
+	top: 0;
+	min-height: var(--header-height);
+	width: 100%;
+	translate: 0 -100%;
+	display: grid;
+	place-items: center;
+	background: var(--overlay);
+}
+
+header > section::before {
+	content: '';
+	background: var(--overlay);
+	position: absolute;
+	inset: 0;
+	translate: 0 100%;
+}
+
+video {
+	position: sticky;
+	top: 0;
+	height: var(--header-height);
+	width: 100vw;
+	object-fit: cover;
+	background: canvas;
+}
+
+footer {
+	text-align: center;
+	padding: 2rem;
+	opacity: 0.875;
+}
+
+section:not(.reader) {
+	min-height: 100vh;
+	display: grid;
+	place-items: center;
+}
+
+.content {
+	position: sticky;
+	top: 0;
+	min-height: 100vh;
+	width: 100ch;
+	padding: 2rem 0;
+	max-width: calc(100% - 4rem);
+	display: grid;
+	place-items: center;
+	margin: 0 auto;
+	line-height: 1;
+}
+
+.content span {
+	opacity: calc(var(--base) + (var(--active)));
+	transition: opacity 0.5s;
+}
+
+.reader {
+	--thick: 0px;
+	outline: var(--thick) dashed var(--accent);
+	outline-offset: calc(var(--thick) * -1);
+
+	/* The trick here is that --ppc could be dynamic	*/
+	height: calc(
+		((var(--ppc) * var(--content-length) + (var(--pad) * var(--buffer))) * 1px) + 100vh
+	);
+}
+
+.bear-link {
+	color: canvasText;
+	position: fixed;
+	top: 1rem;
+	left: 1rem;
+	width: 48px;
+	aspect-ratio: 1;
+	display: grid;
+	place-items: center;
+	border-radius: 6px;
+	/*	background: canvas;*/
+	z-index: 2;
+}
+
+:where(.x-link, .bear-link):is(:hover, :focus-visible) {
+	opacity: 1;
+}
+.bear-link svg {
+	opacity: 0.8;
+	width: 75%;
+}
+
+.sig path {
+	--draw: 1.025;
+	--end: 1.025;
+	stroke-dasharray: var(--end);
+	stroke-dashoffset: var(--draw);
+}
+
+.sig :is(.eye, .nose) {
+	fill: transparent;
+}
+
+.sig {
+	width: max(100px, 25vmin);
+	color: canvasText;
+	position: fixed;
+	bottom: 4rem;
+	right: 2rem;
+	z-index: 10;
+	translate: -20% -20%;
+	rotate: -15deg;
+	pointer-events: none;
+}
+
+h2 span {
+	color: var(--accent);
+}
+
+@supports (animation-timeline: scroll()) {
+	@property --active {
+		inherits: true;
+		initial-value: 0;
+		syntax: '<number>';
+	}
+
+	.reader {
+		view-timeline: --reader block;
+	}
+
+	.content span {
+		animation: activate both steps(1);
+		animation-timeline: --reader;
+		animation-range: contain calc(((var(--start, 0) * var(--ppc)) * 1px))
+			contain calc(((var(--end, 0) * var(--ppc)) * 1px));
+	}
+
+	@keyframes activate {
+		to {
+			--active: 1;
+		}
+	}
+
+	header {
+		animation: scale-down both ease-in;
+		animation-timeline: view();
+		animation-range: exit-crossing;
+		view-timeline: --header;
+	}
+
+	@keyframes scale-down {
+		to {
+			scale: 0.8 0.8;
+		}
+	}
+	body > section:last-of-type {
+		view-timeline-name: --sign-off;
+	}
+
+	.sig path {
+		animation: draw both linear;
+		animation-timeline: --sign-off;
+		animation-range: entry 20% entry 80%;
+	}
+	.sig :is(.eye, .nose) {
+		animation: draw both linear, fill both linear;
+		animation-timeline: --sign-off;
+	}
+	.sig :is(.ear, .eye) {
+		animation-range: entry 30% entry 90%;
+	}
+	.sig .nose {
+		animation-range: entry 40% entry 100%;
+	}
+	@keyframes draw {
+		to {
+			stroke-dashoffset: 0;
+		}
+	}
+	@keyframes fill {
+		to {
+			fill: currentColor;
+		}
+	}
+}
+
+.theme-toggle {
+	color: var(--color);
+	position: fixed;
+	top: 1rem;
+	right: 1rem;
+	width: 48px;
+	aspect-ratio: 1;
+	padding: 0;
+	border: 0;
+	display: grid;
+	place-items: center;
+	border-radius: 12px;
+	background: transparent;
+	transition: background 0.2s;
+	cursor: pointer;
+	z-index: 10;
+}
+
+.theme-toggle::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	border-radius: 12px;
+	background: hsl(0 0% 50% / calc(var(--intent, 0) * 0.25));
+}
+
+.theme-toggle:is(:hover, :focus-visible) {
+	--intent: 1;
+}
+
+/*.dark .theme-toggle:is(:hover, :focus-visible) {
+	background: hsl(0 0% 30%);
+}*/
+
+.theme-toggle[aria-pressed='true'] svg path:last-of-type {
+	display: block;
+}
+
+.theme-toggle svg {
+	color: currentColor;
+	width: 50%;
+}
+
+.theme-toggle[aria-pressed='true'] svg path:first-of-type,
+.theme-toggle svg path:last-of-type {
+	display: none;
+}
+
+::view-transition-group(root) {
+	animation-duration: 1.25s;
+}
+::view-transition-new(root),
+::view-transition-old(root) {
+	mix-blend-mode: normal;
+}
+
+::view-transition-new(root) {
+	animation-name: reveal-light;
+}
+
+::view-transition-old(root),
+.dark::view-transition-old(root) {
+	animation: none;
+}
+.dark::view-transition-new(root) {
+	animation-name: reveal-dark;
+}
+
+@keyframes reveal-dark {
+	from {
+		clip-path: polygon(-30% 0, -30% 0, -15% 100%, -10% 115%);
+	}
+	to {
+		clip-path: polygon(-30% 0, 130% 0, 115% 100%, -10% 115%);
+	}
+}
+
+@keyframes reveal-light {
+	from {
+		clip-path: polygon(130% 0, 130% 0, 115% 100%, 110% 115%);
+	}
+	to {
+		clip-path: polygon(130% 0, -30% 0, -15% 100%, 110% 115%);
+	}
+}
