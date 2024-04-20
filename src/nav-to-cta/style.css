@@ -1,0 +1,73 @@
+@import "normalize.css";
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+:root {
+	--elastic: linear(
+    0 0%, 0.5007 7.21%, 0.7803 12.29%,
+    0.8883 14.93%, 0.9724 17.63%,
+    1.0343 20.44%, 1.0754 23.44%,
+    1.0898 25.22%, 1.0984 27.11%,
+    1.1014 29.15%, 1.0989 31.4%,
+    1.0854 35.23%, 1.0196 48.86%,
+    1.0043 54.06%, 0.9956 59.6%,
+    0.9925 68.11%, 1 100%
+  );
+}
+
+body {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	font-family:  "SF Pro Text", "SF Pro Icons", "AOS Icons", "Helvetica Neue", Helvetica, Arial, sans-serif, system-ui;
+}
+
+header {
+	min-height: 50vh;
+	display: grid;
+	place-items: center;
+}
+
+nav {
+	position: sticky;
+	top: 1rem;
+}
+
+nav button {
+	border-radius: 100px;
+}
+
+main {
+	min-height: 200vh;
+	width: 70ch;
+	margin: 0 auto;
+	margin-top: 6rem;
+}
+
+@supports(animation-timeline: scroll()) {
+	@property --expanded {
+		syntax: '<number>';
+		inherits: true;
+		initial-value: 0;
+	}
+	:root {
+		timeline-scope: --header;
+	}
+	header {
+		view-timeline-name: --header;
+	}
+	nav {
+		animation: expand both steps(1, end);
+		animation-timeline: --header;
+		animation-range: exit;
+	}
+	nav button {
+		width: calc(120px + (var(--expanded) * 200px));
+		transition: width 1s var(--elastic);
+	}
+	@keyframes expand { to { --expanded: 1; } }
+}
