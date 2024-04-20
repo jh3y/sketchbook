@@ -15,8 +15,8 @@ window.addEventListener('mousemove', UPDATE)
 const handleOrientation = ({ beta, gamma }) => {
   const isLandscape = window.matchMedia('(orientation: landscape)').matches
   gsap.set(document.documentElement, {
-    '--x': gsap.utils.clamp(-1, 1, isLandscape ? gsap.utils.mapRange(-15, 15, -1, 1, beta) : gsap.utils.mapRange(-15, 15, -1, 1, gamma)),
-    '--y': gsap.utils.clamp(-1, 1, isLandscape ? gsap.utils.mapRange(0, 90, -1, 1, Math.abs(gamma)) : gsap.utils.mapRange(0, 90, -1, 1, beta)),
+    '--x': gsap.utils.clamp(-1, 1, isLandscape ? gsap.utils.mapRange(-45, 45, -1, 1, beta) : gsap.utils.mapRange(-45, 45, -1, 1, gamma)),
+    '--y': gsap.utils.clamp(-1, 1, isLandscape ? gsap.utils.mapRange(20, 70, 1, -1, Math.abs(gamma)) : gsap.utils.mapRange(20, 70, 1, -1, beta)),
   })
 }
 

@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
-@import "normalize.css";
+@import 'normalize.css';
 
 *,
 *:after,
@@ -20,21 +20,30 @@ body {
 	display: flex;
 	place-items: center;
 	justify-content: center;
-	min-height: 100vh;
+	min-height: 100svh;
 	touch-action: none;
-	font-family:  "SF Pro Text", "SF Pro Icons", "AOS Icons", "Helvetica Neue", Helvetica, Arial, sans-serif, system-ui;
+	font-family: 'SF Pro Text', 'SF Pro Icons', 'AOS Icons', 'Helvetica Neue',
+		Helvetica, Arial, sans-serif, system-ui;
+	margin: 0;
+	padding: 0.5rem;
 }
 
 body::before {
 	--line: color-mix(in lch, canvasText 25%, transparent);
 	--size: 60px;
-	content: "";
+	content: '';
 	height: 100vh;
 	width: 100vw;
 	position: fixed;
-	background:
-		linear-gradient(90deg, var(--line) 1px, transparent 1px var(--size)) 0 -5vmin / var(--size) var(--size),
-		linear-gradient(var(--line) 1px, transparent 1px var(--size)) 0 -5vmin / var(--size) var(--size);
+	background: linear-gradient(
+				90deg,
+				var(--line) 1px,
+				transparent 1px var(--size)
+			)
+			0 -5vmin / var(--size) var(--size),
+		linear-gradient(var(--line) 1px, transparent 1px var(--size)) 0 -5vmin / var(
+				--size
+			) var(--size);
 	mask: linear-gradient(-15deg, transparent 60%, white);
 	top: 0;
 	z-index: -1;
@@ -43,14 +52,22 @@ body::before {
 article {
 	width: 600px;
 	aspect-ratio: 2 / 1.1;
-	min-height: 330px;
+	max-height: calc(100svh - 2rem);
+/*	max-height: 100px;*/
 	position: relative;
 	overflow: hidden;
-	border-radius: 4em;
+/*	border-radius: 4em;*/
+/*	clip-path: inset(0 0 0 0 round 4em);*/
 	max-width: calc(100% - 2rem);
 }
 
-article > img {
+@media(orientation: portrait) {
+	article {
+		min-height: 330px;
+	}
+}
+
+.assets > img {
 	position: absolute;
 	top: 0;
 	left: 50%;
@@ -63,16 +80,16 @@ article > img {
 	pointer-events: none;
 }
 
-article > img:first-of-type {
+.assets > img:first-of-type {
 	filter: saturate(1.5) brightness(0.9);
 	object-position: calc(-50% + (var(--x) * 30px)) calc(43% + (var(--y) * -20px));
 }
 
-article > img:last-of-type {
+.assets > img:last-of-type {
 	object-position: calc(-50% + (var(--x) * 40px)) calc(43% + (var(--y) * -40px));
 }
 
-article h3 {
+.assets h3 {
 	position: absolute;
 	left: 50%;
 	top: 6%;
@@ -95,7 +112,8 @@ article h3 {
 	gap: 0.2rem;
 	place-items: center;
 	align-content: center;
-	padding-bottom: .5rem;
+	padding-bottom: 0.5rem;
+	z-index: 2;
 }
 
 .content svg {
@@ -108,12 +126,13 @@ article h3 {
 	align-items: center;
 	gap: 0.5rem;
 	font-size: 1.2rem;
+	position: relative;
 }
 
 .content p:first-of-type::after {
-	content: "";
+	content: '';
 	position: absolute;
-	top: 1rem;
+	bottom: calc(100% + 1rem);
 	left: 50%;
 	width: 6ch;
 	background: white;
@@ -127,22 +146,34 @@ article h3 {
 
 /* Blurring */
 .blur {
+	--layers: 5;
 	position: absolute;
-	inset: 60% 0 -26% 0;
-	filter: blur(20px);
-	overflow: hidden;
+	inset: 0;
 }
 
-.blur img {
-	object-position: calc(-50% + (var(--x) * 40px)) calc(47.5% + (var(--y) * -40px));
-	object-fit: cover;
-	left: 50%;
-	translate: -50% 0;
-	height: 330px;
+.blur .layer {
+	--blur: calc(
+		sin(((var(--layers) - var(--index)) / var(--layers)) * 45deg) * 30
+	);
+	--stop: calc(
+		sin(((var(--index)) / var(--layers)) * 45deg) * 35
+	);
 	position: absolute;
-	bottom: 25%;
-	width: 660px;
-	mask: radial-gradient(50% 100% at 50% 90%, white 50%, transparent);
+	inset: 0;
+	background: hsl(0 0% 60% / 0.05);
+	backdrop-filter: blur(calc(var(--blur) * 1px));
+	mask: radial-gradient(
+		140% 130% at 45% 90%,
+		#fff 15%,
+		#0000 calc((15 + var(--stop)) * 1%)
+	);
+}
+
+.assets {
+	position: absolute;
+	inset: 0;
+	border-radius: 4em;
+	overflow: hidden;
 }
 
 .bear-link {
