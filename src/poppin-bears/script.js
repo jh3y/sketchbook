@@ -1,6 +1,6 @@
 import gsap from 'gsap';
 
-const LEVELS = 1
+const LEVELS = 3
 const CLOUDS = 5
 
 const FORM = document.querySelector('form')

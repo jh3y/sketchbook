@@ -278,11 +278,9 @@ h1 span:last-of-type {
 	list-style-type: none;
 	display: flex;
 	height: 100%;
-/*	gap: 0 var(--gap);*/
 	align-items: center;
-	padding: 0;
+	padding: 0 1rem;
 	margin: 0;
-	padding-left: 1rem;
 }
 
 @supports(animation-timeline: scroll()) {

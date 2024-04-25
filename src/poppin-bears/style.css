@@ -4,21 +4,32 @@
   box-sizing: border-box;
 }
 
+:root {
+  --digit: hsl(0 0% 100% / 0.8);
+}
+
 body {
   display: grid;
   min-height: 100vh;
   place-items: center;
   counter-reset: popped 0;
   overflow: hidden;
-  background: hsl(210 80% 80%);
-  font-family: Optima, Candara, 'Noto Sans', source-sans-pro, sans-serif;
+  background: hsl(210 80% 90%);
+  font-family: 'SF Pro Text', 'SF Pro Icons', 'AOS Icons', 'Helvetica Neue',
+    Helvetica, Arial, sans-serif, system-ui;
   font-weight: bold;
+}
+
+@media(prefers-color-scheme: dark) {
+  body {
+    background: hsl(210 30% 15%);
+  }
 }
 
 .pop-counter {
   font-size: 1.25rem;
   font-weight: bold;
-  color: red;
+  color: var(--digit);
   font-family: sans-serif, system-ui;
   display: flex;
   gap: 0.5rem;
@@ -47,7 +58,7 @@ main:after {
   position: fixed;
   font-size: 1.25rem;
   font-weight: bold;
-  color: red;
+  color: var(--digit);
   font-family: sans-serif, system-ui;
   display: flex;
   gap: 0.5rem;
@@ -68,14 +79,14 @@ main:after {
   top: 50%;
   left: 50%;
   translate: -50% -50%;
-  background: hsl(0 0% 15%);
-  color: hsl(0 0% 98%);
+  background: linear-gradient(hsl(0 0% 15%), hsl(0 0% 15%)) padding-box, linear-gradient(hsl(0 0% 35%), hsl(0 0% 0%)) border-box;
+  color: hsl(0 0% 100% / 0.8);
   padding: 2rem;
   display: grid;
   place-items: center;
   transition: transform 0.25s;
   transform: translateY(calc(var(--hide, 0) * 100vh));
-  border: 0.5rem double white;
+  border: solid transparent 4px;
   border-radius: 0.5rem;
   width: 70ch;
   max-width: 100%;
@@ -104,10 +115,11 @@ main:after {
   display: flex;
   flex-direction: column;
   flex: 1;
+  gap: 1rem;
 }
 
 .dialog button {
-  border: 10px solid white;
+  border: 4px solid white;
   background: transparent;
   padding: 1rem 2rem;
   border-radius: 100px;
@@ -120,10 +132,12 @@ main:after {
 
 h1 {
   font-size: 4rem;
+  margin: 0;
 }
 
 .dialog p {
   font-size: 1.25rem;
+  margin: 0;
 }
 
 .dialog button:hover {
@@ -340,6 +354,12 @@ h1 {
   fill: hsl(0 0% calc(var(--shade, 90) * 1%));
 }
 
+@media(prefers-color-scheme: dark) {
+  .cloud path {
+    fill: hsl(0 0% calc((var(--shade, 90) - 20) * 1%));
+  } 
+}
+
 @keyframes fluff {
   to {
     translate: -50% calc(-100vh + -100%);
@@ -378,6 +398,7 @@ h1 {
   display: inline-flex;
   font-size: 6vmin;
   padding: 1.75vmin;
+  border-radius: 12px;
   background: hsl(0 0% 0%);
 }
 
@@ -394,11 +415,13 @@ h1 {
   z-index: 2;
   opacity: var(--playing, 0);
   transition: opacity 0.2s;
+  border-radius: 6px;
 }
 
 main > .game-status .timer {
   font-size: 1.25rem;
   padding: 0.5rem;
+  border-radius: 6px;
 }
 main > .game-status .timer .ms {
   font-size: 0.75rem;
