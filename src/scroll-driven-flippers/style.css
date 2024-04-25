@@ -108,21 +108,13 @@ img {
 		position: fixed;
 		top: 50%;
 		translate: 0 -50%;
+	}
+	li {
+		view-timeline-name: --item;
 		animation: z both linear;
 		animation-timeline: view();
 		animation-range: contain;
 		z-index: calc(50 - var(--index));
-	}
-	li {
-/*		z-index: var(--index);*/
-		view-timeline-name: --item;
-/*		transform-style: preserve-3d;*/
-	}
-
-	@keyframes z {
-		0% { transform: translate3d(0, 0, 0); }
-		50%, 100% { transform: translate3d(0, 0, -100vmin); }
-/*		50% { z-index: calc(50 + var(--index)); }*/
 	}
 
 	ul {
@@ -187,12 +179,16 @@ img {
 	}
 
 	li {
-		animation: flip-it both steps(1, end), flop-it both steps(1, end);
+		animation: z both linear, flip-it both steps(1, end), flop-it both steps(1, end);
 		animation-timeline: view();
 		animation-range: contain;
 	}
 
-	/*@keyframes flip-it {
+	@keyframes z {
+		50% { z-index: 200; }
+	}
+
+	@keyframes flip-it {
 		30%, 100% { --flipped: 1; }
 	}
 	@keyframes flop-it {
@@ -210,5 +206,5 @@ img {
 		animation: none;
 		rotate: x calc(var(--flopped) * 90deg);
 	}
-*/
+
 }
