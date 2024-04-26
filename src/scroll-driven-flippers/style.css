@@ -1,5 +1,7 @@
 @import "normalize.css";
 
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap');
+
 *,
 *:after,
 *:before {
@@ -7,6 +9,7 @@
 }
 
 :root {
+	--accent: hsl(35 90% 50%);
 	--card-size: clamp(220px, 25vmin + 1rem, 480px);
 }
 
@@ -38,6 +41,32 @@ body::before {
 	z-index: -1;
 }
 
+h1 {
+	display: grid;
+	font-family: 'EB Garamond', serif;
+	font-weight: 600;
+	font-size: clamp(3rem, 4vw + 1rem, 8rem);
+	text-align: center;
+	line-height: 0.9;
+	text-wrap: balance;
+}
+
+h2 {
+	font-family: 'EB Garamond', serif;
+	font-weight: 600;
+	font-size: clamp(2rem, 3vw + 1rem, 8rem);
+	text-align: center;
+	line-height: 0.9;
+	text-wrap: balance;
+}
+
+h1 span:first-of-type {
+	font-variant: small-caps;
+	font-size: 0.4em;
+	font-weight: 800;
+	color: var(--accent);
+}
+
 header {
 	min-height: 80vh;
 	display: grid;
@@ -45,7 +74,7 @@ header {
 }
 
 section {
-	min-height: 100vh;
+	min-height: 80vh;
 	display: grid;
 	place-items: center;
 }
@@ -64,9 +93,12 @@ ul {
 
 li {
 	width: var(--card-size);
-/*	aspect-ratio: 3 / 4;*/
 	aspect-ratio: 3 / 1;
-	outline: 2px dashed red;
+	outline: 2px dashed transparent;
+}
+
+[data-guides=true] li {
+	outline: 2px dashed var(--accent);
 }
 
 .wrap {
@@ -85,7 +117,7 @@ img {
 	object-fit: cover;
 	width: var(--card-size);
 	aspect-ratio: 3 / 4;
-/*	transform-origin: 50% 50%;*/
+	border-radius: 12px;
 	translate: 0 0;
 	transform-style: preserve-3d;
 	height: 100%;
@@ -97,6 +129,25 @@ img {
 
 .flop {
 	transform-origin: 50% 0%;
+}
+
+.bear-link {
+	color: canvasText;
+	position: fixed;
+	top: 1rem;
+	left: 1rem;
+	width: 48px;
+	aspect-ratio: 1;
+	display: grid;
+	place-items: center;
+	opacity: 0.8;
+}
+
+:where(.x-link, .bear-link):is(:hover, :focus-visible) {
+	opacity: 1;
+}
+.bear-link svg {
+	width: 75%;
 }
 
 /* TODO: Move the wrap so you get the perspective. Offset the keyframes with negative and positive translation */
@@ -120,10 +171,6 @@ img {
 	ul {
 		gap: 0;
 	}
-	img {
-		animation: pop both linear;
-		animation-timeline: --item;
-	}
 
 	.translate {
 		animation: translate both linear;
@@ -140,29 +187,28 @@ img {
 		animation-timeline: --item;
 	}
 
-	img, .translate, .flip, .flop {
+	img {
+		filter: saturate(calc(var(--flipped) - var(--flopped)));
+		transition: filter 0.2s;
+	}
+	
+	.translate, .flip, .flop {
 		animation-range: contain;
 	}
 
-	@keyframes pop {
-		/*0%, 35%, 45%, 100% { transform: translate3d(0, 0, 0); }
-		40% { transform: translate3d(0, 0, 50px); }*/
-	}
-
 	@keyframes flip {
-		0%, 35% { rotate: x -90deg; }
-		40%, 100% { rotate: x 0deg; }
+		0%, 45% { rotate: x -90deg; }
+		49%, 100% { rotate: x 0deg; }
 	}
 
 	@keyframes flop {
-		0%, 40% { rotate: x 0deg; }
-		45%, 100% { rotate: x 90deg; }
+		0%, 51% { rotate: x 0deg; }
+		55%, 100% { rotate: x 90deg; }
 	}
 
 	@keyframes translate {
-		0% { translate: 0 calc(50vh - 50%); }
-		40% { translate: 0 0; }
-		100% { translate: 0 calc(-50vh - 50%); }
+		0% { translate: 0 50vh; }
+		100% { translate: 0 -50vh; }
 	}
 
 	/* Custom property version...	*/
@@ -181,18 +227,25 @@ img {
 	li {
 		animation: z both linear, flip-it both steps(1, end), flop-it both steps(1, end);
 		animation-timeline: view();
-		animation-range: contain;
+		animation-range: contain, contain 0% contain 45%, contain 0% contain 55%;
 	}
 
 	@keyframes z {
 		50% { z-index: 200; }
 	}
 
-	@keyframes flip-it {
+	/*@keyframes flip-it {
 		30%, 100% { --flipped: 1; }
 	}
 	@keyframes flop-it {
-		36%, 100% { --flopped: 1; }
+		40%, 100% { --flopped: 1; }
+	}*/
+
+	@keyframes flip-it {
+		100% { --flipped: 1; }
+	}
+	@keyframes flop-it {
+		100% { --flopped: 1; }
 	}
 
 	.flip {
@@ -207,4 +260,24 @@ img {
 		rotate: x calc(var(--flopped) * 90deg);
 	}
 
+	header {
+		view-timeline-name: --header;
+	}
+
+	h1 {
+		animation: float both linear;
+		animation-timeline: --header;
+		animation-range: exit;
+	}
+
+	@keyframes float {
+		50%, 100% {
+			translate: 0 -4lh;
+			opacity: 0;
+		}
+	}
+}
+
+div.tp-dfwv {
+	width: 280px;
 }
