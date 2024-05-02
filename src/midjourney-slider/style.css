@@ -1,0 +1,113 @@
+@import "normalize.css";
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+	display: grid;
+	place-items: end;
+	min-height: 100vh;
+	font-family:  "SF Pro Text", "SF Pro Icons", "AOS Icons", "Helvetica Neue", Helvetica, Arial, sans-serif, system-ui;
+}
+
+html {
+	scroll-behavior: smooth;
+	scroll-snap-type: y mandatory;
+}
+
+body {
+/*	height: calc(50vh * var(--count));*/
+}
+
+:root {
+	--snap-size: 48px;
+	--active-size: 96px;
+}
+
+main {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	display: grid;
+	height: calc(100vh * var(--count));
+	grid-template-rows: repeat(var(--count), 1fr);
+	place-items: center;
+	animation: img-reel both steps(calc(var(--count) - 1));
+	animation-timeline: scroll(root);
+	pointer-events: none;
+}
+
+@keyframes img-reel {
+	to {
+		translate: 0 calc(-100% + 100vh);
+	}
+}
+
+aside {
+	width: var(--snap-size);
+	margin-top: calc(50vh - (var(--snap-size) * 0.25));
+	margin-bottom: calc(50vh - (var(--snap-size) * 0.75));
+	z-index: 2;
+}
+
+aside ul {
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+	list-style-type: none;
+	position: relative;
+	right: 1rem;
+	align-items: flex-end;
+}
+
+li {
+	scroll-snap-align: center;
+	flex: 1 1 var(--snap-size);
+	filter: saturate(0.2) brightness(1.5) blur(1px);
+	aspect-ratio: 1;
+	animation: scale both linear;
+	animation-timeline: view();
+	animation-range: cover calc(50% - var(--snap-size)) cover calc(50% + var(--snap-size));
+}
+
+@keyframes scale {
+	50% {
+		translate: -150% 0;
+		scale: 2;
+		filter: saturate(1);
+		z-index: 999;
+	}
+}
+
+li img {
+	max-height: 100%;
+	height: 100%;
+	width: 100%;
+/*	display: none;*/
+}
+
+li a {
+	width: 100%;
+	height: 100%;
+	display: inline-block;
+	background: linear-gradient(red, red) padding-box;
+	border: 4px solid transparent;
+	border-radius: 12px;
+}
+
+aside span {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border-width: 0;
+}
