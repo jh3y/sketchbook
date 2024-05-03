@@ -1,0 +1,146 @@
+@import "normalize.css";
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Righteous&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Tilt+Neon&display=swap');
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+:root {
+	--accent: hsl(320 80% 50%);
+}
+
+html {
+	color-scheme: dark only;
+}
+
+body {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	font-family:  "SF Pro Text", "SF Pro Icons", "AOS Icons", "Helvetica Neue", Helvetica, Arial, sans-serif, system-ui;
+	background: black;
+}
+
+body::before {
+	--size: 60px;
+	--line: color-mix(in lch, var(--accent) 55%, hsl(0 0% 100% / 0.25));
+	--shadow: color-mix(in lch, var(--accent) 90%, hsl(0 0% 100% / 0.5));
+	content: '';
+	height: 100vh;
+	width: 100vw;
+	position: fixed;
+	background: linear-gradient(
+				90deg,
+				var(--line) 1px,
+				transparent 1px var(--size)
+			)
+			50% 50% / var(--size) var(--size),
+		linear-gradient(var(--line) 1px, transparent 1px var(--size)) 50% 50% /
+			var(--size) var(--size);
+	mask: linear-gradient(-15deg, transparent 50%, white);
+	filter:
+		drop-shadow(0.02em 0.02em 0.1em hsl(0 0% 100% / 0.5))
+		drop-shadow(0.02em 0.02em 0.3em var(--accent))
+		drop-shadow(0.02em 0.02em 0.5em var(--shadow))
+		brightness(1.5);
+	top: 0;
+	transform-style: flat;
+	pointer-events: none;
+	z-index: -1;
+}
+
+h1 {
+	font-size: clamp(2rem, 6vw + 1rem, 8rem);
+	text-transform: uppercase;
+	font-style: italic;
+	font-family: "Roboto", sans-serif;
+	font-family: "Tilt Neon", sans-serif;
+	font-weight: 1000;
+	font-family: "Righteous", sans-serif;
+}
+
+h1 span {
+	--shadow: color-mix(in lch, var(--accent) 90%, hsl(0 0% 100% / 0.5));
+	color: transparent;
+/*	-webkit-text-stroke: 0.0025em var(--accent);*/
+	-webkit-text-stroke: 0.015em var(--accent);
+/*	letter-spacing: 0.025em;*/
+	filter:
+		drop-shadow(0.02em 0.02em 0.1em hsl(0 0% 100% / 0.25))
+		drop-shadow(0.02em 0.02em 0.2em var(--accent))
+		drop-shadow(0.02em 0.02em 0.3em var(--shadow))
+		brightness(1.25);
+	user-select: none;
+}
+
+[data-flick] {
+	--custom: linear(
+    0 0% 0.5%, 0.1723 0.7925%,
+    0.2408 0.865%, 0.1991 1.6425%,
+    0 7.69% 13.69%, 0.3451 3.795%,
+    0.0006 3.94%, 0.5332 4.37%,
+    0.0001 4.895%, 0.595 5.175%,
+    0.0001 6.29%, 0.6263 6.755%,
+    0.0004 7.7775%, 0.4634 7.8725%,
+    0.4869 8.075%, 0.6052 8.455%,
+    0.6504 8.9525%, 0.0011 9.0925%,
+    0.6832 10.3875%, 0.2716 11.5425%,
+    0.5783 11.6675%, 0.5956 13.0475%,
+    0.1565 13.6625%, 0.869 15.095%,
+    0.4566 15.745%, 0.3918 15.975%,
+    0.4768 16.1675%, 0.3041 17.29%,
+    0.5036 17.295%, 0.9561 17.96%,
+    0.4202 18.1475%, 0.9997 18.59%,
+    0.9389 18.9675%, 0.5199 19.5325%,
+    0.9878 19.6325%, 0.5212 19.8075%,
+    0.8476 21.1625%, 0.5724 21.615%,
+    0.7517 21.9%, 0.5716 22.4%,
+    0.8177 22.8325%, 0.9997 23.865%, 1 25%, 1 100%
+  );
+	animation: flicker calc(var(--speed) * 1s) calc(var(--delay) * -1s) infinite var(--custom) alternate;
+	opacity: clamp(0.2, var(--opacity), 1);
+}
+
+@keyframes flicker {
+	0%, 100% { --opacity: 1; }
+  25% { --opacity: 0.2; }
+}
+
+.sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border-width: 0;
+}
+
+div.tp-dfwv {
+	width: 270px;
+}
+
+
+.bear-link {
+	color: canvasText;
+	position: fixed;
+	bottom: 1rem;
+	right: 1rem;
+	width: 48px;
+	aspect-ratio: 1;
+	display: grid;
+	place-items: center;
+	opacity: 0.8;
+}
+
+:where(.x-link, .bear-link):is(:hover, :focus-visible) {
+	opacity: 1;
+}
+.bear-link svg {
+	width: 75%;
+}

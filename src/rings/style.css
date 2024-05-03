@@ -1,0 +1,180 @@
+@import 'normalize.css';
+
+:root {
+  --speed: 3;
+  --radius: 20;
+  --power4: linear(
+    0 0%, 0.0012 14.95%, 0.0089 22.36%,
+    0.0297 28.43%, 0.0668 33.43%,
+    0.0979 36.08%, 0.1363 38.55%,
+    0.2373 43.07%, 0.3675 47.01%,
+    0.5984 52.15%, 0.7121 55.23%,
+    0.8192 59.21%, 0.898 63.62%,
+    0.9297 66.23%, 0.9546 69.06%,
+    0.9733 72.17%, 0.9864 75.67%,
+    0.9982 83.73%, 1 100%
+  );
+  --power2: linear(
+    0 0%, 0.0036 9.62%, 0.0185 16.66%,
+    0.0489 23.03%, 0.0962 28.86%,
+    0.1705 34.93%, 0.269 40.66%,
+    0.3867 45.89%, 0.5833 52.95%,
+    0.683 57.05%, 0.7829 62.14%,
+    0.8621 67.46%, 0.8991 70.68%,
+    0.9299 74.03%, 0.9545 77.52%,
+    0.9735 81.21%, 0.9865 85%,
+    0.9949 89.15%, 1 100%
+  );
+  --ease: var(--power2);
+}
+
+* {
+  box-sizing: border-box;
+  transform-style: preserve-3d;
+}
+
+html {
+  color-scheme: dark only;
+}
+
+body {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  margin: 0;
+}
+
+form {
+	display: grid;
+	grid-template-columns: 1fr auto;
+	position: fixed;
+	top: 1rem;
+	right: 1rem;
+	gap: 1rem;
+}
+
+body::before {
+	--size: 20px;
+	--line: color-mix(in lch, canvasText 10%, hsl(0 0% 100% / 0.25));
+	content: '';
+	height: 100vh;
+	width: 100vw;
+	position: fixed;
+	background: linear-gradient(
+				90deg,
+				var(--line) 1px,
+				transparent 1px var(--size)
+			)
+			50% 50% / var(--size) var(--size),
+		linear-gradient(var(--line) 1px, transparent 1px var(--size)) 50% 50% /
+			var(--size) var(--size);
+	mask: linear-gradient(-25deg, transparent 65%, white);
+	top: 0;
+	transform-style: flat;
+	pointer-events: none;
+	z-index: -1;
+}
+
+.rings {
+  width: 50vmin;
+  max-width: 300px;
+  aspect-ratio: 1;
+  position: relative;
+  transform: translate3d(0, 0, 100vmin) rotateX(-32deg) rotateY(-32deg) rotateX(90deg);
+}
+
+[data-scale=true] .ring {
+	--scale-base: calc(((100 / var(--count)) * 1) * 1%);
+  --scale-top: calc(((100 / var(--count)) * var(--count)) * 1%);
+  width: calc(((100 / var(--count)) * 1) * 1%);
+}
+
+.ring {
+  --scale-base: calc(((100 / var(--count)) * var(--index)) * 1%);
+  --scale-top: calc(((100 / var(--count)) * var(--index)) * 1%);
+  width: calc(((100 / var(--count)) * var(--index)) * 1%);
+  aspect-ratio: 1;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  transform: translate3d(0, 0, calc(var(--distance) * -1vmin));
+  animation:
+     float calc(var(--speed) * 1s) infinite var(--ease);
+  animation-delay: calc(
+    sin((var(--index) / var(--count)) * 45deg)
+    * var(--speed) * -1s
+  );
+}
+
+
+.ring::after {
+	content: "";
+	border: 2px solid oklch(var(--lightness, 0.5) var(--chroma, 0.25) var(--base, 8));
+  border-radius: calc(var(--radius) * 1%);
+	position: absolute;
+	inset: 0;
+}
+
+[data-hue="true"] .ring::after {
+	animation:
+     hue calc(var(--speed) * 1s) infinite var(--ease);
+  animation-delay: calc(
+    sin((var(--index) / var(--count)) * 45deg)
+    * var(--speed) * -1s
+  );
+}
+
+[data-alternate=true] .ring {
+	animation:
+     float-alternate calc(var(--speed) * 1s) infinite var(--ease) alternate;
+  animation-delay: calc(
+    sin((var(--index) / var(--count)) * 45deg)
+    * var(--speed) * -1s
+  );
+}
+
+@keyframes hue {
+  50% {
+    filter: hue-rotate(calc((var(--limit) - var(--base)) * 1deg));
+  }
+}
+
+@keyframes float {
+  50% {
+    transform: translate3d(0, 0, calc(var(--distance) * 1vmin));
+  }
+	0%, 45% { width: var(--scale-base); }
+	75% { width: var(--scale-top); }
+}
+
+@keyframes float-alternate {
+  100% {
+    transform: translate3d(0, 0, calc(var(--distance) * 1vmin));
+  }
+	0%, 45% { width: var(--scale-base); }
+	75% { width: var(--scale-top); }
+}
+
+.bear-link {
+	color: canvasText;
+	position: fixed;
+	bottom: 1rem;
+	right: 1rem;
+	width: 48px;
+	aspect-ratio: 1;
+	display: grid;
+	place-items: center;
+	opacity: 0.8;
+}
+
+:where(.x-link, .bear-link):is(:hover, :focus-visible) {
+	opacity: 1;
+}
+.bear-link svg {
+	width: 75%;
+}
+
+div.tp-dfwv {
+	width: 300px;
+}

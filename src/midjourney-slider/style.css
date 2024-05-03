@@ -7,27 +7,67 @@
 }
 
 body {
-	display: grid;
-	place-items: end;
+	display: flex;
+	justify-content: flex-end;
 	min-height: 100vh;
 	font-family:  "SF Pro Text", "SF Pro Icons", "AOS Icons", "Helvetica Neue", Helvetica, Arial, sans-serif, system-ui;
 }
 
+body::after {
+	content: "";
+	position: fixed;
+	right: 0;
+	width: calc(var(--snap-size) + 2rem);
+	background: canvas;
+	mask: linear-gradient(white, transparent calc(var(--snap-size) * 1.5) calc(100% - (var(--snap-size) * 1.5)), white);
+	top: 0;
+	height: 100vh;
+	pointer-events: none;
+	z-index: 10;
+}
+
+body::before {
+	--size: 40px;
+	--line: color-mix(in lch, canvasText 15%, hsl(0 0% 100% / 0.25));
+	content: '';
+	height: 100vh;
+	width: 100vw;
+	position: fixed;
+	background: linear-gradient(
+				90deg,
+				var(--line) 1px,
+				transparent 1px var(--size)
+			)
+			50% 50% / var(--size) var(--size),
+		linear-gradient(var(--line) 1px, transparent 1px var(--size)) 50% 50% /
+			var(--size) var(--size);
+	mask: linear-gradient(-25deg, transparent 65%, white);
+	top: 0;
+	transform-style: flat;
+	pointer-events: none;
+	z-index: -1;
+}
+
 html {
+	color-scheme: dark only;
 	scroll-behavior: smooth;
 	scroll-snap-type: y mandatory;
 }
 
-body {
-/*	height: calc(50vh * var(--count));*/
-}
-
 :root {
 	--snap-size: 48px;
-	--active-size: 96px;
+	--offset: 1;
+}
+
+@media(min-width: 768px) {
+	:root {
+		--offset: 2;
+	}
 }
 
 main {
+	padding-left: 1rem;
+	padding-right: calc(var(--snap-size) * 5);
 	position: fixed;
 	top: 0;
 	left: 0;
@@ -41,6 +81,12 @@ main {
 	pointer-events: none;
 }
 
+@media(max-width: 768px) {
+	main {
+		display: none;
+	}
+}
+
 @keyframes img-reel {
 	to {
 		translate: 0 calc(-100% + 100vh);
@@ -50,7 +96,7 @@ main {
 aside {
 	width: var(--snap-size);
 	margin-top: calc(50vh - (var(--snap-size) * 0.25));
-	margin-bottom: calc(50vh - (var(--snap-size) * 0.75));
+	margin-bottom: calc(50vh - (var(--snap-size) * 0.5));
 	z-index: 2;
 }
 
@@ -63,41 +109,82 @@ aside ul {
 	position: relative;
 	right: 1rem;
 	align-items: flex-end;
+	transform-style: preserve-3d;
+}
+
+@property --active {
+	initial-value: 0;
+	inherits: true;
+	syntax: '<number>';
 }
 
 li {
 	scroll-snap-align: center;
+	scroll-margin-block: calc(50vh - var(--snap-size));
+	container-type: size;
 	flex: 1 1 var(--snap-size);
-	filter: saturate(0.2) brightness(1.5) blur(1px);
 	aspect-ratio: 1;
 	animation: scale both linear;
 	animation-timeline: view();
-	animation-range: cover calc(50% - var(--snap-size)) cover calc(50% + var(--snap-size));
+	animation-range: cover calc(50% - (var(--snap-size) * var(--offset))) cover calc(50% + (var(--snap-size) * var(--offset)));
+	transform-origin: 100% 50%;
+}
+
+@media(min-width: 768px) {
+	li {
+		filter: saturate(0.2);
+		animation: scale-l both linear;
+		animation-timeline: view();
+		animation-range: cover calc(50% - (var(--snap-size) * var(--offset))) cover calc(50% + (var(--snap-size) * var(--offset)));
+/*		animation-range: calc(50vh- (var(--snap-size) * var(--offset))) calc(50vh + (var(--snap-size) * var(--offset)));*/
+	}
 }
 
 @keyframes scale {
 	50% {
-		translate: -150% 0;
+		--active: 1;
+		z-index: 1000;
+	}
+}
+
+@keyframes scale-l {
+	50% {
+		translate: -120% 0;
 		scale: 2;
+		transform: translate3d(0, 0, 1000px);
 		filter: saturate(1);
-		z-index: 999;
+		z-index: 1000;
 	}
 }
 
 li img {
-	max-height: 100%;
 	height: 100%;
 	width: 100%;
-/*	display: none;*/
+	border-radius: 6px;
 }
 
+
+
 li a {
+	min-width: 100cqw;
+	min-height: 100cqh;
+	max-width: 600px;
+	max-height: 600px;
 	width: 100%;
 	height: 100%;
-	display: inline-block;
-	background: linear-gradient(red, red) padding-box;
+	display: block;
 	border: 4px solid transparent;
 	border-radius: 12px;
+	position: relative;
+	position: absolute;
+	right: 0;
+	top: 50%;
+	transform-origin: 100% 50%;
+	translate: calc((var(--active) * (var(--snap-size) + 1rem)) * -1) -50%;
+	width: calc((var(--active) * (100vw - (var(--snap-size) + 3rem))));
+	height: calc((var(--active) * (100vw - (var(--snap-size) + 3rem))));
+	aspect-ratio: 1;
+	z-index: calc(1 + (var(--active) * 999));
 }
 
 aside span {
@@ -110,4 +197,30 @@ aside span {
 	clip: rect(0, 0, 0, 0);
 	white-space: nowrap;
 	border-width: 0;
+}
+
+main img {
+	width: 100%;
+	max-width: 600px;
+	max-height: 90vh;
+	object-fit: cover;
+}
+
+.bear-link {
+	color: canvasText;
+	position: fixed;
+	top: 1rem;
+	left: 1rem;
+	width: 48px;
+	aspect-ratio: 1;
+	display: grid;
+	place-items: center;
+	opacity: 0.8;
+}
+
+:where(.x-link, .bear-link):is(:hover, :focus-visible) {
+	opacity: 1;
+}
+.bear-link svg {
+	width: 75%;
 }
