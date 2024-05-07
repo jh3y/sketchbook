@@ -15,46 +15,80 @@ body {
 	place-items: center;
 	min-height: 100vh;
 	font-family:  "SF Pro Text", "SF Pro Icons", "AOS Icons", "Helvetica Neue", Helvetica, Arial, sans-serif, system-ui;
+	overflow: hidden;
+}
+
+body::before {
+	--size: 60px;
+	--line: color-mix(in lch, canvasText 35%, hsl(0 0% 100% / 0.25));
+	content: '';
+	height: 100vh;
+	width: 100vw;
+	position: fixed;
+	background: linear-gradient(
+				90deg,
+				var(--line) 1px,
+				transparent 1px var(--size)
+			)
+			50% 50% / var(--size) var(--size),
+		linear-gradient(var(--line) 1px, transparent 1px var(--size)) 50% 50% /
+			var(--size) var(--size);
+	mask: linear-gradient(-25deg, transparent 65%, white);
+	top: 0;
+	transform-style: flat;
+	pointer-events: none;
+	z-index: -1;
+}
+
+main {
+	transform-style: preserve-3d;
+	position: relative;
+	transition: scale 0.2s;
+	height: 100vh;
+	display: grid;
+	place-items: center;
+	width: 100%;
+	perspective: 2000px;
 }
 
 ul {
-	/*display: flex;
-	gap: 1rem;*/
+	--inner-angle: calc((360 / var(--total)) * 1deg);
+	--character-width: clamp(100px, 10vmin, 8rem);
+	--scroll-buff: var(--character-width);
+	--gap: calc(var(--character-width) * var(--gap-efficient, 0.1));
+	--radius: calc(((var(--character-width) + var(--gap)) / sin(var(--inner-angle))) * -1);
 	list-style-type: none;
 	padding: 0;
 	margin: 0;
-/*	padding-inline: calc(50vw - (var(--size) * 0.5));*/
+	display: grid;
+/*	gap: var(--gap);*/
+	grid-auto-flow: column;
+	width: 100%;
+	overflow: auto;
+	height: 100vh;
+	align-content: center;
+	padding-inline: calc(50vw - (var(--scroll-buff) * 0.5));
+	scroll-snap-type: x mandatory;
+	scroll-timeline: --carousel inline;
 }
 
-.carousel {
-	transform-style: preserve-3d;
-	perspective: 1200px;
-	position: relative;
-}
-
-ul {
-	width: var(--size);
-	height: var(--size);
-	transform: translate3d(0, 0, -2000px) rotateY(10deg);
-	padding: 0;
-	transform-style: preserve-3d;
-	perspective: 1200px;
+[data-debug="true"] li {
+	outline: 2px dashed red;
 }
 
 li {
-	height: var(--size);
-	outline: 2px dashed red;
-	position: absolute;
-	inset: 0;
-	transform-style: preserve-3d;
-	transform:
-		rotateY(calc(((360 / var(--total)) * var(--index)) * 1deg))
-		translate3d(0, 0, 1200px);
+	height: var(--scroll-buff);
+	width: var(--scroll-buff);
+	aspect-ratio: 1;
+	scroll-snap-align: center;
+	view-timeline: --item inline;
+/*	transform-style: preserve-3d;*/
 }
 
 img {
-	height: 100%;
+	perspective: 1200px;
 	width: 100%;
+	aspect-ratio: 1;
 	border-radius: 12px;
 }
 
@@ -66,4 +100,66 @@ img {
 	top: 1rem;
 	right: 1rem;
 	align-items: center;
+	z-index: 1000;
+}
+
+[data-zoom="true"] main {
+	scale: 0.5;
+}
+
+[data-rotate="true"] img {
+	--flip: 1;
+}
+
+[data-spread="true"] img {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: var(--character-width);
+	transition: transform 0.2s;
+	transform-style: preserve-3d;
+	/* Big ole chain */
+	transform:
+	  translate(-50%, -50%)
+	  rotateX(calc(var(--flip, 0) * 90deg))
+	  rotate(calc(var(--inner-angle) * var(--index)))
+	  translateY(var(--radius))
+	  rotateX(calc(var(--flip, 0) * -90deg));
+	backface-visibility: hidden;
+  pointer-events: none;
+}
+
+[data-animate="true"] img {
+  animation: carousel 5s infinite linear;
+}
+
+
+
+[data-scroll="true"] img {
+	filter: saturate(0.75) brightness(0.75);
+  animation: carousel both linear, brighten both linear;
+	animation-timeline: --carousel, --item;
+	animation-range: cover, contain calc(50% - var(--character-width)) cover calc(50% + var(--character-width));
+}
+
+@keyframes brighten {
+	50% {
+		filter: saturate(1) brightness(1.25);
+	}
+}
+
+@keyframes carousel {
+	to {
+		transform:
+		  translate(-50%, -50%)
+		  rotateX(calc(var(--flip, 0) * 90deg))
+		  rotate(calc((var(--inner-angle) * var(--index)) - (360deg - ((360 / var(--total)) * 1deg))))
+		  translateY(var(--radius))
+		  rotateX(calc(var(--flip, 0) * -90deg));
+	}
+}
+
+div.tp-lblv_v {
+	flex-shrink: 1;
+	width: auto;
 }
