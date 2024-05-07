@@ -1,0 +1,69 @@
+@import "normalize.css";
+
+:root {
+	--size: clamp(100px, 50vmin + 1rem, 260px);
+}	
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	font-family:  "SF Pro Text", "SF Pro Icons", "AOS Icons", "Helvetica Neue", Helvetica, Arial, sans-serif, system-ui;
+}
+
+ul {
+	/*display: flex;
+	gap: 1rem;*/
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+/*	padding-inline: calc(50vw - (var(--size) * 0.5));*/
+}
+
+.carousel {
+	transform-style: preserve-3d;
+	perspective: 1200px;
+	position: relative;
+}
+
+ul {
+	width: var(--size);
+	height: var(--size);
+	transform: translate3d(0, 0, -2000px) rotateY(10deg);
+	padding: 0;
+	transform-style: preserve-3d;
+	perspective: 1200px;
+}
+
+li {
+	height: var(--size);
+	outline: 2px dashed red;
+	position: absolute;
+	inset: 0;
+	transform-style: preserve-3d;
+	transform:
+		rotateY(calc(((360 / var(--total)) * var(--index)) * 1deg))
+		translate3d(0, 0, 1200px);
+}
+
+img {
+	height: 100%;
+	width: 100%;
+	border-radius: 12px;
+}
+
+.controls {
+	display: grid;
+	grid-template-columns: auto 1fr;
+	gap: 0 0.5rem;
+	position: fixed;
+	top: 1rem;
+	right: 1rem;
+	align-items: center;
+}
