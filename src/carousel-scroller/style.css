@@ -1,8 +1,12 @@
 @import "normalize.css";
 
-:root {
-	--size: clamp(100px, 50vmin + 1rem, 260px);
-}	
+html {
+	color-scheme: light only;
+}
+
+[data-dark="true"] {
+	color-scheme: dark only;
+}
 
 *,
 *:after,
@@ -51,95 +55,97 @@ main {
 	perspective: 2000px;
 }
 
-ul {
+.container {
+	--scroll-padding: 2px;
 	--inner-angle: calc((360 / var(--total)) * 1deg);
 	--character-width: clamp(100px, 10vmin, 8rem);
-	--scroll-buff: var(--character-width);
+	--scroll-buff: calc(var(--character-width) * 4);
 	--gap: calc(var(--character-width) * var(--gap-efficient, 0.1));
 	--radius: calc(((var(--character-width) + var(--gap)) / sin(var(--inner-angle))) * -1);
+	position: relative;
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+}
+
+ul {
 	list-style-type: none;
 	padding: 0;
 	margin: 0;
 	display: grid;
-/*	gap: var(--gap);*/
-	grid-auto-flow: column;
+}
+
+img {
+	border-radius: 12px;
 	width: 100%;
+	height: 100%;
+	background-color: color-mix(in lch, canvasText 25%, canvas);
+}
+
+.bear-link {
+	color: canvasText;
+	position: fixed;
+	bottom: 1rem;
+	left: 1rem;
+	width: 48px;
+	aspect-ratio: 1;
+	display: grid;
+	place-items: center;
+	opacity: 0.8;
+}
+
+:where(.x-link, .bear-link):is(:hover, :focus-visible) {
+	opacity: 1;
+}
+.bear-link svg {
+	width: 75%;
+}
+
+.carousel {
+	width: var(--character-width);
+	height: var(--character-width);
+	padding: 0;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	translate: -50% -50%;
+	background: hsl(280 80% 50% / 0.5);
+	transform-style: preserve-3d;
+	transform: translate3d(0, 0, var(--radius)) rotateY(0deg) rotateX(0deg);
+}
+
+.carousel li {
+	position: absolute;
+	outline: 2px dashed hotpink;
+	height: var(--character-width);
+	width: var(--character-width);
+	top: 50%;
+	left: 50%;
+	backface-visibility: hidden;
+	transform:
+	  translate(-50%, -50%)
+	  rotateY(calc((var(--inner-angle) * var(--index))))
+	  translate3d(0, 0, calc(var(--radius) * -1));
+}
+
+.controller {
+	display: flex;
 	overflow: auto;
-	height: 100vh;
-	align-content: center;
-	padding-inline: calc(50vw - (var(--scroll-buff) * 0.5));
+	width: 100%;
+	height: 100%;
 	scroll-snap-type: x mandatory;
-	scroll-timeline: --carousel inline;
+	scroll-timeline: --scroller inline;
+	align-items: center;
+	padding-inline: calc((50vw + var(--scroll-padding)) - (var(--scroll-buff) * 0.5));
 }
 
-[data-debug="true"] li {
-	outline: 2px dashed red;
-}
-
-li {
+.controller li {
 	height: var(--scroll-buff);
 	width: var(--scroll-buff);
 	aspect-ratio: 1;
 	scroll-snap-align: center;
 	view-timeline: --item inline;
-/*	transform-style: preserve-3d;*/
-}
-
-img {
-	perspective: 1200px;
-	width: 100%;
-	aspect-ratio: 1;
-	border-radius: 12px;
-}
-
-.controls {
-	display: grid;
-	grid-template-columns: auto 1fr;
-	gap: 0 0.5rem;
-	position: fixed;
-	top: 1rem;
-	right: 1rem;
-	align-items: center;
-	z-index: 1000;
-}
-
-[data-zoom="true"] main {
-	scale: 0.5;
-}
-
-[data-rotate="true"] img {
-	--flip: 1;
-}
-
-[data-spread="true"] img {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	width: var(--character-width);
-	transition: transform 0.2s;
-	transform-style: preserve-3d;
-	/* Big ole chain */
-	transform:
-	  translate(-50%, -50%)
-	  rotateX(calc(var(--flip, 0) * 90deg))
-	  rotate(calc(var(--inner-angle) * var(--index)))
-	  translateY(var(--radius))
-	  rotateX(calc(var(--flip, 0) * -90deg));
-	backface-visibility: hidden;
-  pointer-events: none;
-}
-
-[data-animate="true"] img {
-  animation: carousel 5s infinite linear;
-}
-
-
-
-[data-scroll="true"] img {
-	filter: saturate(0.75) brightness(0.75);
-  animation: carousel both linear, brighten both linear;
-	animation-timeline: --carousel, --item;
-	animation-range: cover, contain calc(50% - var(--character-width)) cover calc(50% + var(--character-width));
+	outline: 2px dashed purple;
 }
 
 @keyframes brighten {
@@ -148,14 +154,68 @@ img {
 	}
 }
 
+.carousel-container {
+	height: 100%;
+	width: 100%;
+	mask: linear-gradient(90deg, transparent 0 calc(50% - 200px), white calc(50% - 100px) calc(50% + 100px), transparent calc(50% + 200px) 100%);
+	pointer-events: none;
+	position: absolute;
+	inset: 0;
+	transform-style: preserve-3d;
+	perspective: 800px;
+}
+
+.carousel {
+	animation: carousel 5s infinite linear;
+}
+
+
 @keyframes carousel {
 	to {
-		transform:
-		  translate(-50%, -50%)
-		  rotateX(calc(var(--flip, 0) * 90deg))
-		  rotate(calc((var(--inner-angle) * var(--index)) - (360deg - ((360 / var(--total)) * 1deg))))
-		  translateY(var(--radius))
-		  rotateX(calc(var(--flip, 0) * -90deg));
+		transform: translate3d(0, 0, var(--radius)) rotateY(-360deg);
+	}
+}
+
+.carousel {
+	animation: carousel both linear;
+	animation-timeline: --controller;
+	animation-range: var(--scroll-padding) calc(100% - var(--scroll-padding));
+}
+
+.carousel li {
+	filter: saturate(0.75) brightness(0.75);
+	animation: highlight both linear;
+	animation-timeline: var(--scoped);
+	animation-range: cover calc(50% - var(--character-width)) cover calc(50% + var(--character-width));
+}
+
+@keyframes highlight {
+	50% {
+		filter: saturate(1.25) brightness(1.25);
+	}
+}
+
+.carousel li:first-of-type {
+	animation: highlight-in both linear, highlight-out both linear;
+	animation-timeline: var(--scoped);
+	animation-range: cover calc(50% - var(--character-width)) cover 50%, cover 50% cover calc(50% + var(--character-width));
+}
+
+@keyframes highlight-in {
+	to {
+		filter: saturate(1.25) brightness(1.25);
+	}
+}
+@keyframes highlight-out {
+	from {
+		filter: saturate(1.25) brightness(1.25);
+	}
+}
+
+@keyframes carousel {
+	to {
+/*		transform: translate3d(0, 0, var(--radius)) rotateY(calc(-360deg + ((360 / var(--total)) * 1deg)));*/
+		transform: translate3d(0, 0, var(--radius)) rotateY(-360deg);
 	}
 }
 
