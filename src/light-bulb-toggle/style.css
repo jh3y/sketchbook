@@ -8,14 +8,23 @@
 
 :root {
   --on: 0;
-  --bg: hsl(calc(200 - (var(--on) * 160)), calc((20 + (var(--on) * 50)) * 1%), calc((20 + (var(--on) * 60)) * 1%));
+  --bg: hsl(calc(200 - (var(--on) * 160)), 20%, calc((20 + (var(--on) * 60)) * 1%));
   --cord: hsl(0, 0%, calc((60 - (var(--on) * 50)) * 1%));
   --stroke: hsl(0, 0%, calc((60 - (var(--on) * 50)) * 1%));
   --shine: hsla(0, 0%, 100%, calc(0.75 - (var(--on) * 0.5)));
   --cap: hsl(0, 0%, calc((40 + (var(--on) * 30)) * 1%));
-  --filament: hsl(45, calc(var(--on) * 80%), calc((25 + (var(--on) * 75)) * 1%));
+  --filament: hsl(45, calc(var(--on) * 100%), calc((25 + (var(--on) * 25)) * 1%));
   --width: 48px;
 }
+
+html {
+  color-scheme: dark only;
+}
+
+:root:has([aria-pressed=true]) {
+  color-scheme: light only;
+}
+
 body {
   display: grid;
 	place-items: center;
@@ -24,10 +33,34 @@ body {
   background: var(--bg);
 }
 
+body::before {
+  --size: 40px;
+  --line: color-mix(in lch, canvasText 25%, hsl(0 0% 100% / 0.5));
+  content: '';
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  background: linear-gradient(
+        90deg,
+        var(--line) 1px,
+        transparent 1px var(--size)
+      )
+      50% 50% / var(--size) var(--size),
+    linear-gradient(var(--line) 1px, transparent 1px var(--size)) 50% 50% /
+      var(--size) var(--size);
+  mask: linear-gradient(-25deg, transparent 65%, white);
+  top: 0;
+  transform-style: flat;
+  pointer-events: none;
+  z-index: -1;
+}
+
 form {
-	position: relative;
+	position: fixed;
 	width: var(--width);
 	aspect-ratio: 1;
+  top: 1rem;
+  right: 1rem;
 }
 
 form button {
@@ -37,6 +70,11 @@ form button {
 	top: 0;
 	left: 0;
 	z-index: 3;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  display: grid;
+  place-items: center;
 }
 
 .grab-handle {
@@ -53,7 +91,7 @@ form button {
 .toggle-scene {
   overflow: visible !important;
   position: absolute;
-  background: red;
+/*  background: red;*/
   width: 100%;
   top: 0;
   left: 0;
@@ -85,13 +123,13 @@ form button {
 .bulb__shine {
   stroke: var(--shine);
 }
-.bulb__flash {
-  stroke: #f5e0a3;
+/*.bulb__flash {
+  stroke: red;
   display: none;
-}
+}*/
 .bulb__bulb {
   stroke: var(--stroke);
-  fill: hsla(calc(180 - (95 * var(--on))), 80%, 80%, calc(0.1 + (0.4 * var(--on))));
+  fill: hsla(calc(180 - (95 * var(--on))), 20%, 80%, calc(0.1 + (0.4 * var(--on))));
 }
 .bulb__cap {
   fill: var(--cap);
