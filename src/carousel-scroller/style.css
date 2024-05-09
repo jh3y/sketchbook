@@ -52,20 +52,24 @@ main {
 	display: grid;
 	place-items: center;
 	width: 100%;
-	perspective: 2000px;
 }
 
 .container {
-	--scroll-padding: 2px;
+	--scroll-padding: 0px;
 	--inner-angle: calc((360 / var(--total)) * 1deg);
-	--character-width: clamp(100px, 10vmin, 8rem);
-	--scroll-buff: calc(var(--character-width) * 4);
-	--gap: calc(var(--character-width) * var(--gap-efficient, 0.1));
-	--radius: calc(((var(--character-width) + var(--gap)) / sin(var(--inner-angle))) * -1);
+	--item-width: clamp(100px, 10vmin, 8rem);
+	--scroll-buff: calc(var(--item-width) * 4);
+	--gap: calc(var(--item-width) * var(--gap-efficient, 0.1));
+	--radius: calc(((var(--item-width) + var(--gap)) / sin(var(--inner-angle))) * -1);
 	position: relative;
 	width: 100%;
 	height: 100%;
 	overflow: auto;
+	timeline-scope: --controller;
+}
+
+[data-infinite="true"] .container {
+	--scroll-padding: 2px;
 }
 
 ul {
@@ -80,6 +84,161 @@ img {
 	width: 100%;
 	height: 100%;
 	background-color: color-mix(in lch, canvasText 25%, canvas);
+}
+
+.carousel {
+	padding: 0;
+}
+
+.carousel {
+	display: flex;
+}
+
+.carousel {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	translate: -50% -50%;
+}
+
+.carousel-container {
+	height: 100%;
+	width: 100%;
+	mask: linear-gradient(
+		calc(90deg + (var(--rotate-z) * 1deg)),
+		transparent calc(var(--mask-lower) * 1%),
+		white calc(50% - (var(--mask-upper) * 1%)) calc(50% + (var(--mask-upper) * 1%)),
+		transparent calc(100% - (var(--mask-lower) * 1%))
+	);
+	pointer-events: none;
+	position: absolute;
+	display: grid;
+	place-items: center;
+	inset: 0;
+	transform-style: preserve-3d;
+	perspective: calc(var(--perspective) * 1px);
+	overflow: hidden;
+}
+
+[data-scroll="true"] .carousel::after,
+[data-animate="true"] .carousel::after {
+	animation: shine calc(var(--total) * 0.5s) infinite linear;
+}
+[data-scroll="true"] .carousel,
+[data-animate="true"] .carousel {
+	animation: carousel calc(var(--total) * 0.5s) infinite linear;
+}
+.carousel {
+	transform-style: preserve-3d;
+	transform: translate3d(0, 0, var(--radius)) rotateX(calc(var(--rotate-x) * 1deg)) rotateZ(calc(var(--rotate-z) * 1deg)) rotateY(0deg);
+}
+
+@keyframes carousel {
+	to {
+		transform: translate3d(0, 0, var(--radius)) rotateX(calc(var(--rotate-x) * 1deg)) rotateZ(calc(var(--rotate-z) * 1deg)) rotateY(-360deg);
+	}
+}
+
+[data-scroll="true"] .carousel,
+[data-scroll="true"] .carousel::after {
+	animation-duration: auto;
+	animation-iteration-count: 1;
+	animation-fill-mode: both;
+	animation-timeline: --controller;
+}
+
+.carousel::after {
+	content: "";
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: calc(var(--item-width) * 1.5);
+	height: calc(var(--item-width) * 1.5);
+	backdrop-filter: brightness(2);
+	mask: radial-gradient(80% 80% at 50% 50%, white, transparent 50%);
+	transform: translate(-50%, -50%) rotateY(0deg) translate3d(0, 0, calc((var(--radius) - 10px) * -1));
+}
+
+
+@keyframes shine {
+	to {
+		transform: translate(-50%, -50%) rotateY(360deg) translate3d(0, 0, calc((var(--radius) - 10px) * -1));
+	}
+}
+
+.carousel li {
+	--debug: red;
+	height: var(--item-width);
+	width: var(--item-width);
+	outline-offset: 2px;
+}
+
+.carousel li {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	backface-visibility: hidden;
+	transform:
+	  translate(-50%, -50%)
+	  rotateY(calc((var(--inner-angle) * var(--index))))
+	  translate3d(0, 0, calc(var(--radius) * -1));
+}
+
+[data-backface="true"] .carousel li {
+	backface-visibility: visible;
+}
+
+.controller {
+	display: flex;
+	overflow: auto;
+	width: 100%;
+	height: 100%;
+	scroll-snap-type: x mandatory;
+	scroll-timeline: --controller inline;
+	align-items: center;
+	padding-inline: calc((50vw + var(--scroll-padding)) - (var(--scroll-buff) * 0.5));
+}
+
+[data-vertical="true"] .controller {
+	flex-direction: column;
+	scroll-snap-type: y mandatory;
+	scroll-timeline: --controller;
+	padding-inline: 0;
+	padding-block: calc((50vh + var(--scroll-padding)) - (var(--scroll-buff) * 0.5));
+}
+
+.controller li {
+	--debug: red;
+	height: var(--scroll-buff);
+	width: var(--scroll-buff);
+	aspect-ratio: 1;
+	flex: 1 0 auto;
+	scroll-snap-align: center;
+}
+
+[data-debug="true"] li {
+	outline: 2px dashed var(--debug);
+}
+
+/*.carousel {
+	animation: carousel both linear;
+	animation-timeline: --controller;
+	animation-range: var(--scroll-padding) calc(100% - var(--scroll-padding));
+}*/
+
+/*.carousel li {
+	filter: saturate(0.75) brightness(0.75);
+}*/
+
+div.tp-lblv_v {
+	flex-shrink: 1;
+	width: auto;
+}
+
+div.tp-dfwv {
+	width: 300px;
 }
 
 .bear-link {
@@ -99,127 +258,4 @@ img {
 }
 .bear-link svg {
 	width: 75%;
-}
-
-.carousel {
-	width: var(--character-width);
-	height: var(--character-width);
-	padding: 0;
-	position: absolute;
-	left: 50%;
-	top: 50%;
-	translate: -50% -50%;
-	background: hsl(280 80% 50% / 0.5);
-	transform-style: preserve-3d;
-	transform: translate3d(0, 0, var(--radius)) rotateY(0deg) rotateX(0deg);
-}
-
-.carousel li {
-	position: absolute;
-	outline: 2px dashed hotpink;
-	height: var(--character-width);
-	width: var(--character-width);
-	top: 50%;
-	left: 50%;
-	backface-visibility: hidden;
-	transform:
-	  translate(-50%, -50%)
-	  rotateY(calc((var(--inner-angle) * var(--index))))
-	  translate3d(0, 0, calc(var(--radius) * -1));
-}
-
-.controller {
-	display: flex;
-	overflow: auto;
-	width: 100%;
-	height: 100%;
-	scroll-snap-type: x mandatory;
-	scroll-timeline: --scroller inline;
-	align-items: center;
-	padding-inline: calc((50vw + var(--scroll-padding)) - (var(--scroll-buff) * 0.5));
-}
-
-.controller li {
-	height: var(--scroll-buff);
-	width: var(--scroll-buff);
-	aspect-ratio: 1;
-	scroll-snap-align: center;
-	view-timeline: --item inline;
-	outline: 2px dashed purple;
-}
-
-@keyframes brighten {
-	50% {
-		filter: saturate(1) brightness(1.25);
-	}
-}
-
-.carousel-container {
-	height: 100%;
-	width: 100%;
-	mask: linear-gradient(90deg, transparent 0 calc(50% - 200px), white calc(50% - 100px) calc(50% + 100px), transparent calc(50% + 200px) 100%);
-	pointer-events: none;
-	position: absolute;
-	inset: 0;
-	transform-style: preserve-3d;
-	perspective: 800px;
-}
-
-.carousel {
-	animation: carousel 5s infinite linear;
-}
-
-
-@keyframes carousel {
-	to {
-		transform: translate3d(0, 0, var(--radius)) rotateY(-360deg);
-	}
-}
-
-.carousel {
-	animation: carousel both linear;
-	animation-timeline: --controller;
-	animation-range: var(--scroll-padding) calc(100% - var(--scroll-padding));
-}
-
-.carousel li {
-	filter: saturate(0.75) brightness(0.75);
-	animation: highlight both linear;
-	animation-timeline: var(--scoped);
-	animation-range: cover calc(50% - var(--character-width)) cover calc(50% + var(--character-width));
-}
-
-@keyframes highlight {
-	50% {
-		filter: saturate(1.25) brightness(1.25);
-	}
-}
-
-.carousel li:first-of-type {
-	animation: highlight-in both linear, highlight-out both linear;
-	animation-timeline: var(--scoped);
-	animation-range: cover calc(50% - var(--character-width)) cover 50%, cover 50% cover calc(50% + var(--character-width));
-}
-
-@keyframes highlight-in {
-	to {
-		filter: saturate(1.25) brightness(1.25);
-	}
-}
-@keyframes highlight-out {
-	from {
-		filter: saturate(1.25) brightness(1.25);
-	}
-}
-
-@keyframes carousel {
-	to {
-/*		transform: translate3d(0, 0, var(--radius)) rotateY(calc(-360deg + ((360 / var(--total)) * 1deg)));*/
-		transform: translate3d(0, 0, var(--radius)) rotateY(-360deg);
-	}
-}
-
-div.tp-lblv_v {
-	flex-shrink: 1;
-	width: auto;
 }
