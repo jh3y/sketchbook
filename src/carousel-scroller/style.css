@@ -17,7 +17,7 @@ html {
 body {
 	display: grid;
 	place-items: center;
-	min-height: 100vh;
+	min-height: 100svh;
 	font-family:  "SF Pro Text", "SF Pro Icons", "AOS Icons", "Helvetica Neue", Helvetica, Arial, sans-serif, system-ui;
 	overflow: hidden;
 }
@@ -26,7 +26,7 @@ body::before {
 	--size: 60px;
 	--line: color-mix(in lch, canvasText 35%, hsl(0 0% 100% / 0.25));
 	content: '';
-	height: 100vh;
+	height: 100svh;
 	width: 100vw;
 	position: fixed;
 	background: linear-gradient(
@@ -48,7 +48,7 @@ main {
 	transform-style: preserve-3d;
 	position: relative;
 	transition: scale 0.2s;
-	height: 100vh;
+	height: 100svh;
 	display: grid;
 	place-items: center;
 	width: 100%;
@@ -57,8 +57,8 @@ main {
 .container {
 	--scroll-padding: 0px;
 	--inner-angle: calc((360 / var(--total)) * 1deg);
-	--item-width: clamp(100px, 10vmin, 8rem);
-	--scroll-buff: calc(var(--item-width) * 4);
+	--item-width: clamp(120px, 20vmin, 12rem);
+	--scroll-buff: calc(var(--item-width) * var(--scroll-ratio));
 	--gap: calc(var(--item-width) * var(--gap-efficient, 0.1));
 	--radius: calc(((var(--item-width) + var(--gap)) / sin(var(--inner-angle))) * -1);
 	position: relative;
@@ -69,7 +69,8 @@ main {
 }
 
 [data-infinite="true"] .container {
-	--scroll-padding: 2px;
+	--scroll-padding: calc(var(--item-width) * 0.01);
+	--scroll-padding: 5px;
 }
 
 ul {
@@ -108,9 +109,9 @@ img {
 	width: 100%;
 	mask: linear-gradient(
 		calc(90deg + (var(--rotate-z) * 1deg)),
-		transparent calc(var(--mask-lower) * 1%),
-		white calc(50% - (var(--mask-upper) * 1%)) calc(50% + (var(--mask-upper) * 1%)),
-		transparent calc(100% - (var(--mask-lower) * 1%))
+		transparent 0 calc(50% - (var(--item-width) * var(--mask-upper))),
+		white calc(50% - (var(--mask-lower) * var(--item-width))) calc(50% + (var(--mask-lower) * var(--item-width))),
+		transparent calc(50% + (var(--mask-upper) * var(--item-width))) 100%
 	);
 	pointer-events: none;
 	position: absolute;
@@ -141,12 +142,14 @@ img {
 	}
 }
 
-[data-scroll="true"] .carousel,
-[data-scroll="true"] .carousel::after {
-	animation-duration: auto;
-	animation-iteration-count: 1;
-	animation-fill-mode: both;
-	animation-timeline: --controller;
+@supports(animation-timeline: scroll()) {
+  [data-scroll="true"] .carousel,
+  [data-scroll="true"] .carousel::after {
+    animation-duration: auto;
+    animation-iteration-count: 1;
+    animation-fill-mode: both;
+    animation-timeline: --controller;
+  }
 }
 
 .carousel::after {
@@ -166,6 +169,11 @@ img {
 	to {
 		transform: translate(-50%, -50%) rotateY(360deg) translate3d(0, 0, calc((var(--radius) - 10px) * -1));
 	}
+}
+
+[data-gsap="true"] .carousel::after {
+	animation: none;
+	transform: translate(-50%, -50%) rotateY(calc(var(--rotate) * 1deg)) translate3d(0, 0, calc((var(--radius) - 10px) * -1));
 }
 
 .carousel li {
@@ -206,7 +214,7 @@ img {
 	scroll-snap-type: y mandatory;
 	scroll-timeline: --controller;
 	padding-inline: 0;
-	padding-block: calc((50vh + var(--scroll-padding)) - (var(--scroll-buff) * 0.5));
+	padding-block: calc((50svh + var(--scroll-padding)) - (var(--scroll-buff) * 0.5));
 }
 
 .controller li {
