@@ -1,0 +1,275 @@
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+html { color-scheme: light only; }
+@media (prefers-color-scheme: dark) { html { color-scheme: dark only; } }
+
+body {
+	display: flex;
+	place-items: center;
+	justify-content: center;
+	min-height: 100svh;
+	touch-action: none;
+	font-family: 'SF Pro Text', 'SF Pro Icons', 'AOS Icons', 'Helvetica Neue',
+		Helvetica, Arial, sans-serif, system-ui;
+	margin: 0;
+	padding: 0.5rem;
+}
+
+body::before {
+	--line: color-mix(in lch, canvasText 25%, transparent);
+	--size: 60px;
+	content: '';
+	height: 100vh;
+	width: 100vw;
+	position: fixed;
+	background: linear-gradient(
+				90deg,
+				var(--line) 1px,
+				transparent 1px var(--size)
+			)
+			0 -5vmin / var(--size) var(--size),
+		linear-gradient(var(--line) 1px, transparent 1px var(--size)) 0 -5vmin / var(
+				--size
+			) var(--size);
+	mask: linear-gradient(-15deg, transparent 60%, white);
+	top: 0;
+	z-index: -1;
+}
+
+ul {
+  display: flex; 
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  position: relative;
+  flex-wrap: wrap;
+}
+
+:root:has(.direction-handler[aria-pressed=true]) ul {
+	flex-direction: column;
+}
+
+.direction-handler {
+	width: 48px;
+	height: 48px;
+	border: 0;
+	position: fixed;
+	top: 1rem;
+	right: 1rem;
+	padding: 0;
+	background: transparent;
+	display: grid;
+	place-items: center;
+	color: color-mix(in lch, #000, canvas 20%);
+	border-radius: 6px;
+	cursor: pointer;
+}
+
+.direction-handler path {
+	transform-box: fill-box;
+	transform-origin: 50% 50%;
+	rotate: calc(270deg * var(--intent));
+	transition: rotate 0.5s;
+	transition-timing-function: linear(
+    0 0%, 0.2178 2.1%, 1.1144 8.49%,
+    1.2959 10.7%, 1.3463 11.81%,
+    1.3705 12.94%, 1.3726 13.7%,
+    1.3643 14.48%, 1.3151 16.2%,
+    1.0317 21.81%, 0.941 24.01%,
+    0.8912 25.91%, 0.8694 27.84%,
+    0.8698 29.21%, 0.8824 30.71%,
+    1.0122 38.33%, 1.0357 40.52%,
+    1.046 42.71%, 1.0416 45.7%,
+    0.9961 53.26%, 0.9839 57.54%,
+    0.9853 60.71%, 1.0012 68.14%,
+    1.0056 72.24%, 0.9981 86.66%, 1 100%
+  );
+}
+
+.direction-handler rect {
+	fill: hsl(40 90% 50%);
+	transition: fill 0.5s;
+}
+
+.direction-handler[aria-pressed=true] path {
+	rotate: calc(270deg + (90deg * var(--intent, 0)));
+}
+
+.direction-handler:is(:focus-visible, :hover) {
+	--intent: 1;
+	background: color-mix(in lch, canvasText, canvas 85%);
+}
+
+.direction-handler svg {
+	width: 75%;
+}
+
+.sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border-width: 0;
+}
+
+.bear-link {
+	color: canvasText;
+	position: fixed;
+	top: 1rem;
+	left: 1rem;
+	width: 48px;
+	aspect-ratio: 1;
+	display: grid;
+	place-items: center;
+	opacity: 0.8;
+}
+
+:where(.x-link, .bear-link):is(:hover, :focus-visible) {
+	opacity: 1;
+}
+.bear-link svg {
+	width: 75%;
+}
+
+li {
+	display: grid;
+	place-items: center;
+	font-weight: 400;
+}
+
+li a {
+  display: inline-block;
+  padding: 0.5rem 1.25rem;
+  width: 100%;
+  height: 100%;
+  color: color-mix(in lch, canvasText 30%, canvas);
+  transition: color 0.2s;
+  text-decoration: none;
+}
+
+li a {
+}
+li a:target {
+	text-decoration: underline;
+	text-underline-offset: 0.5rem;
+	text-decoration-thickness: 2px;
+	text-decoration-color: currentColor;
+}
+
+a:is(:focus-visible, :hover) {
+	color: canvasText;
+}
+
+[data-no-anchor] ul:has(li:nth-of-type(1) a:is(:hover, :focus-visible)) {
+	--item-active-y: var(--item-1-y);
+	--item-active-x: var(--item-1-x);
+	--item-active-width: var(--item-1-width);
+	--item-active-height: var(--item-1-height);
+}
+[data-no-anchor] ul:has(li:nth-of-type(2) a:is(:hover, :focus-visible)) {
+	--item-active-y: var(--item-2-y);
+	--item-active-x: var(--item-2-x);
+	--item-active-width: var(--item-2-width);
+	--item-active-height: var(--item-2-height);
+}
+[data-no-anchor] ul:has(li:nth-of-type(3) a:is(:hover, :focus-visible)) {
+	--item-active-y: var(--item-3-y);
+	--item-active-x: var(--item-3-x);
+	--item-active-width: var(--item-3-width);
+	--item-active-height: var(--item-3-height);
+}
+[data-no-anchor] ul:has(li:nth-of-type(4) a:is(:hover, :focus-visible)) {
+	--item-active-y: var(--item-4-y);
+	--item-active-x: var(--item-4-x);
+	--item-active-width: var(--item-4-width);
+	--item-active-height: var(--item-4-height);
+}
+[data-no-anchor] ul:has(li:nth-of-type(5) a:is(:hover, :focus-visible)) {
+	--item-active-y: var(--item-5-y);
+	--item-active-x: var(--item-5-x);
+	--item-active-width: var(--item-5-width);
+	--item-active-height: var(--item-5-height);
+}
+[data-no-anchor] ul:has(li:nth-of-type(6) a:is(:hover, :focus-visible)) {
+	--item-active-y: var(--item-6-y);
+	--item-active-x: var(--item-6-x);
+	--item-active-width: var(--item-6-width);
+	--item-active-height: var(--item-6-height);
+}
+
+ul:has(a:is(:focus-visible, :hover)) {
+  --intent: 1;
+}
+
+ul::before {
+	--transition: 0.18s;
+	content: "";
+	position: fixed;
+	pointer-events: none;
+	top: calc(var(--item-active-y) * 1px);
+	left: calc(var(--item-active-x) * 1px);
+	height: calc(var(--item-active-height) * 1px);
+	width: calc(var(--item-active-width) * 1px);
+	opacity: var(--intent, 0);
+	z-index: -1;
+	border-radius: 6px;
+	background: color-mix(in lch, canvasText, canvas 95%);
+	transition:
+		top var(--transition),
+		left var(--transition),
+	  height var(--transition),
+	  opacity var(--transition),
+	  color var(--transition),
+	  width var(--transition);
+  transition-timing-function: linear(
+    0 0%, 0.2342 12.49%, 0.4374 24.99%,
+    0.6093 37.49%, 0.6835 43.74%,
+    0.7499 49.99%, 0.8086 56.25%,
+    0.8593 62.5%, 0.9023 68.75%, 0.9375 75%,
+    0.9648 81.25%, 0.9844 87.5%,
+    0.9961 93.75%, 1 100%
+  );
+}
+
+@supports(anchor-name: --a) {
+	nav li:nth-of-type(1) { anchor-name: --item-1; }
+	nav li:nth-of-type(2) { anchor-name: --item-2; }
+	nav li:nth-of-type(3) { anchor-name: --item-3; }
+	nav li:nth-of-type(4) { anchor-name: --item-4; }
+	nav li:nth-of-type(5) { anchor-name: --item-5; }
+	nav li:nth-of-type(6) { anchor-name: --item-6; }
+
+
+	nav:has(li:nth-of-type(1) a:is(:hover, :focus-visible)) { --anchor: --item-1; }
+	nav:has(li:nth-of-type(2) a:is(:hover, :focus-visible)) { --anchor: --item-2; }
+	nav:has(li:nth-of-type(3) a:is(:hover, :focus-visible)) { --anchor: --item-3; }
+	nav:has(li:nth-of-type(4) a:is(:hover, :focus-visible)) { --anchor: --item-4; }
+	nav:has(li:nth-of-type(5) a:is(:hover, :focus-visible)) { --anchor: --item-5; }
+	nav:has(li:nth-of-type(6) a:is(:hover, :focus-visible)) { --anchor: --item-6; }
+
+	nav ul { --anchor: var(--item-active); }
+
+	ul::before {
+		left: anchor(var(--anchor) left);
+		top: anchor(var(--anchor) top);
+		width: anchor-size(var(--anchor) width);
+		height: anchor-size(var(--anchor) height);
+	}
+}
+
+::view-transition-group(item-1),
+::view-transition-group(item-2),
+::view-transition-group(item-3),
+::view-transition-group(item-4),
+::view-transition-group(item-5),
+::view-transition-group(item-6) {
+	object-fit: cover;
+}
