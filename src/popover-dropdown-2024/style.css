@@ -1,4 +1,4 @@
-@import "normalize.css";
+/*@import "normalize.css";*/
 
 *,
 *:after,
@@ -6,10 +6,31 @@
 	box-sizing: border-box;
 }
 
+:root {
+	--speed: 0.25s;
+	--accent: red;
+	--easing: linear(
+    0 0%, 0.0027 3.64%, 0.0106 7.29%,
+    0.0425 14.58%, 0.0957 21.87%,
+    0.1701 29.16%, 0.2477 35.19%,
+    0.3401 41.23%, 0.5982 55.18%,
+    0.7044 61.56%, 0.7987 68.28%, 0.875 75%,
+    0.9297 81.25%, 0.9687 87.5%,
+    0.9922 93.75%, 1 100%
+  );
+}
+
+html { color-scheme: light only; accent-color: var(--accent); }
+@media (prefers-color-scheme: dark) { html { color-scheme: dark only; } }
+
+[data-theme=light] { color-scheme: light only; }
+[data-theme=dark] { color-scheme: dark only; }
+
 body {
 	display: grid;
 	place-items: center;
 	min-height: 100vh;
+	background: canvas;
 	font-family:  "SF Pro Text", "SF Pro Icons", "AOS Icons", "Helvetica Neue", Helvetica, Arial, sans-serif, system-ui;
 }
 
@@ -28,37 +49,297 @@ body::before {
 			50% 50% / var(--size) var(--size),
 		linear-gradient(var(--line) 1px, transparent 1px var(--size)) 50% 50% /
 			var(--size) var(--size);
-	mask: linear-gradient(-15deg, transparent 60%, white);
+	mask: linear-gradient(-25deg, transparent 60%, white);
 	top: 0;
 	transform-style: flat;
 	pointer-events: none;
 	z-index: -1;
 }
 
+:where(button, a, select) { color: inherit; outline-color: var(--accent); outline-offset: 2px; }
+
+h1 {
+	color: color-mix(in lch, canvasText, transparent 25%);
+}
+
+hr {
+	width: 100%;
+	opacity: 0.5;
+}
+
+.sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border-width: 0;
+}
+
 [popovertarget] {
 	position: absolute;
 	right: 1rem;
 	top: 1rem;
+	width: 48px;
+	aspect-ratio: 1;
+	padding: 0;
+	border: 0;
+	border-radius: 50%;
+	display: grid;
+	place-items: center;
+	outline: 2px transparent solid;
+	outline-offset: 2px;
+	transition: outline-color var(--speed) var(--easing);
 }
+
+[popovertarget]:focus-visible {
+	outline-color: var(--accent);
+}
+
+[popovertarget] img {
+	scale: -1 1;
+	width: 100%;
+	border-radius: 50%;
+}
+
+[popover] ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+}
+[popover] button {
+	flex: 1;
+	width: 100%;
+}
+
+[popover] {
+	inset: unset;
+	top: calc(var(--y) * 1px);
+	left: calc(var(--x) * 1px);
+	padding: 0.5rem 0;
+	border: 0;
+	width: 220px;
+	background: transparent;
+	animation: entry var(--speed) both var(--easing);
+}
+
+label {
+	line-height: 1.5;
+}
+
+.links {
+	display: flex;
+	padding: 0.5rem 0;
+	justify-content: space-between;
+	text-decoration: none;
+}
+
+.links:is(:hover, :focus-visible) {
+	text-decoration: underline;
+}
+
+.links:is(:hover, :focus-visible) svg {
+	rotate: 360deg;
+}
+
+.links svg {
+	width: 16px;
+	transition: rotate var(--speed) var(--easing);
+}
+
+.options {
+	display: grid;
+	grid-template-columns: 1fr auto;
+	gap: 0.5rem 0;
+	align-items: content;
+}
+
+.button {
+	display: inline-block;
+	width: 100%;
+	border-radius: 6px;
+	background: canvasText;
+	color: canvas;
+	padding: 0.5rem 1rem;
+	text-decoration: none;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: relative;
+}
+
+.button:is(:hover, :focus-visible) {
+	background: color-mix(in lch, canvasText, canvas 15%);
+}
+.button.invert:is(:hover, :focus-visible) {
+	background: color-mix(in lch, canvas, canvasText 15%);
+}
+
+.button.invert {
+	color: canvasText;
+	background: transparent;
+}
+
+.button svg {
+	width: 16px;
+	position: absolute;
+	right: 1rem;
+	top: 50%;
+	translate: 0 -50%;
+}
+
+.switch {
+	border: 1px solid color-mix(in lch, currentColor, transparent);
+	width: 24px;
+	height: 16px;
+	border-radius: 100px;
+	justify-self: end;
+	position: relative;
+}
+
+.switch:has(input:focus-visible) {
+	outline: 2px solid var(--accent);
+	outline-offset: 2px;
+}
+
+.switch:has(:checked)::after {
+	background: var(--accent);
+	translate: 8px 0;
+}
+
+.switch::after {
+	background: currentColor;
+	content: "";
+	position: absolute;
+	left: 0;
+	top: 0%;
+	height: 100%;
+	aspect-ratio: 1;
+	border-radius: 50%;
+	transition: background var(--speed) var(--easing), translate var(--speed) var(--easing);
+}
+
+@keyframes entry {
+	0% {
+		filter: blur(4px);
+		opacity: 0;
+	}
+}
+
+[popover] ul {
+	box-shadow:
+		0 0 0 1px rgba(0,0,0,.08),
+		0px 1px 1px rgba(0,0,0,.02),
+		0px 4px 8px -4px rgba(0,0,0,.04),
+		0px 16px 24px -8px rgba(0,0,0,.06);
+	border-radius: 6px;
+	background: white;
+	color: color-mix(in lch, canvasText, canvas 20%);
+	border: 1px solid color-mix(in lch, canvas, canvasText 10%);
+	padding: 1rem;
+	font-size: 14px;
+	margin: 0;
+	display: grid;
+	gap: 0.5rem;
+}
+
+:root:has(#backdrop:checked) [popover]::backdrop {
+	animation: entry var(--speed) var(--easing);
+}
+
+:root:has(#backdrop:checked) [popover]::backdrop {
+	background-color: color-mix(in lch, canvasText, transparent 90%);
+	backdrop-filter: blur(4px);
+}
+
+@media(prefers-color-scheme: dark) {
+	[popover] ul {
+		background: black;
+	}
+}
+
+[data-theme=light] [popover] ul { background: white; }
+[data-theme=dark] [popover] ul { background: black; }
 
 @supports (anchor-name: --item) {
 	[popover] {
-		inset: unset;
 		top: anchor(bottom);
-		left: anchor(left);
+		left: unset;
+		right: anchor(right);
 		position-try-options: flip-block, flip-inline;
-		width: 160px;
-		padding: 0.5rem;
 	}
-	[popover] ul {
-		list-style-type: none;
-		margin: 0;
-		padding: 0;
-		display: flex;
-		flex-direction: column;
+
+	[popover] {
+		animation: none;
+		opacity: 0;
+		scale: 0.95;
+		filter: blur(4px);
+		transition:
+			display var(--speed) allow-discrete,
+			overlay var(--speed) allow-discrete,
+			opacity var(--speed),
+			scale var(--speed),
+			filter var(--speed);
+		transition-timing-function: var(--easing);
 	}
-	[popover] button {
-		flex: 1;
-		width: 100%;
+	
+	[popover]:popover-open {
+		opacity: 1;
+		scale: 1;
+		filter: blur(0px);
 	}
+
+	@starting-style {
+		[popover]:popover-open {
+			opacity: 0;
+			scale: 0.95;
+			filter: blur(4px);
+		}
+	}
+
+	/* Transition for the popover's backdrop */
+	:root:has(#backdrop:checked) [popover]::backdrop {
+	  background-color: color-mix(in lch, canvasText, transparent 90%);
+	  backdrop-filter: blur(4px);
+	  opacity: 0;
+	  transition:
+	    display var(--speed) allow-discrete,
+	    overlay var(--speed) allow-discrete,
+	    opacity var(--speed);
+	}
+
+	:root:has(#backdrop:checked) [popover]:popover-open::backdrop {
+	  opacity: 1;
+	}
+	@starting-style {
+		:root:has(#backdrop:checked) [popover]:popover-open::backdrop {
+	    opacity: 0;
+	  }
+	}
+}
+
+
+/**
+ * Theming
+ * */
+.details {
+ 	display: grid;
+ 	gap: 0.25rem;
+}
+
+.details span {
+	font-weight: 500;
+}
+
+[href*="mailto"] {
+	text-decoration: none;
+	font-weight: 300;
+}
+[href*="mailto"]:is(:focus-visible, :hover) {
+	text-decoration: underline;
 }
