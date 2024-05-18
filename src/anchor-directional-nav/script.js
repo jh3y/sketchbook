@@ -2,12 +2,14 @@ const supportsAnchorPos = "anchorName" in document.documentElement.style
 
 const sync = (nav, anchors) => () => {
   for (let i = 0; i < anchors.length; i++) {
-    const bounds = anchors[i].getBoundingClientRect()
     anchors[i].style.setProperty('view-transition-name', `item-${i + 1}`)
-    nav.style.setProperty(`--item-${i + 1}-x`, bounds.left)
-    nav.style.setProperty(`--item-${i + 1}-y`, bounds.top)
-    nav.style.setProperty(`--item-${i + 1}-width`, bounds.width)
-    nav.style.setProperty(`--item-${i + 1}-height`, bounds.height)
+    if (!supportsAnchorPos) {
+      const bounds = anchors[i].getBoundingClientRect()
+      nav.style.setProperty(`--item-${i + 1}-x`, bounds.left)
+      nav.style.setProperty(`--item-${i + 1}-y`, bounds.top)
+      nav.style.setProperty(`--item-${i + 1}-width`, bounds.width)
+      nav.style.setProperty(`--item-${i + 1}-height`, bounds.height)
+    }
   }
 }
 /**
@@ -42,7 +44,8 @@ const falloff = (index) => () => {
 for (let i = 0; i < anchors.length; i++) {
   anchors[i].addEventListener('pointerenter', falloff(i))
 }
-nav.addEventListener('pointerleave', async () => {
+
+const deactivate = async () => {
   const transitions = document.getAnimations()
   if (transitions.length) {
     const fade = transitions.find(t => t.effect.target === nav.firstElementChild && t.transitionProperty === 'opacity')
@@ -56,7 +59,10 @@ nav.addEventListener('pointerleave', async () => {
       nav.style.removeProperty('--item-active-height')
     }
   }
-})
+}
+
+nav.addEventListener('pointerleave', deactivate)
+nav.addEventListener('blur', deactivate)
 
 /**
  * Change orientation with a button click
@@ -68,8 +74,33 @@ const orient = () => {
 }
 
 const changeOrientation = () => {
+  document.documentElement.dataset.flipUi = true
   if (!document.startViewTransition) return orient()
-  document.startViewTransition(orient)
+  const transition = document.startViewTransition(orient)
+  transition.finished.finally(() => {document.documentElement.dataset.flipUi = false})
+
 }
 calibrate()
 orientator.addEventListener('click', changeOrientation)
+
+
+/**
+ * Theme switching
+ * */ 
+const toggle = document.querySelector('button.theme')
+
+const switchTheme = () => {
+  const isDark = toggle.matches("[aria-pressed=true]") ? false : true;
+  toggle.setAttribute("aria-pressed", isDark);
+  document.documentElement.className = isDark ? 'light' : 'dark'
+}
+
+const handleToggle = () => {
+  if (!document.startViewTransition) {
+    console.info('Hey! Try this out in Chrome 111+')
+    switchTheme()
+  }
+  document.startViewTransition(switchTheme)
+};
+
+toggle.addEventListener('click', handleToggle)

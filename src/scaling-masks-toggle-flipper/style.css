@@ -101,7 +101,6 @@ body {
   animation: none;
 }
 
-
 ::view-transition-old(root),
 ::view-transition-new(root) {
   mask-repeat: no-repeat;

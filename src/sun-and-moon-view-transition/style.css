@@ -31,17 +31,6 @@ h1 {
 	font-size: clamp(2.5rem, 5vw + 1rem, 10rem);
 }
 
-.sr-only {
-	position: absolute;
-	width: 1px;
-	height: 1px;
-	padding: 0;
-	margin: -1px;
-	overflow: hidden;
-	clip: rect(0, 0, 0, 0);
-	white-space: nowrap;
-	border-width: 0;
-}
 
 button {
 	position: fixed;
@@ -53,6 +42,18 @@ button {
 	border-radius: 4px;
 	display: grid;
 	place-items: center;
+}
+
+.sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border-width: 0;
 }
 
 [aria-pressed=true] path:first-of-type,
