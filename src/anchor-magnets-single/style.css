@@ -1,0 +1,295 @@
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+	display: flex;
+	place-items: center;
+	justify-content: center;
+	min-height: 100svh;
+	font-family: 'SF Pro Text', 'SF Pro Icons', 'AOS Icons', 'Helvetica Neue',
+		Helvetica, Arial, sans-serif, system-ui;
+	margin: 0;
+	padding: 0.5rem;
+}
+
+body::before {
+	--line: color-mix(in lch, canvasText 25%, transparent);
+	--size: 40px;
+	content: '';
+	height: 100vh;
+	width: 100vw;
+	position: fixed;
+	background: linear-gradient(
+				90deg,
+				var(--line) 1px,
+				transparent 1px var(--size)
+			)
+			0 -5vmin / var(--size) var(--size),
+		linear-gradient(var(--line) 1px, transparent 1px var(--size)) 0 -5vmin / var(
+				--size
+			) var(--size);
+	mask: linear-gradient(-15deg, transparent 60%, white);
+	top: 0;
+	z-index: -1;
+}
+
+ul {
+  display: flex; 
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  position: relative;
+  flex-wrap: wrap;
+  color: color-mix(in lch, canvasText 50%, canvas);
+  transition: color 0.2s;
+  touch-action: none;
+}
+
+:root:has(.direction-handler[aria-pressed=true]) ul {
+	flex-direction: column;
+}
+
+.direction-handler {
+	width: 48px;
+	height: 48px;
+	border: 0;
+	position: fixed;
+	top: 1rem;
+	right: 1rem;
+	padding: 0;
+	background: transparent;
+	display: grid;
+	place-items: center;
+	color: color-mix(in lch, #000, canvas 20%);
+	border-radius: 6px;
+	cursor: pointer;
+}
+
+.direction-handler path {
+	transform-box: fill-box;
+	transform-origin: 50% 50%;
+	rotate: calc(270deg * var(--intent));
+	transition: rotate 0.5s;
+	transition-timing-function: linear(
+    0 0%, 0.2178 2.1%, 1.1144 8.49%,
+    1.2959 10.7%, 1.3463 11.81%,
+    1.3705 12.94%, 1.3726 13.7%,
+    1.3643 14.48%, 1.3151 16.2%,
+    1.0317 21.81%, 0.941 24.01%,
+    0.8912 25.91%, 0.8694 27.84%,
+    0.8698 29.21%, 0.8824 30.71%,
+    1.0122 38.33%, 1.0357 40.52%,
+    1.046 42.71%, 1.0416 45.7%,
+    0.9961 53.26%, 0.9839 57.54%,
+    0.9853 60.71%, 1.0012 68.14%,
+    1.0056 72.24%, 0.9981 86.66%, 1 100%
+  );
+}
+
+.direction-handler rect {
+	fill: hsl(40 90% 50%);
+	transition: fill 0.5s;
+}
+
+.direction-handler[aria-pressed=true] path {
+	rotate: calc(270deg - (90deg * var(--intent, 0)));
+}
+
+.direction-handler:is(:focus-visible, :hover) {
+	--intent: 1;
+	background: color-mix(in lch, canvasText, canvas 85%);
+}
+
+.direction-handler svg {
+	width: 75%;
+}
+
+.bear-link {
+	color: canvasText;
+	position: fixed;
+	top: 1rem;
+	left: 1rem;
+	width: 48px;
+	aspect-ratio: 1;
+	display: grid;
+	place-items: center;
+	opacity: 0.8;
+}
+
+:where(.x-link, .bear-link):is(:hover, :focus-visible) {
+	opacity: 1;
+}
+.bear-link svg {
+	width: 75%;
+}
+
+li {
+	display: grid;
+	place-items: center;
+	font-weight: 400;
+}
+
+li a {
+  display: inline-block;
+  padding: 0.5rem 1.25rem;
+  width: 100%;
+  height: 100%;
+  color: currentColor;
+  text-decoration: none;
+}
+
+:is(a, button) {
+  outline-color: color-mix(in lch, canvasText, transparent 50%);
+}
+
+a:is(:focus-visible, :hover),
+ul:has(a:target:is(:focus-visible, :hover))::after {
+	color: canvasText;
+}
+
+ul:has(a:is(:focus-visible, :hover)) {
+  --intent: 1;
+}
+
+ul::before,
+ul::after {
+	--transition: 0.18s;
+	content: "";
+	position: fixed;
+	pointer-events: none;
+	opacity: var(--intent, 0);
+	z-index: -1;
+	border-radius: 6px;
+	background: color-mix(in lch, canvasText, canvas 85%);
+	transition:
+		top var(--transition),
+		left var(--transition),
+	  height var(--transition),
+	  opacity var(--transition),
+	  color var(--transition),
+	  width var(--transition);
+  transition-timing-function: linear(
+    0 0%, 0.2342 12.49%, 0.4374 24.99%,
+    0.6093 37.49%, 0.6835 43.74%,
+    0.7499 49.99%, 0.8086 56.25%,
+    0.8593 62.5%, 0.9023 68.75%, 0.9375 75%,
+    0.9648 81.25%, 0.9844 87.5%,
+    0.9961 93.75%, 1 100%
+  );
+}
+
+ul::after {
+	top: calc(var(--target-y) * 1px);
+	left: calc((var(--target-x) * 1px) + 1.25rem);
+	height: calc(var(--target-height) * 1px);
+	width: calc((var(--target-width) * 1px) - 2.5rem);
+	opacity: 1;
+	background: transparent;
+	border-radius: 0;
+	border-bottom: 2px solid currentColor;
+	view-transition-name: target;
+}
+
+/* Targeting */
+@supports(anchor-name: --a) {
+	a:target { anchor-name: --target; }
+	li:has(a:is(:hover, :focus-visible)) { anchor-name: --anchor; }
+	
+	ul::before {
+		left: anchor(--anchor left);
+		top: anchor(--anchor top);
+		width: anchor-size(--anchor width);
+		height: anchor-size(--anchor height);
+	}
+
+	ul::after {
+		left: calc(anchor(--target left) + 1.25rem);
+		top: anchor(--target top);
+		width: calc(anchor-size(--target width) - 2.5rem);
+		height: anchor-size(--target height);
+	}
+}
+
+::view-transition-group(target),
+::view-transition-group(item) {
+	mix-blend-mode: normal;
+}
+
+/**
+ * Theming
+ * */
+ .theme {
+   position: fixed;
+   bottom: 1rem;
+   right: 1rem;
+   width: 48px;
+   aspect-ratio: 1;
+   border: 0;
+   border-radius: 6px;
+   cursor: pointer;
+   background: transparent;
+   display: grid;
+   place-items: center;
+ }
+
+.theme:is(:hover, :focus-visible) {
+ 	--intent: 1;
+	background: color-mix(in lch, canvasText, canvas 85%);
+}
+
+ html.dark {
+ 	color-scheme: dark only;
+ }
+ html.light {
+ 	color-scheme: light only;
+ }
+
+.sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border-width: 0;
+}
+
+.theme[aria-pressed=true] path:first-of-type,
+.theme[aria-pressed=false] path:last-of-type {
+	display: block;
+}
+.theme[aria-pressed=true] path:last-of-type,
+.theme[aria-pressed=false] path:first-of-type {
+	display: none;
+}
+
+button svg {
+	width: 55%
+}
+
+.light::view-transition-new(root) {
+	mask:
+		url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-6 h-6"><path fill="white" d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.166a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM17.834 18.894a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 10-1.061 1.06l1.59 1.591zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591z" /></svg>')
+		center / 0 no-repeat;
+	animation: scale 2s;
+	z-index: 10;
+}
+.dark::view-transition-new(root),
+.light::view-transition-old(root) {
+	animation: none;
+	mix-blend-mode: normal;
+	z-index: -1;
+}
+
+@keyframes scale {
+	to {
+		mask-size: 500vmax;
+	}
+}
+
+[data-flip-ui=true] { view-transition-name: none; }
