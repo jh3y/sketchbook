@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, user-scalable=0, maximum-scale=1.0"
+    />
+    <title>pointer-svg-filters</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <a
+      class="bear-link"
+      href="https://twitter.com/intent/follow?screen_name=jh3yy"
+      target="_blank"
+      rel="noreferrer noopener"
+    >
+      <svg
+        class="w-9"
+        viewBox="0 0 969 955"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <circle
+          cx="161.191"
+          cy="320.191"
+          r="133.191"
+          stroke="currentColor"
+          stroke-width="20"
+        ></circle>
+        <circle
+          cx="806.809"
+          cy="320.191"
+          r="133.191"
+          stroke="currentColor"
+          stroke-width="20"
+        ></circle>
+        <g class="eyes">
+          <circle
+            cx="695.019"
+            cy="587.733"
+            r="31.4016"
+            fill="currentColor"
+          ></circle>
+          <circle
+            cx="272.981"
+            cy="587.733"
+            r="31.4016"
+            fill="currentColor"
+          ></circle>
+        </g>
+        <path
+          d="M564.388 712.083C564.388 743.994 526.035 779.911 483.372 779.911C440.709 779.911 402.356 743.994 402.356 712.083C402.356 680.173 440.709 664.353 483.372 664.353C526.035 664.353 564.388 680.173 564.388 712.083Z"
+          fill="currentColor"
+        ></path>
+        <rect
+          x="310.42"
+          y="448.31"
+          width="343.468"
+          height="51.4986"
+          fill="#FF1E1E"
+        ></rect>
+        <path
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          d="M745.643 288.24C815.368 344.185 854.539 432.623 854.539 511.741H614.938V454.652C614.938 433.113 597.477 415.652 575.938 415.652H388.37C366.831 415.652 349.37 433.113 349.37 454.652V511.741L110.949 511.741C110.949 432.623 150.12 344.185 219.845 288.24C289.57 232.295 384.138 200.865 482.744 200.865C581.35 200.865 675.918 232.295 745.643 288.24Z"
+          fill="currentColor"
+        ></path>
+      </svg>
+    </a>
+    <div class="effect">
+      <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12.6758 35.6141C14.5653 30.7128 17.4018 26.2318 21.0231 22.4267C24.6445 18.6216 28.9798 15.5671 33.7816 13.4375" stroke="white" stroke-width="6" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <h1>Hello, World!</h1>
+    <svg
+      class="filter"
+      preserveAspectRatio="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <defs>
+        <filter
+          id="filter"
+          width="100%"
+          height="100%"
+          x="0"
+          y="0"
+          color-interpolation-filters="sRGB"
+        >
+          <feImage
+            id="absmap"
+            x="0"
+            y="0"
+            width="100%"
+            height="100%"
+            result="FE_IMG"
+            href="data:image/svg+xml;charset=utf-8,%0A%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22displacementmap%22%20id%3D%22absolute-displacementmap%22%20width%3D%22256%22%20height%3D%22256%22%20preserveAspectRatio%3D%22none%22%3E%0A%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%3Cstyle%20type%3D%22text%2Fcss%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20.red-gradient%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20fill%3A%20url(%23red-gradient)%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20.blue-gradient%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20fill%3A%20url(%23blue-gradient)%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20mix-blend-mode%3A%20screen%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20%3C%2Fstyle%3E%0A%0A%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22red-gradient%22%20x1%3D%220%22%20x2%3D%221%22%20y1%3D%220%22%20y2%3D%220%22%20color-interpolation%3D%22sRGB%22%20gradientUnits%3D%22objectBoundingBox%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%23FF0000%22%20stop-opacity%3D%221%22%20%2F%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23FF0000%22%20stop-opacity%3D%220%22%20%2F%3E%0A%20%20%20%20%20%20%20%20%3C%2FlinearGradient%3E%0A%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22blue-gradient%22%20x1%3D%220%22%20x2%3D%220%22%20y1%3D%220%22%20y2%3D%221%22%20color-interpolation%3D%22sRGB%22%20gradientUnits%3D%22objectBoundingBox%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%230000FF%22%20stop-opacity%3D%221%22%20%2F%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%221%22%20stop-color%3D%22%230000FF%22%20stop-opacity%3D%220%22%20%2F%3E%0A%20%20%20%20%20%20%20%20%3C%2FlinearGradient%3E%0A%20%20%20%20%3C%2Fdefs%3E%0A%20%20%20%20%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20x%3D%220%22%20y%3D%220%22%20fill%3D%22black%22%20%2F%3E%0A%20%20%20%20%3Crect%20id%3D%22red-gradient-rect%22%20width%3D%22100%25%22%20height%3D%22100%25%22%20x%3D%220%22%20y%3D%220%22%20class%3D%22red-gradient%22%2F%3E%0A%20%20%20%20%3Crect%20id%3D%22blue-gradient-rect%22%20width%3D%22100%25%22%20height%3D%22100%25%22%20x%3D%220%22%20y%3D%220%22%20class%3D%22blue-gradient%22%2F%3E%0A%3C%2Fsvg%3E"
+          ></feImage>
+          <feDisplacementMap
+            id="displacement"
+            in="SourceGraphic"
+            in2="FE_IMG"
+            xChannelSelector="R"
+            yChannelSelector="B"
+            scale="20"
+          ></feDisplacementMap>
+        </filter>
+        <filter id="scribble--0">
+          <feTurbulence basefrequency="0.02" numoctaves="3" in="SourceGraphic" in2="FE_IMG" result="noise" seed="0"></feTurbulence>
+          <feDisplacementMap id="displacement" in="SourceGraphic" in2="noise" scale="2"></feDisplacementMap>
+        </filter>
+        <filter id="scribble--1">
+          <feTurbulence basefrequency="0.02" numoctaves="3" in="SourceGraphic" in2="FE_IMG" result="noise" seed="1"></feTurbulence>
+          <feDisplacementMap in="SourceGraphic" in2="noise" scale="3"></feDisplacementMap>
+        </filter>
+        <filter id="scribble--2">
+          <feTurbulence basefrequency="0.02" numoctaves="3" in="SourceGraphic" in2="FE_IMG" result="noise" seed="2"></feTurbulence>
+          <feDisplacementMap in="SourceGraphic" in2="noise" scale="2"></feDisplacementMap>
+        </filter>
+        <filter id="scribble--3">
+          <feTurbulence basefrequency="0.02" numoctaves="3" in="SourceGraphic" in2="FE_IMG" result="noise" seed="3"></feTurbulence>
+          <feDisplacementMap in="SourceGraphic" in2="noise" scale="3"></feDisplacementMap>
+        </filter>
+        <filter id="scribble--4">
+          <feTurbulence basefrequency="0.02" numoctaves="3" in="SourceGraphic" in2="FE_IMG" result="noise" seed="4"></feTurbulence>
+          <feDisplacementMap in="SourceGraphic" in2="noise" scale="2"></feDisplacementMap>
+        </filter>
+      </defs>
+    </svg>
+    <script type="module" src="./script.js"></script>
+  </body>
+</html>

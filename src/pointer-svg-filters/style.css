@@ -1,0 +1,174 @@
+@import "normalize.css";
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+:root {
+	--shimmer: color-mix(in lch, white, transparent 35%);
+}
+
+[data-theme=dark] { color-scheme: dark only; }
+[data-theme=light] { color-scheme: light only; }
+
+body {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	touch-action: none;
+	font-family:  "SF Pro Text", "SF Pro Icons", "AOS Icons", "Helvetica Neue", Helvetica, Arial, sans-serif, system-ui;
+}
+
+body::before {
+	--line: color-mix(in lch, canvasText 25%, transparent);
+	--size: 40px;
+	content: '';
+	height: 100vh;
+	width: 100vw;
+	position: fixed;
+	background: linear-gradient(
+				90deg,
+				var(--line) 1px,
+				transparent 1px var(--size)
+			)
+			0 -5vmin / var(--size) var(--size),
+		linear-gradient(var(--line) 1px, transparent 1px var(--size)) 0 -5vmin / var(
+				--size
+			) var(--size);
+	mask: linear-gradient(-15deg, transparent 60%, white);
+	top: 0;
+	z-index: -1;
+}
+
+h1 {
+	font-size: clamp(2.5rem, 4vw + 1rem, 8rem);
+	font-weight: 600;
+	grid-area: 1 / 1;
+}
+
+h1::selection {
+	background: hsl(320 100% 50%);
+}
+
+.filter {
+	position: fixed;
+	bottom: 100%;
+	left: 100%;
+}
+
+:root:hover {
+	--scale: 1;
+}
+
+@property --scale {
+	initial-value: 0;
+	syntax: '<number>';
+	inherits: true;
+}
+
+.effect {
+	width: calc(var(--size) * 1px);
+	aspect-ratio: 1;
+	border-radius: 50%;
+	background: hsl(210 80% 90% / 0.05);
+	--blue: color-mix(in lch, canvas, hsl(210 10% 40%));
+	border: 2px solid color-mix(in lch, canvasText, var(--blue) 60%);
+	grid-area: 1 / 1;
+	backdrop-filter: url(#filter);
+	backdrop-filter: url(#scribble--0);
+	position: fixed;
+	top: 0%;
+	left: 0%;
+	translate: -50% -50%;
+	transform: translate(
+		calc(var(--x) * 1px),
+		calc(var(--y) * 1px)
+	) translateY(-15%) scale(var(--scale));
+	pointer-events: none;
+	box-shadow:
+    0px 4px 16px rgba(17,17,26,0.1),
+    0px 8px 24px rgba(17,17,26,0.1),
+    0px 16px 56px rgba(17,17,26,0.1),
+    0px 4px 16px rgba(17,17,26,0.1) inset,
+    0px 8px 24px rgba(17,17,26,0.1) inset,
+    0px 16px 56px rgba(17,17,26,0.1) inset;
+  transition: --scale 0.5s;
+}
+
+.effect svg {
+	width: 100%;
+	height: 100%;
+}
+
+[data-type=magnify] .effect { backdrop-filter: url(#filter); }
+[data-type=radiate] .effect { backdrop-filter: url(#scribble--0); }
+
+[data-type=radiate][data-animate=true] .effect {
+	animation: scribble 0.2s infinite linear;
+}
+
+@keyframes scribble {
+  0% { backdrop-filter: url("#scribble--0"); }
+  25% { backdrop-filter: url("#scribble--1"); }
+  50% { backdrop-filter: url("#scribble--2"); }
+  75% { backdrop-filter: url("#scribble--3"); }
+  100% { backdrop-filter: url("#scribble--4"); }
+}
+
+.filter {
+	width: calc(var(--size) * 1px);
+	height: calc(var(--size) * 1px);
+}
+
+.sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border-width: 0;
+}
+
+.bear-link {
+	color: canvasText;
+	position: fixed;
+	top: 1rem;
+	left: 1rem;
+	width: 48px;
+	aspect-ratio: 1;
+	display: grid;
+	place-items: center;
+	opacity: 0.8;
+}
+
+:where(.x-link, .bear-link):is(:hover, :focus-visible) {
+	opacity: 1;
+}
+.bear-link svg {
+	width: 75%;
+}
+
+.eyes {
+	transform-box: fill-box;
+	transform-origin: center;
+	animation: blink 6s -2s infinite;
+}
+
+@keyframes blink {
+	0%,
+	46%,
+	48%,
+	50%,
+	100% {
+		scale: 1 1;
+	}
+	47%,
+	49% {
+		scale: 1 0.01;
+	}
+}
