@@ -3,19 +3,85 @@
 @layer normalize, base, visit;
 
 @layer visit {
+  :root {
+    --speed: 0.25s;
+    --accent: red;
+    --bounce-out: linear(
+        0 0%, 0.6832 7.89%, 0.9171 11.07%,
+        1.0251 12.99%, 1.1058 14.9%,
+        1.1619 16.86%, 1.1945 18.91%,
+        1.2024 20.02%, 1.2043 21.18%,
+        1.1907 23.72%, 1.1598 26.27%,
+        1.0604 32.59%, 1.0172 35.84%,
+        0.9839 39.49%, 0.967 43.26%,
+        0.9639 45.77%, 0.9661 48.59%,
+        0.9963 60.54%, 1.0054 67.42%, 1 100%
+      );
+	  --easing: linear(
+			 0 0%, 0.0027 3.64%, 0.0106 7.29%,
+       0.0425 14.58%, 0.0957 21.87%,
+       0.1701 29.16%, 0.2477 35.19%,
+       0.3401 41.23%, 0.5982 55.18%,
+       0.7044 61.56%, 0.7987 68.28%, 0.875 75%,
+       0.9297 81.25%, 0.9687 87.5%,
+       0.9922 93.75%, 1 100%
+     );
+  }
   dialog {
     --present: 0;
+    scale: calc(0.95 + (0.05 * var(--present)));
     opacity: var(--present);
     filter: blur(4px * (1 - var(--present))));
+    translate: 0 calc(4lh * (1 - var(--present)));
     width: 40ch;
     min-height: 100px;
-    transition: display 1s allow-discrete, overlay 1s allow-discrete, opacity 0.5s, filter 1s;
+   	box-shadow:
+		0 0 0 1px rgba(0,0,0,.08),
+		0px 1px 1px rgba(0,0,0,.02),
+		0px 4px 8px -4px rgba(0,0,0,.04),
+		0px 16px 24px -8px rgba(0,0,0,.06);
+  	border-radius: 6px;
+  	color: color-mix(in lch, canvasText, canvas 20%);
+  	border: 1px solid color-mix(in lch, canvas, canvasText 10%);
+  	padding: 1rem;
+  	font-size: 14px;
+  	margin: auto;
+  	display: grid;
+  	gap: 0.5rem;
+    transition:
+      all var(--speed) var(--easing) allow-discrete,
+      translate calc(var(--speed) * calc(1 + var(--present))) var(--move, var(--easing));
+    /**
+    * This is the "magic" piece
+    * transition: display var(--speed) allow-discrete, overlay var(--speed) allow-discrete;
+    * or transition-behavior: allow-discrete;
+    * it acts like a hold animation so you can do whatever you want as long as that's on
+    */
+
   }
   dialog[open] {
     --present: 1;
+    --move: var(--bounce-out);
   }
   @starting-style {
     dialog[open] {
+      --present: 0;
+    }
+  }
+
+  /* ::backdrop if required */
+  dialog::backdrop {
+    --present: 0;
+    background-color: color-mix(in lch, canvasText, transparent 80%);
+	  backdrop-filter: blur(4px);
+    opacity: var(--present);
+    transition: opacity var(--speed) var(--easing);
+  }
+  dialog[open]::backdrop {
+    --present: 1
+  }
+  @starting-style {
+    dialog[open]::backdrop {
       --present: 0;
     }
   }
@@ -39,6 +105,7 @@
   html {
     color-scheme: light only;
   }
+
   @media (prefers-color-scheme: dark) {
     html {
       color-scheme: dark only;
@@ -64,6 +131,11 @@
     mask: linear-gradient(-15deg, transparent 60%, white);
     top: 0;
     z-index: -1;
+  }
+
+  h1 {
+    font-size: clamp(2rem, 2vw + 1rem, 8rem);
+    color: color-mix(canvasText, canvas 15%);
   }
 
   .sr-only {
@@ -97,12 +169,12 @@
     width: 75%;
   }
 
-  body > button {
-    width: 48px;
-    aspect-ratio: 1;
+  .open {
     position: fixed;
     top: 1rem;
     right: 1rem;
+  }
+  button {
     border-radius: 6px;
     border: 0;
     background: transparent;
@@ -120,10 +192,22 @@
     padding: 0;
     display: grid;
     place-items: center;
+    width: 48px;
+    aspect-ratio: 1;
+
   }
 
   button svg {
     width: 75%;
+  }
+
+  .close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+  }
+
+  .open svg {
     rotate: calc(var(--intent, 0) * 360deg);
     transition: rotate 0.25s linear;
   }

@@ -1,4 +1,6 @@
 const dialog = document.querySelector('dialog')
-const button = document.querySelector('[aria-label="Open settings"]')
+const open = document.querySelector('.open')
+const close = document.querySelector('.close')
 
-button.addEventListener('click', () => dialog.showModal())
+open.addEventListener('click', () => dialog.showModal())
+close.addEventListener('click', () => dialog.close())
