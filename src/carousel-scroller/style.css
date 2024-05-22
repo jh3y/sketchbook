@@ -1,150 +1,158 @@
-@import "normalize.css";
+@import 'normalize.css';
 
 html {
-	color-scheme: light only;
+  color-scheme: light only;
 }
 
-[data-dark="true"] {
-	color-scheme: dark only;
+[data-dark='true'] {
+  color-scheme: dark only;
 }
 
 *,
 *:after,
 *:before {
-	box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 body {
-	display: grid;
-	place-items: center;
-	min-height: 100svh;
-	font-family:  "SF Pro Text", "SF Pro Icons", "AOS Icons", "Helvetica Neue", Helvetica, Arial, sans-serif, system-ui;
-	overflow: hidden;
+  display: grid;
+  place-items: center;
+  min-height: 100svh;
+  font-family: 'SF Pro Text', 'SF Pro Icons', 'AOS Icons', 'Helvetica Neue',
+    Helvetica, Arial, sans-serif, system-ui;
+  overflow: hidden;
 }
 
 body::before {
-	--size: 60px;
-	--line: color-mix(in lch, canvasText 35%, hsl(0 0% 100% / 0.25));
-	content: '';
-	height: 100svh;
-	width: 100vw;
-	position: fixed;
-	background: linear-gradient(
-				90deg,
-				var(--line) 1px,
-				transparent 1px var(--size)
-			)
-			50% 50% / var(--size) var(--size),
-		linear-gradient(var(--line) 1px, transparent 1px var(--size)) 50% 50% /
-			var(--size) var(--size);
-	mask: linear-gradient(-25deg, transparent 65%, white);
-	top: 0;
-	transform-style: flat;
-	pointer-events: none;
-	z-index: -1;
+  --size: 60px;
+  --line: color-mix(in lch, canvasText 35%, hsl(0 0% 100% / 0.25));
+  content: '';
+  height: 100svh;
+  width: 100vw;
+  position: fixed;
+  background: linear-gradient(
+        90deg,
+        var(--line) 1px,
+        transparent 1px var(--size)
+      )
+      50% 50% / var(--size) var(--size),
+    linear-gradient(var(--line) 1px, transparent 1px var(--size)) 50% 50% /
+      var(--size) var(--size);
+  mask: linear-gradient(-25deg, transparent 65%, white);
+  top: 0;
+  transform-style: flat;
+  pointer-events: none;
+  z-index: -1;
 }
 
 main {
-	transform-style: preserve-3d;
-	position: relative;
-	transition: scale 0.2s;
-	height: 100svh;
-	display: grid;
-	place-items: center;
-	width: 100%;
+  transform-style: preserve-3d;
+  position: relative;
+  transition: scale 0.2s;
+  height: 100svh;
+  display: grid;
+  place-items: center;
+  width: 100%;
 }
 
 .container {
-	--scroll-padding: 0px;
-	--inner-angle: calc((360 / var(--total)) * 1deg);
-	--item-width: clamp(120px, 20vmin, 12rem);
-	--scroll-buff: calc(var(--item-width) * var(--scroll-ratio));
-	--gap: calc(var(--item-width) * var(--gap-efficient, 0.1));
-	--radius: calc(((var(--item-width) + var(--gap)) / sin(var(--inner-angle))) * -1);
-	position: relative;
-	width: 100%;
-	height: 100%;
-	overflow: auto;
-	timeline-scope: --controller;
+  --scroll-padding: 0px;
+  --inner-angle: calc((360 / var(--total)) * 1deg);
+  --item-width: clamp(120px, 20vmin, 12rem);
+  --scroll-buff: calc(var(--item-width) * var(--scroll-ratio));
+  --gap: calc(var(--item-width) * var(--gap-efficient, 0.1));
+  --radius: calc(
+    ((var(--item-width) + var(--gap)) / sin(var(--inner-angle))) * -1
+  );
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  timeline-scope: --controller;
 }
 
-[data-infinite="true"] .container {
-	--scroll-padding: calc(var(--item-width) * 0.01);
-	--scroll-padding: 5px;
+[data-infinite='true'] .container {
+  --scroll-padding: calc(var(--item-width) * 0.01);
+  --scroll-padding: 5px;
 }
 
 ul {
-	list-style-type: none;
-	padding: 0;
-	margin: 0;
-	display: grid;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
 }
 
 img {
-	border-radius: 12px;
-	width: 100%;
-	height: 100%;
-	background-color: color-mix(in lch, canvasText 25%, canvas);
+  border-radius: 12px;
+  width: 100%;
+  height: 100%;
+  background-color: color-mix(in lch, canvasText 25%, canvas);
 }
 
 .carousel {
-	padding: 0;
+  padding: 0;
 }
 
 .carousel {
-	display: flex;
+  display: flex;
 }
 
 .carousel {
-	width: 100%;
-	height: 100%;
-	position: absolute;
-	left: 50%;
-	top: 50%;
-	translate: -50% -50%;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  translate: -50% -50%;
 }
 
 .carousel-container {
-	height: 100%;
-	width: 100%;
-	mask: linear-gradient(
-		calc(90deg + (var(--rotate-z) * 1deg)),
-		transparent 0 calc(50% - (var(--item-width) * var(--mask-upper))),
-		white calc(50% - (var(--mask-lower) * var(--item-width))) calc(50% + (var(--mask-lower) * var(--item-width))),
-		transparent calc(50% + (var(--mask-upper) * var(--item-width))) 100%
-	);
-	pointer-events: none;
-	position: absolute;
-	display: grid;
-	place-items: center;
-	inset: 0;
-	transform-style: preserve-3d;
-	perspective: calc(var(--perspective) * 1px);
-	overflow: hidden;
+  height: 100%;
+  width: 100%;
+  mask: linear-gradient(
+    calc(90deg + (var(--rotate-z) * 1deg)),
+    transparent 0 calc(50% - (var(--item-width) * var(--mask-upper))),
+    white calc(50% - (var(--mask-lower) * var(--item-width)))
+      calc(50% + (var(--mask-lower) * var(--item-width))),
+    transparent calc(50% + (var(--mask-upper) * var(--item-width))) 100%
+  );
+  pointer-events: none;
+  position: absolute;
+  display: grid;
+  place-items: center;
+  inset: 0;
+  transform-style: preserve-3d;
+  perspective: calc(var(--perspective) * 1px);
+  overflow: hidden;
 }
 
-[data-scroll="true"] .carousel::after,
-[data-animate="true"] .carousel::after {
-	animation: shine calc(var(--total) * 0.5s) infinite linear;
+[data-scroll='true'] .carousel::after,
+[data-animate='true'] .carousel::after {
+  animation: shine calc(var(--total) * 0.5s) infinite linear;
 }
-[data-scroll="true"] .carousel,
-[data-animate="true"] .carousel {
-	animation: carousel calc(var(--total) * 0.5s) infinite linear;
+[data-scroll='true'] .carousel,
+[data-animate='true'] .carousel {
+  animation: carousel calc(var(--total) * 0.5s) infinite linear;
 }
 .carousel {
-	transform-style: preserve-3d;
-	transform: translate3d(0, 0, var(--radius)) rotateX(calc(var(--rotate-x) * 1deg)) rotateZ(calc(var(--rotate-z) * 1deg)) rotateY(0deg);
+  transform-style: preserve-3d;
+  transform: translate3d(0, 0, var(--radius))
+    rotateX(calc(var(--rotate-x) * 1deg)) rotateZ(calc(var(--rotate-z) * 1deg))
+    rotateY(0deg);
 }
 
 @keyframes carousel {
-	to {
-		transform: translate3d(0, 0, var(--radius)) rotateX(calc(var(--rotate-x) * 1deg)) rotateZ(calc(var(--rotate-z) * 1deg)) rotateY(-360deg);
-	}
+  to {
+    transform: translate3d(0, 0, var(--radius))
+      rotateX(calc(var(--rotate-x) * 1deg))
+      rotateZ(calc(var(--rotate-z) * 1deg)) rotateY(-360deg);
+  }
 }
 
-@supports(animation-timeline: scroll()) {
-  [data-scroll="true"] .carousel,
-  [data-scroll="true"] .carousel::after {
+@supports (animation-timeline: scroll()) {
+  [data-scroll='true'] .carousel,
+  [data-scroll='true'] .carousel::after {
     animation-duration: auto;
     animation-iteration-count: 1;
     animation-fill-mode: both;
@@ -153,81 +161,86 @@ img {
 }
 
 .carousel::after {
-	content: "";
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	width: calc(var(--item-width) * 1.5);
-	height: calc(var(--item-width) * 1.5);
-	backdrop-filter: brightness(2);
-	mask: radial-gradient(80% 80% at 50% 50%, white, transparent 50%);
-	transform: translate(-50%, -50%) rotateY(0deg) translate3d(0, 0, calc((var(--radius) - 10px) * -1));
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: calc(var(--item-width) * 1.5);
+  height: calc(var(--item-width) * 1.5);
+  backdrop-filter: brightness(2);
+  mask: radial-gradient(80% 80% at 50% 50%, white, transparent 50%);
+  transform: translate(-50%, -50%) rotateY(0deg)
+    translate3d(0, 0, calc((var(--radius) - 10px) * -1));
 }
-
 
 @keyframes shine {
-	to {
-		transform: translate(-50%, -50%) rotateY(360deg) translate3d(0, 0, calc((var(--radius) - 10px) * -1));
-	}
+  to {
+    transform: translate(-50%, -50%) rotateY(360deg)
+      translate3d(0, 0, calc((var(--radius) - 10px) * -1));
+  }
 }
 
-[data-gsap="true"] .carousel::after {
-	animation: none;
-	transform: translate(-50%, -50%) rotateY(calc(var(--rotate) * 1deg)) translate3d(0, 0, calc((var(--radius) - 10px) * -1));
-}
-
-.carousel li {
-	--debug: red;
-	height: var(--item-width);
-	width: var(--item-width);
-	outline-offset: 2px;
+[data-gsap='true'] .carousel::after {
+  animation: none;
+  transform: translate(-50%, -50%) rotateY(calc(var(--rotate) * 1deg))
+    translate3d(0, 0, calc((var(--radius) - 10px) * -1));
 }
 
 .carousel li {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	backface-visibility: hidden;
-	transform:
-	  translate(-50%, -50%)
-	  rotateY(calc((var(--inner-angle) * var(--index))))
-	  translate3d(0, 0, calc(var(--radius) * -1));
+  --debug: red;
+  height: var(--item-width);
+  width: var(--item-width);
+  outline-offset: 2px;
 }
 
-[data-backface="true"] .carousel li {
-	backface-visibility: visible;
+.carousel li {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  backface-visibility: hidden;
+  transform: translate(-50%, -50%)
+    rotateY(calc((var(--inner-angle) * var(--index))))
+    translate3d(0, 0, calc(var(--radius) * -1));
+}
+
+[data-backface='true'] .carousel li {
+  backface-visibility: visible;
 }
 
 .controller {
-	display: flex;
-	overflow: auto;
-	width: 100%;
-	height: 100%;
-	scroll-snap-type: x mandatory;
-	scroll-timeline: --controller inline;
-	align-items: center;
-	padding-inline: calc((50vw + var(--scroll-padding)) - (var(--scroll-buff) * 0.5));
+  display: flex;
+  overflow: auto;
+  width: 100%;
+  height: 100%;
+  scroll-snap-type: x mandatory;
+  scroll-timeline: --controller inline;
+  align-items: center;
+  padding-inline: calc(
+    (50vw + var(--scroll-padding)) - (var(--scroll-buff) * 0.5)
+  );
 }
 
-[data-vertical="true"] .controller {
-	flex-direction: column;
-	scroll-snap-type: y mandatory;
-	scroll-timeline: --controller;
-	padding-inline: 0;
-	padding-block: calc((50svh + var(--scroll-padding)) - (var(--scroll-buff) * 0.5));
+[data-vertical='true'] .controller {
+  flex-direction: column;
+  scroll-snap-type: y mandatory;
+  scroll-timeline: --controller;
+  padding-inline: 0;
+  padding-block: calc(
+    (50svh + var(--scroll-padding)) - (var(--scroll-buff) * 0.5)
+  );
 }
 
 .controller li {
-	--debug: red;
-	height: var(--scroll-buff);
-	width: var(--scroll-buff);
-	aspect-ratio: 1;
-	flex: 1 0 auto;
-	scroll-snap-align: center;
+  --debug: red;
+  height: var(--scroll-buff);
+  width: var(--scroll-buff);
+  aspect-ratio: 1;
+  flex: 1 0 auto;
+  scroll-snap-align: center;
 }
 
-[data-debug="true"] li {
-	outline: 2px dashed var(--debug);
+[data-debug='true'] li {
+  outline: 2px dashed var(--debug);
 }
 
 /*.carousel {
@@ -241,29 +254,29 @@ img {
 }*/
 
 div.tp-lblv_v {
-	flex-shrink: 1;
-	width: auto;
+  flex-shrink: 1;
+  width: auto;
 }
 
 div.tp-dfwv {
-	width: 300px;
+  width: 300px;
 }
 
 .bear-link {
-	color: canvasText;
-	position: fixed;
-	bottom: 1rem;
-	left: 1rem;
-	width: 48px;
-	aspect-ratio: 1;
-	display: grid;
-	place-items: center;
-	opacity: 0.8;
+  color: canvasText;
+  position: fixed;
+  bottom: 1rem;
+  left: 1rem;
+  width: 48px;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  opacity: 0.8;
 }
 
 :where(.x-link, .bear-link):is(:hover, :focus-visible) {
-	opacity: 1;
+  opacity: 1;
 }
 .bear-link svg {
-	width: 75%;
+  width: 75%;
 }
