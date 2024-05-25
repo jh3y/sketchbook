@@ -4,19 +4,19 @@
 
 @layer visit {
   :root {
-    --speed: 0.25s;
-    --accent: red;
+    --speed: calc(var(--duration) * 1s);
+    --accent: hsl(6 90% 50%);
     --bounce-out: linear(
-        0 0%, 0.6832 7.89%, 0.9171 11.07%,
-        1.0251 12.99%, 1.1058 14.9%,
-        1.1619 16.86%, 1.1945 18.91%,
-        1.2024 20.02%, 1.2043 21.18%,
-        1.1907 23.72%, 1.1598 26.27%,
-        1.0604 32.59%, 1.0172 35.84%,
-        0.9839 39.49%, 0.967 43.26%,
-        0.9639 45.77%, 0.9661 48.59%,
-        0.9963 60.54%, 1.0054 67.42%, 1 100%
-      );
+      0 0%, 0.5583 3.72%, 0.9549 7.72%,
+      1.0968 9.86%, 1.2039 12.13%,
+      1.2783 14.57%, 1.3213 17.23%,
+      1.3317 18.7%, 1.3345 20.27%,
+      1.3296 21.97%, 1.3171 23.83%,
+      1.2806 27.25%, 1.1551 36.58%,
+      1.096 41.71%, 1.0465 47.53%,
+      1.014 53.68%, 0.997 59.87%,
+      0.9899 67.32%, 1 100%
+    );
 	  --easing: linear(
 			 0 0%, 0.0027 3.64%, 0.0106 7.29%,
        0.0425 14.58%, 0.0957 21.87%,
@@ -26,20 +26,21 @@
        0.9297 81.25%, 0.9687 87.5%,
        0.9922 93.75%, 1 100%
      );
+    accent-color: var(--accent);
   }
   dialog {
     --present: 0;
-    scale: calc(0.95 + (0.05 * var(--present)));
+    scale: calc(var(--scale) + ((1 - var(--scale)) * var(--present)));
     opacity: var(--present);
-    filter: blur(4px * (1 - var(--present))));
-    translate: 0 calc(4lh * (1 - var(--present)));
+    filter: blur(calc((var(--blur) * (1 - var(--present))) * 1px));
+    translate: 0 calc(calc(var(--translate) * 1lh) * (1 - var(--present)));
     width: 40ch;
     min-height: 100px;
    	box-shadow:
-		0 0 0 1px rgba(0,0,0,.08),
-		0px 1px 1px rgba(0,0,0,.02),
-		0px 4px 8px -4px rgba(0,0,0,.04),
-		0px 16px 24px -8px rgba(0,0,0,.06);
+  		0 0 0 1px rgba(0,0,0,.08),
+  		0px 1px 1px rgba(0,0,0,.02),
+  		0px 4px 8px -4px rgba(0,0,0,.04),
+  		0px 16px 24px -8px rgba(0,0,0,.06);
   	border-radius: 6px;
   	color: color-mix(in lch, canvasText, canvas 20%);
   	border: 1px solid color-mix(in lch, canvas, canvasText 10%);
@@ -49,7 +50,12 @@
   	display: grid;
   	gap: 0.5rem;
     transition:
-      all var(--speed) var(--easing) allow-discrete,
+/*      all var(--speed) var(--easing) allow-discrete,*/
+      display var(--speed) var(--easing) allow-discrete,
+      overlay var(--speed) var(--easing) allow-discrete,
+      scale var(--speed) var(--easing),
+      opacity var(--speed) var(--easing),
+      filter var(--speed) var(--easing),
       translate calc(var(--speed) * calc(1 + var(--present))) var(--move, var(--easing));
     /**
     * This is the "magic" piece
@@ -70,11 +76,14 @@
   }
 
   /* ::backdrop if required */
+  :root:has(#backdrop:checked) {
+    --drop: 1;
+  }
   dialog::backdrop {
     --present: 0;
-    background-color: color-mix(in lch, canvasText, transparent 80%);
+    background-color: color-mix(in lch, canvas, transparent 80%);
 	  backdrop-filter: blur(4px);
-    opacity: var(--present);
+    opacity: calc(var(--present) * var(--drop, 0));
     transition: opacity var(--speed) var(--easing);
   }
   dialog[open]::backdrop {
@@ -92,6 +101,9 @@
   *:after,
   *:before {
     box-sizing: border-box;
+    color: inherit;
+    font: inherit;
+    outline-color: var(--accent);
   }
 
   body {
@@ -102,10 +114,14 @@
       Helvetica, Arial, sans-serif, system-ui;
     color: canvasText;
   }
-  html {
+  html,
+  [data-theme=light] {
     color-scheme: light only;
   }
 
+  [data-theme=dark] {
+    color-scheme: dark only;
+  }
   @media (prefers-color-scheme: dark) {
     html {
       color-scheme: dark only;
@@ -128,13 +144,14 @@
       linear-gradient(var(--line) 1px, transparent 1px var(--size)) 0 -5vmin / var(
           --size
         ) var(--size);
-    mask: linear-gradient(-15deg, transparent 60%, white);
+    mask: linear-gradient(-30deg, transparent 60%, white);
     top: 0;
     z-index: -1;
   }
 
   h1 {
     font-size: clamp(2rem, 2vw + 1rem, 8rem);
+    font-weight: 600;
     color: color-mix(canvasText, canvas 15%);
   }
 
@@ -185,7 +202,6 @@
       canvas,
       canvasText calc(var(--intent, 0) * 15%)
     );
-    transition: background 0.25s linear;
   }
 
   button:has(svg) {
@@ -198,7 +214,7 @@
   }
 
   button svg {
-    width: 75%;
+    width: 50%;
   }
 
   .close {
@@ -208,11 +224,153 @@
   }
 
   .open svg {
-    rotate: calc(var(--intent, 0) * 360deg);
+    rotate: calc(var(--intent, 0) * 180deg);
     transition: rotate 0.25s linear;
   }
 
   button:is(:hover, :focus-visible) {
     --intent: 1;
   }
+
+  hr {
+    width: 100%;
+    opacity: 0.4;
+  }
+
+  header > a {
+    padding-block: 6px;
+  }
+
+  .details {
+    display: grid;
+    gap: 0 0.5rem;
+    place-items: center;
+    justify-content: start;
+    grid-template: 1fr 1fr / auto 1fr;
+    margin-bottom: 0.5em;
+  }
+
+  .details :is(a, span) {
+    justify-self: start;
+  }
+
+  .details span { align-self: end; font-weight: 600; }
+  .details a { align-self: start; text-decoration: none; }
+
+  .details img {
+    border-radius: 50%;
+    grid-row: span 2;
+  }
+
+  a {
+    display: flex;
+    text-decoration: none;
+    justify-content: space-between;
+  }
+
+  :is(a, label) {
+    color: color-mix(in lch, canvasText, transparent 50%);
+  }
+  a:is(:hover, :focus-visible) {
+    --intent: 1;
+    color: canvasText;
+  }
+
+  header a svg {
+    width: 16px;
+  }
+
+  header a svg path {
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+  header a:is(:hover, :focus-visible) svg path {
+    transition: translate 0.25s var(--easing);
+  }
+
+  header a svg path:first-of-type {
+    translate: calc(-150% + (var(--intent, 0) * 150%)) calc(150% - (var(--intent, 0) * 150%));
+  }
+  header a svg path:last-of-type {
+    translate: calc(var(--intent, 0) * 150%) calc(var(--intent, 0) * -150%);
+  }
+
+  footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    grid-column: 1 / -1;
+  }
+
+  footer button {
+    padding: 0.5rem 1rem;
+  }
+
+  footer button:last-of-type {
+    background: color-mix(in lch, canvasText, canvas calc(var(--intent, 0) * 30%));
+    color: canvas;
+  }
+
+  form {
+    display: grid;
+    align-items: center;
+    grid-template-columns: 1fr auto;
+  }
+
+  form hr {
+    grid-column: 1 / -1;
+  }
+
+  label {
+    padding-block: 6px;
+  }
+
+  .switch {
+    cursor: pointer;
+    display: inline-block;
+    border: 1px solid color-mix(in lch, currentColor, transparent);
+    width: 24px;
+    height: 16px;
+    border-radius: 100px;
+    justify-self: end;
+    position: relative;
+  }
+
+  .switch:has(input:focus-visible) {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  .switch:has(:checked)::after {
+    background: var(--accent);
+    translate: 8px 0;
+  }
+
+  .switch::after {
+    background: currentColor;
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0%;
+    height: 100%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    transition: background 0.2s var(--easing), translate 0.2s var(--easing);
+  }
+
+  ::view-transition-new(root) {
+    animation: reveal 1s;
+    clip-path: inset(0 0 0 0);
+    z-index: 2;
+  }
+  ::view-transition-old(root) {
+    z-index: -1;
+    animation: none;
+  }
+  @keyframes reveal { from { clip-path: inset(var(--from)); } }
+
+  [data-theme=dark] { --from: 0 0 100% 0; }
+  [data-theme=light] { --from: 100% 0 0 0; }
+  [data-theme=system] { --from: 0 100% 0 0; }
+
 }
