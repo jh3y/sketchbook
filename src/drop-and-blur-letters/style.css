@@ -255,9 +255,9 @@ div.tp-dfwv {
     --to: 1 1;
   }
   .squisher span[aria-hidden='true'] {
-    animation: scale both linear;
-    animation-timeline: --squisher;
-    animation-range: entry 60% entry 90%;
+    animation: scale both ease-out;
+    animation-timeline: view();
+    animation-range: entry 0% cover 50%;
   }
   @keyframes scale {
     0% {
