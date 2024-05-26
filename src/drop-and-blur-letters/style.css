@@ -1,0 +1,286 @@
+@import url('https://fonts.googleapis.com/css2?family=Enriqueta:wght@400;500;600;700&display=swap');
+@import 'normalize.css';
+
+*,
+*:after,
+*:before {
+  box-sizing: border-box;
+}
+
+[data-theme='light'],
+html {
+  color-scheme: light only;
+}
+@media (prefers-color-scheme: dark) {
+  html {
+    color-scheme: dark only;
+  }
+}
+[data-theme='dark'] {
+  color-scheme: dark only;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  place-items: center;
+  min-height: 100vh;
+  font-family: 'Enriqueta', serif;
+  overflow-x: hidden;
+}
+
+body::before {
+  --size: 60px;
+  --line: color-mix(in lch, canvasText, transparent 85%);
+  content: '';
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  background: linear-gradient(
+        90deg,
+        var(--line) 1px,
+        transparent 1px var(--size)
+      )
+      50% 50% / var(--size) var(--size),
+    linear-gradient(var(--line) 1px, transparent 1px var(--size)) 50% 50% /
+      var(--size) var(--size);
+  mask: linear-gradient(-25deg, transparent 30%, white);
+  top: 0;
+  transform-style: flat;
+  pointer-events: none;
+  z-index: -1;
+}
+
+main {
+  width: 100%;
+}
+
+header {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  position: relative;
+  width: 100%;
+  padding: 1rem;
+}
+
+.header__content {
+  width: 600px;
+  max-width: 100%;
+}
+
+header h1 {
+  width: auto;
+  text-align: left;
+  max-width: calc(100% - 2rem);
+  font-size: clamp(2.5rem, 4vw + 1rem, 8rem);
+  font-weight: 400;
+  margin: 0;
+  margin-top: 6rem;
+  margin-left: 1rem;
+  text-wrap: balance;
+  display: grid;
+}
+
+header h1 span {
+  font-size: 0.4em;
+  font-weight: 600;
+  font-family: 'SF Pro Text', 'SF Pro Icons', 'AOS Icons', 'Helvetica Neue',
+    Helvetica, Arial, sans-serif, system-ui;
+  color: hsl(15 80% 50%);
+}
+
+header img {
+  width: 65vmin;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  scale: -1 1;
+  mask: radial-gradient(120% 100% at 100% 0%, white 50%, transparent 100%);
+}
+
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme='light']) header img {
+    filter: brightness(0.5) contrast(1.25);
+  }
+}
+
+section:first-of-type p {
+  max-width: calc(100vw - 2rem);
+  width: 34ch;
+  text-align: center;
+  font-size: clamp(1.5rem, 2.25vw + 1rem, 6rem);
+  font-weight: 400;
+}
+
+section:last-of-type {
+  height: 100vh;
+  display: grid;
+  place-items: center;
+  font-size: clamp(2.5rem, 4vw + 1rem, 8rem);
+}
+
+p {
+  margin: 0;
+}
+
+.squisher {
+  display: inline-block;
+  position: relative;
+  line-height: 0.85;
+}
+
+.squisher > [aria-hidden='true'] {
+  position: absolute;
+  inset: 0;
+}
+
+.squisher span:nth-of-type(1) {
+  transform-origin: 50% 100%;
+}
+.squisher span:nth-of-type(2) {
+  transform-origin: 50% 0;
+}
+.squisher span:nth-of-type(3) {
+  color: transparent;
+}
+
+section:first-of-type {
+  min-height: 200vh;
+  view-timeline: --section;
+}
+
+section:first-of-type div {
+  position: sticky;
+  height: 100vh;
+  top: 0;
+  display: grid;
+  place-items: center;
+}
+
+footer {
+  padding: 2rem;
+}
+
+.bear-link {
+  color: canvasText;
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  width: 48px;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  opacity: 0.8;
+}
+
+:where(.x-link, .bear-link):is(:hover, :focus-visible) {
+  opacity: 1;
+}
+.bear-link svg {
+  width: 75%;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.char {
+  display: inline-block;
+}
+
+div.tp-dfwv {
+  position: fixed;
+}
+
+@supports (animation-timeline: scroll()) {
+  section:first-of-type {
+    height: calc(
+      100vh + (var(--scroll-padding) * 2px) +
+        (
+          (
+              var(--char-total) *
+                (var(--pixels-per-character) * var(--delay-multiplier))
+            ) * 1px
+        )
+    );
+  }
+  .char {
+    /* To calculate a delay, use "sin" against the entire range of the start? */
+    /* calc(sin((var(--index) / 12) * 45deg) * 0.475s); */
+    --start: calc(
+      100vh + (var(--scroll-padding) * 1px) +
+        (
+          (
+              sin((var(--char-index) / var(--char-total)) * 45deg) *
+                (
+                  var(--char-total) *
+                    (var(--pixels-per-character) * var(--delay-multiplier))
+                )
+            ) * 1px
+        )
+    );
+    --end: calc(var(--start) + (var(--pixels-per-character) * 1px));
+    animation: drop both linear;
+    animation-timeline: --section;
+    animation-range: var(--start) var(--end);
+  }
+  @keyframes drop {
+    0% {
+      translate: 0 -75%;
+      filter: blur(6px);
+      opacity: 0;
+    }
+  }
+
+  section:has(.squisher) {
+    view-timeline-name: --squisher;
+  }
+  .squisher span:nth-of-type(2) {
+    --from: 1 1;
+    --to: 1 0;
+  }
+  .squisher span:nth-of-type(1) {
+    --from: 1 0;
+    --to: 1 1;
+  }
+  .squisher span[aria-hidden='true'] {
+    animation: scale both linear;
+    animation-timeline: --squisher;
+    animation-range: entry 60% entry 90%;
+  }
+  @keyframes scale {
+    0% {
+      scale: var(--from);
+    }
+    100% {
+      scale: var(--to);
+    }
+  }
+}
+
+::view-transition-old(root) {
+  animation: none;
+  z-index: -1;
+}
+
+::view-transition-new(root) {
+  animation: unclip 1s;
+  clip-path: polygon(-100vmax 100%, 100% 100%, 100% -100vmax);
+}
+
+@keyframes unclip {
+  0% {
+    clip-path: polygon(100% 100%, 100% 100%, 100% 100%);
+  }
+}
