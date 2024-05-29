@@ -1,0 +1,165 @@
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap');
+@import 'normalize.css';
+
+:root {
+  --font-size-min: 17;
+  --font-size-max: 20;
+  --font-ratio-min: 1.2;
+  --font-ratio-max: 1.33;
+  --font-width-min: 320;
+  --font-width-max: 1500;
+}
+
+*,
+*:after,
+*:before {
+  box-sizing: border-box;
+}
+
+@property --size {
+  initial-value: 0;
+  inherits: true;
+  syntax: '<length>';
+}
+:where(dd) {
+  --fluid-min: calc(
+    var(--font-size-min) * pow(var(--font-ratio-min), var(--font-level, 0))
+  );
+  --fluid-max: calc(
+    var(--font-size-max) * pow(var(--font-ratio-max), var(--font-level, 0))
+  );
+  --fluid-preferred: calc(
+    (var(--fluid-max) - var(--fluid-min)) /
+      (var(--font-width-max) - var(--font-width-min))
+  );
+  --fluid-type: clamp(
+    (var(--fluid-min) / 16) * 1rem,
+    ((var(--fluid-min) / 16) * 1rem) -
+      (((var(--fluid-preferred) * var(--font-width-min)) / 16) * 1rem) +
+      (var(--fluid-preferred) * var(--variable-unit, 100vi)),
+    (var(--fluid-max) / 16) * 1rem
+  );
+  font-size: var(--fluid-type);
+}
+
+[data-container='true'] :where(dd) {
+  --variable-unit: 100cqi;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  color: color-mix(in lch, canvasText, canvas 25%);
+  min-height: 100vh;
+  font-family: 'SF Pro Text', 'SF Pro Icons', 'AOS Icons', 'Helvetica Neue',
+    Helvetica, Arial, sans-serif, system-ui;
+}
+
+html {
+  color-scheme: light only;
+}
+
+body::before {
+  --size: 45px;
+  --line: color-mix(in lch, canvasText, transparent 85%);
+  content: '';
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  background: linear-gradient(
+        90deg,
+        var(--line) 1px,
+        transparent 1px var(--size)
+      )
+      50% 50% / var(--size) var(--size),
+    linear-gradient(var(--line) 1px, transparent 1px var(--size)) 50% 50% /
+      var(--size) var(--size);
+  mask: linear-gradient(-25deg, transparent 30%, white);
+  top: 0;
+  transform-style: flat;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.levels {
+  max-width: 100%;
+  scale: var(--scale, 0.75);
+  font-family: 'Merriweather', serif;
+}
+
+[data-container='true'] .levels {
+  resize: both;
+  overflow: scroll;
+  container-type: size;
+}
+
+dt {
+  font-size: 1rem;
+  font-weight: 600;
+  font-variant: small-caps;
+  color: hsl(10 90% 50%);
+}
+
+dd {
+  margin: 0;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  width: 100%;
+  overflow: hidden;
+  line-height: 1.5;
+}
+
+dd:not(:last-of-type) {
+  margin-bottom: 1rem;
+}
+
+dl {
+  display: grid;
+}
+
+dd:nth-of-type(1) {
+  --font-level: 5;
+}
+dd:nth-of-type(2) {
+  --font-level: 4;
+}
+dd:nth-of-type(3) {
+  --font-level: 3;
+}
+dd:nth-of-type(4) {
+  --font-level: 2;
+}
+dd:nth-of-type(5) {
+  --font-level: 1;
+}
+dd:nth-of-type(6) {
+  --font-level: 0;
+}
+dd:nth-of-type(7) {
+  --font-level: -1;
+}
+
+.bear-link {
+  color: canvasText;
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  width: 48px;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  opacity: 0.8;
+}
+
+:where(.x-link, .bear-link):is(:hover, :focus-visible) {
+  opacity: 1;
+}
+.bear-link svg {
+  width: 75%;
+}
+
+div.tp-dfwv {
+  width: 320px;
+}
