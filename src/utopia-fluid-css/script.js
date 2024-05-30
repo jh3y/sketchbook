@@ -10,6 +10,7 @@ const config = {
   text: 'The tired developer debugged the complex code before the deadline.',
   container: false,
   scale: 0.86,
+  steps: 7,
 }
 
 const ctrl = new Pane({
@@ -46,8 +47,9 @@ ratio.addBinding(config, 'maxRatio', {
   step: 0.01,
   label: 'Max',
 })
-ctrl.addBinding(config, 'container', { label: 'Container Units' })
+ctrl.addBinding(config, 'steps', { label: 'Steps', min: 1, max: 10, step: 1 })
 ctrl.addBinding(config, 'text', { label: 'Text' })
+ctrl.addBinding(config, 'container', { label: 'Container Units' })
 ctrl.addBinding(config, 'scale', {
   label: 'Preview Scale',
   min: 0.1,
@@ -55,7 +57,16 @@ ctrl.addBinding(config, 'scale', {
   step: 0.01,
 })
 
-const dd = document.querySelectorAll('dd')
+const dl = document.querySelector('dl')
+
+const generateMarkup = () => {
+  let markup = ''
+
+  for (let s = config.steps - 1; s > -1; s--)
+    markup += `<dt>Step ${s}</dt><dd style="--font-level: ${s};">${config.text}</dd>`
+
+  dl.innerHTML = markup
+}
 
 const sync = () => {
   document.documentElement.style.setProperty('--font-size-min', config.minSize)
@@ -79,7 +90,7 @@ const sync = () => {
   document.documentElement.dataset.container = config.container
   document.documentElement.style.setProperty('--scale', config.scale)
   // Set the text for the dd values.
-  dd.forEach((d) => (d.innerText = config.text))
+  generateMarkup()
 }
 
 ctrl.on('change', sync)
