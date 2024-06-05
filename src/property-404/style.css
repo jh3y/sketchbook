@@ -1,0 +1,227 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@800&family=Roboto:wght@100;300&display=swap');
+@import 'normalize.css';
+
+*,
+*:after,
+*:before {
+  box-sizing: border-box;
+  transform-style: preserve-3d;
+}
+
+:root {
+  --shadow: hsl(0 0% 0% / 0.9);
+  --bg: hsl(0 0% 70%);
+  --header: hsl(0 0% 65%);
+  --lit-header: hsl(0 0% 100%);
+  --speed: 2s;
+  --ease: linear(
+    0 0%,
+    0.0036 9.62%,
+    0.0185 16.66%,
+    0.0489 23.03%,
+    0.0962 28.86%,
+    0.1705 34.93%,
+    0.269 40.66%,
+    0.3867 45.89%,
+    0.5833 52.95%,
+    0.683 57.05%,
+    0.7829 62.14%,
+    0.8621 67.46%,
+    0.8991 70.68%,
+    0.9299 74.03%,
+    0.9545 77.52%,
+    0.9735 81.21%,
+    0.9865 85%,
+    0.9949 89.15%,
+    1 100%
+  );
+  color-scheme: dark only;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  gap: 1rem;
+  background: var(--bg);
+  font-family: 'Roboto', 'SF Pro Text', 'SF Pro Icons', 'AOS Icons',
+    'Helvetica Neue', Helvetica, Arial, sans-serif, system-ui;
+  perspective: 1200px;
+}
+
+body::before {
+  --size: 45px;
+  --line: color-mix(in lch, canvas, transparent 85%);
+  content: '';
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  background: linear-gradient(
+        90deg,
+        var(--line) 1px,
+        transparent 1px var(--size)
+      )
+      50% 50% / var(--size) var(--size),
+    linear-gradient(var(--line) 1px, transparent 1px var(--size)) 50% 50% /
+      var(--size) var(--size);
+  mask: linear-gradient(-35deg, transparent 30%, white);
+  top: 0;
+  transform-style: flat;
+  pointer-events: none;
+  z-index: -1;
+}
+
+@property --swing-x {
+  initial-value: 0;
+  inherits: false;
+  syntax: '<integer>';
+}
+@property --swing-y {
+  initial-value: 0;
+  inherits: false;
+  syntax: '<integer>';
+}
+
+/* a {
+  text-transform: uppercase;
+  text-decoration: none;
+  background: var(--button);
+  color: var(--button-color);
+  padding: 1rem 4rem;
+  border-radius: 4rem;
+  font-size: 0.875rem;
+  letter-spacing: 0.05rem;
+} */
+p {
+  font-weight: 100;
+}
+h1 {
+  animation: swing var(--speed) infinite alternate var(--ease);
+  font-size: clamp(5rem, 40vmin, 20rem);
+  font-family: 'Open Sans', sans-serif;
+  margin: 0;
+  letter-spacing: 1rem;
+  transform: translate3d(0, 0, 0vmin);
+  --x: calc(50% + (var(--swing-x) * 0.5) * 1%);
+  background: radial-gradient(var(--lit-header), var(--header) 45%) var(--x)
+    100%/200% 200%;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+h1 span {
+  animation: swing var(--speed) infinite alternate var(--ease);
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: var(--shadow);
+  filter: blur(1.5vmin);
+  transform: scale(1.05) translate3d(0, 12%, -10vmin)
+    translate(
+      calc((var(--swing-x) * 0.05) * 1%),
+      calc((var(--swing-y) * -0.025) * 1%)
+    );
+}
+.cloak {
+  animation: swing var(--speed) infinite alternate-reverse var(--ease);
+  height: 100%;
+  width: 100%;
+  transform-origin: 50% 25%;
+  transform: rotate(calc(var(--swing-x) * -0.25deg));
+  background: radial-gradient(
+    40% 40% at 50% calc(42% + (var(--swing-y) * 0.01%)),
+    transparent,
+    hsl(0 0% 2% / 0.94) 38vmax
+  );
+}
+.cloak__wrapper {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.cloak__container {
+  height: 250vmax;
+  width: 250vmax;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.info {
+  color: color-mix(in lch, canvasText, transparent 75%);
+  text-align: center;
+  line-height: 1.5;
+  width: 44ch;
+  max-width: calc(100% - 2rem);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  transition: color 0.25s var(--ease);
+}
+
+.info:is(:hover, :focus-within) {
+  color: canvasText;
+}
+
+.info p {
+  --x: calc(50% + (var(--swing-x) * 0.5) * 1%);
+  animation: swing var(--speed) infinite alternate-reverse var(--ease);
+  background: radial-gradient(
+    50% 250% at var(--x) -50%,
+    color-mix(in lch, canvasText, transparent 25%),
+    color-mix(in lch, canvasText, transparent 75%)
+  );
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+p::selection {
+  background: hotpink;
+  color: canvas;
+}
+
+.follow {
+  border-radius: 6px;
+  border: 1px solid currentColor;
+  padding: 0.75rem 4rem;
+  text-decoration: none;
+  color: currentColor;
+  align-self: center;
+  outline-color: currentColor;
+}
+
+@keyframes swing {
+  0% {
+    --swing-x: -100;
+    --swing-y: -100;
+  }
+  50% {
+    --swing-y: 0;
+  }
+  100% {
+    --swing-y: -100;
+    --swing-x: 100;
+  }
+}
+
+/* Theming */
+.bear-link {
+  color: canvas;
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  width: 48px;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  opacity: 0.8;
+}
+
+:where(.x-link, .bear-link):is(:hover, :focus-visible) {
+  opacity: 1;
+}
+.bear-link svg {
+  width: 75%;
+}

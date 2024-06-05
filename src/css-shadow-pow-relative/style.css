@@ -1,0 +1,183 @@
+@import 'normalize.css';
+
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --saturated: 0%;
+}
+[data-tinted='true'] {
+  --saturated: 80%;
+}
+
+[data-theme='light'] {
+  --base: hsl(
+    var(--tint, 214) var(--saturated) 27% / calc(var(--alpha, 4) * 1%)
+  );
+  --shade: hsl(from var(--base) calc(h + 8) 25 calc(l - 5));
+  --spread: 9;
+  --s1: calc((var(--spread) * 1px) * pow(2, 0));
+  --s2: calc((var(--spread) * 1px) * pow(2, 1));
+  --s3: calc((var(--spread) * 1px) * pow(2, 2));
+  --s4: calc((var(--spread) * 1px) * pow(2, 3));
+  --s5: calc((var(--spread) * 1px) * pow(2, 4));
+  --c1: hsl(0 0 0, 0.4);
+  --c2: hsl(0 0 0, 0.4);
+  --c3: hsl(0 0 0, 0.4);
+  --c4: hsl(0 0 0, 0.4);
+  --c5: hsl(0 0 0, 0.4);
+  /* this becomes the angle of spread, -1 through to 1 */
+  --x: 1;
+  --perfect-shadow: 0 0 0 1px var(--base), 0 1px 1px -0.5px var(--shade),
+    calc(var(--s1) * var(--x)) var(--s1) var(--s1) calc(var(--s1) * -0.5)
+      var(--shade),
+    calc(var(--s2) * var(--x)) var(--s2) var(--s2) calc(var(--s2) * -0.5)
+      var(--shade),
+    calc(var(--s3) * var(--x)) var(--s3) var(--s3) calc(var(--s3) * -0.5)
+      var(--base),
+    calc(var(--s4) * var(--x)) var(--s4) var(--s4) calc(var(--s4) * -0.5)
+      var(--base),
+    calc(var(--s5) * var(--x)) var(--s5) var(--s5) calc(var(--s5) * -0.5)
+      var(--base);
+}
+
+html {
+  --article: color-mix(in lch, canvas, canvasText 2%);
+}
+[data-theme='dark'] {
+  --spread: 9;
+  --d1: calc((var(--spread) * 1px) * pow(2, 0));
+  --d2: calc((var(--spread) * 1px) * pow(2, 1));
+  --d3: calc((var(--spread) * 1px) * pow(2, 2));
+  --d4: calc((var(--spread) * 1px) * pow(2, 3));
+  --d5: calc((var(--spread) * 1px) * pow(2, 4));
+  --s1: calc(((var(--spread) / 3) * -0.5px) * pow(2, 0));
+  --s2: calc(((var(--spread) / 3) * -0.5px) * pow(2, 1));
+  --s3: calc(((var(--spread) / 3) * -0.5px) * pow(2, 2));
+  --s4: calc(((var(--spread) / 3) * -0.5px) * pow(2, 3));
+  --s5: calc(((var(--spread) / 3) * -0.5px) * pow(2, 4));
+  --a1: calc((var(--alpha) * 1%) * pow(2, 0));
+  --a2: calc((var(--alpha) * 1%) * pow(2, 1));
+  --a3: calc((var(--alpha) * 1%) * pow(2, 2));
+  --a4: calc((var(--alpha) * 1%) * pow(2, 3));
+  --a5: calc((var(--alpha) * 1%) * pow(2, 4));
+  --a1: 4%;
+  --a2: 8%;
+  --a3: 16%;
+  --a4: 24%;
+  --a5: 48%;
+
+  /* this becomes the angle of spread, -1 through to 1 */
+  --x: 1;
+  --perfect-shadow: 0 0 0 1px hsl(0 0% 100% / 6%) inset,
+    0 0 0 1px hsl(0 0 0 / var(--a1)), 0 1px 1px -0.5px hsl(0 0 0 / var(--a1)),
+    calc(var(--d1) * var(--x)) var(--d1) var(--d1) var(--s1)
+      hsl(0 0 0 / var(--a1)),
+    calc(var(--d2) * var(--x)) var(--d2) var(--d2) var(--s2)
+      hsl(0 0 0 / var(--a2)),
+    calc(var(--d3) * var(--x)) var(--d3) var(--d3) var(--s3)
+      hsl(0 0 0 / var(--a3)),
+    calc(var(--d4) * var(--x)) var(--d4) var(--d4) var(--s4)
+      hsl(0 0 0 / var(--a4)),
+    calc(var(--d5) * var(--x)) var(--d5) var(--d5) var(--s5)
+      hsl(0 0 0 / var(--a5));
+
+  /* --perfect-shadow: 0px 0px 0px 1px rgba(165, 165, 165, 0.04),
+    -9px 9px 9px -0.5px rgba(0, 0, 0, 0.04),
+    -18px 18px 18px -1.5px rgba(0, 0, 0, 0.08),
+    -37px 37px 37px -3px rgba(0, 0, 0, 0.16),
+    -75px 75px 75px -6px rgba(0, 0, 0, 0.24),
+    -150px 150px 150px -12px rgba(0, 0, 0, 0.48); */
+}
+
+[data-theme='dark'] {
+  --strength: 0.25;
+  color-scheme: dark only;
+  background: color-mix(in lch, canvas, canvasText 35%);
+}
+[data-theme='light'] {
+  color-scheme: light only;
+  background: color-mix(in lch, canvas, canvasText 5%);
+}
+
+body {
+  display: grid;
+  background: linear-gradient(
+    calc((90 + (var(--x) * -60)) * 1deg),
+    transparent,
+    hsl(0 0% 0% / var(--strength, 0.05)) 10% 15%,
+    transparent 30% 50%,
+    hsl(0 0% 0% / var(--strength, 0.05)) 70% 75%,
+    transparent
+  );
+  place-items: center;
+  min-height: 100vh;
+}
+
+body::before {
+  --size: 45px;
+  --line: color-mix(in lch, canvasText, transparent 85%);
+  content: '';
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  background: linear-gradient(
+        90deg,
+        var(--line) 1px,
+        transparent 1px var(--size)
+      )
+      50% 50% / var(--size) var(--size),
+    linear-gradient(var(--line) 1px, transparent 1px var(--size)) 50% 50% /
+      var(--size) var(--size);
+  mask: linear-gradient(-25deg, transparent 30%, white);
+  top: 0;
+  transform-style: flat;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  min-width: 300px;
+  min-height: 225px;
+  gap: 2rem;
+  width: 50vmin;
+}
+
+article {
+  border-radius: 12px;
+  width: 100%;
+  flex: 1;
+  aspect-ratio: 4 / 3;
+  background: var(--article);
+  box-shadow: var(--perfect-shadow);
+}
+
+span {
+  font-family: monospace;
+  font-weight: 400;
+  text-transform: uppercase;
+  font-size: 1.125rem;
+  color: color-mix(in lch, canvasText, transparent 50%);
+}
+
+.bear-link {
+  color: black;
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  width: 48px;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  opacity: 0.8;
+}
+
+:where(.x-link, .bear-link):is(:hover, :focus-visible) {
+  opacity: 1;
+}
+.bear-link svg {
+  width: 75%;
+}
