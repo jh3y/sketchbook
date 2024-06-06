@@ -91,4 +91,10 @@ const handle = (event) => {
   document.startViewTransition(() => sync())
 }
 
+const build = () => {
+  pushItem()
+  if (list.children.length < 3) requestAnimationFrame(build)
+}
+build()
+
 ctrl.on('change', handle)

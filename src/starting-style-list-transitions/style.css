@@ -132,26 +132,34 @@ ul {
 ul {
   transition: width 0.25s;
 }
-li,
-li[hidden] {
+li {
   scale: 1;
   transition-property: width, translate, display;
   transition-duration: 0.25s, 0.25s, 1s;
   transition-behavior: allow-discrete;
-}
 
-li[hidden] {
-  width: 0;
-}
-@starting-style {
-  li {
+  &[hidden] {
+    width: 0;
+  }
+  @starting-style {
     width: 0;
   }
 }
+
+@property --display {
+  inherits: true;
+  syntax: '*';
+  initial-value: block;
+}
+
+li {
+  display: var(--display, block);
+}
+
 .polaroid__wrapper {
-  translate: 0 0;
-  transition: translate, transform, opacity, display;
-  transition-duration: 1s, 0.25s, 1s, 1s;
+  /* translate: 0 0; */
+  transition: translate, transform, opacity;
+  transition-duration: 1s, 0.25s, 1s;
   transition-behavior: allow-discrete;
   transition-timing-function: linear(
       0 0%,
@@ -173,20 +181,23 @@ li[hidden] {
       1 100%
     ),
     ease, ease;
-}
 
-li[hidden] .polaroid__wrapper {
-  translate: 0 calc(50vh + 100%);
-  opacity: 0;
-  transition-timing-function: ease;
-}
-
-@starting-style {
-  .polaroid__wrapper {
+  @starting-style {
     translate: 0 50vh;
     opacity: 0;
   }
+
+  @container style(--display: none) {
+    translate: 0 calc(50vh + 100%);
+    opacity: 0;
+  }
 }
+
+/* li[hidden] .polaroid__wrapper {
+  translate: 0 calc(50vh + 100%);
+  opacity: 0;
+  transition-timing-function: ease;
+} */
 
 .polaroid__img {
   filter: brightness(1) saturate(0.95) sepia(30%);
