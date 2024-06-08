@@ -6,6 +6,28 @@
   box-sizing: border-box;
 }
 
+[data-theme='light'],
+html {
+  --overlay: hsl(0 0% 0% / 0.15);
+  --button: color-mix(in lch, canvas, hsl(190 60% 80%));
+  color-scheme: light only;
+  background: white;
+}
+[data-theme='dark'] {
+  --overlay: hsl(0 0% 100% / 0.23);
+  --button: color-mix(in lch, canvas, hsl(190 60% 40%));
+  color-scheme: dark only;
+  background: black;
+}
+@media (prefers-color-scheme: dark) {
+  html {
+    --overlay: hsl(0 0% 100% / 0.23);
+    --button: color-mix(in lch, canvas, hsl(190 60% 40%));
+    color-scheme: dark only;
+    background: black;
+  }
+}
+
 body {
   display: grid;
   place-items: center;
@@ -14,27 +36,32 @@ body {
     Helvetica, Arial, sans-serif, system-ui;
 }
 
-* {
-  box-sizing: border-box;
-}
-
-body {
-  min-height: 100vh;
-  display: grid;
-  place-items: center;
-}
-
-.controls {
+body::before {
+  --size: 45px;
+  --line: color-mix(in lch, canvasText, transparent 85%);
+  content: '';
+  height: 100vh;
+  width: 100vw;
   position: fixed;
-  top: 1rem;
-  right: 1rem;
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 0.5rem 1rem;
+  background: linear-gradient(
+        90deg,
+        var(--line) 1px,
+        transparent 1px var(--size)
+      )
+      50% 50% / var(--size) var(--size),
+    linear-gradient(var(--line) 1px, transparent 1px var(--size)) 50% 50% /
+      var(--size) var(--size);
+  mask: linear-gradient(-20deg, transparent 50%, white);
+  top: 0;
+  transform-style: flat;
+  pointer-events: none;
+  z-index: -1;
 }
 
 :root {
   --duration: 0.35s;
+  --padding: 0.675rem;
+  --radius: 8px;
   --ease: linear(
     0 0%,
     0.0036 9.62%,
@@ -56,67 +83,138 @@ body {
     0.9949 89.15%,
     1 100%
   );
+  --ease-out: linear(
+    0 0%,
+    0.4322 6.7%,
+    0.5876 9.63%,
+    0.7165 12.53%,
+    0.8238 15.53%,
+    0.9087 18.63%,
+    0.9731 21.89%,
+    1.0188 25.4%,
+    1.0377 27.67%,
+    1.0507 30.11%,
+    1.058 32.77%,
+    1.0598 35.74%,
+    1.0528 41.1%,
+    1.0164 56.54%,
+    1.004 65.49%,
+    0.998 78.52%,
+    1 100%
+  );
+  --sw: 160px;
+  --sh: 48px;
+  --ew: 320px;
+  --eh: 300px;
+
+  /* Shadow */
+  --base: hsl(
+    var(--tint, 214) var(--saturated, 0%) 27% / calc(var(--alpha, 4) * 1%)
+  );
+  --shade: hsl(from var(--base) calc(h + 8) 25 calc(l - 5));
+  --spread: 4;
+  --s1: calc((var(--spread) * 1px) * pow(2, 0));
+  --s2: calc((var(--spread) * 1px) * pow(2, 1));
+  --s3: calc((var(--spread) * 1px) * pow(2, 2));
+  --s4: calc((var(--spread) * 1px) * pow(2, 3));
+  --s5: calc((var(--spread) * 1px) * pow(2, 4));
+  /* this becomes the angle of spread, -1 through to 1 */
+  --x: 0;
+  --perfect-shadow: 0 0 0 1px var(--base), 0 1px 1px -0.5px var(--shade),
+    calc(var(--s1) * var(--x)) var(--s1) var(--s1) calc(var(--s1) * -0.5)
+      var(--shade),
+    calc(var(--s2) * var(--x)) var(--s2) var(--s2) calc(var(--s2) * -0.5)
+      var(--shade),
+    calc(var(--s3) * var(--x)) var(--s3) var(--s3) calc(var(--s3) * -0.5)
+      var(--base),
+    calc(var(--s4) * var(--x)) var(--s4) var(--s4) calc(var(--s4) * -0.5)
+      var(--base),
+    calc(var(--s5) * var(--x)) var(--s5) var(--s5) calc(var(--s5) * -0.5)
+      var(--base);
+  --border: color-mix(in lch, canvasText, transparent 90%);
+  --hr: color-mix(in lch, canvas, canvasText 10%);
+  --speed: 0.35s;
+  --starting: color-mix(in lch, canvas, canvasText 20%);
+  --text: canvasText;
 }
 
 .disclosure {
-  width: 200px;
-  height: 48px;
-  border-radius: 100px;
-  position: fixed;
-
   transition-property: width, height, border-radius;
   transition-duration: var(--duration);
   transition-timing-function: var(--ease);
 }
 
-button[popovertarget] {
-  width: 100%;
-  height: 100%;
-  border-radius: 100px;
-  border: 0;
-  background: red;
-  color: white;
-  anchor-name: --control;
+a,
+button,
+input {
+  outline-color: red;
+}
+button {
+  cursor: pointer;
 }
 
-:root {
-  --speed: 0.25s;
+[popovertargetaction='close'] {
+  outline-offset: -0.875rem;
 }
 
-#disclose {
-  /* display: block; */
+/* The trigger button that starts it off */
+.sign-in {
   position: absolute;
-  margin: auto;
-  inset: unset;
-  width: auto;
-  height: auto;
+  width: var(--sw);
+  height: var(--sh);
+  border-radius: calc(var(--sh) * 0.5);
+  border: 0;
+  anchor-name: --control;
+  background: var(--starting);
+  color: var(--text);
+  padding: 0;
+}
+
+/* Outline the popover when focussed */
+.sign-in:focus-visible + [popover] {
+  outline: 1px solid red;
+}
+
+/* The Popover - This acts as a placeholder but shouldn't animate size because it borks things */
+#disclose {
+  margin: 0;
   border: 0;
   padding: 0;
   position-anchor: --control;
-  inset: anchor(center);
+  inset-area: var(--inset, center);
   width: anchor-size(width);
   height: anchor-size(height);
-  background: red;
-  border-radius: 100px;
-  translate: -50% 0;
+  border-radius: calc(var(--sh) * 0.5);
+  background-color: var(--starting);
+  color: var(--text);
+
+  overflow: hidden;
 
   transition-property: display, overlay, height, width, border-radius,
-    box-shadow;
+    box-shadow, background-color, border-color, color;
   transition-behavior: allow-discrete;
   transition-duration: var(--speed);
+  transition-timing-function: var(--ease);
 
   &:popover-open {
-    height: 300px;
-    width: 300px;
-    border-radius: 6px;
-    box-shadow: 0 1px 4px 2px black;
+    height: var(--eh);
+    width: var(--ew);
+    border-radius: var(--radius);
+    box-shadow: 0 0 0 2px var(--border), var(--perfect-shadow);
+    background-color: canvas;
+    color: canvasText;
+    transition-duration: calc(2 * var(--speed));
+    transition-timing-function: var(--ease-out);
   }
 
   @starting-style {
     &:popover-open {
+      background-color: var(--starting);
+      color: var(--text);
       width: anchor-size(--control width);
       height: anchor-size(--control height);
-      border-radius: 100px;
+      border-radius: calc(var(--sh) * 0.5);
+      box-shadow: 0 0 0 0 #0000;
     }
   }
 }
@@ -132,24 +230,91 @@ button[popovertarget] {
   transition: width var(--speed), height var(--speed);
   width: anchor-size(--control width);
   height: anchor-size(--control height);
-  height: 48px;
+  height: var(--sh);
   align-items: center;
-  background: red;
+  justify-content: center;
   border: 0;
-  color: white;
   position: relative;
   transition: translate var(--speed);
+  padding-inline: var(--padding);
+}
+
+#disclose header::after {
+  content: '';
+  position: absolute;
+  bottom: 0.5rem;
+  width: calc(var(--ew) * 2);
+  left: 50%;
+  opacity: 0;
+  height: 1px;
+  background: var(--hr);
+  translate: -50% -50%;
+  transition: opacity var(--speed);
+}
+#disclose:popover-open header::after {
+  opacity: 1;
+}
+@starting-style {
+  #disclose:popover-open header::after {
+    opacity: 0;
+  }
 }
 
 header button {
+  border-radius: var(--radius);
+  border: 0;
   position: absolute;
-  left: 200px;
+  padding: 0;
+  left: 0;
   top: 50%;
-  translate: 0 -50%;
+  display: grid;
+  place-items: center;
+  justify-content: end;
+  padding-right: var(--padding);
+  cursor: pointer;
+  width: 48px;
+  height: 48px;
+  translate: calc(var(--ew) - (100%)) -50%;
+  background: transparent;
+}
+
+header button svg {
+  width: 20px;
+}
+
+header span {
+  transform-origin: 0 0;
+  transition: scale var(--speed), translate var(--speed);
+  display: flex;
+  gap: var(--padding);
+}
+
+header span svg {
+  width: 16px;
+  transition: opacity var(--speed), scale var(--speed), translate var(--speed);
 }
 
 #disclose:popover-open header {
-  translate: -200% 0;
+  translate: calc(var(--ew) * -0.5 + (50% + 0.25rem)) -0.5rem;
+  transition-timing-function: var(--ease-out);
+  transition-duration: calc(2 * var(--speed));
+
+  span {
+    scale: 0.875;
+
+    svg {
+      opacity: 0;
+      scale: 0;
+      @starting-style {
+        opacity: 1;
+        scale: 1;
+      }
+    }
+
+    @starting-style {
+      scale: 1;
+    }
+  }
 
   @starting-style {
     translate: 0 0;
@@ -160,38 +325,139 @@ header button {
   translate: 0 0;
 }
 
-/* #disclose[popover]:popover-open button {
+.content {
+  width: var(--ew);
+  height: calc(var(--eh) - (48px - 0.875rem));
+  padding: var(--padding);
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 48px;
-} */
-
-/* #disclose:not(:popover-open) button {
-  width: 100%;
-  height: 100%;
-} */
-
-/* :root:has(#expand:checked) .disclosure {
-  height: 200px;
-  width: 400px;
-  border-radius: 6px;
+  top: calc(48px - 1rem);
+  left: 50%;
+  translate: -50% 2rem;
+  display: flex;
+  flex-direction: column;
+  font-size: 0.875rem;
+  opacity: 0;
+  filter: blur(4px);
+  transition: translate var(--speed), opacity var(--speed), filter var(--speed);
 }
 
-:root:has(#bottom:checked) .disclosure {
-  bottom: calc(50vh - 24px);
-  top: unset;
+#disclose:popover-open .content {
+  opacity: 1;
+  translate: -50% 0;
+  filter: blur(0);
 }
-:root:has(#top:checked) .disclosure {
-  bottom: unset;
-  top: calc(50vh - 24px);
+
+@starting-style {
+  #disclose:popover-open .content {
+    opacity: 0;
+    translate: -50% 2rem;
+    filter: blur(4px);
+  }
 }
-:root:has(#left:checked) .disclosure {
-  left: calc(50vw - 100px);
-  right: unset;
+
+.actions,
+form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--padding);
 }
-:root:has(#right:checked) .disclosure {
-  left: unset;
-  right: calc(50vw - 100px);
-} */
+
+.actions button {
+  display: flex;
+  gap: var(--padding);
+  background: var(--button);
+}
+.actions button span:first-of-type {
+  flex: 1;
+  text-align: right;
+}
+.actions button span:last-of-type {
+  flex: 2.5;
+  text-align: left;
+}
+
+button:has(svg) {
+  display: flex;
+  gap: var(--padding);
+  align-items: center;
+  justify-content: center;
+}
+
+button svg {
+  width: 16px;
+}
+
+.divide {
+  flex: 1;
+  position: relative;
+  text-align: center;
+  display: grid;
+  place-items: center;
+}
+
+.divide hr {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background: transparent;
+  color: transparent;
+  border: 1px solid var(--hr);
+  margin: 0;
+  height: 0;
+  translate: -50% -50%;
+  width: calc(var(--ew) - (2 * var(--padding)));
+  mask: linear-gradient(
+    90deg,
+    white calc(50% - 10ch),
+    transparent calc(50% - 3ch) calc(50% + 3ch),
+    white calc(50% + 10ch)
+  );
+}
+
+.disclosure button:not(.sign-in) {
+  padding: calc(var(--padding) * 1.25) 1rem;
+  border-radius: var(--radius);
+  border: 0;
+}
+
+form button {
+  --overlay: hsl(0 0% 100% / 0.2);
+  background: black;
+  color: white;
+}
+
+input {
+  border: 1px solid var(--border);
+  padding: calc(var(--padding) * 1.25) 1rem;
+  border-radius: var(--radius);
+}
+
+.bear-link {
+  color: canvasText;
+  position: fixed;
+  bottom: 1rem;
+  left: 1rem;
+  width: 48px;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  opacity: 0.8;
+}
+
+:where(.x-link, .bear-link):is(:hover, :focus-visible) {
+  opacity: 1;
+}
+.bear-link svg {
+  width: 75%;
+}
+
+form button span {
+  display: inline-block;
+  transition: translate var(--speed);
+  translate: calc(var(--intent, 0) * -0.5ch) 0;
+}
+
+form button svg {
+  transition: translate var(--speed);
+  translate: calc(var(--intent, 0) * 0.5ch) 0;
+}
