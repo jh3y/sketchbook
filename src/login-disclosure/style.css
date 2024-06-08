@@ -180,8 +180,12 @@ button {
   margin: 0;
   border: 0;
   padding: 0;
+  inset: unset;
   position-anchor: --control;
   inset-area: var(--inset, center);
+  /* top: anchor(top);
+  left: anchor(center);
+  position-try-options: --top, --bottom; */
   width: anchor-size(width);
   height: anchor-size(height);
   border-radius: calc(var(--sh) * 0.5);

@@ -51,7 +51,8 @@ const handle = (event) => {
 ctrl.on('change', handle)
 
 gsap.registerPlugin(Draggable)
-
+const POP = document.querySelector('[popover]')
 Draggable.create('.sign-in', {
   type: 'top,left',
+  allowEventDefault: true,
 })
