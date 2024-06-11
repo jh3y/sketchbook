@@ -10,6 +10,9 @@ document.documentElement.style.setProperty(
   '--word-total',
   result[0].words.length
 )
+// Insert Zzz after last word if you can...
+const lastWord = document.querySelector('.words .word:last-of-type')
+lastWord.innerHTML = `${lastWord.innerHTML}<span class="zzz"><span class="z" style="--i:0;">Z</span><span class="z" style="--i:1;">Z</span><span class="z" style="--i:2;">Z</span></span>`
 
 const CTRL = new Pane({
   title: 'Config',
@@ -20,7 +23,11 @@ const CONFIG = {
   pixels: 80,
   padding: 100,
   delay: 0.25,
+  blur: 6,
+  x: 0,
+  y: -75,
   theme: 'system',
+  entity: 'character',
 }
 
 CTRL.addBinding(CONFIG, 'pixels', {
@@ -35,11 +42,36 @@ CTRL.addBinding(CONFIG, 'padding', {
   step: 1,
   label: 'Scroll Padding',
 })
+CTRL.addBinding(CONFIG, 'entity', {
+  options: {
+    Character: 'character',
+    Word: 'word',
+  },
+  label: 'Entity',
+})
 CTRL.addBinding(CONFIG, 'delay', {
   min: 0,
   max: 1,
   step: 0.01,
   label: 'Delay Multiplier',
+})
+CTRL.addBinding(CONFIG, 'blur', {
+  min: 0,
+  max: 50,
+  step: 1,
+  label: 'Blur (px)',
+})
+CTRL.addBinding(CONFIG, 'x', {
+  min: -250,
+  max: 250,
+  step: 1,
+  label: 'X (%)',
+})
+CTRL.addBinding(CONFIG, 'y', {
+  min: -250,
+  max: 250,
+  step: 1,
+  label: 'Y (%)',
 })
 CTRL.addBinding(CONFIG, 'theme', {
   options: {
@@ -56,8 +88,12 @@ const sync = () => {
     '--pixels-per-character',
     CONFIG.pixels
   )
+  document.documentElement.dataset.entity = CONFIG.entity
   document.documentElement.style.setProperty('--delay-multiplier', CONFIG.delay)
   document.documentElement.style.setProperty('--scroll-padding', CONFIG.padding)
+  document.documentElement.style.setProperty('--blur', CONFIG.blur)
+  document.documentElement.style.setProperty('--x', CONFIG.x)
+  document.documentElement.style.setProperty('--y', CONFIG.y)
 }
 
 const handle = (event) => {
