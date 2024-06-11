@@ -1,0 +1,365 @@
+@import 'normalize.css' layer(normalize);
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  color-scheme: dark only;
+}
+
+body {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  background: hsl(0 0% 4%);
+}
+
+body::before {
+  --size: 45px;
+  --line: color-mix(in lch, canvasText, transparent 80%);
+  content: '';
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  background: linear-gradient(
+        90deg,
+        var(--line) 1px,
+        transparent 1px var(--size)
+      )
+      50% 50% / var(--size) var(--size),
+    linear-gradient(var(--line) 1px, transparent 1px var(--size)) 50% 50% /
+      var(--size) var(--size);
+  mask: linear-gradient(-20deg, transparent 50%, white);
+  top: 0;
+  transform-style: flat;
+  pointer-events: none;
+  z-index: -1;
+}
+
+main {
+  display: grid;
+  grid-template-columns: repeat(2, 96px);
+  gap: 2rem;
+}
+
+.bear-link {
+  color: canvasText;
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  width: 48px;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  opacity: 0.8;
+}
+
+:where(.x-link, .bear-link):is(:hover, :focus-visible) {
+  opacity: 1;
+}
+
+.bear-link svg {
+  width: 75%;
+}
+
+@layer slider {
+  .slider {
+    position: relative;
+    display: grid;
+    place-items: center;
+    margin: 0 auto;
+  }
+
+  .slider label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+
+  .slider:focus-within,
+  .slider:hover {
+    --active: 1;
+  }
+
+  .slider:has(:focus-visible) {
+    outline: 2px solid canvasText;
+    outline-offset: 4px;
+  }
+
+  .slider [type='range'] {
+    width: calc(var(--slider-width) * 1px);
+    opacity: 0;
+    height: calc(var(--slider-height) * 1px);
+  }
+
+  .slider [type='range']:hover {
+    cursor: -webkit-grab;
+  }
+
+  .slider [type='range']:active {
+    cursor: -webkit-grabbing;
+  }
+
+  .slider [type='range']:focus-visible {
+    outline-offset: 0.25rem;
+    outline-color: transparent;
+  }
+
+  .slider [type='range']::-webkit-slider-thumb {
+    /*     appearance: none; */
+    /*     -webkit-appearance: none; */
+    height: calc(var(--slider-height) * 1px);
+    width: 48px;
+    margin-top: 0px;
+    opacity: 1;
+  }
+
+  .slider [type='range']::-webkit-slider-runnable-track {
+    /*   	-webkit-appearance: none; */
+    height: calc(var(--slider-height) * 1px);
+    background: hsl(10 0% 50% / 0.5);
+    /* You need to specify a margin in Chrome */
+    /* In Firefox and IE it is automatic */
+    /* 	  margin-top: calc(var(--slider-height) * -0.5px); */
+  }
+
+  .slider [type='range']::-moz-range-track {
+    height: calc(var(--slider-height) * 1px);
+    background: hsl(10 0% 50% / 0.5);
+    /* 	  margin-top: calc(var(--slider-height) * -0.5px); */
+    /* You need to specify a margin in Chrome */
+    /* In Firefox and IE it is automatic */
+  }
+
+  @supports (animation-timeline: scroll()) {
+    @property --slider-complete {
+      initial-value: 0;
+      syntax: '<number>';
+      inherits: true;
+    }
+
+    @keyframes sync {
+      to {
+        --slider-complete: 1;
+      }
+    }
+
+    .slider {
+      timeline-scope: --thumb;
+      animation: sync both linear reverse;
+      animation-timeline: --thumb;
+      animation-range: contain;
+    }
+
+    .slider [type='range']::-webkit-slider-thumb {
+      view-timeline-name: --thumb;
+      view-timeline-axis: inline;
+    }
+  }
+}
+
+@layer sliders {
+  :root {
+    --slider-height: 96;
+    --slider-width: 214;
+    --transition: 0.4s;
+    --timing: linear(
+      0 0%,
+      0.4322 6.7%,
+      0.5876 9.63%,
+      0.7165 12.53%,
+      0.8238 15.53%,
+      0.9087 18.63%,
+      0.9731 21.89%,
+      1.0188 25.4%,
+      1.0377 27.67%,
+      1.0507 30.11%,
+      1.058 32.77%,
+      1.0598 35.74%,
+      1.0528 41.1%,
+      1.0164 56.54%,
+      1.004 65.49%,
+      0.998 78.52%,
+      1 100%
+    );
+  }
+
+  .slider-wrap {
+    position: relative;
+  }
+
+  .slider {
+    translate: 0 0;
+    width: calc(var(--slider-width) * 1px);
+    height: calc(var(--slider-height) * 1px);
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    translate: -50% -50%;
+    rotate: -90deg;
+    background: color-mix(in lch, canvasText, canvas 80%);
+    border-radius: 36px;
+    overflow: hidden;
+    --perfect-shadow: 0px 0px 0px 1px hsl(0 0% 0%),
+      -9px 9px 9px -0.5px hsl(0 0% 0% / 0.5),
+      -18px 18px 18px -1.5px hsl(0 0% 0% / 0.5),
+      -37px 37px 37px -3px hsl(0 0% 0% / 0.5),
+      -75px 75px 75px -6px hsl(0 0% 0% / 0.5),
+      -150px 150px 150px -12px hsl(0 0% 0% / 0.5);
+    box-shadow: var(--perfect-shadow);
+  }
+
+  .slider__track {
+    pointer-events: none;
+    background: color-mix(
+      in lch,
+      canvasText,
+      canvas clamp(50%, (70 - (var(--slider-complete) * 20)) * 1%, 70%)
+    );
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    inset: 0;
+    transform-origin: 0 50%;
+    scale: var(--slider-complete) 1;
+    transition: scale var(--transition), background var(--transition);
+    transition-timing-function: var(--timing);
+    z-index: -1;
+  }
+
+  /* Handling the sun */
+  .slider--brightness .slider__indicator {
+    pointer-events: none;
+    height: 50%;
+    aspect-ratio: 1;
+    position: absolute;
+    left: 12%;
+    top: 50%;
+    translate: 0 -50%;
+    color: hsl(
+      45 calc((0 + (var(--slider-complete) * 150)) * 1%)
+        clamp(40%, (80 - (var(--slider-complete) * 40)) * 1%, 80%)
+    );
+    transition: color var(--transition);
+    transition-timing-function: var(--timing);
+    z-index: 20;
+  }
+
+  .slider--brightness .slider__indicator svg > path:first-of-type {
+    transform-box: fill-box;
+    transform-origin: center;
+    opacity: clamp(0, calc((var(--slider-complete) * 2) - 0.125), 1);
+    scale: clamp(0, calc((var(--slider-complete) * 2) - 0.125), 1);
+    transition: opacity var(--transition), scale var(--transition);
+    transition-timing-function: var(--timing);
+  }
+
+  .slider--brightness .slider__indicator #cut-out path {
+    transform-box: fill-box;
+    transform-origin: center center;
+    translate: calc((25 + (var(--slider-complete) * 200)) * 1%)
+      calc((25 + (var(--slider-complete) * 200)) * 1%);
+    transition: translate var(--transition);
+    transition-timing-function: var(--timing);
+  }
+
+  /* Handling the volume */
+  .slider--volume .slider__indicator {
+    pointer-events: none;
+    height: 35%;
+    aspect-ratio: 1;
+    position: absolute;
+    left: 16%;
+    top: 50%;
+    translate: 0 -50%;
+    rotate: 90deg;
+    color: hsl(
+      190 calc((0 + (var(--slider-complete) * 150)) * 1%)
+        clamp(40%, (80 - (var(--slider-complete) * 40)) * 1%, 80%)
+    );
+    transition: color var(--transition);
+    transition-timing-function: var(--timing);
+    z-index: 20;
+  }
+
+  /* Muted */
+  .slider--volume .slider__indicator path:nth-of-type(3) {
+    transform-box: fill-box;
+    transform-origin: center;
+    translate: 25% 0;
+    scale: clamp(0, 1.25 - (var(--slider-complete) * 100), 2);
+    transition: scale var(--transition) var(--timing);
+  }
+  /* Should come in at 25% and 75% */
+  .slider--volume .slider__indicator path:nth-of-type(2) {
+    transform-box: fill-box;
+    transform-origin: center;
+    translate: 25% 0;
+    opacity: clamp(0, ((var(--slider-complete) - 0.25) * 100), 2);
+    transition: opacity var(--transition) var(--timing);
+  }
+  .slider--volume .slider__indicator path:nth-of-type(4) {
+    transform-box: fill-box;
+    transform-origin: center;
+    translate: 25% 0;
+    opacity: clamp(0, ((var(--slider-complete) - 0.75) * 100), 2);
+    transition: opacity var(--transition) var(--timing);
+  }
+}
+
+div.tp-dfwv {
+  width: 280px;
+}
+
+[data-disguise='false'] {
+  .slider__track,
+  .slider__indicator {
+    display: none;
+  }
+  .slider {
+    box-shadow: none;
+    border-radius: 0;
+    background: transparent;
+    overflow: visible;
+    display: flex;
+    gap: 1rem;
+
+    label {
+      position: static;
+      width: fit-content;
+      height: fit-content;
+      padding: 0;
+      margin: 0;
+      overflow: visible;
+      clip: unset;
+      white-space: nowrap;
+      border-width: 0;
+      font-family: sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+        'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans',
+        'Helvetica Neue', sans-serif;
+    }
+
+    input {
+      opacity: 1;
+    }
+    [type='range']::-webkit-slider-thumb {
+      height: auto;
+      width: auto;
+    }
+    [type='range']::-webkit-slider-runnable-track {
+      background: transparent;
+      height: auto;
+    }
+    [type='range']::-moz-range-track {
+      background: transparent;
+      height: auto;
+    }
+  }
+}
