@@ -1,0 +1,211 @@
+@import 'normalize.css';
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+[data-theme='light'] {
+  color-scheme: light only;
+
+  &[data-reflect='true'] {
+    body::after {
+      content: '';
+      position: absolute;
+      top: calc(50% + 1rem + ((var(--card-size) * 4 / 3) * 0.5));
+      width: 100%;
+      height: 50%;
+      backdrop-filter: blur(2px);
+    }
+    li {
+      -webkit-box-reflect: below 2rem
+        linear-gradient(#0000 65%, hsl(0 0% 0% / 0.15) 85%);
+    }
+  }
+}
+[data-theme='dark'] {
+  color-scheme: dark only;
+  img {
+    filter: brightness(1.25);
+  }
+  &[data-reflect='true'] {
+    li {
+      -webkit-box-reflect: below 2rem
+        linear-gradient(#0000 65%, hsl(0 0% 0% / 0.75) 85%);
+    }
+  }
+}
+@media (prefers-color-scheme: dark) {
+  html {
+    color-scheme: dark only;
+  }
+  img {
+    filter: brightness(1.25);
+  }
+
+  [data-reflect='true'] {
+    body::after {
+      content: '';
+      position: absolute;
+      top: calc(50% + 1rem + ((var(--card-size) * 4 / 3) * 0.5));
+      width: 100%;
+      height: 50%;
+      backdrop-filter: blur(6px);
+    }
+    li {
+      -webkit-box-reflect: below 2rem
+        linear-gradient(#0000 65%, hsl(0 0% 0% / 0.75) 85%);
+    }
+  }
+}
+
+h1 {
+  position: fixed;
+  top: 50%;
+  right: 50%;
+  margin: 0;
+  translate: calc(-150%) -50%;
+  rotate: -90deg;
+  animation: fade both linear;
+  animation-timeline: --list;
+  animation-range: 0 80px;
+}
+
+@keyframes fade {
+  to {
+    opacity: 0;
+    filter: blur(20px);
+  }
+}
+
+body {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+body::before {
+  --size: 40px;
+  --line: color-mix(in lch, canvasText, transparent 85%);
+  content: '';
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  background: linear-gradient(
+        90deg,
+        var(--line) 1px,
+        transparent 1px var(--size)
+      )
+      50% 50% / var(--size) var(--size),
+    linear-gradient(var(--line) 1px, transparent 1px var(--size)) 50% 50% /
+      var(--size) var(--size);
+  mask: linear-gradient(-25deg, transparent 30%, white);
+  top: 0;
+  transform-style: flat;
+  pointer-events: none;
+  z-index: -1;
+}
+
+:root {
+  --card-size: 200px;
+  timeline-scope: --list;
+}
+
+ul {
+  scroll-snap-type: x mandatory;
+  height: 100vh;
+  width: 100vw;
+  container-type: inline-size;
+  scroll-timeline: --list inline;
+  align-items: center;
+  display: flex;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  gap: 1rem;
+  overflow: auto;
+  padding-inline: calc(50cqi - (var(--card-size) * 0.5));
+  scroll-padding-inline: calc(50% - (var(--card-size) * (var(--padding))));
+}
+
+ul li {
+  scroll-snap-align: center;
+  aspect-ratio: 3 / 4;
+  border-radius: 1rem;
+  flex: 1 0 var(--card-size);
+  overflow: hidden;
+  position: relative;
+}
+
+div.tp-dfwv {
+  width: 300px;
+}
+
+@supports (animation-timeline: scroll()) {
+  :root {
+    --offset: 0;
+  }
+
+  li {
+    view-timeline: --item inline;
+  }
+
+  img {
+    width: 300%;
+    height: 300%;
+    object-fit: cover;
+    top: 50%;
+    position: absolute;
+    translate: 0 -50%;
+    right: 0;
+    animation: p both linear;
+    animation-timeline: --item;
+  }
+
+  @keyframes p {
+    cover 100% {
+      translate: calc((100% - var(--card-size)) * var(--travel, 1)) -50%;
+    }
+  }
+}
+
+.bear-link {
+  color: canvasText;
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  width: 48px;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  opacity: 0.8;
+}
+
+:where(.x-link, .bear-link):is(:hover, :focus-visible) {
+  opacity: 1;
+}
+
+.bear-link svg {
+  width: 75%;
+}
+
+::view-transition-new(root) {
+  animation: none;
+  z-index: 1;
+}
+
+::view-transition-old(root) {
+  z-index: 2;
+  animation: remove 1s;
+}
+
+@keyframes remove {
+  0% {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  }
+  100% {
+    clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
+  }
+}

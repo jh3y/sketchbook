@@ -1,5 +1,28 @@
 @import 'normalize.css';
 
+:root {
+  --speed: 0.5s;
+  --ease: linear(
+    0 0%,
+    0.5007 7.21%,
+    0.7803 12.29%,
+    0.8883 14.93%,
+    0.9724 17.63%,
+    1.0343 20.44%,
+    1.0754 23.44%,
+    1.0898 25.22%,
+    1.0984 27.11%,
+    1.1014 29.15%,
+    1.0989 31.4%,
+    1.0854 35.23%,
+    1.0196 48.86%,
+    1.0043 54.06%,
+    0.9956 59.6%,
+    0.9925 68.11%,
+    1 100%
+  );
+}
+
 *,
 *:after,
 *:before {
@@ -54,11 +77,22 @@ nav li {
   padding: 0;
   overflow: visible;
   opacity: 0;
-  transition: display 0.25s, overlay 0.25s, opacity 0.25s;
+  transition: display var(--speed), overlay var(--speed),
+    opacity calc(var(--speed) * 0.25);
   transition-behavior: allow-discrete;
+
+  li {
+    offset-distance: calc(-105vh + (var(--index) * 0vh));
+  }
 
   &:popover-open {
     opacity: 1;
+    li {
+      offset-distance: calc(-105vh + (var(--index) * 10vh));
+      @starting-style {
+        offset-distance: calc(-105vh + (var(--index) * 0vh));
+      }
+    }
   }
   @starting-style {
     opacity: 0;
@@ -89,8 +123,30 @@ nav li {
   top: 50%;
   left: 0;
   offset-path: rect(0 100% 100% 0 round 50%);
-  offset-distance: calc(-105vh + (var(--index) * 10vh));
   transition: offset-distance 0.25s
+    linear(
+      0 0%,
+      0.5007 7.21%,
+      0.7803 12.29%,
+      0.8883 14.93%,
+      0.9724 17.63%,
+      1.0343 20.44%,
+      1.0754 23.44%,
+      1.0898 25.22%,
+      1.0984 27.11%,
+      1.1014 29.15%,
+      1.0989 31.4%,
+      1.0854 35.23%,
+      1.0196 48.86%,
+      1.0043 54.06%,
+      0.9956 59.6%,
+      0.9925 68.11%,
+      1 100%
+    );
+}
+/* :popover-open .arc li {
+  transition: display 0.25s,
+    offset-distance 0.25s
       linear(
         0 0%,
         0.5007 7.21%,
@@ -111,11 +167,9 @@ nav li {
         1 100%
       ),
     opacity 0.125s;
-  @starting-style {
-    offset-distance: -105vh;
-    opacity: 0;
-  }
-}
+  transition-behavior: allow-discrete;
+  offset-distance: calc(-105vh + (var(--index) * 10vh));
+} */
 
 .arc li:nth-of-type(1) {
   --index: 1;
