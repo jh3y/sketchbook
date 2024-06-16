@@ -1,0 +1,149 @@
+@import 'normalize.css';
+
+*,
+*:after,
+*:before {
+  box-sizing: border-box;
+}
+
+html {
+  color-scheme: dark only;
+}
+
+body {
+  background: canvas;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 2rem;
+  min-height: 100vh;
+  font-family: 'SF Pro Text', 'SF Pro Icons', 'AOS Icons', 'Helvetica Neue',
+    Helvetica, Arial, sans-serif, system-ui;
+}
+body::before {
+  --size: 45px;
+  --line: color-mix(in lch, canvasText, transparent 85%);
+  content: '';
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  background: linear-gradient(
+        90deg,
+        var(--line) 1px,
+        transparent 1px var(--size)
+      )
+      50% 50% / var(--size) var(--size),
+    linear-gradient(var(--line) 1px, transparent 1px var(--size)) 50% 50% /
+      var(--size) var(--size);
+  mask: linear-gradient(-25deg, transparent 30%, white);
+  top: 0;
+  transform-style: flat;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.caption {
+  font-weight: 300;
+  font-size: 1.25rem;
+  position: relative;
+}
+
+.caption__text div {
+  display: flex;
+  width: 100%;
+  gap: 0.5rem;
+  padding: 0.5rem 0;
+}
+
+.caption__text span {
+  opacity: 0.5;
+}
+
+.can {
+  width: 25vmin;
+  height: 25vmin;
+  aspect-ratio: 1;
+  position: relative;
+}
+
+.mixer {
+  border-radius: 50%;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  inset: 0;
+  border: 2px solid white;
+}
+
+.mixer:first-of-type {
+  background: var(--base);
+}
+
+.mixer__ball {
+  width: 50%;
+  height: 50%;
+  border-radius: 50%;
+  position: absolute;
+  left: 50%;
+  top: 0;
+  transform-origin: 50% 100%;
+  translate: -50% 0;
+  z-index: 9999;
+  border: 2px solid white;
+  background: var(--mixed);
+}
+
+.mixer__ball::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: canvas;
+  border-radius: 50%;
+  z-index: -1;
+}
+.mixer__ball::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--mixed);
+  border-radius: 50%;
+  z-index: -1;
+}
+
+/* Progress is 0-50 */
+.mixer__layer {
+  background: conic-gradient(var(--base), var(--end));
+  --angle: calc(var(--completion, 0) * 1deg);
+  mask: conic-gradient(#000 var(--angle), #0000 var(--angle));
+}
+
+.mixer__layer {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+}
+
+.level {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+}
+
+.bear-link {
+  color: canvasText;
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  width: 48px;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  opacity: 0.8;
+}
+
+:where(.x-link, .bear-link):is(:hover, :focus-visible) {
+  opacity: 1;
+}
+.bear-link svg {
+  width: 75%;
+}
