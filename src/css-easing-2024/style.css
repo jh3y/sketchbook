@@ -1,107 +1,256 @@
-@import "normalize.css";
+@import 'normalize.css';
 
 *,
 *:after,
 *:before {
-	box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 :root {
-	--delay: 0.2s;
+  --accent: red;
+  --delay: 0.2s;
 }
 
 body {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	min-height: 100vh;
-	font-family:  "SF Pro Text", "SF Pro Icons", "AOS Icons", "Helvetica Neue", Helvetica, Arial, sans-serif, system-ui;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  font-family: 'SF Pro Text', 'SF Pro Icons', 'AOS Icons', 'Helvetica Neue',
+    Helvetica, Arial, sans-serif, system-ui;
+}
+
+body::before {
+  --size: 45px;
+  --line: color-mix(in lch, canvasText, transparent 85%);
+  content: '';
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  background: linear-gradient(
+        90deg,
+        var(--line) 1px,
+        transparent 1px var(--size)
+      )
+      50% 50% / var(--size) var(--size),
+    linear-gradient(var(--line) 1px, transparent 1px var(--size)) 50% 50% /
+      var(--size) var(--size);
+  mask: linear-gradient(-25deg, transparent 30%, white);
+  top: 0;
+  transform-style: flat;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
 }
 
 .arena {
-	--capacity: 200px;
-	width: var(--capacity);
-	height: var(--capacity);
-	border: 2px solid black;
-	container-type: size;
-	display: flex;
-	align-items: flex-end;
-	position: relative;
+  --capacity: 120px;
+  width: var(--capacity);
+  height: var(--capacity);
+  border: 1px solid color-mix(in lch, canvas, canvasText);
+  border-radius: 0px;
+  container-type: size;
+  display: flex;
+  align-items: flex-end;
+  position: relative;
+  scale: 0.625;
 }
 
 .x {
-	transform-box: fill-box;
-	transform-origin: 50% 50%;
-	animation: x calc(var(--duration, 2) * 1s) var(--delay) infinite linear;
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  /* animation: x calc(var(--duration, 2) * 1s) var(--delay) infinite linear; */
 }
 
 .y {
-	transform-box: fill-box;
-	transform-origin: 50% 50%;
-	animation: y calc(var(--duration, 2) * 1s) var(--delay) infinite var(--ease);
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  /* animation: y calc(var(--duration, 2) * 1s) var(--delay) infinite var(--ease); */
+}
+
+.s {
+  stroke: var(--accent);
 }
 
 .l {
-	/*stroke-dasharray: 1.025;
+  /*stroke-dasharray: 1.025;
 	stroke-dashoffset: 1.025;*/
-	clip-path: inset(-50% 100% -50% 0);
-	animation: draw calc(var(--duration, 2) * 1s) var(--delay) infinite linear;
+  stroke: var(--accent);
+  clip-path: inset(-50% 100% -50% 0);
+}
+
+[aria-hidden='true'] {
+  pointer-events: none;
+}
+
+#app {
+  display: flex;
+  place-items: center;
+  min-height: 100vh;
+}
+
+.eases {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 2rem 0;
+  margin-top: 5rem;
+  align-items: center;
+  justify-content: center;
+  width: 90ch;
+  max-width: calc(100vw - 2rem);
 }
 
 .box {
-	background: red;
-	width: 10cqi;
-	border-radius: 50%;
-	aspect-ratio: 1;
-	animation:
-		animate-x calc(var(--duration, 2) * 1s) var(--delay) infinite linear,
-		animate-y calc(var(--duration, 2) * 1s) var(--delay) infinite var(--ease);
-	translate: calc(100cqw + 100%) 50%;
-	translate: -50% 50%;
-	z-index: 2;
+  background: canvasText;
+  width: 10cqi;
+  border-radius: 50%;
+  aspect-ratio: 1;
+  translate: calc(100cqw + 100%) 50%;
+  translate: -50% 50%;
+  z-index: 2;
+  opacity: 0;
+  transition: opacity 0.2s;
 }
 
-:is(.x, .y, .box, .l) { animation-play-state: paused; }
-
-.arena:hover :is(.x,.y,.box, .l) {
-	animation-play-state: running;
+.arena:is(:hover, :focus-within) {
+  z-index: 10;
 }
+
+/* :is(.x, .y, .box, .l) {
+  animation-play-state: paused;
+}
+
+.arena:hover :is(.x, .y, .box, .l) {
+  animation-play-state: running;
+} */
+
+/* .s,
+.l {
+  transition: opacity 0.2s;
+}
+.eases:is(:hover, :focus-within) .copy:not(:hover, :focus-visible) :is(.l, .s) {
+  opacity: 0.15;
+} */
 
 @keyframes x {
-	to { translate: 1px 0; }
+  to {
+    translate: 1px 0;
+  }
 }
 
 @keyframes y {
-	to { translate: 0 1px; }
+  to {
+    translate: 0 1px;
+  }
 }
 
 @keyframes draw {
-	to { clip-path: inset(-50% 0 -50% 0); }
+  to {
+    clip-path: inset(-50% 0 -50% 0);
+  }
 }
 
 @keyframes animate-x {
-	to { translate: calc(100cqw - 50%) 50%; }
+  to {
+    translate: calc(100cqw - 50%) 50%;
+  }
 }
 @keyframes animate-y {
-	to { transform: translateY(calc(-100cqh + 0%)); }
+  to {
+    transform: translateY(calc(-100cqh + 0%));
+  }
 }
 
 .arena {
-	--size: 10%;
-	--line: color-mix(in lch, canvasText 10%, hsl(0 0% 100% / 0.25));
-	background: linear-gradient(
-				90deg,
-				var(--line) 1px,
-				transparent 1px var(--size)
-			)
-			0% 0% / var(--size) var(--size),
-		linear-gradient(var(--line) 1px, transparent 1px var(--size)) 0% 0% /
-			var(--size) var(--size);
+  --size: 10%;
+  --line: color-mix(in lch, canvasText 10%, hsl(0 0% 100% / 0.25));
+  background: canvas;
+  /* background: linear-gradient(
+        90deg,
+        var(--line) 1px,
+        transparent 1px var(--size)
+      )
+      0% 0% / var(--size) var(--size),
+    linear-gradient(var(--line) 1px, transparent 1px var(--size)) 0% 0% /
+      var(--size) var(--size); */
 }
 
 .graph {
-	position: absolute;
-	inset: 0;
-	overflow: visible !important;
-	scale: 1 -1;
+  position: absolute;
+  inset: 0;
+  overflow: visible !important;
+  scale: 1 -1;
+}
+
+.bear-link {
+  color: black;
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  width: 48px;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  opacity: 0.8;
+}
+
+:where(.x-link, .bear-link):is(:hover, :focus-visible) {
+  opacity: 1;
+}
+.bear-link svg {
+  width: 75%;
+}
+
+div.tp-dfwv {
+  position: fixed;
+  width: 280px;
+}
+
+.copy {
+  padding: 0.5;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.copy:focus-visible {
+  outline: 2px dashed canvasText;
+}
+
+.copy:is(:hover, :focus-visible) {
+  .box {
+    opacity: 1;
+    animation: animate-x calc(var(--duration, 2) * 1s) var(--delay) infinite
+        linear,
+      animate-y calc(var(--duration, 2) * 1s) var(--delay) infinite var(--ease);
+  }
+  .s {
+    opacity: 0.25;
+  }
+
+  .l {
+    animation: draw calc(var(--duration, 2) * 1s) var(--delay) infinite linear;
+  }
+}
+
+.notification {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  background: color-mix(in lch, canvasText, canvas 10%);
+  font-weight: 300;
+  color: canvas;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
 }

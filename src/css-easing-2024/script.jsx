@@ -1,4 +1,5 @@
 import React from 'https://cdn.skypack.dev/react'
+import { useTweaks } from 'https://cdn.skypack.dev/use-tweaks'
 import { render } from 'https://cdn.skypack.dev/react-dom'
 import './ease-generator.js'
 
@@ -37,6 +38,10 @@ const EASINGS = [
   'sine.out',
   'sine.inOut',
   'steps',
+  'flicker',
+  'hop',
+  'fortune',
+  'slow',
 ]
 
 window.customEases = {}
@@ -48,24 +53,58 @@ const buildEases = (accuracy = 0.0025, rounding = 4) => {
       window.customEases[EASE] = generateCustomEase(EASE, accuracy, rounding, 1)
       eases += `--${EASE}: ${window.customEases[EASE].output};`
     } else if (EASE === 'steps') {
-      window.customEases[EASE] = generateCustomEase('steps(10)', accuracy, rounding, 1)
+      window.customEases[EASE] = generateCustomEase(
+        'steps(10)',
+        accuracy,
+        rounding,
+        1
+      )
       eases += `--${EASE}: ${window.customEases[EASE].output};`
+    } else if (EASE === 'hop') {
+      window.customEases[EASE] = generateCustomEase(
+        'M0,0 C0,0 0.056,0.442 0.175,0.442 0.294,0.442 0.332,0 0.332,0 0.332,0 0.414,1 0.671,1 0.991,1 1,0 1,0',
+        accuracy,
+        rounding,
+        1
+      )
+      eases += `--${EASE}: ${window.customEases[EASE].output};`
+    } else if (EASE === 'fortune') {
+      window.customEases[EASE] = generateCustomEase(
+        'M0,0 C0.126,0.382 0.142,0.857 0.142,0.857 0.215,0.989 0.818,1.001 1,1',
+        accuracy,
+        rounding,
+        1
+      )
+      eases += `--${EASE}: ${window.customEases[EASE].output};`
+    } else if (EASE === 'slow') {
+      window.customEases[EASE] = generateCustomEase(
+        'slow(0.5,0.7,false)',
+        accuracy,
+        rounding,
+        1
+      )
+      eases += `--${EASE}: ${window.customEases[EASE].output};`
+    } else if (EASE === 'flicker') {
+      const temp = `rough({ template: power1.inOut, strength: 2, points: 50, taper: 'none', randomize: true, clamp: true})`
+      window.customEases[EASE] = generateCustomEase(temp, accuracy, rounding, 1)
+      eases += `--${EASE.replace('.', '-')}: ${
+        window.customEases[EASE].output
+      };`
     } else {
       window.customEases[EASE] = generateCustomEase(EASE, accuracy, rounding, 1)
-      eases += `--${EASE.replace('.', '-')}: ${window.customEases[EASE].output};`
+      eases += `--${EASE.replace('.', '-')}: ${
+        window.customEases[EASE].output
+      };`
     }
   }
   return `:root {${eases}}`
 }
 
-// buildEases()
-
-// This could be the string you get...
-
-const generatePointsString = easeKey => {
+const generatePointsString = (easeKey) => {
   let result = ''
   const ease = customEases[easeKey]
   if (ease) {
+    console.info({ ease })
     for (const point of ease.optimised) result += `${point[0]},${point[1]} `
   }
   return result
@@ -74,21 +113,69 @@ const generatePointsString = easeKey => {
 const Graph = ({ ease }) => {
   const points = generatePointsString(ease)
   return (
-    <svg className="graph" viewBox="0 0 1 1" xmlns="http://www.w3.org/2000/svg" >
-      <title>Linear() easing graph</title>
-      <polyline className="x" points="0,0 0,1" stroke="blue" stroke-width="0.01"/>
-      <polyline className="y" points="0,0 1,0" stroke="orange" stroke-width="0.01"/>
-      <polyline className="l" fill="none" points={points} stroke-linecap="round" stroke-linejoin="round" stroke="purple" stroke-width="0.02" pathLength={1} />
+    <svg className="graph" viewBox="0 0 1 1" xmlns="http://www.w3.org/2000/svg">
+      <title>{`"${ease}" easing graph`}</title>
+      <polyline className="x" points="0,0 0,1" stroke-width="0.01" />
+      <polyline className="y" points="0,0 1,0" stroke-width="0.01" />
+      <polyline
+        className="l"
+        fill="none"
+        points={points}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="0.02"
+        pathLength={1}
+      />
+      <polyline
+        className="s"
+        fill="none"
+        points={points}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="0.02"
+        pathLength={1}
+      />
     </svg>
   )
 }
 
 const App = () => {
-  const [accuracy, setAccuracy] = React.useState(0.0025)
-  const [rounding, setRounding] = React.useState(4)
-  const [duration, setDuration] = React.useState(2)
-  const [selectedEase, setSelectedEase] = React.useState(EASINGS[0])
+  const timerRef = React.useRef(null)
+  const [copied, setCopied] = React.useState(false)
+  const { accuracy, rounding, duration } = useTweaks({
+    accuracy: {
+      min: 0,
+      max: 0.01,
+      step: 0.0001,
+      value: 0.0025,
+      label: 'Accuracy',
+    },
+    rounding: { min: 1, max: 5, step: 0.1, value: 4, label: 'Rounding' },
+    duration: {
+      min: 0.1,
+      max: 4,
+      step: 0.1,
+      value: 0.75,
+      label: 'Duration (s)',
+    },
+  })
   const [customStyles, setCustomStyles] = React.useState('')
+
+  const copyToClipboard = (ease) => () => {
+    navigator.clipboard.writeText(
+      `--${ease.replace('.', '-')}: ${window.customEases[ease].output};`
+    )
+    setCopied(true)
+  }
+
+  React.useEffect(() => {
+    if (timerRef.current) clearTimeout(timerRef.current)
+    if (copied) {
+      timerRef.current = setTimeout(() => {
+        setCopied(false)
+      }, 1000)
+    }
+  }, [copied])
 
   React.useEffect(() => {
     setCustomStyles(buildEases(accuracy, rounding))
@@ -98,58 +185,33 @@ const App = () => {
     document.documentElement.style.setProperty('--duration', duration)
   }, [duration])
 
-  React.useEffect(() => {
-    document.documentElement.style.setProperty('--ease', `var(--${selectedEase.replace('.', '-')})`)
-  }, [selectedEase])
-
   return (
     <>
-      <h1>CSS Easing 2024</h1>
-      <select value={selectedEase} onChange={event => setSelectedEase(event.target.value)}>
-        {EASINGS.map(ease => (
-          <option key={ease}>{ease}</option>
-        ))}
-      </select>
-      <form>
-        <label htmlFor="accuracy">Accuracy</label>
-        <input
-          id="accuracy"
-          type="range"
-          min="0"
-          max="0.01"
-          step="0.0001"
-          value={accuracy}
-          onChange={(event) => setAccuracy(event.target.value)}
-        />
-        <label htmlFor="rounding">Rounding</label>
-        <input
-          id="rounding"
-          type="range"
-          min="1"
-          max="5"
-          step="1"
-          value={rounding}
-          onChange={(event) => setRounding(event.target.value)}
-        />
-        <label htmlFor="duration">Duration (s)</label>
-        <input
-          id="duration"
-          type="range"
-          min="0.2"
-          max="10"
-          step="0.1"
-          value={duration}
-          onChange={(event) => setDuration(event.target.value)}
-        />
-      </form>
-      <h2>{accuracy}</h2>
-      <style type="text/css">
-        {customStyles}
-      </style>
-      <div className="arena">
-        <div className="box"/>
-        <Graph ease={selectedEase} />
+      <div className="eases">
+        <style type="text/css">{customStyles}</style>
+        {EASINGS.map((easing) => {
+          return (
+            <button
+              className="copy"
+              onClick={copyToClipboard(easing)}
+              key={easing}>
+              <span className="sr-only">{`Copy "${easing}" easing`}</span>
+              <div
+                aria-hidden="true"
+                className="arena"
+                style={{ '--ease': `var(--${easing.replace('.', '-')})` }}>
+                <div className="box" />
+                <Graph ease={easing} />
+              </div>
+            </button>
+          )
+        })}
       </div>
+      {copied ? (
+        <div className="notification" aria-polite="true">
+          Copied.
+        </div>
+      ) : null}
     </>
   )
 }

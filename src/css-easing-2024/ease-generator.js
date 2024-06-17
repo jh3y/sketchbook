@@ -4,11 +4,11 @@
  *
  * */
 
-import gsap from 'https://cdn.skypack.dev/gsap'
-import { RoughEase } from 'https://cdn.skypack.dev/gsap/EasePack'
-
+import gsap from 'https://cdn.skypack.dev/gsap@3.12.4'
+import { RoughEase } from 'https://cdn.skypack.dev/gsap@3.12.4/EasePack'
+import CustomEase from 'gsap/CustomEase'
 // Imported via Settings
-gsap.registerPlugin(window.CustomEase)
+gsap.registerPlugin(CustomEase)
 gsap.registerPlugin(RoughEase)
 
 // Config settings for generator
