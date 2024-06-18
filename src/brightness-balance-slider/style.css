@@ -39,7 +39,7 @@ body::before {
 
 main {
   display: grid;
-  /* grid-template-columns: repeat(2, 96px); */
+  grid-template-columns: repeat(3, calc(var(--slider-height) * 1px));
   gap: 2rem;
 }
 
@@ -167,6 +167,7 @@ main {
 
 @layer sliders {
   :root {
+    --slider-radius: 16;
     --slider-height: 96;
     --slider-width: 214;
     --transition: 0.4s;
@@ -217,13 +218,8 @@ main {
     translate: 0 0;
     width: calc(var(--slider-width) * 1px);
     height: calc(var(--slider-height) * 1px);
-    /* position: absolute;
-    left: 50%;
-    top: 50%;
-    translate: -50% -50%;
-    rotate: -90deg; */
     overflow: hidden;
-    border-radius: 36px;
+    border-radius: calc(var(--slider-radius) * 1px);
   }
 
   /* Handling the sun */
@@ -245,7 +241,6 @@ main {
   }
 
   .slider--brightness .slider__indicator svg {
-    /*     translate: calc((25 + (var(--slider-complete) * 200)) * 1%); */
     scale: clamp(1, (1.75 - (1 * (var(--slider-complete) * 4))), 1.75);
     transition: scale var(--transition);
     transition-timing-function: var(--timing);
@@ -313,6 +308,43 @@ main {
     opacity: clamp(0, ((var(--slider-complete) - 0.75) * 100), 2);
     transition: opacity var(--transition) var(--timing);
   }
+
+  /* Handling the Intensity */
+  .slider--intensity .slider__indicator {
+    pointer-events: none;
+    height: 50%;
+    aspect-ratio: 1;
+    position: absolute;
+    left: 14%;
+    top: 50%;
+    translate: 0 -50%;
+    rotate: 90deg;
+    transition-timing-function: var(--timing);
+    z-index: 20;
+  }
+
+  .slider--intensity .slider__indicator svg {
+    overflow: visible !important;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+  }
+  .slider--intensity .slider__indicator g {
+    transform-box: fill-box;
+    transform-origin: 50% 50%;
+    transform: scale(calc(1.5 - (var(--slider-complete) * 0.5)));
+  }
+
+  .slider--intensity .slider__indicator path:nth-of-type(1) {
+    color: hsl(0 0% clamp(50%, (var(--slider-complete) * 100) * 1%, 100%));
+  }
+
+  .slider--intensity .slider__indicator path:nth-of-type(2) {
+    transform-box: fill-box;
+    transform-origin: 50% 100%;
+    scale: var(--slider-complete);
+    opacity: var(--slider-complete);
+  }
 }
 
 div.tp-dfwv {
@@ -350,6 +382,7 @@ div.tp-dfwv {
 
     input {
       opacity: 1;
+      width: 100%;
     }
 
     [type='range']::-webkit-slider-thumb {
@@ -369,11 +402,6 @@ div.tp-dfwv {
   }
 }
 
-/* .track,
-.track__progress {
-  border-radius: 36px;
-} */
-
 [data-spring='true'] .track {
   transition: scale var(--spring) 0.625s;
 }
@@ -388,17 +416,42 @@ div.tp-dfwv {
 [data-origin='top'] :is(.track) {
   transform-origin: 100% 50%;
 }
-:is(.track) {
-  scale: calc(1 + (clamp(0, var(--stretch), 1) * 0.2))
-    calc(1 - (clamp(0, var(--stretch), 1) * 0.1));
+[data-enhance='true'] :is(.track) {
+  scale: calc(1 + (clamp(0, var(--stretch), 1) * var(--stretch-ratio, 0.2)))
+    calc(1 - (clamp(0, var(--stretch), 1) * (var(--stretch-ratio, 0.2) * 0.5)));
+  /* transition: all 0.2s; */
+}
+
+.container {
+  position: relative;
 }
 
 .slider-wrap {
-  position: relative;
+  position: absolute;
   timeline-scope: --thumb;
   height: calc(var(--slider-height) * 1px);
   width: calc(var(--slider-width) * 1px);
   rotate: -90deg;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+}
+
+[data-enhance='true'] .slider__indicator {
+  transform: scale(
+    calc(1 + clamp(0, var(--stretch), 1) * var(--stretch-ratio, 0.2))
+  );
+}
+
+.slider__track {
+  background: color-mix(in lch, canvasText, canvas 80%);
+  pointer-events: none;
+  height: calc(var(--slider-height) * 1px);
+  width: calc(var(--slider-width) * 1px);
+  position: absolute;
+  inset: 0;
+  border-radius: calc(var(--slider-radius) * 1px);
+  clip-path: inset(0 0 0 0 round calc(var(--slider-radius) * 1px));
   --perfect-shadow: 0px 0px 0px 1px hsl(0 0% 0%),
     -9px 9px 9px -0.5px hsl(0 0% 0% / 0.5),
     -18px 18px 18px -1.5px hsl(0 0% 0% / 0.5),
@@ -406,21 +459,6 @@ div.tp-dfwv {
     -75px 75px 75px -6px hsl(0 0% 0% / 0.5),
     -150px 150px 150px -12px hsl(0 0% 0% / 0.5);
   box-shadow: var(--perfect-shadow);
-}
-
-.slider__indicator {
-  transform: scale(calc(1 + clamp(0, var(--stretch), 1) * 0.24));
-}
-
-.slider__track {
-  border-radius: 36px;
-  background: color-mix(in lch, canvasText, canvas 80%);
-  pointer-events: none;
-  height: calc(var(--slider-height) * 1px);
-  width: calc(var(--slider-width) * 1px);
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
 }
 
 .track__progress {
