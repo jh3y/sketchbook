@@ -70,10 +70,12 @@
     </a>
     <main>
       <div class="slider-wrap">
+        <div class="slider__track track">
+          <div class="track__progress"></div>
+        </div>
         <div class="slider slider--brightness">
           <label for="brightness" class="sr-only">Brightness</label>
           <input id="brightness" type="range" min="0" max="100" value="86" />
-          <div class="slider__track"></div>
           <div class="slider__indicator">
             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <defs>
@@ -98,7 +100,7 @@
           </div>
         </div>
       </div>
-      <div class="slider-wrap">
+      <!-- <div class="slider-wrap">
         <div class="slider slider--volume">
           <label for="volume" class="sr-only">Volume</label>
           <input id="volume" type="range" min="0" max="100" value="86" />
@@ -113,7 +115,7 @@
             </svg>
           </div>
         </div>
-      </div>
+      </div> -->
     </main>
     <script type="module" src="./script.js"></script>
   </body>

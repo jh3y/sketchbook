@@ -39,7 +39,7 @@ body::before {
 
 main {
   display: grid;
-  grid-template-columns: repeat(2, 96px);
+  /* grid-template-columns: repeat(2, 96px); */
   gap: 2rem;
 }
 
@@ -151,7 +151,7 @@ main {
       }
     }
 
-    .slider {
+    .slider-wrap {
       timeline-scope: --thumb;
       animation: sync both linear reverse;
       animation-timeline: --thumb;
@@ -170,6 +170,28 @@ main {
     --slider-height: 96;
     --slider-width: 214;
     --transition: 0.4s;
+    --spring: linear(
+      0 0%,
+      0.5258 3.83%,
+      0.9015 8.01%,
+      1.0369 10.27%,
+      1.1399 12.68%,
+      1.2124 15.28%,
+      1.2563 18.13%,
+      1.2683 19.76%,
+      1.2731 21.51%,
+      1.2706 23.41%,
+      1.2609 25.51%,
+      1.2318 29.22%,
+      1.1328 39.11%,
+      1.0859 44.55%,
+      1.0464 50.71%,
+      1.0195 57.21%,
+      1.004 63.99%,
+      0.9963 72.12%,
+      0.9953 83.93%,
+      1 100%
+    );
     --timing: linear(
       0 0%,
       0.4322 6.7%,
@@ -191,47 +213,17 @@ main {
     );
   }
 
-  .slider-wrap {
-    position: relative;
-  }
-
   .slider {
     translate: 0 0;
     width: calc(var(--slider-width) * 1px);
     height: calc(var(--slider-height) * 1px);
-    position: absolute;
+    /* position: absolute;
     left: 50%;
     top: 50%;
     translate: -50% -50%;
-    rotate: -90deg;
-    background: color-mix(in lch, canvasText, canvas 80%);
-    border-radius: 36px;
+    rotate: -90deg; */
     overflow: hidden;
-    --perfect-shadow: 0px 0px 0px 1px hsl(0 0% 0%),
-      -9px 9px 9px -0.5px hsl(0 0% 0% / 0.5),
-      -18px 18px 18px -1.5px hsl(0 0% 0% / 0.5),
-      -37px 37px 37px -3px hsl(0 0% 0% / 0.5),
-      -75px 75px 75px -6px hsl(0 0% 0% / 0.5),
-      -150px 150px 150px -12px hsl(0 0% 0% / 0.5);
-    box-shadow: var(--perfect-shadow);
-  }
-
-  .slider__track {
-    pointer-events: none;
-    background: color-mix(
-      in lch,
-      canvasText,
-      canvas clamp(50%, (70 - (var(--slider-complete) * 20)) * 1%, 70%)
-    );
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    inset: 0;
-    transform-origin: 0 50%;
-    scale: var(--slider-complete) 1;
-    transition: scale var(--transition), background var(--transition);
-    transition-timing-function: var(--timing);
-    z-index: -1;
+    border-radius: 36px;
   }
 
   /* Handling the sun */
@@ -250,6 +242,13 @@ main {
     transition: color var(--transition);
     transition-timing-function: var(--timing);
     z-index: 20;
+  }
+
+  .slider--brightness .slider__indicator svg {
+    /*     translate: calc((25 + (var(--slider-complete) * 200)) * 1%); */
+    scale: clamp(1, (1.75 - (1 * (var(--slider-complete) * 4))), 1.75);
+    transition: scale var(--transition);
+    transition-timing-function: var(--timing);
   }
 
   .slider--brightness .slider__indicator svg > path:first-of-type {
@@ -297,6 +296,7 @@ main {
     scale: clamp(0, 1.25 - (var(--slider-complete) * 100), 2);
     transition: scale var(--transition) var(--timing);
   }
+
   /* Should come in at 25% and 75% */
   .slider--volume .slider__indicator path:nth-of-type(2) {
     transform-box: fill-box;
@@ -305,6 +305,7 @@ main {
     opacity: clamp(0, ((var(--slider-complete) - 0.25) * 100), 2);
     transition: opacity var(--transition) var(--timing);
   }
+
   .slider--volume .slider__indicator path:nth-of-type(4) {
     transform-box: fill-box;
     transform-origin: center;
@@ -323,6 +324,7 @@ div.tp-dfwv {
   .slider__indicator {
     display: none;
   }
+
   .slider {
     box-shadow: none;
     border-radius: 0;
@@ -349,17 +351,89 @@ div.tp-dfwv {
     input {
       opacity: 1;
     }
+
     [type='range']::-webkit-slider-thumb {
       height: auto;
       width: auto;
     }
+
     [type='range']::-webkit-slider-runnable-track {
       background: transparent;
       height: auto;
     }
+
     [type='range']::-moz-range-track {
       background: transparent;
       height: auto;
     }
   }
+}
+
+/* .track,
+.track__progress {
+  border-radius: 36px;
+} */
+
+[data-spring='true'] .track {
+  transition: scale var(--spring) 0.625s;
+}
+
+[data-spring='true'] .slider__indicator {
+  transition: transform var(--spring) 0.625s;
+}
+
+[data-origin='bottom'] :is(.track) {
+  transform-origin: 0 50%;
+}
+[data-origin='top'] :is(.track) {
+  transform-origin: 100% 50%;
+}
+:is(.track) {
+  scale: calc(1 + (clamp(0, var(--stretch), 1) * 0.2))
+    calc(1 - (clamp(0, var(--stretch), 1) * 0.1));
+}
+
+.slider-wrap {
+  position: relative;
+  timeline-scope: --thumb;
+  height: calc(var(--slider-height) * 1px);
+  width: calc(var(--slider-width) * 1px);
+  rotate: -90deg;
+  --perfect-shadow: 0px 0px 0px 1px hsl(0 0% 0%),
+    -9px 9px 9px -0.5px hsl(0 0% 0% / 0.5),
+    -18px 18px 18px -1.5px hsl(0 0% 0% / 0.5),
+    -37px 37px 37px -3px hsl(0 0% 0% / 0.5),
+    -75px 75px 75px -6px hsl(0 0% 0% / 0.5),
+    -150px 150px 150px -12px hsl(0 0% 0% / 0.5);
+  box-shadow: var(--perfect-shadow);
+}
+
+.slider__indicator {
+  transform: scale(calc(1 + clamp(0, var(--stretch), 1) * 0.24));
+}
+
+.slider__track {
+  border-radius: 36px;
+  background: color-mix(in lch, canvasText, canvas 80%);
+  pointer-events: none;
+  height: calc(var(--slider-height) * 1px);
+  width: calc(var(--slider-width) * 1px);
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.track__progress {
+  width: 100%;
+  height: 100%;
+  background: color-mix(
+    in lch,
+    canvasText,
+    canvas clamp(50%, (70 - (var(--slider-complete) * 20)) * 1%, 70%)
+  );
+  transform-origin: 0 50%;
+  scale: var(--slider-complete) 1;
+  transition: scale var(--transition), background var(--transition);
+  transition-timing-function: var(--timing);
+  z-index: -1;
 }
