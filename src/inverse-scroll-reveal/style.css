@@ -1,0 +1,243 @@
+@import 'normalize.css';
+
+*,
+*:after,
+*:before {
+  box-sizing: border-box;
+}
+
+html {
+  color-scheme: light only;
+}
+
+body {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  font-family: 'SF Pro Text', 'SF Pro Icons', 'AOS Icons', 'Helvetica Neue',
+    Helvetica, Arial, sans-serif, system-ui;
+}
+
+body::before {
+  --size: 45px;
+  --line: color-mix(in lch, canvasText, transparent 70%);
+  content: '';
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  background: linear-gradient(
+        90deg,
+        var(--line) 1px,
+        transparent 1px var(--size)
+      )
+      50% 50% / var(--size) var(--size),
+    linear-gradient(var(--line) 1px, transparent 1px var(--size)) 50% 50% /
+      var(--size) var(--size);
+  mask: linear-gradient(-20deg, transparent 50%, white);
+  top: 0;
+  transform-style: flat;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.bear-link {
+  color: white;
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  width: 48px;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  z-index: 1000;
+}
+
+:where(.x-link, .bear-link):is(:hover, :focus-visible) {
+  opacity: 1;
+}
+
+.bear-link svg {
+  width: 75%;
+}
+
+:root {
+  --info-size: 35vh;
+}
+
+body {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas,
+    'DejaVu Sans Mono', monospace;
+  overflow: auto;
+}
+
+nav {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 80px;
+  text-align: left;
+  font-weight: bold;
+  font-size: 1.75rem;
+  display: flex;
+  align-items: center;
+  background: canvasText;
+  color: canvas;
+  padding: 0 1rem;
+  z-index: 3;
+}
+
+article {
+  max-width: 100vw;
+  height: 100vh;
+  display: grid;
+  grid-template-rows: calc(100vh - var(--info-size)) var(--info-size);
+  view-timeline: --article;
+}
+
+.article__img {
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--info-size);
+  animation: in-n-out both linear;
+  animation-timeline: --article;
+}
+
+h2 {
+  text-transform: uppercase;
+  font-size: 2rem;
+  margin: 0;
+}
+
+article img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  height: calc(100vh - var(--info-size));
+  animation: filter-out both linear;
+  animation-timeline: --article;
+  animation-range: exit 0% cover 100%;
+}
+
+@keyframes filter-out {
+  100% {
+    filter: brightness(2);
+    translate: 0 -60%;
+  }
+}
+
+@keyframes in-n-out {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  10%,
+  60% {
+    opacity: 1;
+  }
+}
+
+.article__info {
+  text-align: center;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 0.5rem;
+  height: var(--info-size);
+}
+
+main {
+  width: 100%;
+}
+
+a:not(.bear-link) {
+  text-transform: uppercase;
+  font-weight: 600;
+  color: hsl(0 0% 98%);
+  background: hsl(0 0% 0%);
+  padding: 1rem 2rem;
+  text-decoration: none;
+  word-spacing: 0.2rem;
+  font-size: 1.25rem;
+  border-radius: 4px;
+  transition: background 0.1s;
+}
+
+a:hover {
+  background: hsl(0 0% 40%);
+}
+
+.article__info {
+  background: canvas;
+}
+
+@media (min-width: 768px) {
+  article {
+    width: 100%;
+    display: grid;
+    place-items: start;
+    z-index: calc(var(--count, 10) - var(--index, 0));
+    position: relative;
+    grid-template-rows: unset;
+  }
+  nav {
+    position: fixed;
+    top: 0;
+    z-index: 100;
+  }
+  .article__info {
+    background: transparent;
+    height: 100vh;
+    width: 40%;
+    display: grid;
+    place-items: center;
+    padding: 1rem;
+    gap: 1rem;
+    align-content: center;
+  }
+  .article__img {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 40%;
+    bottom: 0;
+    height: 100vh;
+    animation: none;
+  }
+  .article__img {
+    animation: brighten both linear;
+    animation-timeline: --article;
+    animation-range: entry 0% entry 50%;
+  }
+  .article__img img {
+    animation: clip-out both linear;
+    animation-timeline: --article;
+    animation-range: exit 0% exit 100%;
+    height: 100%;
+  }
+}
+
+@keyframes brighten {
+  0% {
+    filter: brightness(2);
+  }
+  100% {
+    filter: brightness(1);
+  }
+}
+
+@keyframes clip-out {
+  0% {
+    clip-path: inset(0 0 0 0);
+  }
+  100% {
+    filter: brightness(0.5);
+    clip-path: inset(100% 0 0 0);
+  }
+}

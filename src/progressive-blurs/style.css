@@ -1,0 +1,214 @@
+@import 'normalize.css';
+
+*,
+*:after,
+*:before {
+  box-sizing: border-box;
+}
+
+html,
+[data-theme='light'] {
+  color-scheme: light only;
+}
+[data-theme='dark'] {
+  color-scheme: dark only;
+}
+@media (prefers-color-scheme: dark) {
+  html {
+    color-scheme: dark only;
+  }
+}
+
+body {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  font-family: 'SF Pro Text', 'SF Pro Icons', 'AOS Icons', 'Helvetica Neue',
+    Helvetica, Arial, sans-serif, system-ui;
+}
+
+body::before {
+  --size: 45px;
+  --line: color-mix(in lch, canvasText, transparent 70%);
+  content: '';
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  background: linear-gradient(
+        90deg,
+        var(--line) 1px,
+        transparent 1px var(--size)
+      )
+      50% 50% / var(--size) var(--size),
+    linear-gradient(var(--line) 1px, transparent 1px var(--size)) 50% 50% /
+      var(--size) var(--size);
+  mask: linear-gradient(-20deg, transparent 50%, white);
+  top: 0;
+  transform-style: flat;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.bear-link {
+  color: canvasText;
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  width: 48px;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  opacity: 0.8;
+}
+
+:where(.x-link, .bear-link):is(:hover, :focus-visible) {
+  opacity: 1;
+}
+
+.bear-link svg {
+  width: 75%;
+}
+
+:root {
+  --accent: hsl(10 90% 50%);
+  --size: 60vmin;
+}
+
+.container {
+  background: canvas;
+  display: grid;
+  width: var(--size);
+  aspect-ratio: 1;
+  padding: calc(var(--size) * (var(--padding) / 100));
+  position: relative;
+  overflow: hidden;
+  border-radius: calc(var(--radius) * 1%);
+}
+[data-border='true'] .container::before {
+  content: '';
+  position: absolute;
+  pointer-events: none;
+  z-index: 10;
+  inset: 0;
+  border-radius: calc(var(--radius) * 1%);
+  border: 2px solid color-mix(in lch, canvasText, canvas 25%);
+  opacity: 0.5;
+}
+
+.wrap {
+  pointer-events: none;
+  border-radius: calc(var(--radius) * 1%);
+}
+
+[data-debug='true'] .wrap,
+[data-debug='true'] .debug div::after {
+  outline: 4px dashed var(--accent);
+}
+
+img {
+  pointer-events: auto;
+  height: 100%;
+  width: 100%;
+  border-radius: 22.22222222%;
+  border-radius: calc((var(--radius) - var(--padding)) * 1%);
+  background: color-mix(in lch, canvas, canvasText 25%);
+}
+
+.blur,
+.debug,
+.debug div,
+.blur div {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: 2000;
+}
+
+.blur div::after,
+.debug div::after,
+.blur div::before {
+  content: '';
+  position: absolute;
+}
+
+div.tp-dfwv {
+  position: fixed;
+  z-index: 9999;
+  width: 300px;
+}
+
+/*
+* The rule:
+* 1. Blur starts at the strongest level (Use total - index)
+* 2. Stop starts at the lowest level (Use index)
+*/
+[data-use='pow'] :is(.debug, .blur) div {
+  --blur: calc(pow(var(--powb), (var(--layers) + 1) - var(--i)));
+  --stop: calc(pow(var(--pows), var(--i)));
+}
+
+[data-use='sin'] :is(.debug, .blur) div {
+  --blur: calc(
+    sin(((var(--layers) - var(--i)) / var(--layers)) * 90deg) * var(--sinb)
+  );
+  --stop: calc(sin(((var(--i)) / var(--layers)) * 90deg) * var(--sins));
+}
+
+[data-style='radial'] .blur div::before {
+  inset: 0;
+  backdrop-filter: blur(calc(var(--blur) * 1px));
+  /* background: hsl(0 0% 15% / 0.125); */
+  mask: radial-gradient(
+    calc(var(--radw) * 1%) calc(var(--radh) * 1%) at calc(var(--radx) * 1%)
+      calc(var(--rady) * 1%),
+    #000 calc(var(--gradstart) * 1%),
+    #0000 calc((var(--gradstart) + var(--stop)) * 1%)
+  );
+}
+
+/* [data-style='radial'] .blur div:last-of-type::before {
+  background: color-mix(in lch, canvas, #0000 40%);
+} */
+[data-style='radial'] .blur div::after,
+[data-style='radial'] .debug div::after {
+  height: calc(((var(--gradstart) + var(--stop)) / (100 / var(--radh))) * 1%);
+  width: calc(((var(--gradstart) + var(--stop)) / (100 / var(--radw))) * 1%);
+  border-radius: 50%;
+  left: calc(var(--radx) * 1%);
+  top: calc(var(--rady) * 1%);
+  translate: -50% -50%;
+}
+
+[data-style='linear'] .container {
+  overflow: visible;
+  mask: linear-gradient(#000, #000);
+  /* mask: linear-gradient(90deg, #0000, #000 1rem calc(100% - 1rem), #0000),
+    linear-gradient(0deg, #0000, #000 1rem calc(100% - 1rem), #0000);
+  mask-composite: intersect; */
+}
+
+[data-style='linear'] .debug div::after,
+[data-style='linear'] .blur div::after {
+  rotate: calc(var(--rotate) * 1deg);
+  transform-origin: 50% calc(var(--size) * 0.5);
+  height: calc(var(--stop) * 1%);
+  width: 100%;
+}
+[data-style='linear'] .blur div::before {
+  inset: 0;
+  backdrop-filter: blur(calc(var(--blur) * 1px));
+  mask: linear-gradient(
+    calc(var(--rotate) * 1deg),
+    #0000 0 calc((100 - var(--stop)) * 1%),
+    #000 calc((100 - var(--gradstart)) * 1%)
+  );
+}
+[data-image='true'] .blur div {
+  z-index: calc(var(--layers) - var(--i));
+}
+[data-image='true'] .blur div::before {
+  filter: blur(calc(var(--blur) * 1px));
+  backdrop-filter: unset;
+  background: var(--img);
+  background-size: var(--size) var(--size);
+}

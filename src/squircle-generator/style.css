@@ -14,9 +14,89 @@ body {
     Helvetica, Arial, sans-serif, system-ui;
 }
 
+:root {
+  --squircle-size: clamp(100px, 15vmin, 300px);
+}
+
 .squircle {
-  width: 25vmin;
+  background: linear-gradient(#0000, hsl(0 0% 0% / 0.25)),
+    linear-gradient(hsl(0 0% 100% / 0.25), #0000), hsl(268 68% 56%);
+  width: var(--squircle-size);
   aspect-ratio: 1;
-  background: red;
   clip-path: var(--squircle-clip);
+  display: grid;
+  place-items: center;
+}
+
+.squircle svg {
+  width: 65%;
+  color: canvas;
+}
+
+.squircle-wrap {
+  border-radius: 45%;
+  box-shadow: 0 15px 20px -10px hsl(0 0% 0% / 0.8);
+}
+
+[data-compare='true'] {
+  --compare: 1;
+}
+
+.radius {
+  width: var(--squircle-size);
+  aspect-ratio: 1;
+  opacity: var(--compare, 0);
+  transition: opacity 0.2s;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  outline: 4px dashed black;
+  border-radius: 22.22222%;
+}
+
+div.tp-dfwv {
+  width: 280px;
+}
+
+body::before {
+  --squircle-size: 45px;
+  --line: color-mix(in lch, canvasText, transparent 70%);
+  content: '';
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  background: linear-gradient(
+        90deg,
+        var(--line) 1px,
+        transparent 1px var(--squircle-size)
+      )
+      50% 50% / var(--squircle-size) var(--squircle-size),
+    linear-gradient(var(--line) 1px, transparent 1px var(--squircle-size)) 50%
+      50% / var(--squircle-size) var(--squircle-size);
+  mask: linear-gradient(-20deg, transparent 50%, white);
+  top: 0;
+  transform-style: flat;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.bear-link {
+  color: canvasText;
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  width: 48px;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  opacity: 0.8;
+}
+
+:where(.x-link, .bear-link):is(:hover, :focus-visible) {
+  opacity: 1;
+}
+
+.bear-link svg {
+  width: 75%;
 }
