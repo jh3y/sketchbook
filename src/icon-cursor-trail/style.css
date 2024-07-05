@@ -6,12 +6,42 @@
   box-sizing: border-box;
 }
 
+html {
+  color-scheme: dark only;
+}
+
 body {
   display: grid;
   place-items: center;
   min-height: 100vh;
   font-family: 'SF Pro Text', 'SF Pro Icons', 'AOS Icons', 'Helvetica Neue',
     Helvetica, Arial, sans-serif, system-ui;
+}
+
+h1 {
+  font-size: clamp(2rem, 4vw + 1rem, 8rem);
+}
+
+h1::selection {
+  background: hsl(265 90% 70%);
+}
+
+canvas {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
 }
 
 body::before {
@@ -54,17 +84,4 @@ body::before {
 
 .bear-link svg {
   width: 75%;
-}
-
-/* Utilities */
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border-width: 0;
 }
