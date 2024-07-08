@@ -23,7 +23,7 @@ h1 {
 }
 
 h1::selection {
-  background: hsl(265 90% 70%);
+  background: hsl(40 90% 60%);
 }
 
 canvas {
@@ -84,4 +84,8 @@ body::before {
 
 .bear-link svg {
   width: 75%;
+}
+
+div.tp-dfwv {
+  width: 280px;
 }
