@@ -1,0 +1,244 @@
+@import 'normalize.css';
+
+*,
+*:after,
+*:before {
+  box-sizing: border-box;
+}
+
+html {
+  color-scheme: dark only;
+}
+
+body {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  font-family: 'SF Pro Text', 'SF Pro Icons', 'AOS Icons', 'Helvetica Neue',
+    Helvetica, Arial, sans-serif, system-ui;
+}
+
+body::before {
+  --size: 45px;
+  --line: color-mix(in lch, canvasText, transparent 70%);
+  content: '';
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  background: linear-gradient(
+        90deg,
+        var(--line) 1px,
+        transparent 1px var(--size)
+      )
+      50% 50% / var(--size) var(--size),
+    linear-gradient(var(--line) 1px, transparent 1px var(--size)) 50% 50% /
+      var(--size) var(--size);
+  mask: linear-gradient(-20deg, transparent 50%, white);
+  top: 0;
+  transform-style: flat;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.bear-link {
+  color: canvasText;
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  width: 48px;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  opacity: 0.8;
+}
+
+:where(.x-link, .bear-link):is(:hover, :focus-visible) {
+  opacity: 1;
+}
+
+.bear-link svg {
+  width: 75%;
+}
+
+/* Utilities */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+img {
+  width: clamp(300px, 35vmin + 1rem, 600px);
+  aspect-ratio: 1;
+  border-radius: 6px;
+}
+
+.controls {
+  display: grid;
+  gap: 0.5rem;
+}
+
+@property --blur {
+  inherits: true;
+  syntax: '<number>';
+  initial-value: 0;
+}
+@property --brightness {
+  inherits: true;
+  syntax: '<number>';
+  initial-value: 0;
+}
+@property --hue {
+  inherits: true;
+  syntax: '<number>';
+  initial-value: 0;
+}
+@property --contrast {
+  inherits: true;
+  syntax: '<number>';
+  initial-value: 0;
+}
+@property --track-progress {
+  inherits: true;
+  syntax: '<number>';
+  initial-value: 0;
+}
+
+#blur::-webkit-slider-thumb {
+  view-timeline: --blur-thumb inline;
+}
+#brightness::-webkit-slider-thumb {
+  view-timeline: --brightness-thumb inline;
+}
+#hue::-webkit-slider-thumb {
+  view-timeline: --hue-thumb inline;
+}
+#contrast::-webkit-slider-thumb {
+  view-timeline: --contrast-thumb inline;
+}
+
+#blur,
+#contrast,
+#hue,
+#brightness {
+  overflow: hidden;
+}
+
+article {
+  timeline-scope: --blur-thumb, --brightness-thumb, --hue-thumb,
+    --contrast-thumb;
+}
+.img-wrap {
+  overflow: hidden;
+}
+article img {
+  animation: blur, brightness, hue, contrast;
+  animation-fill-mode: both;
+  animation-timing-function: linear;
+  animation-direction: reverse;
+  animation-timeline: --blur-thumb, --brightness-thumb, --hue-thumb,
+    --contrast-thumb;
+  animation-range: contain;
+
+  /* Saturation, Contrast, Vignette, Sepia, Grayscale, Invert, Rotate and scale, Sepia? */
+  filter: blur(calc((var(--blur, 0) / 100) * 10px))
+    contrast(calc(0 + ((var(--contrast) * 0.02))))
+    brightness(calc(0 + ((var(--brightness) * 0.02))))
+    hue-rotate(calc((359 * (var(--hue) / 100)) * 1deg));
+}
+
+.slider {
+  animation: track;
+  animation-fill-mode: both;
+  animation-timing-function: linear;
+  animation-direction: reverse;
+  animation-range: contain;
+}
+
+.track {
+  width: 200%;
+  height: 48px;
+  /* background: blue; */
+  position: relative;
+  translate: calc((var(--base, 25) + var(--track-progress)) * 1%) 0;
+}
+
+:root {
+  --indi-width: 2px;
+}
+
+.track-wrap {
+  background: black;
+  width: 100%;
+  overflow: hidden;
+  mask: linear-gradient(90deg, #0000, #000 15% 85%, #0000);
+}
+
+.singles {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+      90deg,
+      transparent 0 calc(50% - (var(--indi-width) * 0.5)),
+      red calc(50% - (var(--indi-width) * 0.5))
+        calc(50% + (var(--indi-width) * 0.5)),
+      transparent calc(50% + (var(--indi-width) * 0.5))
+    )
+    50% 50% / 5% 40% repeat-x;
+}
+
+.singles::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-inline: var(--indi-width) solid red;
+}
+
+.slider--blur {
+  animation-timeline: --blur-thumb;
+}
+.slider--brightness {
+  animation-timeline: --brightness-thumb;
+}
+.slider--hue {
+  animation-timeline: --hue-thumb;
+}
+.slider--contrast {
+  animation-timeline: --contrast-thumb;
+}
+
+@keyframes track {
+  to {
+    --track-progress: -100;
+  }
+}
+
+@keyframes blur {
+  to {
+    --blur: 100;
+  }
+}
+
+@keyframes hue {
+  to {
+    --hue: 100;
+  }
+}
+
+@keyframes brightness {
+  to {
+    --brightness: 100;
+  }
+}
+
+@keyframes contrast {
+  to {
+    --contrast: 100;
+  }
+}
