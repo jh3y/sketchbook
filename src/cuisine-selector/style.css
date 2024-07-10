@@ -1,0 +1,247 @@
+@import 'normalize.css';
+
+@layer demo {
+  ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 1ch;
+    flex-wrap: wrap;
+    transition: all var(--transition);
+  }
+
+  :root {
+    --selected: hsl(20, 97%, 62%);
+    --transition: 0.875s;
+    --bg: light-dark(white, black);
+    --intentful: light-dark(color-mix(in lch, canvas, canvasText 15%), black);
+    --ease: linear(
+      0 0%,
+      0.6832 7.89%,
+      0.9171 11.07%,
+      1.0251 12.99%,
+      1.1058 14.9%,
+      1.1619 16.86%,
+      1.1945 18.91%,
+      1.2024 20.02%,
+      1.2043 21.18%,
+      1.1907 23.72%,
+      1.1598 26.27%,
+      1.0604 32.59%,
+      1.0172 35.84%,
+      0.9839 39.49%,
+      0.967 43.26%,
+      0.9639 45.77%,
+      0.9661 48.59%,
+      0.9963 60.54%,
+      1.0054 67.42%,
+      1 100%
+    );
+  }
+
+  label {
+    --active: 0;
+    --intent: 0;
+    --accent: color-mix(in lch, canvasText, canvas 25%);
+    --backdrop: light-dark(white, black);
+    padding: 1ch 2ch;
+    background: color-mix(in lch, canvas, canvasText calc(var(--intent) * 10%));
+    color: var(--accent);
+    border-radius: 100px;
+    border: 1px solid color-mix(in lch, var(--accent), #0000 50%);
+    display: grid;
+    grid-template-columns: auto calc(var(--active) * 20px);
+    cursor: pointer;
+    align-items: center;
+    line-height: 1.25;
+    transition: color, grid-template-columns;
+    transition-duration: calc(var(--transition) * 0.5), var(--transition);
+    transition-timing-function: var(--ease);
+    position: relative;
+    outline: 0px solid color-mix(in lch, canvas, canvasText 85%);
+    outline-offset: 2px;
+  }
+
+  label::after {
+    content: '';
+    opacity: var(--active, 0);
+    position: absolute;
+    inset: -1px;
+    border: 1px solid var(--selected);
+    background: color-mix(in lch, var(--selected), #0000 80%);
+    border-radius: 100px;
+    z-index: 2;
+    pointer-events: none;
+    transition: opacity var(--transition) var(--ease);
+  }
+
+  label span::selection {
+    background: transparent;
+  }
+
+  label:has(:focus-visible),
+  label:hover {
+    &:not(:has(:checked)) {
+      --intent: 1;
+    }
+  }
+
+  label:has(:focus-visible) {
+    outline-width: 2px;
+  }
+
+  label:has(:checked) {
+    --active: 1;
+    color: var(--selected);
+  }
+
+  label span {
+    position: relative;
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
+
+  label svg {
+    opacity: var(--active, 0);
+    justify-self: flex-end;
+    position: absolute;
+    width: 100%;
+    left: 0.75ch;
+    transition-property: opacity;
+    transition-duration: var(--transition);
+    transition-timing-function: var(--ease);
+  }
+
+  form {
+    position: relative;
+  }
+
+  [type='reset'] {
+    --intent: 0;
+    position: absolute;
+    top: calc(100% + 1rem);
+    left: 50%;
+    translate: -50% 0;
+    padding: 0.75rem 1.5rem;
+    border-radius: 100px;
+    align-self: center;
+    background: color-mix(
+      in lch,
+      #0000,
+      var(--intentful) calc(var(--intent) * 25%)
+    );
+    border: 0;
+    cursor: pointer;
+    font-size: 12px;
+    color: color-mix(
+      in lch,
+      #0000,
+      canvasText calc((25 + (var(--intent) * 50)) * 1%)
+    );
+
+    transition-property: color, background;
+    transition-duration: 0.2s;
+
+    &:hover {
+      --intent: 1;
+    }
+  }
+}
+
+*,
+*:after,
+*:before {
+  box-sizing: border-box;
+}
+
+html {
+  color-scheme: light dark;
+}
+
+[data-theme='light'] {
+  color-scheme: light only;
+}
+
+[data-theme='dark'] {
+  color-scheme: dark only;
+}
+
+body {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  font-family: 'SF Pro Text', 'SF Pro Icons', 'AOS Icons', 'Helvetica Neue',
+    Helvetica, Arial, sans-serif, system-ui;
+}
+
+body::before {
+  --size: 45px;
+  --line: color-mix(in lch, canvasText, transparent 70%);
+  content: '';
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  background: linear-gradient(
+        90deg,
+        var(--line) 1px,
+        transparent 1px var(--size)
+      )
+      50% 50% / var(--size) var(--size),
+    linear-gradient(var(--line) 1px, transparent 1px var(--size)) 50% 50% /
+      var(--size) var(--size);
+  mask: linear-gradient(-20deg, transparent 50%, white);
+  top: 0;
+  transform-style: flat;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.bear-link {
+  color: canvasText;
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  width: 48px;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  opacity: 0.8;
+}
+
+:where(.x-link, .bear-link):is(:hover, :focus-visible) {
+  opacity: 1;
+}
+
+.bear-link svg {
+  width: 75%;
+}
+
+/* Utilities */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  width: 62ch;
+  max-width: calc(100vw - 2rem);
+}
+
+legend {
+  font-weight: 600;
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+  padding-inline: 0.5ch;
+}
