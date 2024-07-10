@@ -3,20 +3,20 @@ import { gsap } from 'https://cdn.skypack.dev/gsap'
 
 const config = {
   roundness: 4,
-  // aspect: 2,
+  aspect: 1,
   compare: false,
+  radius: 96,
+  steps: 50,
 }
 
 let clipPath
 
-const RAD = 96
 const generateSquircle = () => {
   console.clear()
   const points = []
-  const steps = 100
 
-  for (let i = 0; i < steps; i++) {
-    const t = (i / steps) * 2 * Math.PI
+  for (let i = 0; i < config.steps; i++) {
+    const t = (i / config.steps) * 2 * Math.PI
     const cosT = Math.cos(t)
     const sinT = Math.sin(t)
     let x
@@ -44,40 +44,38 @@ const generateSquircle = () => {
     // 50 - 100 maps to 48px - 0px which is then subtracted from 100%
     // on the y axis we invert this and map from 0px - 48px;
     if (x >= 50 && y <= 50) {
-      const newX = gsap.utils.mapRange(50, 100, RAD, 0)(x).toFixed(2)
-      const newY = gsap.utils.mapRange(0, 50, 0, RAD)(y).toFixed(2)
+      const newX = gsap.utils.mapRange(50, 100, config.radius, 0)(x).toFixed(2)
+      const newY = gsap.utils.mapRange(0, 50, 0, config.radius)(y).toFixed(2)
 
       x = `calc(100% - ${newX}px)`
       y = `${newY}px`
 
       points.push(`${x} ${y}`)
     } else if (x >= 50 && y > 50) {
-      const newX = gsap.utils.mapRange(100, 50, 0, RAD)(x).toFixed(2)
-      const newY = gsap.utils.mapRange(50, 100, RAD, 0)(y).toFixed(2)
+      const newX = gsap.utils.mapRange(100, 50, 0, config.radius)(x).toFixed(2)
+      const newY = gsap.utils.mapRange(50, 100, config.radius, 0)(y).toFixed(2)
 
       x = `calc(100% - ${newX}px)`
       y = `calc(100% - ${newY}px)`
 
       points.push(`${x} ${y}`)
     } else if (x <= 50 && y >= 50) {
-      const newX = gsap.utils.mapRange(0, 50, 0, RAD)(x).toFixed(2)
-      const newY = gsap.utils.mapRange(100, 50, 0, RAD)(y).toFixed(2)
+      const newX = gsap.utils.mapRange(0, 50, 0, config.radius)(x).toFixed(2)
+      const newY = gsap.utils.mapRange(100, 50, 0, config.radius)(y).toFixed(2)
 
       x = `${newX}px`
       y = `calc(100% - ${newY}px)`
 
       points.push(`${x} ${y}`)
     } else if (x <= 50 && y <= 50) {
-      console.info('top left')
-      const newX = gsap.utils.mapRange(0, 50, 0, RAD)(x).toFixed(2)
-      const newY = gsap.utils.mapRange(50, 0, RAD, 0)(y).toFixed(2)
+      const newX = gsap.utils.mapRange(0, 50, 0, config.radius)(x).toFixed(2)
+      const newY = gsap.utils.mapRange(50, 0, config.radius, 0)(y).toFixed(2)
 
       x = `${newX}px`
       y = `${newY}px`
 
       points.push(`${x} ${y}`)
     } else {
-      console.info({ x, y })
       points.push(`${x}% ${y}%`)
     }
     // if (x > 50 && y < 50) console.info('top right')
@@ -91,7 +89,7 @@ const generateSquircle = () => {
     // console.info({ pxx })
   }
 
-  clipPath = `polygon(${points.join(', ')})`
+  clipPath = `polygon(${points.join(',')})`
   document.documentElement.style.setProperty('--squircle-clip', clipPath)
 }
 
@@ -100,10 +98,9 @@ const ctrl = new Pane({
   expanded: true,
 })
 
-const container = document.querySelector('.container')
-
 const sync = () => {
   generateSquircle()
+  document.documentElement.style.setProperty('--aspect', config.aspect)
   document.documentElement.dataset.compare = config.compare
 }
 
@@ -112,6 +109,18 @@ ctrl.addBinding(config, 'roundness', {
   max: 20,
   step: 0.1,
   label: 'Roundness',
+})
+ctrl.addBinding(config, 'radius', {
+  min: 0,
+  max: 100,
+  step: 1,
+  label: 'Radius (px)',
+})
+ctrl.addBinding(config, 'aspect', {
+  min: 1,
+  max: 2,
+  step: 0.01,
+  label: 'Aspect Ratio (x)',
 })
 ctrl.addBinding(config, 'compare', {
   label: 'Compare',
