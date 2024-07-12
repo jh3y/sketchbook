@@ -1,0 +1,203 @@
+@import 'normalize.css' layer(normalize);
+
+@layer normalize, base, otp;
+
+@layer otp {
+  .wrap {
+  }
+  .otp {
+    --padding: 1;
+    font-size: calc(var(--font) * 1px);
+    --radius: 12px;
+    position: relative;
+    font-family: monospace;
+    height: calc((1 + var(--padding)) * 1ch);
+    /* overflow: hidden; */
+  }
+
+  .otp:focus-within {
+    --active: 1;
+  }
+
+  .otp::after {
+    /* content: ''; */
+    position: absolute;
+    height: 100%;
+    left: 1ch;
+    right: 1ch;
+    z-index: 2;
+    border: 1px solid hsl(0 0% 100% / 0.25);
+    border-color: red;
+    border-radius: var(--radius);
+    pointer-events: none;
+  }
+
+  .otp {
+    outline: 10px solid blue;
+  }
+
+  /* .otp::after, */
+  .otp::before {
+    --padding: 1;
+    content: '0';
+    color: transparent;
+    width: calc((100% - 2ch) / 5);
+    width: calc((1 + var(--padding)) * 1ch);
+    height: calc((1 + var(--padding)) * 1ch);
+    translate: min(calc(var(--index) * 100%), 500%) 0;
+    outline: 4px solid hsl(0 0% 100% / 1);
+    position: absolute;
+    font-size: calc(var(--font) * 1px);
+    left: 0;
+    top: 0%;
+    z-index: 3;
+    font-family: monospace;
+    opacity: var(--active, 0);
+    opacity: 1;
+    pointer-events: none;
+    border-radius: calc(var(--rl) * var(--radius))
+      calc(var(--rr) * var(--radius)) calc(var(--rr) * var(--radius))
+      calc(var(--rl) * var(--radius));
+    border-radius: 0;
+  }
+
+  .otp::after {
+    left: calc((1 + var(--padding)) * 1ch);
+  }
+
+  .otp input {
+    letter-spacing: calc(var(--padding) * 1ch);
+    font-feature-settings: 'tnum';
+    font-variant: tabular-nums;
+    font-family: monospace;
+    text-transform: uppercase;
+    /* font-size: calc(var(--font, 32) * 1px); */
+    /* text-align: center; */
+    /* border: 0; */
+    /* outline: 10px solid hotpink; */
+    border: 0 !important;
+    padding: 0;
+    margin: 0;
+    line-height: 1;
+    height: calc((1 + var(--padding)) * 1ch);
+    text-indent: 0.5ch;
+    overflow: hidden;
+    text-align: left;
+    font-weight: 100;
+    /* clip-path: inset(0 1ch 0 0); */
+    clip-path: inset(0 2ch 0 0);
+    background: transparent;
+    /* height: 2ch; */
+    caret-color: red;
+    background: red;
+    width: auto;
+    position: absolute;
+    left: 0;
+    width: calc(7 * 2ch);
+
+    /* width: 100%; */
+    /* mask: linear-gradient(90deg, white 53.5%, transparent 54%) 1.45ch 50% / 2ch
+      80% repeat-x; */
+  }
+
+  input::selection {
+    background: black;
+    background-size: 1ch 100%;
+  }
+
+  .otp:has([maxlength='4']) {
+    width: calc(5 * 2ch);
+  }
+  .otp:has([maxlength='5']) {
+    width: calc(6 * 2ch);
+  }
+  .otp:has([maxlength='6']) {
+    width: calc((7 * 2ch) - 2ch);
+  }
+}
+
+@layer base {
+  h1 {
+    text-align: center;
+    margin: 0;
+  }
+  *,
+  *:after,
+  *:before {
+    box-sizing: border-box;
+  }
+
+  html {
+    color-scheme: dark only;
+  }
+
+  body {
+    display: grid;
+    place-items: center;
+    align-content: center;
+    overflow: hidden;
+    gap: 2rem;
+    min-height: 100vh;
+    font-family: 'SF Pro Text', 'SF Pro Icons', 'AOS Icons', 'Helvetica Neue',
+      Helvetica, Arial, sans-serif, system-ui;
+  }
+
+  body::before {
+    --size: 45px;
+    --line: color-mix(in lch, canvasText, transparent 70%);
+    content: '';
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    background: linear-gradient(
+          90deg,
+          var(--line) 1px,
+          transparent 1px var(--size)
+        )
+        50% 50% / var(--size) var(--size),
+      linear-gradient(var(--line) 1px, transparent 1px var(--size)) 50% 50% /
+        var(--size) var(--size);
+    mask: linear-gradient(-20deg, transparent 50%, white);
+    top: 0;
+    transform-style: flat;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .bear-link {
+    color: canvasText;
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    width: 48px;
+    aspect-ratio: 1;
+    display: grid;
+    place-items: center;
+    opacity: 0.8;
+  }
+
+  :where(.x-link, .bear-link):is(:hover, :focus-visible) {
+    opacity: 1;
+  }
+
+  .bear-link svg {
+    width: 75%;
+  }
+
+  /* Utilities */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+
+  div.tp-dfwv {
+    width: 300px !important;
+  }
+}
