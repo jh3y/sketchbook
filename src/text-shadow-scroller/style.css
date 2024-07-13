@@ -3,6 +3,36 @@
 @layer normalize, base, demo;
 
 @layer demo {
+  :root {
+    --ease: linear(
+      0 0%,
+      0.2178 2.1%,
+      1.1144 8.49%,
+      1.2959 10.7%,
+      1.3463 11.81%,
+      1.3705 12.94%,
+      1.3726 13.7%,
+      1.3643 14.48%,
+      1.3151 16.2%,
+      1.0317 21.81%,
+      0.941 24.01%,
+      0.8912 25.91%,
+      0.8694 27.84%,
+      0.8698 29.21%,
+      0.8824 30.71%,
+      1.0122 38.33%,
+      1.0357 40.52%,
+      1.046 42.71%,
+      1.0416 45.7%,
+      0.9961 53.26%,
+      0.9839 57.54%,
+      0.9853 60.71%,
+      1.0012 68.14%,
+      1.0056 72.24%,
+      0.9981 86.66%,
+      1 100%
+    );
+  }
   @property --scroll {
     initial-value: 0;
     inherits: true;
@@ -14,18 +44,34 @@
     syntax: '<number>';
   }
 
+  .scrub {
+    animation: scrub linear both;
+    animation-timeline: scroll(root);
+  }
+
+  @keyframes scrub {
+    100% {
+      --scroll: 100;
+      --scrub: 100;
+    }
+  }
+
   html {
     color-scheme: dark only;
   }
   h1 {
+    --velocity: calc(var(--scroll) - var(--scrub));
+    transition: --scrub 0.15s ease;
     font-weight: 900;
     font-size: clamp(2rem, 8vw + 1rem, 12rem);
-    text-shadow: 0 2px red, 0 4px green;
+    text-shadow: 0 calc(var(--velocity) * 0.1px) red,
+      0 calc(var(--velocity) * 0.2px) orange,
+      0 calc(var(--velocity) * 0.3px) yellow,
+      0 calc(var(--velocity) * 0.4px) green,
+      0 calc(var(--velocity) * 0.5px) blue,
+      0 calc(var(--velocity) * 0.6px) indigo,
+      0 calc(var(--velocity) * 0.7px) violet;
     margin: 1rem;
-  }
-  h1::after {
-    content: 'Cool';
-    translate: 0 calc(var(--v, 0) * 10%);
   }
   main {
     height: 100vh;
@@ -46,26 +92,34 @@
     background: hsl(0 0% 20%);
   }
   .velocity-bar {
-    --velocity: clamp(
-      0,
-      max(
-        calc(var(--scroll) - var(--scrub)),
-        calc(-1 * (var(--scroll) - var(--scrub)))
-      ),
-      25
-    );
-    transition: --scrub 0.15s ease;
-    height: 1rem;
-    width: 10rem;
     background: linear-gradient(
-      270deg,
-      hsl(140 80% 50%),
-      hsl(45 80% 50%),
-      hsl(10 80% 50%)
-    );
-    transform-origin: 0 50%;
-    --clip: calc((100 - (var(--velocity) * 4)) * 1%);
-    clip-path: inset(0 0 0 var(--clip));
+          90deg,
+          transparent calc(100% - 1px),
+          hsl(0 0% 100% / 0.5) calc(100% - 1px)
+        )
+        0.5px 50% / 25% 75% repeat-x,
+      linear-gradient(
+          90deg,
+          transparent calc(100% - 1px),
+          hsl(0 0% 100% / 0.25) calc(100% - 1px)
+        )
+        0.5px 50% / 5% 50% repeat-x;
+    --velocity: calc(var(--scroll) - var(--scrub));
+    height: 1rem;
+    transition: --scrub 0.15s ease;
+    width: 10rem;
+    position: relative;
+    container-type: inline-size;
+  }
+  .velocity-bar::after {
+    content: '';
+    background: red;
+    width: 2px;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: calc(50% - 1px);
+    translate: calc(var(--velocity) * 0.5cqi) 0;
   }
 
   .scrub--velocity::after {
