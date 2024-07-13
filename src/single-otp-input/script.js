@@ -26,12 +26,16 @@ update()
 
 const sync = () => {
   input.setAttribute('maxLength', config.length)
+  document.documentElement.style.setProperty('--width', config.width)
+  document.documentElement.style.setProperty('--height', config.height)
   document.documentElement.style.setProperty('--font', config.font)
 }
 
 const config = {
   length: 6,
   font: 150,
+  width: 2,
+  height: 2,
 }
 
 const ctrl = new Pane({
@@ -44,6 +48,18 @@ ctrl.addBinding(config, 'length', {
   max: 6,
   step: 1,
   label: 'Length',
+})
+ctrl.addBinding(config, 'width', {
+  min: 1,
+  max: 3,
+  step: 0.1,
+  label: 'Width (ch)',
+})
+ctrl.addBinding(config, 'height', {
+  min: 1,
+  max: 3,
+  step: 0.1,
+  label: 'Height (ch)',
 })
 ctrl.addBinding(config, 'font', {
   min: 14,

@@ -13,6 +13,7 @@
     font-family: monospace;
     height: calc((1 + var(--padding)) * 1ch);
     /* overflow: hidden; */
+    width: calc(var(--max) * 2ch);
   }
 
   .otp:focus-within {
@@ -41,11 +42,10 @@
     --padding: 1;
     content: '0';
     color: transparent;
-    width: calc((100% - 2ch) / 5);
     width: calc((1 + var(--padding)) * 1ch);
     height: calc((1 + var(--padding)) * 1ch);
-    translate: min(calc(var(--index) * 100%), 500%) 0;
-    outline: 4px solid hsl(0 0% 100% / 1);
+    translate: min(calc(var(--index) * 100%), calc((var(--max) - 1) * 100%)) 0;
+    border: 4px solid hsl(0 0% 100% / 1);
     position: absolute;
     font-size: calc(var(--font) * 1px);
     left: 0;
@@ -71,10 +71,6 @@
     font-variant: tabular-nums;
     font-family: monospace;
     text-transform: uppercase;
-    /* font-size: calc(var(--font, 32) * 1px); */
-    /* text-align: center; */
-    /* border: 0; */
-    /* outline: 10px solid hotpink; */
     border: 0 !important;
     padding: 0;
     margin: 0;
@@ -84,16 +80,15 @@
     overflow: hidden;
     text-align: left;
     font-weight: 100;
-    /* clip-path: inset(0 1ch 0 0); */
     clip-path: inset(0 2ch 0 0);
     background: transparent;
-    /* height: 2ch; */
     caret-color: red;
-    background: red;
     width: auto;
     position: absolute;
     left: 0;
-    width: calc(7 * 2ch);
+    width: calc((var(--max) + 1) * 2ch);
+
+    background: linear-gradient(90deg, red, green) 0 0 / 2ch 100%;
 
     /* width: 100%; */
     /* mask: linear-gradient(90deg, white 53.5%, transparent 54%) 1.45ch 50% / 2ch
@@ -106,13 +101,13 @@
   }
 
   .otp:has([maxlength='4']) {
-    width: calc(5 * 2ch);
+    --max: 4;
   }
   .otp:has([maxlength='5']) {
-    width: calc(6 * 2ch);
+    --max: 5;
   }
   .otp:has([maxlength='6']) {
-    width: calc((7 * 2ch) - 2ch);
+    --max: 6;
   }
 }
 
