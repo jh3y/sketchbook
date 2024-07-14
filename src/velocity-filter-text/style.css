@@ -1,0 +1,342 @@
+@import 'normalize.css' layer(normalize);
+
+@layer normalize, base, demo;
+
+@layer demo {
+  html {
+    color-scheme: dark only;
+  }
+
+  @property --timeline {
+    initial-value: 0;
+    inherits: true;
+    syntax: '<number>';
+  }
+
+  :root {
+    animation: timeline 30s linear infinite;
+  }
+
+  @keyframes timeline {
+    50% {
+      --timeline: 100;
+    }
+  }
+
+  @property --scroll {
+    initial-value: 0;
+    inherits: true;
+    syntax: '<number>';
+  }
+  @property --scrub {
+    initial-value: 0;
+    inherits: true;
+    syntax: '<number>';
+  }
+
+  .scrub {
+    animation: scrub linear both;
+    animation-timeline: scroll(root);
+  }
+
+  @keyframes scrub {
+    100% {
+      --scroll: 100;
+      --scrub: 100;
+    }
+  }
+
+  main {
+    height: 100vh;
+    display: grid;
+    place-items: center;
+    align-content: end;
+  }
+  body {
+    min-height: 200vh;
+    align-content: start;
+  }
+
+  h1 {
+    --velocity: calc(var(--scroll) - var(--scrub));
+    transition: --scrub 0.15s ease;
+    --variance: 500;
+    --level: 50;
+    --spread: 45deg;
+    --total: 10;
+    --s1: rgb(
+      from rgb(50% 50% 0)
+        calc(
+          r +
+            (
+              sin(1 / var(--total) * var(--timeline) * var(--spread)) *
+                (var(--velocity) / 100) * var(--variance)
+            )
+        )
+        calc(
+          g +
+            (
+              sin(1 / var(--total) * var(--timeline) * var(--spread)) *
+                (var(--velocity) / 100) * var(--variance)
+            )
+        )
+        b
+    );
+    --s2: rgb(
+      from rgb(50% 50% 0)
+        calc(
+          r +
+            (
+              sin(2 / var(--total) * var(--timeline) * var(--spread)) *
+                (var(--velocity) / 100) * var(--variance)
+            )
+        )
+        calc(
+          g +
+            (
+              sin(2 / var(--total) * var(--timeline) * var(--spread)) *
+                (var(--velocity) / 100) * var(--variance)
+            )
+        )
+        b
+    );
+    --s3: rgb(
+      from rgb(50% 50% 0)
+        calc(
+          r +
+            (
+              sin(3 / var(--total) * var(--timeline) * var(--spread)) *
+                (var(--velocity) / 100) * var(--variance)
+            )
+        )
+        calc(
+          g +
+            (
+              sin(3 / var(--total) * var(--timeline) * var(--spread)) *
+                (var(--velocity) / 100) * var(--variance)
+            )
+        )
+        b
+    );
+    --s4: rgb(
+      from rgb(50% 50% 0)
+        calc(
+          r +
+            (
+              sin(4 / var(--total) * var(--timeline) * var(--spread)) *
+                (var(--velocity) / 100) * var(--variance)
+            )
+        )
+        calc(
+          g +
+            (
+              sin(4 / var(--total) * var(--timeline) * var(--spread)) *
+                (var(--velocity) / 100) * var(--variance)
+            )
+        )
+        b
+    );
+    --s5: rgb(
+      from rgb(50% 50% 0)
+        calc(
+          r +
+            (
+              sin(5 / var(--total) * var(--timeline) * var(--spread)) *
+                (var(--velocity) / 100) * var(--variance)
+            )
+        )
+        calc(
+          g +
+            (
+              sin(5 / var(--total) * var(--timeline) * var(--spread)) *
+                (var(--velocity) / 100) * var(--variance)
+            )
+        )
+        b
+    );
+    --s6: rgb(
+      from rgb(50% 50% 0)
+        calc(
+          r +
+            (
+              sin(6 / var(--total) * var(--timeline) * var(--spread)) *
+                (var(--velocity) / 100) * var(--variance)
+            )
+        )
+        calc(
+          g +
+            (
+              sin(6 / var(--total) * var(--timeline) * var(--spread)) *
+                (var(--velocity) / 100) * var(--variance)
+            )
+        )
+        b
+    );
+    --s7: rgb(
+      from rgb(50% 50% 0)
+        calc(
+          r +
+            (
+              sin(7 / var(--total) * var(--timeline) * var(--spread)) *
+                (var(--velocity) / 100) * var(--variance)
+            )
+        )
+        calc(
+          g +
+            (
+              sin(7 / var(--total) * var(--timeline) * var(--spread)) *
+                (var(--velocity) / 100) * var(--variance)
+            )
+        )
+        b
+    );
+    --s8: rgb(
+      from rgb(50% 50% 0)
+        calc(
+          r +
+            (
+              sin(8 / var(--total) * var(--timeline) * var(--spread)) *
+                (var(--velocity) / 100) * var(--variance)
+            )
+        )
+        calc(
+          g +
+            (
+              sin(8 / var(--total) * var(--timeline) * var(--spread)) *
+                (var(--velocity) / 100) * var(--variance)
+            )
+        )
+        b
+    );
+    --s9: rgb(
+      from rgb(50% 50% 0)
+        calc(
+          r +
+            (
+              sin(9 / var(--total) * var(--timeline) * var(--spread)) *
+                (var(--velocity) / 100) * var(--variance)
+            )
+        )
+        calc(
+          g +
+            (
+              sin(9 / var(--total) * var(--timeline) * var(--spread)) *
+                (var(--velocity) / 100) * var(--variance)
+            )
+        )
+        b
+    );
+    --s10: rgb(
+      from rgb(50% 50% 0)
+        calc(
+          r +
+            (
+              sin(10 / var(--total) * var(--timeline) * var(--spread)) *
+                (var(--velocity) / 100) * var(--variance)
+            )
+        )
+        calc(
+          g +
+            (
+              sin(10 / var(--total) * var(--timeline) * var(--spread)) *
+                (var(--velocity) / 100) * var(--variance)
+            )
+        )
+        b
+    );
+
+    background: linear-gradient(var(--s1), var(--s1)) 0 50% / 12.5% 100%
+        no-repeat,
+      linear-gradient(var(--s2), var(--s2)) 12.5% 50% / 12.5% 100% no-repeat,
+      linear-gradient(var(--s3), var(--s3)) 25% 50% / 12.5% 100% no-repeat,
+      linear-gradient(var(--s4), var(--s4)) 37.5% 50% / 12.5% 100% no-repeat,
+      linear-gradient(var(--s5), var(--s5)) 50% 50% / 12.5% 100% no-repeat,
+      linear-gradient(var(--s6), var(--s6)) 62.5% 50% / 12.5% 100% no-repeat,
+      linear-gradient(var(--s7), var(--s7)) 75% 50% / 12.5% 100% no-repeat,
+      linear-gradient(var(--s8), var(--s8)) 87.5% 50% / 12.5% 100% no-repeat,
+      linear-gradient(var(--s9), var(--s9)) 100% 50% / 12.5% 100% no-repeat,
+      linear-gradient(var(--s10), var(--s10)) 0 50% / 12.5% 100% no-repeat,
+      linear-gradient(rgb(0 0 100%), rgb(0 0 100%)) text;
+    font-weight: 900;
+    font-size: clamp(2rem, 8vw + 1rem, 12rem);
+    clip-path: inset(20% 0 20% 0);
+    color: transparent;
+    filter: url(#offset) contrast(10);
+    background-blend-mode: lighten;
+    font-size: clamp(2rem, 6vw + 1rem, 16rem);
+    height: 10ch;
+    line-height: 10ch;
+  }
+}
+
+@layer base {
+  *,
+  *:after,
+  *:before {
+    box-sizing: border-box;
+  }
+
+  body {
+    background: black;
+    display: grid;
+    place-items: center;
+    min-height: 100vh;
+    font-family: 'SF Pro Text', 'SF Pro Icons', 'AOS Icons', 'Helvetica Neue',
+      Helvetica, Arial, sans-serif, system-ui;
+  }
+
+  body::before {
+    --size: 45px;
+    --line: color-mix(in lch, canvasText, transparent 70%);
+    content: '';
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    background: linear-gradient(
+          90deg,
+          var(--line) 1px,
+          transparent 1px var(--size)
+        )
+        50% 50% / var(--size) var(--size),
+      linear-gradient(var(--line) 1px, transparent 1px var(--size)) 50% 50% /
+        var(--size) var(--size);
+    mask: linear-gradient(-20deg, transparent 50%, white);
+    top: 0;
+    transform-style: flat;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .bear-link {
+    color: canvasText;
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    width: 48px;
+    aspect-ratio: 1;
+    display: grid;
+    place-items: center;
+    opacity: 0.8;
+  }
+
+  :where(.x-link, .bear-link):is(:hover, :focus-visible) {
+    opacity: 1;
+  }
+
+  .bear-link svg {
+    width: 75%;
+  }
+
+  /* Utilities */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+}
