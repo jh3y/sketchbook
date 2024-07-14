@@ -1,0 +1,205 @@
+@import 'normalize.css';
+
+*,
+*:after,
+*:before {
+  box-sizing: border-box;
+}
+
+body {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  font-family: 'SF Pro Text', 'SF Pro Icons', 'AOS Icons', 'Helvetica Neue',
+    Helvetica, Arial, sans-serif, system-ui;
+}
+
+body::before {
+  --size: 45px;
+  --line: color-mix(in lch, canvasText, transparent 70%);
+  content: '';
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  background: linear-gradient(
+        90deg,
+        var(--line) 1px,
+        transparent 1px var(--size)
+      )
+      50% 50% / var(--size) var(--size),
+    linear-gradient(var(--line) 1px, transparent 1px var(--size)) 50% 50% /
+      var(--size) var(--size);
+  mask: linear-gradient(-20deg, transparent 50%, white);
+  top: 0;
+  transform-style: flat;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.bear-link {
+  color: canvasText;
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  width: 48px;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  opacity: 0.8;
+}
+
+:where(.x-link, .bear-link):is(:hover, :focus-visible) {
+  opacity: 1;
+}
+
+.bear-link svg {
+  width: 75%;
+}
+
+/* Utilities */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+@property --scroll {
+  initial-value: 0;
+  inherits: true;
+  syntax: '<number>';
+}
+
+@property --scrub {
+  initial-value: 0;
+  inherits: true;
+  syntax: '<number>';
+}
+
+:root {
+  animation: scrub linear both;
+  animation-timeline: scroll(root);
+}
+
+@keyframes scrub {
+  100% {
+    --scroll: 100;
+    --scrub: 100;
+  }
+}
+
+@property --timeline {
+  initial-value: 0;
+  syntax: '<number>';
+  inherits: true;
+}
+
+main {
+  height: 100vh;
+  display: grid;
+  place-items: center;
+  animation: timeline 2s both linear infinite;
+}
+
+@keyframes timeline {
+  100% {
+    --timeline: 100;
+  }
+}
+
+body {
+  height: 400vh;
+}
+
+.columns {
+  --velocity: calc(var(--scroll) - var(--scrub));
+  transition: --scrub 0.15s ease;
+  width: 50vmin;
+  aspect-ratio: 4 / 3;
+  display: flex;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  /* background: url(https://assets.codepen.io/605876/skateboarder.jpeg) 50% 50% / cover; */
+}
+
+.column {
+  --total: 20;
+  --distance: 50%;
+  --level: calc(var(--velocity) / 100);
+  flex: 1;
+  /* translate based on sin and timeline */
+  translate: 0
+    calc(
+      sin(((var(--index) + (var(--timeline) / 100 * 8)) / 8 * 360deg)) *
+        (var(--level) * var(--distance))
+    );
+  position: absolute;
+  inset: 0;
+  background: url(https://assets.codepen.io/605876/skateboarder.jpeg) 50% 50% /
+    cover;
+  mix-blend-mode: luminosity;
+  clip-path: inset(
+    0 calc((var(--total) - var(--index) - 1) * (100% / var(--total)) - 1px) 0
+      calc(var(--index) * (100% / var(--total)))
+  );
+}
+
+.scrub--velocity {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  animation-timeline: scroll();
+  background: hsl(0 0% 20%);
+}
+
+.velocity-bar {
+  background: linear-gradient(
+        90deg,
+        transparent calc(100% - 1px),
+        hsl(0 0% 100% / 0.5) calc(100% - 1px)
+      )
+      0.5px 50% / 25% 75% repeat-x,
+    linear-gradient(
+        90deg,
+        transparent calc(100% - 1px),
+        hsl(0 0% 100% / 0.25) calc(100% - 1px)
+      )
+      0.5px 50% / 5% 50% repeat-x;
+  --velocity: calc(var(--scroll) - var(--scrub));
+  height: 1rem;
+  transition: --scrub 0.15s ease;
+  width: 10rem;
+  position: relative;
+  container-type: inline-size;
+}
+
+.velocity-bar::after {
+  content: '';
+  background: red;
+  width: 2px;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: calc(50% - 1px);
+  translate: calc(var(--velocity) * 0.5cqi) 0;
+}
+
+html {
+  color-scheme: dark only;
+}
+
+.scrub--velocity::after {
+  content: 'velocity';
+  top: 120%;
+  right: 0;
+  position: absolute;
+  color: hsl(0 0% 98%);
+  font-weight: 300;
+}
