@@ -1,0 +1,138 @@
+@import 'normalize.css' layer(normalize);
+
+@layer normalize, base, demo;
+
+@layer demo {
+  :root {
+    --elastic: linear(
+      0 0%,
+      0.5007 7.21%,
+      0.7803 12.29%,
+      0.8883 14.93%,
+      0.9724 17.63%,
+      1.0343 20.44%,
+      1.0754 23.44%,
+      1.0898 25.22%,
+      1.0984 27.11%,
+      1.1014 29.15%,
+      1.0989 31.4%,
+      1.0854 35.23%,
+      1.0196 48.86%,
+      1.0043 54.06%,
+      0.9956 59.6%,
+      0.9925 68.11%,
+      1 100%
+    );
+  }
+  .dots {
+    --gap: 0.5rem;
+    display: flex;
+    gap: calc(3 * var(--gap));
+    padding: var(--gap);
+    position: relative;
+    border-radius: 200px;
+  }
+
+  .dots::after {
+    border-radius: 200px;
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: hsl(139, 72%, 43%);
+    /* Padding + Steps + Padding */
+    width: calc(
+      (var(--gap)) + (var(--step) * var(--gap)) +
+        ((var(--step) - 1) * (var(--gap) * 3)) + (var(--gap))
+    );
+    transition: width 0.5s var(--elastic);
+    z-index: -1;
+  }
+
+  .dot {
+    width: var(--gap);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: white;
+  }
+
+  :root:has(a:nth-of-type(1):target) {
+    --step: 1;
+  }
+  :root:has(a:nth-of-type(2):target) {
+    --step: 2;
+  }
+  :root:has(a:nth-of-type(3):target) {
+    --step: 3;
+  }
+}
+
+@layer base {
+  *,
+  *:after,
+  *:before {
+    box-sizing: border-box;
+  }
+
+  body {
+    display: grid;
+    place-items: center;
+    min-height: 100vh;
+    font-family: 'SF Pro Text', 'SF Pro Icons', 'AOS Icons', 'Helvetica Neue',
+      Helvetica, Arial, sans-serif, system-ui;
+  }
+
+  body::before {
+    --size: 45px;
+    --line: color-mix(in lch, canvasText, transparent 70%);
+    content: '';
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    background: linear-gradient(
+          90deg,
+          var(--line) 1px,
+          transparent 1px var(--size)
+        )
+        50% 50% / var(--size) var(--size),
+      linear-gradient(var(--line) 1px, transparent 1px var(--size)) 50% 50% /
+        var(--size) var(--size);
+    mask: linear-gradient(-20deg, transparent 50%, white);
+    top: 0;
+    transform-style: flat;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .bear-link {
+    color: canvasText;
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    width: 48px;
+    aspect-ratio: 1;
+    display: grid;
+    place-items: center;
+    opacity: 0.8;
+  }
+
+  :where(.x-link, .bear-link):is(:hover, :focus-visible) {
+    opacity: 1;
+  }
+
+  .bear-link svg {
+    width: 75%;
+  }
+
+  /* Utilities */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+}

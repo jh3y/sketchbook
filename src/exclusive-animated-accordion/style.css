@@ -1,0 +1,196 @@
+@import 'normalize.css' layer(normalize);
+
+@layer normalize, base, demo;
+
+@layer demo {
+  summary {
+    width: 100%;
+    padding-block: 1rem;
+    border-bottom: 1px solid canvasText;
+  }
+
+  summary:focus-visible {
+    outline-offset: 4px;
+    outline-color: red;
+  }
+
+  details span {
+    display: inline-block;
+    width: 100%;
+    overflow: hidden;
+    font-weight: 300;
+    transition-duration: 1s;
+    padding-block: 1rem;
+  }
+
+  details {
+    width: 280px;
+  }
+
+  details::details-content {
+    overflow: hidden;
+    opacity: 0;
+    height: 0;
+    transition: content-visibility, opacity, height;
+    transition-behavior: allow-discrete;
+    transition-duration: calc(var(--duration, 0.5) * 1s);
+    mask: linear-gradient(#000 calc(100% - 1rem), #0000);
+  }
+
+  [open]::details-content {
+    height: calc-size(auto);
+    opacity: 1;
+  }
+
+  summary {
+    display: flex;
+    font-weight: 600;
+    cursor: pointer;
+    position: relative;
+    padding-block: 1rem;
+  }
+
+  summary::after {
+    content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor' %3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19.5 8.25l-7.5 7.5-7.5-7.5' /%3E%3C/svg%3E%0A");
+    position: absolute;
+    top: 50%;
+    right: 0;
+    width: 20px;
+    translate: 0 -35%;
+    transition: scale calc(var(--duration, 0.5) * 1s);
+    transform-origin: 50% 40%;
+  }
+
+  [data-theme='dark'] summary::after {
+    filter: invert(1);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    summary::after {
+      filter: invert(1);
+    }
+  }
+
+  details[open] summary::after {
+    /* rotate: -180deg; */
+    scale: -1;
+  }
+}
+
+@layer base {
+  *,
+  *:after,
+  *:before {
+    box-sizing: border-box;
+  }
+
+  body {
+    display: grid;
+    place-items: center;
+    min-height: 100vh;
+    font-family: 'SF Pro Text', 'SF Pro Icons', 'AOS Icons', 'Helvetica Neue',
+      Helvetica, Arial, sans-serif, system-ui;
+  }
+
+  body::before {
+    --size: 45px;
+    --line: color-mix(in lch, canvasText, transparent 70%);
+    content: '';
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    background: linear-gradient(
+          90deg,
+          var(--line) 1px,
+          transparent 1px var(--size)
+        )
+        50% 50% / var(--size) var(--size),
+      linear-gradient(var(--line) 1px, transparent 1px var(--size)) 50% 50% /
+        var(--size) var(--size);
+    mask: linear-gradient(-20deg, transparent 50%, white);
+    top: 0;
+    transform-style: flat;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .bear-link {
+    color: canvasText;
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    width: 48px;
+    aspect-ratio: 1;
+    display: grid;
+    place-items: center;
+    opacity: 0.8;
+  }
+
+  :where(.x-link, .bear-link):is(:hover, :focus-visible) {
+    opacity: 1;
+  }
+
+  .bear-link svg {
+    width: 75%;
+  }
+
+  /* Utilities */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+
+  html {
+    color-scheme: light dark;
+  }
+  [data-theme='dark'] {
+    color-scheme: dark only;
+  }
+  [data-theme='light'] {
+    color-scheme: light only;
+  }
+
+  ::view-transition-old(root) {
+    animation: none;
+  }
+  ::view-transition-new(root) {
+    animation: open calc(var(--duration) * 1s);
+    z-index: 2;
+    /* clip-path: inset(0 0 0 0); */
+    clip-path: polygon(
+      -10% 0%,
+      110% 0%,
+      110% 50%,
+      -10% 50%,
+      -10% 50%,
+      110% 50%,
+      110% 100%,
+      -10% 100%
+    );
+  }
+  @keyframes open {
+    0% {
+      clip-path: polygon(
+        -10% 0%,
+        110% 0%,
+        110% 0%,
+        -10% 0%,
+        -10% 100%,
+        110% 100%,
+        110% 100%,
+        -10% 100%
+      );
+    }
+  }
+}
+
+div.tp-dfwv {
+  width: 270px;
+}
