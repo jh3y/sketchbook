@@ -17,16 +17,20 @@ const hey = ({ x, y }) => {
 document.body.addEventListener('dblclick', hey)
 
 // Radial menu
+const menu = document.querySelector('.radial')
 const onActive = () => console.info('activated')
 const useContextHold = () => {
   // set up
   const close = () => {
+    menu.hidePopover()
     window.removeEventListener('pointerup', close)
   }
   const open = (event) => {
     if (event.buttons === 2) {
       // Enter context mode
-
+      document.documentElement.style.setProperty('--x', event.x)
+      document.documentElement.style.setProperty('--y', event.y)
+      menu.showPopover()
       window.addEventListener('pointerup', close)
     }
   }

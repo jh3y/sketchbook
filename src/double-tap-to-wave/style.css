@@ -32,15 +32,62 @@ canvas {
 }
 
 .radial {
+  --active: 0;
   width: 200px;
   height: 200px;
   position: fixed;
   border-radius: 50%;
   outline: 4px dashed red;
   overflow: hidden;
+  border: 0;
   mask: linear-gradient(white, white),
     radial-gradient(white 50px, transparent 51px);
   mask-composite: exclude;
+  position: fixed;
+  margin: 0;
+  left: calc(var(--x, 0) * 1px);
+  top: calc(var(--y, 0) * 1px);
+  translate: -50% -50%;
+  scale: var(--active, 0);
+  transition-property: display, overlay, scale;
+  transition-duration: 0.125s;
+  transition-timing-function: ease-out;
+  transition-behavior: allow-discrete;
+}
+
+.radial:popover-open {
+  --active: 1;
+  transition-duration: 0.5s;
+  transition-timing-function: linear(
+    0 0%,
+    0.5422 7.45%,
+    0.8139 12.06%,
+    0.9224 14.52%,
+    1.0057 17.01%,
+    1.0662 19.6%,
+    1.105 22.34%,
+    1.1173 23.9%,
+    1.124 25.56%,
+    1.1251 27.34%,
+    1.1207 29.28%,
+    1.1034 32.68%,
+    1.0464 40.78%,
+    1.0215 44.99%,
+    1.0022 49.69%,
+    0.9913 54.65%,
+    0.9879 61.69%,
+    0.9997 83.05%,
+    1 100%
+  );
+}
+
+@starting-style {
+  .radial {
+    --active: 0;
+  }
+  .radial:popover-open {
+    --active: 0;
+  }
 }
 
 .radial::after {
