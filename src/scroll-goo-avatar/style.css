@@ -1,0 +1,290 @@
+@import 'normalize.css' layer(normalize);
+
+@layer normalize, base, demo;
+
+@layer demo {
+  :root {
+    --accent: hsl(10 20% 30%);
+    --island-margin: 20px;
+    --island-height: 40px;
+    --island-width: 200px;
+    --avatar-size: calc(var(--island-width) * 0.65);
+    --avatar-position: calc(
+      var(--island-height) + (var(--island-margin) * 1.25)
+    );
+    --header-margin: 0.5rem;
+    --header-height: calc(
+      var(--island-margin) + var(--avatar-position) + var(--avatar-size) + 1lh +
+        var(--header-margin)
+    );
+    --header-font: 3rem;
+  }
+
+  header {
+    position: sticky;
+    top: calc(var(--header-height) * -0.65);
+    height: var(--header-height);
+    width: 100%;
+    font-size: var(--header-font);
+    animation: block both linear;
+    animation-timeline: scroll(root);
+    transform-origin: 50% 0;
+    animation-range: 0 calc(var(--header-height) * 0.65);
+    z-index: 2;
+  }
+  [data-debug='true'] header {
+    outline: 4px dashed red;
+  }
+  @keyframes block {
+    to {
+      background: canvas;
+      box-shadow: 0 0 20px 5px hsl(0 0% 0% / 0.25);
+    }
+  }
+
+  .island__container {
+    width: var(--island-width);
+    height: var(--island-height);
+    border-radius: var(--island-height);
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    translate: -50% -0%;
+    background: black;
+  }
+
+  .island__bar {
+    width: var(--island-width);
+    height: var(--island-height);
+    border-radius: var(--island-height);
+    background: black;
+    position: absolute;
+    top: 0%;
+    left: 50%;
+    translate: -50% 0%;
+  }
+  .island {
+    filter: url(#fancy-goo);
+  }
+
+  .island__bar::after {
+    content: '';
+    position: absolute;
+    left: 0%;
+    top: 0%;
+    height: 100%;
+    aspect-ratio: 1;
+    z-index: 2;
+    background: radial-gradient(red calc(30% - 1px), transparent 30%);
+    border-radius: 50%;
+  }
+
+  .avatar {
+    width: var(--avatar-size);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: black;
+    position: fixed;
+    left: 50%;
+    top: var(--avatar-position);
+    translate: -50% 0;
+  }
+
+  /* Scroll stuff */
+  body {
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100svh + var(--header-height));
+  }
+
+  main {
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding-top: 4rem;
+  }
+
+  h1 {
+    margin: 0;
+    position: fixed;
+    font-size: 3rem;
+    top: calc(var(--header-height) + var(--header-margin));
+    translate: -50% -100%;
+    left: 50%;
+    animation: scale both linear;
+    animation-timeline: scroll(root);
+    transform-origin: 50% 0;
+    animation-range: 0 calc(var(--header-height) * 0.65);
+  }
+
+  .avatar {
+    overflow: hidden;
+    animation: shrink both linear;
+    animation-timeline: scroll(root);
+    animation-range: 0 calc(var(--header-height) * 0.65);
+    transform-origin: 50% 0;
+  }
+
+  .avatar img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    animation: fade both linear;
+    animation-timeline: scroll(root);
+    animation-range: 0 calc(var(--header-height) * 0.65);
+  }
+
+  @keyframes shrink {
+    to {
+      translate: -50% calc(var(--avatar-position) * -1);
+      scale: 0.3;
+    }
+  }
+  @keyframes scale {
+    to {
+      translate: -50%
+        calc(
+          (
+              (var(--header-height) + var(--header-margin)) -
+                var(--avatar-position)
+            ) * -1
+        );
+      scale: 0.4;
+    }
+  }
+  @keyframes fade {
+    to {
+      filter: blur(10px);
+      opacity: 0;
+    }
+  }
+
+  ul {
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8725rem;
+    padding: 0;
+    margin: 0;
+    width: 50ch;
+    max-width: calc(100vw - 2rem);
+  }
+  li {
+    width: 100%;
+  }
+
+  .context {
+    padding-inline: 1rem;
+    display: flex;
+    gap: 1rem;
+  }
+
+  li :is(button, a) {
+    width: 100%;
+    height: 44px;
+    text-decoration: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    border-radius: 6px;
+    padding-inline: 1rem;
+    color: color-mix(in lch, var(--accent, red), #0000 15%);
+    border: 2px solid color-mix(in lch, var(--accent, red), #0000);
+    background: color-mix(in lch, var(--accent, red), #fff 95%);
+    position: relative;
+
+    &:is(:focus-visible, :hover) {
+      --intent: 1;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: hsl(0 0% 0% / 0.2);
+      opacity: var(--intent, 0);
+      transition: opacity 0.2s;
+      pointer-events: none;
+    }
+  }
+
+  li svg {
+    width: 24px;
+  }
+}
+
+@layer base {
+  *,
+  *:after,
+  *:before {
+    box-sizing: border-box;
+  }
+
+  body {
+    display: grid;
+    place-items: center;
+    min-height: 100vh;
+    font-family: 'SF Pro Text', 'SF Pro Icons', 'AOS Icons', 'Helvetica Neue',
+      Helvetica, Arial, sans-serif, system-ui;
+  }
+
+  body::before {
+    --size: 45px;
+    --line: color-mix(in lch, canvasText, transparent 70%);
+    content: '';
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    background: linear-gradient(
+          90deg,
+          var(--line) 1px,
+          transparent 1px var(--size)
+        )
+        50% 50% / var(--size) var(--size),
+      linear-gradient(var(--line) 1px, transparent 1px var(--size)) 50% 50% /
+        var(--size) var(--size);
+    mask: linear-gradient(-20deg, transparent 50%, white);
+    top: 0;
+    transform-style: flat;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .bear-link {
+    color: canvasText;
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    width: 48px;
+    aspect-ratio: 1;
+    display: grid;
+    place-items: center;
+    opacity: 0.8;
+    z-index: 9999;
+  }
+
+  :where(.x-link, .bear-link):is(:hover, :focus-visible) {
+    opacity: 1;
+  }
+
+  .bear-link svg {
+    width: 75%;
+  }
+
+  /* Utilities */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+}
