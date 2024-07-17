@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, user-scalable=0, maximum-scale=1.0"
+    />
+    <title>shader-play</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <main></main>
+    <a
+      class="bear-link"
+      href="https://twitter.com/intent/follow?screen_name=jh3yy"
+      target="_blank"
+      rel="noreferrer noopener"
+    >
+      <svg
+        class="w-9"
+        viewBox="0 0 969 955"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <circle
+          cx="161.191"
+          cy="320.191"
+          r="133.191"
+          stroke="currentColor"
+          stroke-width="20"
+        ></circle>
+        <circle
+          cx="806.809"
+          cy="320.191"
+          r="133.191"
+          stroke="currentColor"
+          stroke-width="20"
+        ></circle>
+        <circle
+          cx="695.019"
+          cy="587.733"
+          r="31.4016"
+          fill="currentColor"
+        ></circle>
+        <circle
+          cx="272.981"
+          cy="587.733"
+          r="31.4016"
+          fill="currentColor"
+        ></circle>
+        <path
+          d="M564.388 712.083C564.388 743.994 526.035 779.911 483.372 779.911C440.709 779.911 402.356 743.994 402.356 712.083C402.356 680.173 440.709 664.353 483.372 664.353C526.035 664.353 564.388 680.173 564.388 712.083Z"
+          fill="currentColor"
+        ></path>
+        <rect
+          x="310.42"
+          y="448.31"
+          width="343.468"
+          height="51.4986"
+          fill="#FF1E1E"
+        ></rect>
+        <path
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          d="M745.643 288.24C815.368 344.185 854.539 432.623 854.539 511.741H614.938V454.652C614.938 433.113 597.477 415.652 575.938 415.652H388.37C366.831 415.652 349.37 433.113 349.37 454.652V511.741L110.949 511.741C110.949 432.623 150.12 344.185 219.845 288.24C289.57 232.295 384.138 200.865 482.744 200.865C581.35 200.865 675.918 232.295 745.643 288.24Z"
+          fill="currentColor"
+        ></path>
+      </svg>
+    </a>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.4/p5.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.4/addons/p5.sound.min.js"></script>
+    <script id="vertexShader" type="x-shader/x-vertex">
+      attribute vec2 a_position;
+      attribute vec2 a_texCoord;
+      varying vec2 v_texCoord;
+      void main() {
+        gl_Position = vec4(a_position, 0, 1);
+        v_texCoord = a_texCoord;
+      }
+    </script>
+    <script id="fragmentShader" type="x-shader/x-fragment">
+      precision highp float;
+      uniform sampler2D u_image;
+      uniform vec2 u_resolution;
+      uniform vec2 u_mouse;
+      uniform float u_distortionStrength;
+      uniform float u_distortionRadius;
+      uniform float u_rgbSeparation;
+      uniform int u_iterations;
+      varying vec2 v_texCoord;
+
+      vec2 distort(vec2 p, vec2 l) {
+        float dist = distance(l, p);
+        float maxDist = u_distortionRadius / max(u_resolution.x, u_resolution.y);
+        float factor = clamp(1.0 - dist / maxDist, 0.0, 1.0);
+        factor = -pow(factor, 2.0) * u_distortionStrength;
+        return (p - l) * factor;
+      }
+
+      void main() {
+        vec2 p = gl_FragCoord.xy / u_resolution;
+        vec2 l = u_mouse / u_resolution;
+
+        vec2 m = distort(p, l);
+
+        vec3 color = vec3(0.0);
+        for (int i = 0; i < 20; i++) {
+          if (i >= u_iterations) break;
+          float s = 0.175 + 0.005 * float(i);
+          color.r += texture2D(u_image, p + s * m).r;
+          color.g += texture2D(u_image, p + (s + u_rgbSeparation) * m).g;
+          color.b += texture2D(u_image, p + (s + u_rgbSeparation * 2.0) * m).b;
+        }
+        color /= float(u_iterations);
+
+        gl_FragColor = vec4(color, 1.0);
+      }
+    </script>
+    <script src="./script.js"></script>
+  </body>
+</html>

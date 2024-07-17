@@ -1,0 +1,162 @@
+@import url('https://unpkg.com/normalize.css') layer(normalize);
+
+@layer normalize, base, demo;
+
+@layer demo {
+  html {
+    color-scheme: light only;
+  }
+  .dialog {
+    overflow: hidden;
+    resize: horizontal;
+    display: grid;
+    place-items: center;
+    /* min-width: 200px;
+    max-width: calc(600px + 0.5rem); */
+    min-width: 200px;
+    width: clamp(200px, 600px, 80vw - 2rem);
+    max-width: calc(100vw - 2rem);
+    position: absolute;
+    padding: 0;
+    border-width: 4px;
+    border-radius: 12px 12px 0 0;
+    box-shadow: 0 10px 20px -10px hsl(0 0% 0% / 0.5);
+  }
+  .dialog:active .dialog__arrow {
+    display: none;
+  }
+  .dialog__arrow {
+    height: 30px;
+    width: 20px;
+    background: #262626;
+    position: absolute;
+    bottom: 15px;
+    right: 8px;
+    transform-origin: 50% 100%;
+    transform: rotate(-45deg);
+    clip-path: polygon(
+      50% 100%,
+      100% 60%,
+      60% 60%,
+      65% 0,
+      35% 0,
+      35% 60%,
+      0 60%
+    );
+    z-index: 999;
+    animation: bounce 0.5s infinite linear;
+  }
+  .dialog__header {
+    height: 44px;
+    background: color-mix(in lch, canvasText, canvas 25%);
+    border-bottom: 4px solid #000;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0 1rem;
+    gap: 0.5rem;
+    width: 100%;
+  }
+  dialog svg {
+    width: 340px;
+    max-width: 340px;
+    aspect-ratio: 1;
+  }
+  .dialog__control {
+    height: 12px;
+    background: var(--bg, #f00);
+    aspect-ratio: 1;
+    border-radius: 50%;
+  }
+  .dialog__control--exit {
+    --bg: #f2330d;
+  }
+  .dialog__control--minimize {
+    --bg: #fa0;
+  }
+  .dialog__control--maximize {
+    --bg: #19e619;
+  }
+  @keyframes bounce {
+    0,
+    100% {
+      transform: rotate(-45deg) translate(0, 0);
+    }
+    50% {
+      transform: rotate(-45deg) translate(0, -15%);
+    }
+  }
+}
+
+@layer base {
+  *,
+  *:after,
+  *:before {
+    box-sizing: border-box;
+  }
+
+  body {
+    display: grid;
+    background: color-mix(in lch, canvas, canvasText 5%);
+    place-items: center;
+    min-height: 100vh;
+    font-family: 'SF Pro Text', 'SF Pro Icons', 'AOS Icons', 'Helvetica Neue',
+      Helvetica, Arial, sans-serif, system-ui;
+  }
+
+  body::before {
+    --size: 45px;
+    --line: color-mix(in lch, canvasText, transparent 70%);
+    content: '';
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    background: linear-gradient(
+          90deg,
+          var(--line) 1px,
+          transparent 1px var(--size)
+        )
+        50% 50% / var(--size) var(--size),
+      linear-gradient(var(--line) 1px, transparent 1px var(--size)) 50% 50% /
+        var(--size) var(--size);
+    mask: linear-gradient(-20deg, transparent 50%, white);
+    top: 0;
+    transform-style: flat;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .bear-link {
+    color: canvasText;
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    width: 48px;
+    aspect-ratio: 1;
+    display: grid;
+    place-items: center;
+    opacity: 0.8;
+  }
+
+  :where(.x-link, .bear-link):is(:hover, :focus-visible) {
+    opacity: 1;
+  }
+
+  .bear-link svg {
+    width: 75%;
+  }
+
+  /* Utilities */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+}
