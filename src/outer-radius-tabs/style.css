@@ -1,0 +1,332 @@
+@import 'normalize.css' layer(normalize);
+
+@layer normalize, base, demo;
+
+@layer demo {
+  :root {
+    color-scheme: light only;
+    --accent: hsl(0 0% 85%);
+    --border-color: hsl(0 0% 70%);
+    --radius: calc(var(--rad, 12) * 1px);
+    --border-width: 1;
+  }
+
+  body {
+    overflow: hidden;
+  }
+
+  .tabs {
+    scale: 1.5;
+  }
+
+  .tabs ul {
+    display: flex;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .tabs label {
+    display: grid;
+    place-items: center;
+    width: 100px;
+    height: 48px;
+    cursor: pointer;
+    font-weight: 300;
+    letter-spacing: 0.875px;
+  }
+
+  .indicator {
+    border: calc(var(--border-width) * 1px) solid var(--border-color);
+    border-bottom-color: var(--accent);
+  }
+  .tabs::before {
+    content: '';
+    height: calc(var(--border-width) * 1px);
+    z-index: -1;
+    width: calc(100% + (2 * var(--radius)));
+    left: calc(var(--radius) * -1);
+    position: absolute;
+    bottom: 0;
+    background: var(--border-color);
+    z-index: -4;
+  }
+
+  .tabs {
+    position: absolute;
+  }
+
+  .indicator {
+    position: absolute;
+    height: 100%;
+    width: 20%;
+    background: var(--accent);
+    z-index: -1;
+    left: 0%;
+    border-radius: var(--radius) var(--radius) 0 0;
+  }
+
+  .indicator__part,
+  .indicator__debug {
+    width: calc(var(--radius) * 2);
+    aspect-ratio: 1;
+    position: absolute;
+    bottom: calc(var(--border-width) * -1px);
+  }
+
+  .indicator__part::before {
+    content: '';
+    box-sizing: border-box;
+    position: absolute;
+    inset: -1px;
+    background: var(--accent);
+    mask: radial-gradient(
+      circle at center,
+      #0000 var(--radius),
+      #000 var(--radius)
+    );
+    clip-path: inset(50% 50% 0 0);
+  }
+
+  .indicator__debug {
+    display: none;
+  }
+
+  [data-debug='true'] .indicator__debug {
+    display: block;
+    outline: 2px dashed red;
+    outline-offset: 2px;
+    left: 100%;
+    z-index: 10;
+  }
+
+  .tabs {
+    transition: scale 0.2s;
+  }
+
+  [data-debug='true'] .tabs {
+    scale: 5;
+  }
+
+  .indicator__debug::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border: calc(var(--border-width) * 1px) solid red;
+    border-bottom-color: var(--border-color);
+    rotate: 45deg;
+    border-radius: 50%;
+  }
+
+  [data-debug='true'] .indicator__part--right::before {
+    background: red;
+  }
+
+  .indicator__part::after {
+    content: '';
+    box-sizing: border-box;
+    position: absolute;
+    inset: 0;
+    border: calc(var(--border-width) * 1px) solid var(--border-color);
+    border-radius: 50%;
+    clip-path: inset(50% 50% 0 0);
+  }
+
+  .indicator__part--left {
+    right: 100%;
+    scale: -1 1;
+  }
+  .indicator__part--right {
+    left: 100%;
+  }
+
+  *,
+  *:after,
+  *:before {
+    box-sizing: border-box;
+  }
+
+  body {
+    display: grid;
+    place-items: center;
+    min-height: 100vh;
+    font-family: 'SF Pro Text', 'SF Pro Icons', 'AOS Icons', 'Helvetica Neue',
+      Helvetica, Arial, sans-serif, system-ui;
+  }
+
+  body::before {
+    --size: 45px;
+    --line: color-mix(in lch, canvasText, transparent 70%);
+    content: '';
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    background: linear-gradient(
+          90deg,
+          var(--line) 1px,
+          transparent 1px var(--size)
+        )
+        50% 50% / var(--size) var(--size),
+      linear-gradient(var(--line) 1px, transparent 1px var(--size)) 50% 50% /
+        var(--size) var(--size);
+    mask: linear-gradient(-20deg, transparent 50%, white);
+    top: 0;
+    transform-style: flat;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .bear-link {
+    color: canvasText;
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    width: 48px;
+    aspect-ratio: 1;
+    display: grid;
+    place-items: center;
+    opacity: 0.8;
+    z-index: 9999;
+  }
+
+  :where(.x-link, .bear-link):is(:hover, :focus-visible) {
+    opacity: 1;
+  }
+
+  .bear-link svg {
+    width: 75%;
+  }
+
+  /* Utilities */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+
+  div.tp-dfwv {
+    width: 280px;
+  }
+
+  .tab__indicator {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    container-type: inline-size;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .indicator {
+    translate: calc(var(--index, 0) * 20cqi);
+    transition: translate 0.2s;
+  }
+
+  .tabs::after {
+    content: '';
+    height: 40px;
+    width: calc(100% + (2 * var(--radius)));
+    position: absolute;
+    bottom: 0;
+    left: calc(var(--radius) * -1);
+    background: linear-gradient(var(--accent), transparent);
+    z-index: -4;
+  }
+
+  .tabs::after {
+    bottom: -calc(var(--border-width) * 1px);
+  }
+
+  :root:has(#tab-1:checked) {
+    --index: 0;
+  }
+  :root:has(#tab-2:checked) {
+    --index: 1;
+  }
+  :root:has(#tab-3:checked) {
+    --index: 2;
+  }
+  :root:has(#tab-4:checked) {
+    --index: 3;
+  }
+  :root:has(#tab-5:checked) {
+    --index: 4;
+  }
+}
+
+@layer base {
+  *,
+  *:after,
+  *:before {
+    box-sizing: border-box;
+  }
+
+  body {
+    display: grid;
+    place-items: center;
+    min-height: 100vh;
+    font-family: 'SF Pro Text', 'SF Pro Icons', 'AOS Icons', 'Helvetica Neue',
+      Helvetica, Arial, sans-serif, system-ui;
+  }
+
+  body::before {
+    --size: 45px;
+    --line: color-mix(in lch, canvasText, transparent 70%);
+    content: '';
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    background: linear-gradient(
+          90deg,
+          var(--line) 1px,
+          transparent 1px var(--size)
+        )
+        50% 50% / var(--size) var(--size),
+      linear-gradient(var(--line) 1px, transparent 1px var(--size)) 50% 50% /
+        var(--size) var(--size);
+    mask: linear-gradient(-20deg, transparent 50%, white);
+    top: 0;
+    transform-style: flat;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .bear-link {
+    color: canvasText;
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    width: 48px;
+    aspect-ratio: 1;
+    display: grid;
+    place-items: center;
+    opacity: 0.8;
+  }
+
+  :where(.x-link, .bear-link):is(:hover, :focus-visible) {
+    opacity: 1;
+  }
+
+  .bear-link svg {
+    width: 75%;
+  }
+
+  /* Utilities */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+}
