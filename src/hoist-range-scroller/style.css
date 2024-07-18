@@ -177,6 +177,7 @@ article img {
   background: black;
   width: 100%;
   overflow: hidden;
+  position: relative;
   mask: linear-gradient(90deg, #0000, #000 15% 85%, #0000);
 }
 
@@ -184,20 +185,50 @@ article img {
   position: absolute;
   inset: 0;
   background: linear-gradient(
-      90deg,
-      transparent 0 calc(50% - (var(--indi-width) * 0.5)),
-      red calc(50% - (var(--indi-width) * 0.5))
-        calc(50% + (var(--indi-width) * 0.5)),
-      transparent calc(50% + (var(--indi-width) * 0.5))
-    )
-    50% 50% / 5% 40% repeat-x;
+        90deg,
+        transparent 0 calc(50% - (var(--indi-width) * 0.5)),
+        canvasText calc(50% - (var(--indi-width) * 0.5))
+          calc(50% + (var(--indi-width) * 0.5)),
+        transparent calc(50% + (var(--indi-width) * 0.5))
+      )
+      50% 100% / 25% 40% repeat-x,
+    linear-gradient(
+        90deg,
+        transparent 0 calc(50% - (var(--indi-width) * 0.5)),
+        color-mix(in lch, canvasText, #0000 65%)
+          calc(50% - (var(--indi-width) * 0.5))
+          calc(50% + (var(--indi-width) * 0.5)),
+        transparent calc(50% + (var(--indi-width) * 0.5))
+      )
+      50% 100% / 2.5% 40% repeat-x;
 }
 
-.singles::after {
+.singles::after,
+.singles::before {
   content: '';
   position: absolute;
-  inset: 0;
-  border-inline: var(--indi-width) solid red;
+  height: 40%;
+  bottom: 0;
+  width: var(--indi-width);
+  background: canvasText;
+}
+.singles::before {
+  left: 0;
+}
+.singles::after {
+  right: 0;
+}
+
+.track-wrap::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  height: 75%;
+  width: calc(var(--indi-width) * 2);
+  background: red;
+  translate: -50% 0;
+  /* border-inline: var(--indi-width) solid red; */
 }
 
 .slider--blur {
