@@ -3,12 +3,19 @@
 @layer normalize, base, demo;
 
 @layer demo {
+  :root {
+    --accent: black;
+    --canvas: color-mix(in lch, canvas, canvasText 1%);
+    --border: color-mix(in lch, canvas, canvasText 10%);
+    --text: color-mix(in lch, canvasText, canvas 25%);
+    --border-radius: 24;
+    --border-width: 3;
+    --trail-size: 25;
+  }
   aside {
     --font-level: 1;
     width: 66ch;
-    --canvas: color-mix(in lch, canvas, canvasText 1%);
-    --border: color-mix(in lch, canvas, canvasText 15%);
-    max-width: calc(100% - 2rem);
+    max-width: calc(100vw - 2rem);
     line-height: 1.5;
     container-type: inline-size;
     position: relative;
@@ -17,25 +24,24 @@
   .border {
     position: absolute;
     inset: 0;
-    overflow: hidden;
-    border-radius: 24px;
+    clip-path: inset(0 0 0 0 round calc(var(--border-radius) * 1px));
+    border-radius: calc(var(--border-radius) * 1px);
     background: var(--border);
     z-index: -1;
-    /* translate: 0 -100%; */
     border: 0;
     container-type: inline-size;
   }
 
   .trail {
-    width: 40cqmin;
+    width: calc(var(--trail-size) * 1cqmin);
     aspect-ratio: 2 / 1;
     position: absolute;
     background: radial-gradient(
       100% 100% at right,
-      hsl(0 100% 50%),
+      var(--accent, red),
       transparent 50%
     );
-    offset-path: xywh(0 0 100% 100% round 24px);
+    offset-path: xywh(0 0 100% 100% round calc(var(--border-radius) * 1px));
     offset-anchor: 100% 50%;
     animation: journey 6s infinite linear;
   }
@@ -50,16 +56,14 @@
     font-weight: 300;
     text-align: center;
     margin: 0;
-    color: color-mix(in lch, canvasText, canvas 50%);
+    color: var(--text);
   }
 
-  aside > div {
-    --canvas: color-mix(in lch, canvas, canvasText 1%);
-    --border: color-mix(in lch, canvas, canvasText 15%);
+  .content {
     background: linear-gradient(var(--canvas), var(--canvas)) padding-box,
       transparent;
-    border: 4px solid transparent;
-    border-radius: 24px;
+    border: calc(var(--border-width) * 1px) solid transparent;
+    border-radius: calc(var(--border-radius) * 1px);
     padding: clamp(1rem, 3vmin + 1rem, 6rem);
     display: grid;
     gap: clamp(1rem, 3vmin + 1rem, 4rem);
@@ -83,6 +87,65 @@
     width: 2.5rem;
     aspect-ratio: 1;
     border-radius: 50%;
+  }
+
+  /* 3D stuff */
+  [data-explode='true'] aside {
+    transform: scale(0.75) rotateX(-24deg) rotateY(30deg);
+  }
+
+  :root {
+    --t: 1s;
+    --d: 1s;
+  }
+  [data-explode='true'] aside {
+    transition: transform var(--t);
+  }
+
+  [data-explode='true'] .border {
+    transition: clip-path var(--t) calc(var(--d) * 2);
+  }
+  [data-explode='true'] .border {
+    clip-path: inset(
+      -100% -100% -100% -100% round calc(var(--border-radius) * 1px)
+    );
+  }
+  body {
+    background: radial-gradient(
+        80% 80% at 75% 25%,
+        hsl(280 100% 98% / 0.1),
+        transparent
+      ),
+      radial-gradient(80% 80% at 50% 100%, hsl(180 100% 98% / 0.1), transparent),
+      radial-gradient(circle at 0 0, hsl(10 100% 98% / 0.1), transparent);
+    background-blend-mode: lighten;
+  }
+
+  main * {
+    transform-style: preserve-3d;
+  }
+
+  [data-explode='true'] .content {
+    transition: transform var(--t) calc(var(--d) * 1),
+      opacity calc(var(--t) * 0.5) calc(var(--d) * 1.5);
+  }
+
+  [data-explode='true'] .content {
+    transform: translate3d(0, 0, 400px);
+    opacity: 0;
+  }
+
+  .border {
+    transition: clip-path var(--t);
+  }
+
+  aside {
+    transition: transform var(--t) calc(var(--d) * 2);
+  }
+
+  .content {
+    transition: transform var(--t) calc(var(--d) * 1),
+      opacity calc(var(--t) * 0.5) calc(var(--d) * 0.5);
   }
 }
 
@@ -186,4 +249,8 @@
     white-space: nowrap;
     border-width: 0;
   }
+}
+
+div.tp-dfwv {
+  width: 274px;
 }
