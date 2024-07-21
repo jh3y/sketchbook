@@ -1,0 +1,254 @@
+@import 'normalize.css' layer(normalize);
+
+@layer normalize, base, demo, animation;
+
+@layer animation {
+  .ring:nth-of-type(2),
+  .ring:nth-of-type(3),
+  .node {
+    animation: rotate var(--duration) infinite linear;
+  }
+
+  [data-reverse='true'] {
+    .ring:nth-of-type(2) .node,
+    .ring:nth-of-type(3) {
+      animation-direction: reverse;
+    }
+  }
+
+  @keyframes rotate {
+    to {
+      rotate: var(--r, 360deg);
+    }
+  }
+
+  .chevron {
+    backdrop-filter: blur(10px);
+  }
+
+  .chevron::after {
+    --x: 100%;
+    translate: -100% 0;
+    animation: to calc(10s / 3) -0.66s infinite linear;
+  }
+
+  @keyframes to {
+    100% {
+      translate: var(--x, 0) var(--y, 0);
+    }
+  }
+}
+
+@layer demo {
+  .rings {
+    display: grid;
+    position: relative;
+    place-items: center;
+    grid-template-columns: repeat(
+      4,
+      calc(var(--ring-size) - var(--border-size))
+    );
+  }
+
+  .ring:nth-of-type(1),
+  .ring:nth-of-type(4) {
+    z-index: -1;
+    mask: linear-gradient(90deg, #0000 50%, #000);
+  }
+
+  .ring:nth-of-type(4) {
+    scale: -1 1;
+  }
+
+  .ring {
+    width: var(--ring-size);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: var(--border-size) solid var(--border);
+    position: relative;
+  }
+
+  .node,
+  .merge {
+    border: 1px solid var(--border);
+  }
+  .node {
+    position: absolute;
+    width: var(--node-size);
+    background: canvas;
+    border-radius: 50%;
+    aspect-ratio: 1;
+    --angle: calc(var(--i) * ((360deg / var(--nodes))) + 90deg);
+    --radius: calc((var(--ring-size) * 0.5) - (var(--border-size) * 0.5));
+    left: calc(
+      (50% - (var(--node-size) * 0.5)) - (cos(var(--angle)) * var(--radius))
+    );
+    top: calc(
+      (50% - (var(--node-size) * 0.5)) -
+        (sin(var(--angle) * -1) * var(--radius))
+    );
+    display: grid;
+    place-items: center;
+  }
+
+  .node svg {
+    width: 55%;
+  }
+
+  .merge {
+    width: calc(var(--node-size) * 2);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    background: color-mix(in lch, canvas, #0000 40%);
+    backdrop-filter: blur(6px);
+  }
+
+  .chevron {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: hsl(0 0% 0% / 0.1);
+    rotate: 90deg;
+    --mask-image: url(https://assets.codepen.io/605876/chev-mask_1.png);
+    mask: var(--mask-image) 75% 45% / 75% 75% no-repeat;
+  }
+
+  .chevron::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, #0000, #000, #0000);
+  }
+
+  article {
+    --duration: 10s;
+    --border-size: 2px;
+    --ring-size: clamp(150px, 20vmin + 1rem, 300px);
+    --node-size: 44px;
+    --border: color-mix(in lch, canvas, canvasText 15%);
+    border: 2px solid transparent;
+    container-type: inline-size;
+    padding: var(--node-size) calc(var(--node-size) * 0.25);
+    background: linear-gradient(var(--border), var(--border)) 50% 0 /
+        calc(100% - 48px) 2px no-repeat border-box,
+      linear-gradient(var(--border), var(--border)) 50% 100% / calc(100% - 48px)
+        2px no-repeat border-box,
+      linear-gradient(var(--border), var(--border)) 0 50% / 2px
+        calc(100% - 48px) no-repeat border-box,
+      linear-gradient(var(--border), var(--border)) 100% 50% / 2px
+        calc(100% - 48px) no-repeat border-box;
+    width: calc(var(--ring-size) * 4.5);
+    max-width: calc(100vw - 2rem);
+    display: flex;
+    flex-direction: column;
+    place-items: center;
+  }
+
+  article::after {
+    content: '';
+    position: absolute;
+    inset: -24px;
+    background: radial-gradient(#0000 10px, var(--border) 10px 12px, #0000 12px)
+        100% 100% / 48px 48px no-repeat border-box,
+      radial-gradient(#0000 10px, var(--border) 10px 12px, #0000 12px) 0 100% /
+        48px 48px no-repeat border-box,
+      radial-gradient(#0000 10px, var(--border) 10px 12px, #0000 12px) 100% 0 /
+        48px 48px no-repeat border-box,
+      radial-gradient(#0000 10px, var(--border) 10px 12px, #0000 12px) 0 0 /
+        48px 48px no-repeat border-box;
+  }
+
+  article p {
+    width: 66ch;
+    max-width: 100%;
+    margin: 0 auto;
+    font-weight: 300;
+    text-align: center;
+  }
+
+  article h2 {
+    text-align: center;
+    margin-top: 4rem;
+    font-weight: 400;
+  }
+}
+
+@layer base {
+  *,
+  *:after,
+  *:before {
+    box-sizing: border-box;
+  }
+
+  body {
+    display: flex;
+    place-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    font-family: 'SF Pro Text', 'SF Pro Icons', 'AOS Icons', 'Helvetica Neue',
+      Helvetica, Arial, sans-serif, system-ui;
+  }
+
+  /* body::before {
+    --size: 45px;
+    --line: color-mix(in lch, canvasText, transparent 70%);
+    content: '';
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    background: linear-gradient(
+          90deg,
+          var(--line) 1px,
+          transparent 1px var(--size)
+        )
+        50% 50% / var(--size) var(--size),
+      linear-gradient(var(--line) 1px, transparent 1px var(--size)) 50% 50% /
+        var(--size) var(--size);
+    mask: linear-gradient(-20deg, transparent 50%, white);
+    top: 0;
+    transform-style: flat;
+    pointer-events: none;
+    z-index: -1;
+  } */
+
+  .bear-link {
+    color: canvasText;
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    width: 48px;
+    aspect-ratio: 1;
+    display: grid;
+    place-items: center;
+    opacity: 0.8;
+  }
+
+  :where(.x-link, .bear-link):is(:hover, :focus-visible) {
+    opacity: 1;
+  }
+
+  .bear-link svg {
+    width: 75%;
+  }
+
+  /* Utilities */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+}
+
+div.tp-dfwv {
+  width: 280px;
+}
