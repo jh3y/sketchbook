@@ -12,9 +12,9 @@ let startY
 const AUDIO = {
   CLICK: new Audio('https://assets.codepen.io/605876/click.mp3'),
 }
-const STATE = {
-  ON: false,
-}
+
+const heading = document.querySelector('h1')
+
 const CORD_DURATION = 0.1
 
 const CORDS = document.querySelectorAll('.toggle-scene__cord')
@@ -36,12 +36,19 @@ const RESET = () => {
 
 RESET()
 
-FORM.addEventListener('submit', event => {
-  event.preventDefault()
-  STATE.ON = !STATE.ON
-  TOGGLE.setAttribute('aria-pressed', STATE.ON)
-  gsap.set(document.documentElement, { '--on': STATE.ON ? 1 : 0 })
+const toggle = () => {
   AUDIO.CLICK.play()
+  const theme = TOGGLE.matches('[aria-pressed=false]')
+  TOGGLE.setAttribute('aria-pressed', theme)
+  document.documentElement.dataset.theme = theme ? 'light' : 'dark'
+  heading.innerText = `lights ${theme ? 'on' : 'off'}.`
+}
+
+FORM.addEventListener('submit', (event) => {
+  event.preventDefault()
+
+  if (!document.startViewTransition) return toggle()
+  document.startViewTransition(() => toggle())
 })
 
 const CORD_TL = gsap.timeline({
@@ -72,22 +79,22 @@ for (let i = 1; i < CORDS.length; i++) {
 Draggable.create(PROXY, {
   trigger: HIT,
   type: 'x,y',
-  onPress: e => {
+  onPress: (e) => {
     startX = e.x
     startY = e.y
   },
   onDragStart: () => {
     document.documentElement.style.setProperty('cursor', 'grabbing')
   },
-  onDrag: function() {
+  onDrag: function () {
     // Need to map the coordinates based on scaling.
     // ViewBox to physical sizing
     // The ViewBox width is 134
-    const ratio = 1 / (FORM.offsetWidth / 134)
+    const ratio = 1 / ((FORM.offsetWidth * 0.65) / 134)
     gsap.set(DUMMY_CORD, {
       attr: {
-        x2: this.startX + ((this.x - this.startX) * ratio),
-        y2: this.startY + ((this.y - this.startY) * ratio),
+        x2: this.startX + (this.x - this.startX) * ratio,
+        y2: this.startY + (this.y - this.startY) * ratio,
       },
     })
   },
