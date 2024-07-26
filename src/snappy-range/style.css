@@ -1,0 +1,329 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&family=Zilla+Slab:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap');
+@import 'normalize.css' layer(normalize);
+
+@layer normalize, base, demo, slider, animation;
+
+@layer animation {
+  @supports (animation-timeline: scroll()) {
+    :root {
+      --transition: 0.625s;
+      --ease: linear(
+        0 0%,
+        0.5007 7.21%,
+        0.7803 12.29%,
+        0.8883 14.93%,
+        0.9724 17.63%,
+        1.0343 20.44%,
+        1.0754 23.44%,
+        1.0898 25.22%,
+        1.0984 27.11%,
+        1.1014 29.15%,
+        1.0989 31.4%,
+        1.0854 35.23%,
+        1.0196 48.86%,
+        1.0043 54.06%,
+        0.9956 59.6%,
+        0.9925 68.11%,
+        1 100%
+      );
+    }
+    @property --value {
+      initial-value: 0;
+      inherits: true;
+      syntax: '<number>';
+    }
+    .snappy {
+      timeline-scope: --thumb;
+      animation: progress both linear;
+      animation-direction: reverse;
+      animation-timeline: --thumb;
+      animation-range: contain;
+    }
+    @keyframes progress {
+      to {
+        --value: 1;
+      }
+    }
+    .snappy input {
+      overflow: hidden;
+    }
+    .snappy ::-webkit-slider-thumb {
+      view-timeline: --thumb inline;
+    }
+
+    .snappy__indicator,
+    .snappy__fill::after,
+    .track {
+      transition: translate var(--transition) var(--ease);
+    }
+
+    .snappy__indicator {
+      translate: calc(var(--value) * (100cqi - 100%)) -50%;
+    }
+    .snappy__fill::after {
+      translate: calc(var(--value) * 100cqi) 0%;
+    }
+    .track {
+      translate: 0 calc(var(--value) * (2.625rem * 10));
+    }
+  }
+}
+
+@layer slider {
+  .snappy {
+    --height: 2.625rem;
+    display: flex;
+    gap: 0.875rem;
+    border-radius: 100px;
+    background: black;
+    color: white;
+    padding: 0 1.125rem;
+    width: calc(var(--width) * 1px);
+    max-width: calc(100vw - 2rem);
+    align-items: center;
+  }
+
+  .number__track {
+    width: 2ch;
+    position: relative;
+    display: inline-block;
+    height: var(--height);
+    overflow: hidden;
+    mask: linear-gradient(#0000, #000 35% 65%, #0000);
+  }
+
+  .track {
+    position: absolute;
+    display: flex;
+    bottom: 0;
+    flex-direction: column;
+  }
+
+  .track span {
+    width: 100%;
+    display: inline-block;
+    height: var(--height);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+  }
+
+  .snappy__track {
+    --gradient: radial-gradient(
+      0.5rem 0.5rem at calc(0.5rem) 50%,
+      hsl(0 0% 25%) calc(0.5rem - 3px),
+      transparent calc(0.5rem - 3px)
+    );
+    flex: 1;
+    height: var(--height);
+    position: relative;
+    container-type: inline-size;
+  }
+  .snappy__track::before {
+    background: var(--gradient) 0 50% / 1rem 100% no-repeat,
+      var(--gradient) 10% 50% / 1rem 100% no-repeat,
+      var(--gradient) 20% 50% / 1rem 100% no-repeat,
+      var(--gradient) 30% 50% / 1rem 100% no-repeat,
+      var(--gradient) 40% 50% / 1rem 100% no-repeat,
+      var(--gradient) 50% 50% / 1rem 100% no-repeat,
+      var(--gradient) 60% 50% / 1rem 100% no-repeat,
+      var(--gradient) 70% 50% / 1rem 100% no-repeat,
+      var(--gradient) 80% 50% / 1rem 100% no-repeat,
+      var(--gradient) 90% 50% / 1rem 100% no-repeat,
+      var(--gradient) 100% 50% / 1rem 100% no-repeat, hsl(0 0% 15%);
+    border-radius: 100px;
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 0.875rem;
+    top: 50%;
+    left: 0;
+    pointer-events: none;
+    translate: 0 -50%;
+  }
+  .snappy__fill {
+    height: 0.875rem;
+    border-radius: 100px;
+    position: absolute;
+    left: 0;
+    width: 100%;
+    top: 50%;
+    translate: 0 -50%;
+    clip-path: inset(0 0 0 0 round 100px);
+    pointer-events: none;
+  }
+
+  .snappy__fill::after {
+    content: '';
+    width: 120%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: white;
+    transform: translateX(-100%);
+  }
+
+  .snappy__indicator {
+    pointer-events: none;
+    height: 0.875rem;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: white;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    translate: calc(((100cqi - 100%) / 10) * 10) -50%;
+    outline: 2px solid hsl(0 0% 50%);
+  }
+
+  .snappy__label {
+    font-size: 13px;
+    font-weight: 600;
+    font-family: 'Raleway', sans-serif;
+  }
+
+  .slash {
+    font-family: sans-serif;
+  }
+
+  .number {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+  }
+
+  .snappy__track input {
+    width: 100%;
+  }
+
+  .snappy [type='range'] {
+    opacity: 0;
+    height: var(--height);
+    accent-color: red;
+    transition: translate var(--transition) var(--ease),
+      opacity var(--transition) var(--ease);
+  }
+
+  [data-reveal='true'] .snappy [type='range'] {
+    opacity: 1;
+    translate: 0 -150%;
+  }
+  [data-reveal='true'] .snappy [type='range']::-webkit-slider-thumb {
+    opacity: 1;
+    height: auto;
+    margin-top: unset;
+    width: unset;
+  }
+
+  [data-reveal='true'] .snappy [type='range']::-webkit-slider-runnable-track {
+    height: unset;
+  }
+
+  [data-reveal='true'] .snappy [type='range']::-moz-range-track {
+    height: unset;
+  }
+
+  .snappy:has(:focus-visible) {
+    outline: 4px solid red;
+    outline-offset: 2px;
+  }
+
+  .snappy [type='range']:hover {
+    cursor: -webkit-grab;
+  }
+
+  .snappy [type='range']:active {
+    cursor: -webkit-grabbing;
+  }
+
+  .snappy [type='range']::-webkit-slider-thumb {
+    height: var(--height);
+    width: 48px;
+    margin-top: 0px;
+    opacity: 0;
+  }
+
+  .snappy [type='range']::-webkit-slider-runnable-track {
+    height: var(--height);
+    /* background: hsl(10 0% 50% / 0.5); */
+  }
+
+  .snappy [type='range']::-moz-range-track {
+    height: var(--height);
+    /* background: hsl(10 0% 50% / 0.5); */
+  }
+}
+
+@layer base {
+  *,
+  *:after,
+  *:before {
+    box-sizing: border-box;
+  }
+
+  body {
+    display: grid;
+    place-items: center;
+    min-height: 100vh;
+    font-family: 'SF Pro Text', 'SF Pro Icons', 'AOS Icons', 'Helvetica Neue',
+      Helvetica, Arial, sans-serif, system-ui;
+  }
+
+  body::before {
+    --size: 45px;
+    --line: color-mix(in lch, canvasText, transparent 70%);
+    content: '';
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    background: linear-gradient(
+          90deg,
+          var(--line) 1px,
+          transparent 1px var(--size)
+        )
+        50% 50% / var(--size) var(--size),
+      linear-gradient(var(--line) 1px, transparent 1px var(--size)) 50% 50% /
+        var(--size) var(--size);
+    mask: linear-gradient(-20deg, transparent 50%, white);
+    top: 0;
+    transform-style: flat;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .bear-link {
+    color: canvasText;
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    width: 48px;
+    aspect-ratio: 1;
+    display: grid;
+    place-items: center;
+    opacity: 0.8;
+  }
+
+  :where(.x-link, .bear-link):is(:hover, :focus-visible) {
+    opacity: 1;
+  }
+
+  .bear-link svg {
+    width: 75%;
+  }
+
+  /* Utilities */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+}
