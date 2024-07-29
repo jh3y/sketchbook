@@ -1,0 +1,235 @@
+@import url('https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&display=swap');
+/* @import url('https://unpkg.com/normalize.css') layer(normalize); */
+@import 'normalize.css' layer(normalize);
+
+@layer normalize, base, demo;
+
+@layer demo {
+  :root {
+    --size: 120px;
+    --bg: black;
+  }
+
+  .blobs {
+    max-width: 100vw;
+  }
+
+  .blob {
+    transform: translate3d(0, 0, 0);
+    background: var(--bg);
+    width: var(--size);
+    aspect-ratio: 1;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    border-radius: 100%;
+    transition: translate 0.5s;
+  }
+
+  [data-animate='false'] .blob:first-of-type {
+    /* translate: -150% -50%; */
+    translate: unset;
+  }
+  [data-animate='false'] .blob:last-of-type {
+    translate: 50% -50%;
+  }
+
+  [data-animate='true'] .blob:first-of-type {
+    animation: slide 4s infinite ease-in-out;
+  }
+
+  /* :root:has(#transparent:checked):not(:has(#svg:checked)) .blob:last-of-type {
+    border: 20px solid black;
+    background: transparent;
+  } */
+
+  [data-transparent='true'][data-use-css='true'] .blob:last-of-type {
+    border: 20px solid var(--bg);
+    background: transparent;
+  }
+
+  @keyframes slide {
+    0%,
+    50%,
+    100% {
+      transform: translateX(0%);
+    }
+    25% {
+      transform: translateX(-150%);
+    }
+    75% {
+      transform: translateX(150%);
+    }
+  }
+
+  #filter {
+    display: none;
+  }
+
+  [data-use-css='true'] .blobs {
+    background: white;
+    width: calc(var(--size) * 5);
+    height: calc(var(--size) * 1.5);
+    display: grid;
+    position: relative;
+    /* The magic piece */
+    filter: blur(calc(var(--blur, 0) * 1px)) contrast(var(--contrast));
+  }
+
+  [data-use-css='false'] .blobs {
+    position: absolute;
+    inset: 0;
+    height: auto;
+    width: auto;
+    filter: url('#goo');
+  }
+
+  [data-use-css='false'] .blob {
+    background: hsl(
+      var(--hue) calc(var(--saturation) * 1%) calc(var(--lightness) * 1%)
+    );
+  }
+
+  [data-use-css='false'][data-faux3d='true'] .blob {
+    border: 20px solid
+      hsl(
+        var(--hue) calc(var(--saturation) * 1%)
+          calc((var(--lightness) - 20) * 1%)
+      );
+  }
+
+  main {
+    position: relative;
+  }
+
+  .arrow {
+    position: absolute;
+    left: 50%;
+    top: 100%;
+    width: 70px;
+    translate: -50% 100%;
+  }
+
+  [data-use-css='true'] .arrow {
+    translate: -50% 0;
+  }
+
+  .arrow svg {
+    width: 70px;
+    scale: -1 1;
+  }
+
+  .arrow label {
+    font-family: 'Gloria Hallelujah', cursive;
+    position: absolute;
+    left: 110%;
+    bottom: 25%;
+    white-space: nowrap;
+  }
+}
+
+@layer base {
+  :root {
+    --font-size-min: 16;
+    --font-size-max: 20;
+    --font-ratio-min: 1.2;
+    --font-ratio-max: 1.33;
+    --font-width-min: 375;
+    --font-width-max: 1500;
+  }
+
+  :where(.fluid) {
+    --fluid-min: calc(
+      var(--font-size-min) * pow(var(--font-ratio-min), var(--font-level, 0))
+    );
+    --fluid-max: calc(
+      var(--font-size-max) * pow(var(--font-ratio-max), var(--font-level, 0))
+    );
+    --fluid-preferred: calc(
+      (var(--fluid-max) - var(--fluid-min)) /
+        (var(--font-width-max) - var(--font-width-min))
+    );
+    --fluid-type: clamp(
+      (var(--fluid-min) / 16) * 1rem,
+      ((var(--fluid-min) / 16) * 1rem) -
+        (((var(--fluid-preferred) * var(--font-width-min)) / 16) * 1rem) +
+        (var(--fluid-preferred) * var(--variable-unit, 100vi)),
+      (var(--fluid-max) / 16) * 1rem
+    );
+    font-size: var(--fluid-type);
+  }
+
+  *,
+  *:after,
+  *:before {
+    box-sizing: border-box;
+  }
+
+  body {
+    display: grid;
+    place-items: center;
+    min-height: 100vh;
+    font-family: 'SF Pro Text', 'SF Pro Icons', 'AOS Icons', 'Helvetica Neue',
+      Helvetica, Arial, sans-serif, system-ui;
+  }
+
+  body::before {
+    --size: 45px;
+    --line: color-mix(in lch, canvasText, transparent 70%);
+    content: '';
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    background: linear-gradient(
+          90deg,
+          var(--line) 1px,
+          transparent 1px var(--size)
+        )
+        50% 50% / var(--size) var(--size),
+      linear-gradient(var(--line) 1px, transparent 1px var(--size)) 50% 50% /
+        var(--size) var(--size);
+    mask: linear-gradient(-20deg, transparent 50%, white);
+    top: 0;
+    transform-style: flat;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .bear-link {
+    color: canvasText;
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    width: 48px;
+    aspect-ratio: 1;
+    display: grid;
+    place-items: center;
+    opacity: 0.8;
+  }
+
+  :where(.x-link, .bear-link):is(:hover, :focus-visible) {
+    opacity: 1;
+  }
+
+  .bear-link svg {
+    width: 75%;
+  }
+
+  /* Utilities */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+}
+
+div.tp-dfwv {
+  width: 280px;
+}
