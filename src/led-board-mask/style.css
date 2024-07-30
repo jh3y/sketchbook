@@ -1,0 +1,262 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+@import 'normalize.css' layer(normalize);
+
+@layer normalize, base, demo;
+
+@layer demo {
+  :root {
+    --hue: 205;
+    --blur: 0;
+    --spread: 2;
+  }
+
+  html {
+    color-scheme: dark only;
+  }
+
+  body {
+    background: color-mix(in lch, canvas, #000);
+    padding-block: 4rem;
+  }
+
+  article {
+    background: color-mix(in lch, canvas, canvasText 10%);
+    width: clamp(360px, 50vw, 600px);
+    min-height: 200px;
+    max-height: 450px;
+    border: 1px solid color-mix(in lch, canvas, canvasText 35%);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    place-items: center;
+    padding: 1rem;
+    gap: 1rem;
+    font-family: 'Roboto', sans-serif;
+    box-shadow: 0 1px 0 0 hsl(0 0% 100% / 0.5) inset;
+  }
+
+  .board {
+    --size: calc(var(--spread) * 1cqi);
+    width: 100%;
+    height: 100%;
+    display: grid;
+    place-items: center;
+    position: relative;
+    container-type: inline-size;
+    overflow: hidden;
+    filter: contrast(2);
+    flex: 1;
+  }
+
+  .details {
+    padding: 1rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    justify-content: center;
+  }
+
+  h2 a {
+    color: inherit;
+    text-decoration: none;
+    outline: #0000;
+  }
+
+  h2 a:is(:hover, :focus-visible) {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    text-decoration-color: color-mix(in lch, canvasText, #0000);
+  }
+
+  article:focus-within {
+    outline: 2px solid hsl(var(--hue) 80% 50%);
+    outline-offset: 2px;
+  }
+
+  h2,
+  p {
+    margin: 0;
+    text-wrap: balance;
+    color: color-mix(in lch, canvasText, canvas 5%);
+  }
+
+  p {
+    color: color-mix(in lch, canvasText, canvas 20%);
+    line-height: 1.5;
+    font-weight: 400;
+  }
+
+  h2 {
+    --font-level: 1.5;
+  }
+
+  .board .fluid {
+    --font-level: var(--font);
+    --variable-unit: 100cqi;
+    margin: 0;
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: var(--weight);
+    letter-spacing: 1px;
+    line-height: var(--line);
+    font-family: 'Roboto', sans-serif;
+    filter: blur(calc(var(--blur) * 1px)) brightness(1.25);
+    color: hsl(var(--hue) 100% 50%);
+    height: 100%;
+    width: 100%;
+    mask: radial-gradient(circle at center, #000 1px, #0000 1px) 50% 50% /
+      var(--size) var(--size);
+    position: relative;
+  }
+  .text-wrap {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    clip-path: inset(0 0 0 100%);
+  }
+
+  .text-wrap,
+  .board .fluid {
+    transition: clip-path 0.5s steps(calc(100 / var(--spread)));
+  }
+
+  [data-debug='true'] .text-wrap,
+  [data-debug='true'] .board .fluid {
+    transition: clip-path 0s;
+    clip-path: inset(0 0 0 0);
+  }
+
+  article:is(:hover, :focus-within) .text-wrap {
+    transition: clip-path 0s;
+    clip-path: inset(0 0 0 0);
+  }
+
+  .board .fluid {
+    clip-path: inset(0 100% 0 0);
+    transition-delay: 0.5s;
+  }
+
+  article:is(:hover, :focus-within) .board .fluid {
+    clip-path: inset(0 0 0 0);
+    transition-delay: 0s;
+  }
+
+  article .board::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    mix-blend-mode: plus-lighter;
+    background: radial-gradient(
+        circle at center,
+        hsl(0 0% 40%) 1px,
+        transparent 1px
+      )
+      50% 50% / var(--size) var(--size);
+  }
+}
+
+@layer base {
+  :root {
+    --font-size-min: 16;
+    --font-size-max: 20;
+    --font-ratio-min: 1.2;
+    --font-ratio-max: 1.33;
+    --font-width-min: 375;
+    --font-width-max: 1500;
+  }
+
+  :where(.fluid) {
+    --fluid-min: calc(
+      var(--font-size-min) * pow(var(--font-ratio-min), var(--font-level, 0))
+    );
+    --fluid-max: calc(
+      var(--font-size-max) * pow(var(--font-ratio-max), var(--font-level, 0))
+    );
+    --fluid-preferred: calc(
+      (var(--fluid-max) - var(--fluid-min)) /
+        (var(--font-width-max) - var(--font-width-min))
+    );
+    --fluid-type: clamp(
+      (var(--fluid-min) / 16) * 1rem,
+      ((var(--fluid-min) / 16) * 1rem) -
+        (((var(--fluid-preferred) * var(--font-width-min)) / 16) * 1rem) +
+        (var(--fluid-preferred) * var(--variable-unit, 100vi)),
+      (var(--fluid-max) / 16) * 1rem
+    );
+    font-size: var(--fluid-type);
+  }
+
+  *,
+  *:after,
+  *:before {
+    box-sizing: border-box;
+  }
+
+  body {
+    display: grid;
+    place-items: center;
+    min-height: 100vh;
+    font-family: 'SF Pro Text', 'SF Pro Icons', 'AOS Icons', 'Helvetica Neue',
+      Helvetica, Arial, sans-serif, system-ui;
+  }
+
+  body::before {
+    --size: 45px;
+    --line: color-mix(in lch, canvasText, transparent 70%);
+    content: '';
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    background: linear-gradient(
+          90deg,
+          var(--line) 1px,
+          transparent 1px var(--size)
+        )
+        50% 50% / var(--size) var(--size),
+      linear-gradient(var(--line) 1px, transparent 1px var(--size)) 50% 50% /
+        var(--size) var(--size);
+    mask: linear-gradient(-20deg, transparent 50%, white);
+    top: 0;
+    transform-style: flat;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .bear-link {
+    color: canvasText;
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    width: 48px;
+    aspect-ratio: 1;
+    display: grid;
+    place-items: center;
+    opacity: 0.8;
+  }
+
+  :where(.x-link, .bear-link):is(:hover, :focus-visible) {
+    opacity: 1;
+  }
+
+  .bear-link svg {
+    width: 75%;
+  }
+
+  /* Utilities */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+}
+
+div.tp-dfwv {
+  width: 280px;
+}
