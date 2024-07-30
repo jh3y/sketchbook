@@ -1,0 +1,550 @@
+@import 'normalize.css' layer(normalize);
+
+@layer normalize, base, demo;
+
+@layer demo {
+  *,
+  *:after,
+  *:before {
+    transform-style: preserve-3d;
+  }
+
+  :root {
+    --size: 30;
+    --width: calc(var(--size) * 1vmin);
+    --height: calc(var(--width) * 1.75vmin);
+    --blade-speed: 1;
+    --rotation: 25;
+    --fan-speed: 2;
+    --accent: hsl(25 80% 60%);
+    --state: running;
+    --light: color-mix(in lch, canvas, canvasText 10%);
+    --dark: color-mix(in lch, canvasText, canvas 25%);
+    --color: light-dark(var(--light), var(--dark));
+  }
+
+  html {
+    color-scheme: light dark;
+  }
+
+  [data-theme='light'] {
+    color-scheme: light only;
+  }
+
+  [data-theme='dark'] {
+    color-scheme: dark only;
+  }
+
+  body {
+    overflow-x: hidden;
+    background: light-dark(canvas, canvas);
+  }
+
+  .fan svg {
+    height: 15%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate3d(-50%, -50%, 1px);
+    filter: grayscale(1);
+    opacity: 0.5;
+  }
+
+  input[type='checkbox'],
+  input[type='radio'] {
+    position: fixed;
+    top: 0;
+    left: 100%;
+    opacity: 0;
+  }
+
+  :root:has(#zero:checked) {
+    --blade-speed: 0;
+    --state: paused;
+  }
+
+  :root:has(#one:checked) {
+    --blade-speed: 1;
+  }
+
+  :root:has(#one:checked) .fan__control:nth-of-type(2),
+  :root:has(#two:checked) .fan__control:nth-of-type(3),
+  :root:has(#three:checked) .fan__control:nth-of-type(4) {
+    transition: transform 0.1s cubic-bezier(0, 1.4, 0.2, 1.4);
+    transform: translate(0, 50%);
+  }
+
+  :root:has(#two:checked) {
+    --blade-speed: 0.5;
+  }
+
+  :root:has(#three:checked) {
+    --blade-speed: 0.25;
+  }
+
+  /* 3D Stuff */
+  .cuboid {
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
+
+  .cuboid__side {
+    filter: brightness(var(--b, 1));
+  }
+
+  .cuboid__side:nth-of-type(1) {
+    --b: 1;
+    height: calc(var(--thickness) * 1vmin);
+    width: 100%;
+    position: absolute;
+    top: 0;
+    transform: translate(0, -50%) rotateX(90deg);
+  }
+
+  .cuboid__side:nth-of-type(2) {
+    --b: 1;
+    height: 100%;
+    width: calc(var(--thickness) * 1vmin);
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translate(50%, -50%) rotateY(90deg);
+  }
+
+  .cuboid__side:nth-of-type(3) {
+    --b: 0.5;
+    width: 100%;
+    height: calc(var(--thickness) * 1vmin);
+    position: absolute;
+    bottom: 0;
+    transform: translate(0%, 50%) rotateX(90deg);
+  }
+
+  .cuboid__side:nth-of-type(4) {
+    --b: 0.75;
+    height: 100%;
+    width: calc(var(--thickness) * 1vmin);
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translate(-50%, -50%) rotateY(90deg);
+  }
+
+  .cuboid__side:nth-of-type(5) {
+    --b: 0.9;
+    height: 100%;
+    width: 100%;
+    transform: translate3d(0, 0, calc(var(--thickness) * 0.5vmin));
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  .cuboid__side:nth-of-type(6) {
+    --bg: 0;
+    height: 100%;
+    width: 100%;
+    transform: translate3d(0, 0, calc(var(--thickness) * -0.5vmin))
+      rotateY(180deg);
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  /* Sizing */
+  :root {
+    --width: 30vmin;
+    --height: calc(var(--width) * 1.75);
+  }
+
+  label {
+    cursor: pointer;
+  }
+  .fan__controls label {
+    transition: transform 0.1s;
+  }
+
+  .fan__controls label:hover {
+    transform: translate(0, 20%);
+  }
+
+  .fan__controls label:active {
+    transform: translate(0, 40%);
+  }
+
+  .scene {
+    position: absolute;
+    height: calc(var(--size) * 1vmin);
+    width: calc(var(--size) * 1vmin);
+    top: 50%;
+    left: 50%;
+    transform: translate3d(-50%, -50%, 0vmin) rotateX(-24deg) rotateY(34deg)
+      rotateX(90deg);
+  }
+
+  .fan {
+    height: var(--height);
+    width: var(--width);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotateX(-90deg)
+      rotateX(calc(var(--rotateX, 0) * 1deg))
+      rotateY(calc(var(--rotateY, 0) * 1deg));
+  }
+
+  .fan__base {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, 0);
+    height: 8%;
+    width: 80%;
+  }
+
+  .fan__controls {
+    height: 6%;
+    width: 50%;
+    position: absolute;
+    bottom: 6%;
+    left: 50%;
+    transform: translate3d(-50%, 0, calc(var(--size) * 0.3vmin));
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 6%;
+  }
+
+  .fan__housing {
+    height: 150%;
+    width: 150%;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    position: absolute;
+    pointer-events: none;
+    transform: translate3d(-50%, -50%, calc(var(--size) * 0.45vmin));
+  }
+
+  .fan__housing-rear,
+  .fan__housing-front {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: 80%;
+    width: 80%;
+    border-radius: 50%;
+  }
+
+  .fan__housing-front {
+    transform: translate3d(-50%, -50%, calc(var(--size) * 0.11vmin));
+  }
+
+  .fan__housing-front:after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: 35%;
+    width: 35%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+  }
+  .fan__housing-rear {
+    transform: translate3d(-50%, -50%, calc(var(--size) * -0.1vmin));
+  }
+
+  .fan__head {
+    height: calc(var(--size) * 1vmin);
+    width: calc(var(--size) * 1vmin);
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translate3d(0, 0, calc(var(--size) * -0.25vmin));
+  }
+
+  :root:has(#one:checked, #two:checked, #three:checked):has(#rotate:checked)
+    .fan__head {
+    --rotate-state: running;
+  }
+
+  [for='rotate']:hover {
+    transform: translate(-50%, -10%);
+  }
+
+  :root:has(#rotate:checked) [for='rotate'] {
+    transform: translate(-50%, 20%);
+  }
+
+  .fan__head {
+    animation: fan calc(var(--fan-speed, 1) * 1s)
+      calc(var(--fan-speed, 1) * -0.5s) infinite alternate ease-in-out
+      var(--rotate-state, paused);
+  }
+
+  .fan__rotater {
+    top: 50%;
+    width: calc(var(--size) * 0.2vmin);
+    height: calc(var(--size) * 0.2vmin);
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .fan__spine {
+    height: 57.5%;
+    bottom: 8%;
+    width: 20%;
+    position: absolute;
+    left: 50%;
+    transform: translate3d(-50%, 0%, calc(var(--size) * -0.25vmin));
+  }
+
+  .fan__stalk {
+    height: 160%;
+    left: 50%;
+    bottom: 0;
+    transform: translate(-50%, 0);
+    transition: transform 0.2s cubic-bezier(0, 1.4, 0.2, 1.4);
+    width: 75%;
+    position: absolute;
+
+    & > div {
+      width: 40%;
+      left: 50%;
+      translate: -50% 0;
+    }
+  }
+
+  .fan__blades {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: 16%;
+    width: 16%;
+    transform: translate3d(-50%, -50%, -1px) rotate(0deg);
+    animation: rotate calc(var(--blade-speed, 0) * 1s) infinite linear;
+  }
+
+  .fan__blade {
+    height: 300%;
+    width: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform-origin: 50% 0;
+    transform: translate(-50%, 0) rotate(calc(var(--rotate, 0) * 1deg));
+  }
+
+  .fan__blade:nth-of-type(1) {
+    --rotate: 0;
+  }
+
+  .fan__blade:nth-of-type(2) {
+    --rotate: calc(360 / 3 * 1);
+  }
+
+  .fan__blade:nth-of-type(3) {
+    --rotate: calc(360 / 3 * 2);
+  }
+
+  .fan__barrel {
+    height: 22.5%;
+    width: 22.5%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate3d(-50%, -50%, calc(var(--size) * 0.3vmin));
+  }
+
+  .base {
+    --thickness: calc(var(--size) * 0.8);
+  }
+
+  .control {
+    --thickness: calc(((var(--size) * 0.5) - ((var(--size) * 0.5) * 0.18)) / 3);
+  }
+
+  .spine {
+    --thickness: calc(var(--size) * 0.2);
+  }
+
+  .rotater {
+    --thickness: calc(var(--size) * 0.2);
+  }
+
+  .barrel {
+    --thickness: calc(var(--size) * 0.4);
+  }
+
+  .stalk {
+    --thickness: calc(var(--size) * 0.05);
+  }
+
+  /* Colors */
+  .fan__housing,
+  .fan__housing-rear,
+  .fan__housing-front {
+    background: color-mix(in lch, var(--color), #0000 70%);
+    border: 1vmin solid color-mix(in lch, var(--color), #000 15%);
+  }
+  .fan__housing-front::after {
+    background: color-mix(in lch, var(--color), #000 5%);
+  }
+  .fan__blade {
+    background: linear-gradient(var(--accent), var(--accent)) 50% 95% / 100% 2%
+        no-repeat,
+      var(--color);
+  }
+  .base div {
+    background: var(--color);
+  }
+  .control div {
+    background: color-mix(in lch, var(--color), #000 10%);
+  }
+
+  .fan__control:nth-of-type(1) .control div {
+    background: var(--accent);
+  }
+  .spine div {
+    background: var(--color);
+  }
+
+  .rotater div {
+    background: var(--color);
+  }
+  .barrel div {
+    background: var(--color);
+  }
+
+  .stalk div {
+    background: var(--accent);
+  }
+
+  /* Animation */
+
+  @keyframes fan {
+    0%,
+    5% {
+      transform: translate3d(0, 0, calc(var(--width) * -0.25))
+        rotateY(calc(var(--rotation, 0) * 1deg));
+    }
+
+    95%,
+    100% {
+      transform: translate3d(0, 0, calc(var(--width) * -0.25))
+        rotateY(calc(var(--rotation, 0) * -1deg));
+    }
+  }
+
+  @keyframes rotate {
+    from {
+      transform: translate3d(-50%, -50%, -1px) rotate(0deg);
+    }
+
+    to {
+      transform: translate3d(-50%, -50%, -1px) rotate(360deg);
+    }
+  }
+}
+
+@layer base {
+  :root {
+    --font-size-min: 16;
+    --font-size-max: 20;
+    --font-ratio-min: 1.2;
+    --font-ratio-max: 1.33;
+    --font-width-min: 375;
+    --font-width-max: 1500;
+  }
+
+  :where(.fluid) {
+    --fluid-min: calc(
+      var(--font-size-min) * pow(var(--font-ratio-min), var(--font-level, 0))
+    );
+    --fluid-max: calc(
+      var(--font-size-max) * pow(var(--font-ratio-max), var(--font-level, 0))
+    );
+    --fluid-preferred: calc(
+      (var(--fluid-max) - var(--fluid-min)) /
+        (var(--font-width-max) - var(--font-width-min))
+    );
+    --fluid-type: clamp(
+      (var(--fluid-min) / 16) * 1rem,
+      ((var(--fluid-min) / 16) * 1rem) -
+        (((var(--fluid-preferred) * var(--font-width-min)) / 16) * 1rem) +
+        (var(--fluid-preferred) * var(--variable-unit, 100vi)),
+      (var(--fluid-max) / 16) * 1rem
+    );
+    font-size: var(--fluid-type);
+  }
+
+  *,
+  *:after,
+  *:before {
+    box-sizing: border-box;
+  }
+
+  body {
+    display: grid;
+    place-items: center;
+    min-height: 100vh;
+    font-family: 'SF Pro Text', 'SF Pro Icons', 'AOS Icons', 'Helvetica Neue',
+      Helvetica, Arial, sans-serif, system-ui;
+  }
+
+  body::before {
+    --size: 45px;
+    --line: color-mix(in lch, canvasText, transparent 70%);
+    content: '';
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    background: linear-gradient(
+          90deg,
+          var(--line) 1px,
+          transparent 1px var(--size)
+        )
+        50% 50% / var(--size) var(--size),
+      linear-gradient(var(--line) 1px, transparent 1px var(--size)) 50% 50% /
+        var(--size) var(--size);
+    mask: linear-gradient(-20deg, transparent 50%, white);
+    top: 0;
+    transform-style: flat;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .bear-link {
+    color: canvasText;
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    width: 48px;
+    aspect-ratio: 1;
+    display: grid;
+    place-items: center;
+    opacity: 0.8;
+  }
+
+  :where(.x-link, .bear-link):is(:hover, :focus-visible) {
+    opacity: 1;
+  }
+
+  .bear-link svg {
+    width: 75%;
+  }
+
+  /* Utilities */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+}
