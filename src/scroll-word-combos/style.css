@@ -1,0 +1,295 @@
+@import url('https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&display=swap');
+/* @import url('https://unpkg.com/normalize.css') layer(normalize); */
+@import 'normalize.css' layer(normalize);
+
+@layer normalize, base, demo;
+
+@layer demo {
+  :root {
+    --heading: 35svh;
+    timeline-scope: --main;
+  }
+
+  header a {
+    padding: 1rem 2rem;
+    border-radius: 100px;
+    background: linear-gradient(68deg, hsl(45 80% 60%), orange);
+    text-decoration: none;
+    color: hsl(0 0% 10%);
+    font-weight: 600;
+  }
+
+  .arrow {
+    position: absolute;
+    left: 90%;
+    top: calc(100% + 1rem);
+    width: 70px;
+    z-index: 9999;
+    font-size: 14px;
+  }
+
+  .arrow svg {
+    scale: 1 1;
+    rotate: -90deg;
+  }
+
+  .arrow span {
+    position: absolute;
+    font-family: 'Gloria Hallelujah', cursive;
+    rotate: -10deg;
+    left: 0%;
+    top: 105%;
+    white-space: nowrap;
+  }
+
+  body {
+    animation: indicate both steps(2);
+    animation-timeline: --main;
+    animation-range: entry 50% exit 0%;
+    counter-set: section var(--section);
+  }
+
+  main::after {
+    content: 'Debug: ' counter(section);
+    position: fixed;
+    pointer-events: none;
+    top: 6rem;
+    right: 0.25rem;
+    background: color-mix(in hsl, canvasText, canvas 20%);
+    color: canvas;
+    padding: 1rem;
+    border-radius: 12px;
+    border: 4px double canvas;
+    font-size: 14px;
+    font-family: monospace;
+    font-weight: 500;
+    opacity: 0;
+    transition: opacity 0.25s;
+  }
+
+  [data-debug='true'] main::after {
+    opacity: 1;
+  }
+
+  @property --section {
+    inherits: true;
+    syntax: '<integer>';
+    initial-value: 0;
+  }
+  @keyframes indicate {
+    to {
+      --section: 2;
+    }
+  }
+
+  header {
+    display: grid;
+    place-items: center;
+    align-content: end;
+    height: 50svh;
+  }
+
+  header h1 {
+    --font-level: 5;
+    line-height: 1;
+    text-align: center;
+    position: relative;
+  }
+
+  footer {
+    padding: 2rem;
+  }
+
+  main {
+    --font-level: 0.75;
+    font-weight: 300;
+    margin-top: calc(var(--heading) * -1);
+    view-timeline: --main;
+    @media (min-width: 768px) {
+      margin-block: 25svh;
+    }
+  }
+
+  h1 {
+    --font-level: 3.5;
+    display: flex;
+    gap: 0.5ch;
+  }
+
+  .track {
+    display: grid;
+    mask: linear-gradient(#0000, #000 0.1lh calc(100% - 0.1lh), #0000);
+  }
+
+  .runner {
+    display: grid;
+    transition: translate 0.25s;
+    translate: 0 calc(var(--section) * -100%);
+  }
+
+  .runner > * {
+    grid-area: 1 / 1;
+    background: linear-gradient(68deg, hsl(45 80% 60%), orange);
+    background-clip: text;
+    color: transparent;
+  }
+
+  .track span:nth-of-type(2) {
+    translate: 0 100%;
+  }
+  .track span:nth-of-type(3) {
+    translate: 0 200%;
+  }
+
+  .content {
+    width: 900px;
+    max-width: calc(100vw - 2rem);
+
+    @media (min-width: 768px) {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 2rem;
+    }
+  }
+
+  aside {
+    height: var(--heading);
+    position: sticky;
+    top: 0;
+    @media (min-width: 768px) {
+      height: 100svh;
+    }
+  }
+
+  section {
+    height: 50svh;
+  }
+
+  p {
+    opacity: 0.8;
+  }
+
+  :where(aside, section) {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+  }
+}
+
+@layer base {
+  :root {
+    --font-size-min: 16;
+    --font-size-max: 20;
+    --font-ratio-min: 1.2;
+    --font-ratio-max: 1.33;
+    --font-width-min: 375;
+    --font-width-max: 1500;
+  }
+
+  :where(.fluid) {
+    --fluid-min: calc(
+      var(--font-size-min) * pow(var(--font-ratio-min), var(--font-level, 0))
+    );
+    --fluid-max: calc(
+      var(--font-size-max) * pow(var(--font-ratio-max), var(--font-level, 0))
+    );
+    --fluid-preferred: calc(
+      (var(--fluid-max) - var(--fluid-min)) /
+        (var(--font-width-max) - var(--font-width-min))
+    );
+    --fluid-type: clamp(
+      (var(--fluid-min) / 16) * 1rem,
+      ((var(--fluid-min) / 16) * 1rem) -
+        (((var(--fluid-preferred) * var(--font-width-min)) / 16) * 1rem) +
+        (var(--fluid-preferred) * var(--variable-unit, 100vi)),
+      (var(--fluid-max) / 16) * 1rem
+    );
+    font-size: var(--fluid-type);
+  }
+
+  *,
+  *:after,
+  *:before {
+    box-sizing: border-box;
+  }
+
+  html {
+    color-scheme: light dark;
+  }
+
+  [data-theme='light'] {
+    color-scheme: light only;
+  }
+
+  [data-theme='dark'] {
+    color-scheme: dark only;
+  }
+
+  body {
+    display: grid;
+    place-items: center;
+    min-height: 100vh;
+    font-family: 'SF Pro Text', 'SF Pro Icons', 'AOS Icons', 'Helvetica Neue',
+      Helvetica, Arial, sans-serif, system-ui;
+  }
+
+  body::before {
+    --size: 45px;
+    --line: color-mix(in lch, canvasText, transparent 70%);
+    content: '';
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    background: linear-gradient(
+          90deg,
+          var(--line) 1px,
+          transparent 1px var(--size)
+        )
+        50% 50% / var(--size) var(--size),
+      linear-gradient(var(--line) 1px, transparent 1px var(--size)) 50% 50% /
+        var(--size) var(--size);
+    mask: linear-gradient(-20deg, transparent 50%, white);
+    top: 0;
+    transform-style: flat;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .bear-link {
+    color: canvasText;
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    width: 48px;
+    aspect-ratio: 1;
+    display: grid;
+    place-items: center;
+    opacity: 0.8;
+  }
+
+  :where(.x-link, .bear-link):is(:hover, :focus-visible) {
+    opacity: 1;
+  }
+
+  .bear-link svg {
+    width: 75%;
+  }
+
+  /* Utilities */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+}
+
+/* unlayered overrides */
+div.tp-dfwv {
+  position: fixed;
+}
