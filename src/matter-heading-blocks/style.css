@@ -3,6 +3,11 @@
 @layer normalize, base, demo;
 
 @layer demo {
+  body {
+    align-content: start;
+    height: 150vh;
+  }
+
   h1 {
     --font-level: 4;
     text-wrap: balance;
@@ -26,7 +31,6 @@
     place-items: center;
     align-content: end;
     padding-bottom: 15svmin;
-    overflow: hidden;
     position: relative;
   }
 
@@ -162,4 +166,8 @@
     white-space: nowrap;
     border-width: 0;
   }
+}
+
+div.tp-dfwv {
+  position: fixed;
 }

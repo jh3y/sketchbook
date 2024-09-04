@@ -116,7 +116,7 @@ for (const elem of document.querySelectorAll('.content')) {
     h: bounds.height,
     body: Matter.Bodies.rectangle(
       bounds.x + bounds.width * 0.5,
-      bounds.y + bounds.height * 0.5,
+      bounds.y + bounds.height * 0.5 + window.scrollY,
       bounds.width,
       bounds.height,
       {
@@ -171,8 +171,18 @@ const wallLeft = Matter.Bodies.rectangle(
   }
 )
 const mouseConstraint = Matter.MouseConstraint.create(engine, {
-  element: document.body,
+  element: document.documentElement,
 })
+
+mouseConstraint.mouse.element.removeEventListener(
+  'wheel',
+  mouseConstraint.mouse.mousewheel
+)
+mouseConstraint.mouse.element.removeEventListener(
+  'DOMMouseScroll',
+  mouseConstraint.mouse.mousewheel
+)
+
 Matter.Composite.add(engine.world, [
   ceiling,
   ground,
