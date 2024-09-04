@@ -94,9 +94,9 @@ for (const block of blocks) {
       // this.elem.style.setProperty('--y', y)
       // this.elem.style.setProperty('--x', x)
       // this.elem.style.setProperty('--r', this.body.angle)
-      this.elem.style.top = `${y - this.h / 2}px`
-      this.elem.style.left = `${x - this.w / 2}px`
-      this.elem.style.transform = `rotate(${this.body.angle}rad)`
+      // this.elem.style.top = `${y - this.h / 2}px`
+      // this.elem.style.left = `${x - this.w / 2}px`
+      // this.elem.style.transform = `rotate(${this.body.angle}rad)`
     },
   }
 
@@ -104,9 +104,7 @@ for (const block of blocks) {
   blockRenderers.push(newBlock)
 }
 
-console.info({ blocks })
-
-for (const elem of document.querySelectorAll('.content')) {
+for (const elem of document.querySelectorAll('.word')) {
   // Create new bodies and add them to the engine so they can be rendered.
   // Give them random placement though
   const bounds = elem.getBoundingClientRect()
@@ -125,11 +123,6 @@ for (const elem of document.querySelectorAll('.content')) {
     ),
   }
 
-  const debugWord = Object.assign(document.createElement('div'), {
-    className: 'debugger',
-    style: `--x: ${bounds.x}; --y: ${bounds.y}; --w: ${bounds.width}; --h: ${bounds.height};`,
-  })
-  header.appendChild(debugWord)
   wordBodies.push(newBody.body)
   // wordRenderers.push(newBody)
 }
@@ -192,9 +185,15 @@ Matter.Composite.add(engine.world, [
   mouseConstraint,
 ])
 
+const canvas = document.querySelector('canvas')
+const ctx = canvas.getContext('2d')
+canvas.width = canvas.offsetWidth
+canvas.height = canvas.offsetHeight
+
 // Kick off the render...
 let frame = 0
 const buffer = 12
+const size = 60
 const render = () => {
   frame++
   const newBody = blockBodies.filter((body) => !body.__added)[0]
@@ -203,8 +202,15 @@ const render = () => {
     Matter.Composite.add(engine.world, [newBody])
   }
   // Rendera all the bodies in here
+  ctx.clearRect(0, 0, canvas.width, canvas.height)
   for (const entity of blockRenderers) {
     entity.render()
+
+    ctx.save()
+    ctx.translate(entity.body.position.x, entity.body.position.y)
+    ctx.rotate(entity.body.angle)
+    ctx.fillRect(size * -0.5, size * -0.5, size, size)
+    ctx.restore()
   }
   Matter.Engine.update(engine)
 }

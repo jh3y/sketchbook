@@ -9,19 +9,18 @@
   }
 
   h1 {
-    --font-level: 4;
+    --font-level: 5;
     text-wrap: balance;
     margin: 0;
     line-height: 1;
   }
 
-  .debugger {
-    position: fixed;
-    top: calc(var(--y) * 1px);
-    left: calc(var(--x) * 1px);
-    height: calc(var(--h) * 1px);
-    width: calc(var(--w) * 1px);
-    background: purple;
+  canvas {
+    background: hsl(0 0% 0% / 0.2);
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
   }
 
   header {
@@ -35,6 +34,7 @@
   }
 
   .block {
+    /* display: none; */
     width: 60px;
     aspect-ratio: 1;
     background: red;
