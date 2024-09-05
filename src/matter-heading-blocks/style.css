@@ -15,12 +15,17 @@
     line-height: 1;
   }
 
+  ::selection {
+    background: hsl(280 80% 60%);
+  }
+
   canvas {
-    background: hsl(0 0% 0% / 0.2);
+    /* background: hsl(0 0% 0% / 0.2); */
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
+    pointer-events: none;
   }
 
   header {
@@ -75,6 +80,18 @@
     --font-ratio-max: 1.33;
     --font-width-min: 375;
     --font-width-max: 1500;
+  }
+
+  html {
+    color-scheme: light dark;
+  }
+
+  [data-theme='light'] {
+    color-scheme: light only;
+  }
+
+  [data-theme='dark'] {
+    color-scheme: dark only;
   }
 
   :where(.fluid) {

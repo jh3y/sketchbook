@@ -73,22 +73,23 @@ const blocks = new Array(20).fill().map((e) =>
 
 const blockBodies = []
 const blockRenderers = []
-const header = document.querySelector('header')
-for (const block of blocks) {
-  header.appendChild(block)
-  block.style.setProperty('--l', Math.random() * 0.5)
-  block.style.setProperty('--t', Math.random() * 0.2)
-  const bounds = block.getBoundingClientRect()
+const blockSize = 60
+for (let i = 0; i < 35; i++) {
+  // header.appendChild(block)
+  // block.style.setProperty('--l', Math.random() * 0.5)
+  // block.style.setProperty('--t', Math.random() * 0.2)
+  // const bounds = block.getBoundingClientRect()
   const newBlock = {
-    w: bounds.width,
-    h: bounds.height,
+    w: blockSize,
+    h: blockSize,
+    fill: `hsl(${Math.random() * 359} 80% 80%)`,
     body: Matter.Bodies.rectangle(
-      bounds.left,
-      bounds.top,
-      bounds.width,
-      bounds.height
+      Math.random() * (window.innerWidth * 0.5),
+      Math.random() * (window.innerHeight * -0.2) - blockSize,
+      blockSize,
+      blockSize
     ),
-    elem: block,
+    // elem: block,
     render() {
       const { x, y } = this.body.position
       // this.elem.style.setProperty('--y', y)
@@ -128,7 +129,7 @@ for (const elem of document.querySelectorAll('.word')) {
 }
 
 const ceiling = Matter.Bodies.rectangle(
-  0,
+  window.innerWidth * 0.5,
   window.innerHeight * -0.5,
   window.innerWidth,
   10,
@@ -147,22 +148,16 @@ const ground = Matter.Bodies.rectangle(
 )
 const wallRight = Matter.Bodies.rectangle(
   window.innerWidth,
-  window.innerHeight * -0.5,
+  0,
   10,
-  window.innerHeight * window.devicePixelRatio + window.innerHeight * 4,
+  window.innerHeight * 2,
   {
     isStatic: true,
   }
 )
-const wallLeft = Matter.Bodies.rectangle(
-  -10,
-  window.innerHeight * -0.5,
-  10,
-  window.innerHeight * window.devicePixelRatio + window.innerHeight * 4,
-  {
-    isStatic: true,
-  }
-)
+const wallLeft = Matter.Bodies.rectangle(-10, 0, 10, window.innerHeight * 2, {
+  isStatic: true,
+})
 const mouseConstraint = Matter.MouseConstraint.create(engine, {
   element: document.documentElement,
 })
@@ -187,13 +182,13 @@ Matter.Composite.add(engine.world, [
 
 const canvas = document.querySelector('canvas')
 const ctx = canvas.getContext('2d')
-canvas.width = canvas.offsetWidth
-canvas.height = canvas.offsetHeight
+canvas.width = canvas.offsetWidth * DPR
+canvas.height = canvas.offsetHeight * DPR
 
 // Kick off the render...
 let frame = 0
 const buffer = 12
-const size = 60
+const size = 60 * DPR
 const render = () => {
   frame++
   const newBody = blockBodies.filter((body) => !body.__added)[0]
@@ -207,11 +202,22 @@ const render = () => {
     entity.render()
 
     ctx.save()
-    ctx.translate(entity.body.position.x, entity.body.position.y)
+
+    ctx.translate(entity.body.position.x * DPR, entity.body.position.y * DPR)
     ctx.rotate(entity.body.angle)
+    ctx.fillStyle = entity.fill || 'black'
     ctx.fillRect(size * -0.5, size * -0.5, size, size)
     ctx.restore()
   }
+  // ctx.save()
+  // ctx.translate(ground.position.x * DPR, ground.position.y * DPR)
+  // ctx.fillRect(
+  //   window.innerWidth * DPR * -0.5,
+  //   10 * DPR * -0.5,
+  //   window.innerWidth * DPR,
+  //   10 * DPR
+  // )
+  // ctx.restore()
   Matter.Engine.update(engine)
 }
 
@@ -219,3 +225,13 @@ setTimeout(() => {
   document.documentElement.dataset.active = true
   gsap.ticker.add(render)
 }, 0)
+
+const reset = () => {
+  for (const body of blockBodies) {
+    body.__added = false
+    body.position.x = Math.random() * (window.innerWidth * 0.5)
+    body.position.y = Math.random() * (window.innerHeight * 0.2)
+  }
+}
+
+window.addEventListener('resize', reset)
