@@ -1,0 +1,242 @@
+@import 'normalize.css' layer(normalize);
+
+@layer normalize, base, demo;
+
+@layer demo {
+  :root {
+    --height: 6px;
+    --width: 200px;
+    --bg: linear-gradient(
+      90deg,
+      #d15f29 0%,
+      #cdaf3f 16.66%,
+      #63cb61 33.33%,
+      #a45dfc 50%,
+      #cf6028 66.66%,
+      #c8b050 83.33%,
+      #64cb61 100%
+    );
+  }
+  .beam {
+    width: var(--width);
+    max-width: calc(100vw - 2rem);
+    height: var(--height);
+    position: relative;
+    border-radius: 100px;
+    background: var(--bg);
+
+    .beam__light,
+    .beam__fade {
+      width: 98%;
+      height: 40%;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      translate: -50% -50%;
+    }
+
+    .beam__light::after,
+    .beam__fade::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: white;
+      mix-blend-mode: color-dodge;
+      border-radius: 100px;
+    }
+
+    .beam__fade {
+      filter: blur(5px);
+      opacity: 0.85;
+    }
+
+    .beam__gradient {
+      background: var(--bg);
+      background-size: 200% 100%;
+      animation: gradient 2s infinite;
+      opacity: 0.8;
+      height: 350%;
+      width: 150%;
+      border-radius: 100px;
+      mix-blend-mode: color-dodge;
+      position: absolute;
+      left: 50%;
+      filter: blur(10px);
+      top: 50%;
+      translate: -50% -50%;
+    }
+
+    .beam__gradient::after {
+      content: '';
+      position: absolute;
+      inset: 20% -15%;
+      background: var(--bg);
+      background-size: 200% 100%;
+      animation: gradient 2s infinite;
+      filter: blur(5px);
+      mix-blend-mode: color-dodge;
+    }
+
+    .beam__ball,
+    .beam__cue {
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      border-radius: 100px;
+      container-type: inline-size;
+    }
+
+    .beam__cue {
+      z-index: 2;
+      filter: blur(4px);
+    }
+
+    .beam__cue::after,
+    .beam__ball::after {
+      content: '';
+      position: absolute;
+      mix-blend-mode: color-dodge;
+      background: white;
+      filter: blur(15px);
+      border-radius: 50%;
+      height: 250%;
+      aspect-ratio: 1;
+      left: 0;
+      top: 50%;
+      translate: 0 -50%;
+      animation: scale 2s infinite;
+    }
+
+    .beam__cue::after {
+      filter: blur(4px);
+    }
+  }
+
+  @keyframes gradient {
+    to {
+      /* background-position: -100% 50%; */
+    }
+  }
+
+  @keyframes scale {
+    0% {
+      scale: 0;
+    }
+    50% {
+      scale: 1.5 1.15;
+    }
+    80% {
+      scale: 0;
+    }
+    100% {
+      scale: 0;
+      translate: calc(-100% + 100cqi) -50%;
+    }
+  }
+}
+
+@layer base {
+  html {
+    color-scheme: dark only;
+    background: black;
+  }
+
+  :root {
+    --font-size-min: 16;
+    --font-size-max: 20;
+    --font-ratio-min: 1.2;
+    --font-ratio-max: 1.33;
+    --font-width-min: 375;
+    --font-width-max: 1500;
+  }
+
+  :where(.fluid) {
+    --fluid-min: calc(
+      var(--font-size-min) * pow(var(--font-ratio-min), var(--font-level, 0))
+    );
+    --fluid-max: calc(
+      var(--font-size-max) * pow(var(--font-ratio-max), var(--font-level, 0))
+    );
+    --fluid-preferred: calc(
+      (var(--fluid-max) - var(--fluid-min)) /
+        (var(--font-width-max) - var(--font-width-min))
+    );
+    --fluid-type: clamp(
+      (var(--fluid-min) / 16) * 1rem,
+      ((var(--fluid-min) / 16) * 1rem) -
+        (((var(--fluid-preferred) * var(--font-width-min)) / 16) * 1rem) +
+        (var(--fluid-preferred) * var(--variable-unit, 100vi)),
+      (var(--fluid-max) / 16) * 1rem
+    );
+    font-size: var(--fluid-type);
+  }
+
+  *,
+  *:after,
+  *:before {
+    box-sizing: border-box;
+  }
+
+  body {
+    display: grid;
+    place-items: center;
+    min-height: 100vh;
+    font-family: 'SF Pro Text', 'SF Pro Icons', 'AOS Icons', 'Helvetica Neue',
+      Helvetica, Arial, sans-serif, system-ui;
+  }
+
+  body::before {
+    --size: 45px;
+    --line: color-mix(in lch, canvasText, transparent 70%);
+    content: '';
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    background: linear-gradient(
+          90deg,
+          var(--line) 1px,
+          transparent 1px var(--size)
+        )
+        50% 50% / var(--size) var(--size),
+      linear-gradient(var(--line) 1px, transparent 1px var(--size)) 50% 50% /
+        var(--size) var(--size);
+    mask: linear-gradient(-20deg, transparent 50%, white);
+    top: 0;
+    transform-style: flat;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .bear-link {
+    color: canvasText;
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    width: 48px;
+    aspect-ratio: 1;
+    display: grid;
+    place-items: center;
+    opacity: 0.8;
+  }
+
+  :where(.x-link, .bear-link):is(:hover, :focus-visible) {
+    opacity: 1;
+  }
+
+  .bear-link svg {
+    width: 75%;
+  }
+
+  /* Utilities */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+}
