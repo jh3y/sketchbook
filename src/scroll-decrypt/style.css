@@ -1,6 +1,61 @@
 @import 'normalize.css' layer(normalize);
 
+@font-face {
+  font-family: 'Departure Mono';
+  src: url('https://assets.codepen.io/605876/DepartureMono-Regular.woff');
+}
+
 @layer normalize, base, demo;
+
+@layer demo {
+  body {
+    min-height: 200vh;
+  }
+  h1 {
+    --font-level: 4;
+    font-family: 'Departure Mono', monospace;
+    text-transform: uppercase;
+    view-timeline: --heading;
+    line-height: 1;
+    margin: 0;
+
+    > span:not(.sr-only) {
+      /* outline: 2px dashed hotpink; */
+      overflow: hidden;
+    }
+    span:not(.sr-only) {
+      position: relative;
+      display: inline-block;
+
+      span:nth-of-type(1) {
+        position: absolute;
+        width: 1ch;
+        translate: -50% 0;
+        word-break: break-word;
+        bottom: 0%;
+        left: 50%;
+        animation: track 1s calc(var(--i) * 0.1s) both steps(10);
+
+        animation: track calc(var(--i) * 0.1s) both steps(10);
+        animation-timeline: --heading;
+        animation-range: entry calc(0% + (var(--i) * 1rem)) contain
+          calc(50% - (var(--i) * 1rem));
+      }
+
+      span:nth-of-type(2) {
+        opacity: 0;
+      }
+    }
+  }
+  [data-char=' '] span:not(.sr-only) span:nth-of-type(1) {
+    position: static;
+  }
+  @keyframes track {
+    to {
+      translate: -50% calc(100% - 1lh);
+    }
+  }
+}
 
 @layer base {
   :root {
