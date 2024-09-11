@@ -1,0 +1,391 @@
+@import url('https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&display=swap');
+/* @import url('https://unpkg.com/normalize.css') layer(normalize); */
+@import 'normalize.css' layer(normalize);
+
+@layer normalize, base, demo;
+
+@layer demo {
+  :root {
+    --color: color-mix(in hsl, canvas, canvasText 10%);
+    --bg: color-mix(in hsl, canvasText, canvas 20%);
+    --blue: color-mix(in hsl, hsl(210 80% 50%), canvas 25%);
+    --green: color-mix(in hsl, hsl(140 80% 60%), canvas 25%);
+    --list: 200px;
+    --speed: 0.2s;
+    --power-1-in: linear(0 0%,
+      0.0027 3.64%,
+      0.0106 7.29%,
+      0.0425 14.58%,
+      0.0957 21.87%,
+      0.1701 29.16%,
+      0.2477 35.19%,
+      0.3401 41.23%,
+      0.5982 55.18%,
+      0.7044 61.56%,
+      0.7987 68.28%,
+      0.875 75%,
+      0.9297 81.25%,
+      0.9687 87.5%,
+      0.9922 93.75%,
+      1 100%
+    );
+    --elastic: linear(0 0%,
+      -0.0055 4.83%,
+      -0.0317 15.58%,
+      -0.0351 20.24%,
+      -0.031 23.11%,
+      -0.0216 25.78%,
+      -0.0065 28.32%,
+      0.0143 30.74%,
+      0.0478 33.58%,
+      0.0907 36.32%,
+      0.2048 41.53%,
+      0.3517 46.27%,
+      0.6096 52.68%,
+      0.7371 56.42%,
+      0.8583 61.09%,
+      0.9466 66.02%,
+      0.9811 68.81%,
+      1.0068 71.72%,
+      1.0241 74.79%,
+      1.0334 78.07%,
+      1.0326 83.83%,
+      1.0053 95.23%,
+      1 100%
+    );
+  }
+
+  .arrow {
+    width: 15vmin;
+    position: absolute;
+    bottom: 8rem;
+    left: 8rem;
+    color: color-mix(in hsl, canvasText, #0000 40%);
+  }
+
+  .arrow svg {
+    width: 100%;
+    scale: -1 -1;
+  }
+
+  .arrow label {
+    font-family: 'Gloria Hallelujah', cursive;
+    position: absolute;
+    left: 80%;
+    bottom: 25%;
+    rotate: 8deg;
+    font-size: 2vmin;
+    white-space: nowrap;
+  }
+
+  /* Handles the CTA button */
+  [popovertarget='status'] {
+    position: fixed;
+    width: 44px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: 0;
+    background: var(--bg);
+    color: var(--color);
+    display: grid;
+    place-items: center;
+    padding: 0;
+    cursor: pointer;
+    anchor-name: --anchor;
+    inset: unset;
+    margin: 0;
+    top: calc(100vh - 2rem - 44px);
+    left: 2rem;
+
+    svg {
+      width: 50%;
+    }
+  }
+
+  /* The actual popover content inside unfiltered content */
+  dl {
+    display: grid;
+    position: absolute;
+    grid-template-columns: auto 1fr;
+    gap: 0.5rem 1rem;
+    margin: 0;
+    width: var(--list);
+    padding: 1rem;
+    color: var(--color);
+    font-family: monospace;
+    line-height: 1;
+  }
+
+  dd,
+  dt {
+    padding: 0;
+    margin: 0;
+  }
+
+  dd {
+    text-align: right;
+  }
+
+  /* Popover styling */
+  #status {
+    /* default anchor to use */
+    position-anchor: --anchor;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    height: anchor-size(height);
+    width: anchor-size(width);
+    inset: unset;
+    left: anchor(left);
+    bottom: anchor(bottom);
+    overflow: visible;
+    font-family: monospace;
+    line-height: 1;
+  }
+
+  /* Animation stuff... */
+  /* Popover uses a display transition of 2x on the speed */
+  /* Use a container query to get some translation in */
+  #status {
+    transition-property: display, overlay;
+    transition-duration: calc(var(--speed) * 3);
+    transition-behavior: allow-discrete;
+    width: anchor-size(width);
+    height: anchor-size(height);
+    bottom: anchor(bottom);
+    background: var(--bg);
+    border-radius: 50%;
+    container-type: size;
+    pointer-events: none;
+  }
+  .filtered,
+  .unfiltered {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    inset: 0;
+  }
+  .filtered {
+    filter: url(#goo);
+  }
+
+  /* Both blobs do the same thing, cover the popover area */
+  .blob {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: var(--bg);
+  }
+
+  .unfiltered .content,
+  .filtered .content {
+    transition-property: display, overlay, width, height, translate,
+      border-radius;
+    transition-duration: var(--speed), var(--speed), var(--speed), var(--speed),
+      calc(var(--speed) * 2), var(--speed);
+    transition-delay: 0s, 0s, 0s, 0s, calc(var(--speed) * 0.25), 0s;
+    transition-timing-function: var(--power-1-in), var(--power-1-in),
+      var(--power-1-in), var(--power-1-in), var(--elastic), var(--power-1-in);
+    transition-duration: var(--speed);
+    transition-behavior: allow-discrete;
+
+    border-radius: 50%;
+    width: 100%;
+    height: 100%;
+    background: var(--bg);
+    color: var(--color);
+    position: absolute;
+    bottom: 0;
+    left: 0;
+  }
+
+  #status:popover-open .unfiltered .content,
+  #status:popover-open .filtered .content {
+    transition-delay: 0s, 0s, calc(var(--speed) * 0.575),
+      calc(var(--speed) * 0.575), 0s, calc(var(--speed) * 0.575);
+    transition-timing-function: var(--power-1-in);
+    border-radius: var(--radius, 0px);
+    width: var(--list);
+    height: calc(3lh + 3rem);
+    translate: 0 calc(100cqh * -1 - 1.5rem);
+
+    @starting-style {
+      translate: 0 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+    }
+  }
+
+  .unfiltered {
+    z-index: 10;
+  }
+
+  .unfiltered .content {
+    /* display: none; */
+    --radius: 18px;
+    /* background: transparent; */
+    background: var(--bg);
+    /* border-radius: 12px; */
+    overflow: hidden;
+    color: var(--color);
+    border-radius: 50%;
+    /* background: transparent;
+    overflow: hidden; */
+  }
+
+  dl {
+    transition-property: display, opacity, translate;
+    transition-duration: var(--speed);
+    transition-delay: 0s;
+    transition-timing-function: var(--power-1-in);
+    transition-behavior: allow-discrete;
+    opacity: 0;
+    translate: 0 1lh;
+  }
+
+  #status:popover-open dl {
+    transition-delay: 0s, calc(var(--speed) * 0.575), calc(var(--speed) * 0.575);
+    opacity: 1;
+    translate: 0 0;
+
+    @starting-style {
+      opacity: 0;
+      translate: 0 1lh;
+    }
+  }
+
+  dt:first-of-type,
+  dd:first-of-type {
+    opacity: 0.6;
+  }
+  dt {
+    font-weight: 600;
+  }
+  dd span {
+    border-radius: 2px;
+  }
+  dd:nth-of-type(3) span {
+    color: var(--green);
+    padding: 0.1rem;
+    background: color-mix(in hsl, currentColor, #0000 85%);
+  }
+  dd:nth-of-type(2) span {
+    padding: 0.1rem;
+    color: var(--blue);
+    background: color-mix(in hsl, currentColor, #0000 85%);
+  }
+}
+
+@layer base {
+  :root {
+    --font-size-min: 16;
+    --font-size-max: 20;
+    --font-ratio-min: 1.2;
+    --font-ratio-max: 1.33;
+    --font-width-min: 375;
+    --font-width-max: 1500;
+  }
+
+  html {
+    color-scheme: light dark;
+  }
+
+  [data-theme='light'] {
+    color-scheme: light only;
+  }
+
+  [data-theme='dark'] {
+    color-scheme: dark only;
+  }
+
+  :where(.fluid) {
+    --fluid-min: calc(
+      var(--font-size-min) * pow(var(--font-ratio-min), var(--font-level, 0))
+    );
+    --fluid-max: calc(
+      var(--font-size-max) * pow(var(--font-ratio-max), var(--font-level, 0))
+    );
+    --fluid-preferred: calc(
+      (var(--fluid-max) - var(--fluid-min)) /
+        (var(--font-width-max) - var(--font-width-min))
+    );
+    --fluid-type: clamp(
+      (var(--fluid-min) / 16) * 1rem,
+      ((var(--fluid-min) / 16) * 1rem) -
+        (((var(--fluid-preferred) * var(--font-width-min)) / 16) * 1rem) +
+        (var(--fluid-preferred) * var(--variable-unit, 100vi)),
+      (var(--fluid-max) / 16) * 1rem
+    );
+    font-size: var(--fluid-type);
+  }
+
+  *,
+  *:after,
+  *:before {
+    box-sizing: border-box;
+  }
+
+  body {
+    display: grid;
+    place-items: center;
+    min-height: 100vh;
+    font-family: 'SF Pro Text', 'SF Pro Icons', 'AOS Icons', 'Helvetica Neue',
+      Helvetica, Arial, sans-serif, system-ui;
+  }
+
+  body::before {
+    --size: 45px;
+    --line: color-mix(in lch, canvasText, transparent 70%);
+    content: '';
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    background: linear-gradient(
+          90deg,
+          var(--line) 1px,
+          transparent 1px var(--size)
+        )
+        50% 50% / var(--size) var(--size),
+      linear-gradient(var(--line) 1px, transparent 1px var(--size)) 50% 50% /
+        var(--size) var(--size);
+    mask: linear-gradient(-20deg, transparent 50%, white);
+    top: 0;
+    transform-style: flat;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .bear-link {
+    color: canvasText;
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    width: 48px;
+    aspect-ratio: 1;
+    display: grid;
+    place-items: center;
+    opacity: 0.8;
+  }
+
+  :where(.x-link, .bear-link):is(:hover, :focus-visible) {
+    opacity: 1;
+  }
+
+  .bear-link svg {
+    width: 75%;
+  }
+
+  /* Utilities */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+}
