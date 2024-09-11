@@ -8,48 +8,82 @@
 @layer normalize, base, demo;
 
 @layer demo {
-  body {
-    min-height: 200vh;
-  }
-  h1 {
-    --font-level: 4;
+  header,
+  main {
+    --font-level: 3.5;
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
     font-family: 'Departure Mono', monospace;
     text-transform: uppercase;
+  }
+
+  footer {
+    font-family: 'Departure Mono', monospace;
+    text-transform: uppercase;
+    padding: 1rem;
+  }
+
+  [data-debug='true'] [data-char] {
+    outline: 2px dashed hotpink;
+    overflow: visible;
+  }
+
+  [data-debug='true'] h1 {
+    position: fixed;
+    top: 50%;
+    translate: 0 -50%;
+  }
+
+  [data-debug='true'] :where(header, footer, p) {
+    opacity: 0;
+  }
+
+  .encrypted {
+    --step-start: calc(var(--start, 0) * 1%);
+    --step-end: calc(var(--end, -0.2) * 1%);
     view-timeline: --heading;
+    width: 30ch;
+    max-width: calc(100vw - 2rem);
+  }
+
+  p {
+    margin: 0;
+    opacity: 0.8;
+    line-height: 1;
+  }
+
+  [data-char] {
+    width: 1ch;
+    height: 1lh;
+    overflow: hidden;
+    position: relative;
+    display: inline-block;
+  }
+
+  [data-char] span {
+    position: absolute;
+    width: 1ch;
+    translate: -50% 0;
+    word-break: break-word;
+    white-space: break-spaces;
+    bottom: 0%;
+    left: 50%;
+    animation: track both steps(var(--track, 10));
+    animation-timeline: --heading;
+    animation-range: contain calc(0% + (var(--char-index) * var(--step-start)))
+      calc(50% + (var(--char-index) * var(--step-end)));
+  }
+
+  .word {
+    white-space: nowrap;
+  }
+
+  h1 {
     line-height: 1;
     margin: 0;
-
-    > span:not(.sr-only) {
-      /* outline: 2px dashed hotpink; */
-      overflow: hidden;
-    }
-    span:not(.sr-only) {
-      position: relative;
-      display: inline-block;
-
-      span:nth-of-type(1) {
-        position: absolute;
-        width: 1ch;
-        translate: -50% 0;
-        word-break: break-word;
-        bottom: 0%;
-        left: 50%;
-        animation: track 1s calc(var(--i) * 0.1s) both steps(10);
-
-        animation: track calc(var(--i) * 0.1s) both steps(10);
-        animation-timeline: --heading;
-        animation-range: entry calc(0% + (var(--i) * 1rem)) contain
-          calc(50% - (var(--i) * 1rem));
-      }
-
-      span:nth-of-type(2) {
-        opacity: 0;
-      }
-    }
   }
-  [data-char=' '] span:not(.sr-only) span:nth-of-type(1) {
-    position: static;
-  }
+
   @keyframes track {
     to {
       translate: -50% calc(100% - 1lh);
@@ -79,6 +113,7 @@
     color-scheme: dark only;
   }
 
+  :where(.fluid *),
   :where(.fluid) {
     --fluid-min: calc(
       var(--font-size-min) * pow(var(--font-ratio-min), var(--font-level, 0))
@@ -168,4 +203,8 @@
     white-space: nowrap;
     border-width: 0;
   }
+}
+
+div.tp-dfwv {
+  position: fixed;
 }
