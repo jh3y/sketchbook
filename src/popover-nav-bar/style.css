@@ -1,0 +1,348 @@
+@import 'normalize.css' layer(normalize);
+
+@layer normalize, base, demo;
+
+@layer demo {
+  [aria-hidden] li,
+  .nav li {
+    width: 32px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+  }
+
+  :root {
+    --bg: color-mix(in hsl, canvas 8%, canvasText);
+    --color: color-mix(in hsl, canvas 92%, canvasText);
+  }
+
+  .nav {
+    color: var(--color);
+    box-shadow: 0 4px 8px 0 hsl(0 0% 0% / 0.2);
+    position: fixed;
+    bottom: 3rem;
+    left: 50%;
+    translate: -50% 0;
+    padding: 4px;
+    border-radius: 100px;
+    background: linear-gradient(var(--bg), var(--bg)) padding-box,
+      linear-gradient(white, black) border-box;
+    border: 1px solid transparent;
+    transition: box-shadow 0s var(--transition);
+  }
+
+  body:has(:popover-open) .nav {
+    box-shadow: none;
+    transition-delay: 0s;
+  }
+
+  [popover] [aria-hidden] :where(a),
+  .nav :where(a, button) {
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    text-decoration: none;
+    border: 0;
+    cursor: pointer;
+    font-weight: 500;
+    color: inherit;
+    background: transparent;
+  }
+
+  [popover] [aria-hidden],
+  .nav ul {
+    display: flex;
+    gap: 4px;
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+  }
+
+  [popover] [aria-hidden] {
+    position: absolute;
+    bottom: 4px;
+    left: 50%;
+    translate: -50% 0;
+  }
+
+  .nav {
+    anchor-name: --nav;
+  }
+
+  [popover] .content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: min(var(--width), 100vw - 2rem);
+    height: min(var(--height), 80vh);
+    padding: 4px;
+  }
+
+  [popover] {
+    color: var(--color);
+    position-anchor: --nav;
+    margin: 0;
+    inset: unset;
+    background: linear-gradient(var(--bg), var(--bg)) padding-box,
+      linear-gradient(white, black) border-box;
+    border: 1px solid transparent;
+  }
+
+  /* Animation */
+  :root {
+    --width: 640px;
+    --height: 580px;
+    --transition: 0.35s;
+    --ease: linear(
+      0 0%,
+      0.0027 3.64%,
+      0.0106 7.29%,
+      0.0425 14.58%,
+      0.0957 21.87%,
+      0.1701 29.16%,
+      0.2477 35.19%,
+      0.3401 41.23%,
+      0.5982 55.18%,
+      0.7044 61.56%,
+      0.7987 68.28%,
+      0.875 75%,
+      0.9297 81.25%,
+      0.9687 87.5%,
+      0.9922 93.75%,
+      1 100%
+    );
+  }
+
+  li svg {
+    width: 24px;
+  }
+
+  [popover] {
+    transition-property: display, overlay, width, height, border-radius;
+    transition-duration: var(--transition);
+    transition-behavior: allow-discrete;
+    transition-timing-function: var(--ease);
+    translate: -50% 0;
+    padding: 0;
+    /* overflow: hidden; */
+    clip-path: inset(0 0 0 0 round 21px);
+    box-shadow: 0 4px 8px 0 hsl(0 0% 0% / 0.2);
+
+    bottom: anchor(bottom);
+    left: anchor(left);
+
+    width: anchor-size(width);
+    height: anchor-size(height);
+    border-radius: 21px;
+
+    @starting-style {
+      width: min(var(--width), 100vw - 2rem);
+      height: min(var(--height), 80vh);
+    }
+  }
+
+  [popover] .content {
+    transition-property: display, opacity, filter;
+    transition-duration: var(--transition);
+    transition-behavior: allow-discrete;
+    transition-timing-function: ease-in;
+
+    opacity: 0;
+    filter: blur(4px);
+  }
+
+  .content ul {
+    margin: 0;
+    padding: 0;
+  }
+
+  .content li {
+    padding: 6px 12px;
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+  }
+
+  [type='search'] {
+    width: 100%;
+    padding: 0.75rem;
+    background: transparent;
+    border: 0;
+    color: var(--color);
+
+    &::placeholder {
+      color: red;
+      mask: linear-gradient(80deg, #000, #0000 10px, #000) 0 0 / 200px 100px
+        no-repeat;
+      animation: scale 1s 2s both infinite;
+    }
+
+    @keyframes scale {
+      to {
+        mask-position: -100px 0;
+      }
+    }
+  }
+
+  [popover]:popover-open .content {
+    opacity: 1;
+    filter: blur(0);
+
+    @starting-style {
+      opacity: 0;
+      filter: blur(4px);
+    }
+  }
+
+  [popover]:popover-open {
+    width: min(var(--width), 100vw - 2rem);
+    height: min(var(--height), 80vh);
+    border-radius: 21px;
+
+    @starting-style {
+      width: anchor-size(width);
+      height: anchor-size(height);
+      border-radius: 21px;
+    }
+  }
+
+  [popover] [aria-hidden] li {
+    /* let's say the speed is 20% and has to be done by 75% */
+    /* Your delay window is 55% which you can split using sin() for a curve */
+    --speed: calc(var(--transition) * 0.7);
+    --delay: calc(sin((var(--i) / 6) * 45deg) * (var(--speed) * 1));
+    transition-property: opacity, translate, filter;
+    transition-duration: var(--speed);
+    transition-delay: var(--delay);
+  }
+
+  [popover]:popover-open [aria-hidden] li {
+    translate: 0 100%;
+    opacity: 0;
+    filter: blur(4px);
+
+    @starting-style {
+      translate: 0 0;
+      opacity: 1;
+      filter: blur(0);
+    }
+  }
+}
+
+@layer base {
+  :root {
+    --font-size-min: 16;
+    --font-size-max: 20;
+    --font-ratio-min: 1.2;
+    --font-ratio-max: 1.33;
+    --font-width-min: 375;
+    --font-width-max: 1500;
+  }
+
+  html {
+    color-scheme: light dark;
+  }
+
+  [data-theme='light'] {
+    color-scheme: light only;
+  }
+
+  [data-theme='dark'] {
+    color-scheme: dark only;
+  }
+
+  :where(.fluid) {
+    --fluid-min: calc(
+      var(--font-size-min) * pow(var(--font-ratio-min), var(--font-level, 0))
+    );
+    --fluid-max: calc(
+      var(--font-size-max) * pow(var(--font-ratio-max), var(--font-level, 0))
+    );
+    --fluid-preferred: calc(
+      (var(--fluid-max) - var(--fluid-min)) /
+        (var(--font-width-max) - var(--font-width-min))
+    );
+    --fluid-type: clamp(
+      (var(--fluid-min) / 16) * 1rem,
+      ((var(--fluid-min) / 16) * 1rem) -
+        (((var(--fluid-preferred) * var(--font-width-min)) / 16) * 1rem) +
+        (var(--fluid-preferred) * var(--variable-unit, 100vi)),
+      (var(--fluid-max) / 16) * 1rem
+    );
+    font-size: var(--fluid-type);
+  }
+
+  *,
+  *:after,
+  *:before {
+    box-sizing: border-box;
+  }
+
+  body {
+    display: grid;
+    place-items: center;
+    min-height: 100vh;
+    font-family: 'SF Pro Text', 'SF Pro Icons', 'AOS Icons', 'Helvetica Neue',
+      Helvetica, Arial, sans-serif, system-ui;
+  }
+
+  body::before {
+    --size: 45px;
+    --line: color-mix(in lch, canvasText, transparent 70%);
+    content: '';
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    background: linear-gradient(
+          90deg,
+          var(--line) 1px,
+          transparent 1px var(--size)
+        )
+        50% 50% / var(--size) var(--size),
+      linear-gradient(var(--line) 1px, transparent 1px var(--size)) 50% 50% /
+        var(--size) var(--size);
+    mask: linear-gradient(-20deg, transparent 50%, white);
+    top: 0;
+    transform-style: flat;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .bear-link {
+    color: canvasText;
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    width: 48px;
+    aspect-ratio: 1;
+    display: grid;
+    place-items: center;
+    opacity: 0.8;
+  }
+
+  :where(.x-link, .bear-link):is(:hover, :focus-visible) {
+    opacity: 1;
+  }
+
+  .bear-link svg {
+    width: 75%;
+  }
+
+  /* Utilities */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+}
