@@ -3,32 +3,39 @@ import gsap from 'https://cdn.skypack.dev/gsap@3.12.0'
 import Matter from 'https://cdn.skypack.dev/matter-js'
 import Splitting from 'https://cdn.skypack.dev/splitting'
 
-// Icons
-const icons = {
-  twitter:
-    '<svg fill="currentColor" class="w-5 h-5" viewBox="0 0 24 24" role="img"><title>Twitter icon</title><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"></path></svg>',
-}
-let loaders = []
-let images = []
-for (const icon of Object.values(icons)) {
-  const img = new Image()
+function loadSVGs(svgElements) {
+  // Return a Promise that resolves when all SVG elements are loaded
+  return Promise.allSettled(
+    svgElements.map(
+      (svg) =>
+        new Promise((resolve, reject) => {
+          const svgData = new XMLSerializer().serializeToString(svg)
+          const svgBlob = new Blob([svgData], {
+            type: 'image/svg+xml;charset=utf-8',
+          })
+          const url = URL.createObjectURL(svgBlob)
 
-  // console.info({ icon })
-  // console.info(el.firstElementChild)
-  const blob = new Blob([icon], {
-    type: 'image/svg+xml;charset=utf-8',
-  })
-
-  console.info({ icon })
-  const url = URL.createObjectURL(blob)
-  img.onload = function () {
-    URL.revokeObjectURL(url)
-  }
-  // loaders.push(img.onload)
-  images.push(img)
-  img.src = url
+          const img = new Image()
+          img.onload = () => {
+            URL.revokeObjectURL(url) // Clean up after load
+            const path = svg.querySelector('path')
+            const vertices = Matter.Svg.pathToVertices(path)
+            resolve({
+              img,
+              svg,
+              vertices,
+            }) // Resolve promise with the loaded image
+          }
+          img.onerror = reject // Reject promise if an error occurs
+          img.src = url
+        })
+    )
+  )
 }
-// Promise.allSettled(loaders).then(() => console.info('all loaded'))
+
+// Example usage:
+const svgElements = Array.from(document.querySelectorAll('.icons svg'))
+const images = await loadSVGs(svgElements)
 
 Splitting()
 const config = {
@@ -56,13 +63,9 @@ engine.gravity.scale = config.scale
 const wordBodies = []
 
 const blockBodies = []
-const blockRenderers = []
-const blockSize = 60
-const blockCount = config.blockCount
 // Kick off the render...
 let frame = 0
 const buffer = 12
-const size = 60 * DPR
 
 const ctrl = new Pane({
   title: 'Config',
@@ -78,6 +81,7 @@ const update = () => {
 }
 
 const sync = (event) => {
+  if (!event.last) return
   if (
     !document.startViewTransition ||
     event.target.controller.view.labelElement.innerText !== 'Theme'
@@ -105,18 +109,40 @@ update()
 const createBlocks = () => {
   blockBodies.length = 0
   for (let i = 0; i < config.blockCount; i++) {
-    const newBlock = Matter.Bodies.rectangle(
+    // const blockSize = gsap.utils.random(40, 100, 1)
+    const blockSize = 24
+    const icon = images[gsap.utils.random(0, images.length - 1, 1)]
+    const vertices = icon.value.vertices
+
+    // console.info({ path, vertices })
+    // const newBlock = Matter.Bodies.rectangle(
+    //   Math.random() * (window.innerWidth * 0.5),
+    //   Math.random() * (window.innerHeight * -0.2) - blockSize,
+    //   blockSize,
+    //   blockSize,
+    //   {
+    //     icon,
+    //     angle: gsap.utils.random(0, 359),
+    //     w: blockSize,
+    //     h: blockSize,
+    //     fill: `hsl(${Math.random() * 359} 80% 80%)`,
+    //   }
+    // )
+    const scale = gsap.utils.random(1.25, 4)
+    const newBlock = Matter.Bodies.fromVertices(
       Math.random() * (window.innerWidth * 0.5),
-      Math.random() * (window.innerHeight * -0.2) - blockSize,
-      blockSize,
-      blockSize,
+      Math.random() * (window.innerHeight * -0.2) - blockSize * scale,
+      vertices,
       {
+        icon,
         angle: gsap.utils.random(0, 359),
         w: blockSize,
         h: blockSize,
+        scale,
         fill: `hsl(${Math.random() * 359} 80% 80%)`,
       }
     )
+    Matter.Body.scale(newBlock, scale, scale)
     blockBodies.push(newBlock)
   }
 }
@@ -226,7 +252,7 @@ const resetBlocks = () => {
     Matter.Composite.remove(engine.world, b)
     Matter.Body.setPosition(b, {
       x: Math.random() * (window.innerWidth * 0.5),
-      y: Math.random() * (window.innerHeight * -0.2) - blockSize,
+      y: Math.random() * (window.innerHeight * -0.2) - b.w * b.scale,
     })
     b.__added = false
   })
@@ -255,15 +281,29 @@ const render = () => {
     Matter.Composite.add(engine.world, [newBody])
   }
   // Rendera all the bodies in here
+  // Dark mode
+  const darkMode =
+    (window.matchMedia('(prefers-color-scheme: dark)').matches &&
+      config.theme === 'system') ||
+    config.theme === 'dark'
   ctx.clearRect(0, 0, canvas.width, canvas.height)
   for (const entity of blockBodies) {
+    const fill = entity.icon.value.svg.getAttribute('fill').trim()
+    const size = entity.w * entity.scale * DPR
     ctx.save()
     ctx.translate(entity.position.x * DPR, entity.position.y * DPR)
     ctx.rotate(entity.angle)
-    ctx.fillStyle = entity.fill || 'black'
-    ctx.fillRect(size * -0.5, size * -0.5, size, size)
+    // ctx.fillStyle = entity.fill || 'black'
+    // console.info(entity.icon.value.svg.getAttribute('fill'))
+    // ctx.filter = `brightness(${darkMode ? 0.75 : 1}) ${
+    //   fill === 'canvasText' && darkMode ? 'invert(1)' : ''
+    // }`
+    if (fill === 'canvasText' && darkMode) ctx.filter = 'invert(1)'
+    ctx.drawImage(entity.icon.value.img, size * -0.5, size * -0.5, size, size)
     ctx.restore()
   }
+
+  // ctx.drawImage(images[0].value, 0, 0, 40, 40)
 
   Matter.Engine.update(engine)
 }
@@ -279,14 +319,15 @@ ctrl
     step: 1,
     label: 'Blocks',
   })
-  .on('change', () => {
+  .on('change', (event) => {
+    if (!event.last) return
     blockBodies.map((b) => {
       Matter.Composite.remove(engine.world, b)
-      Matter.Body.setPosition(b, {
-        x: Math.random() * (window.innerWidth * 0.5),
-        y: Math.random() * (window.innerHeight * -0.2) - blockSize,
-      })
-      b.__added = false
+      // Matter.Body.setPosition(b, {
+      //   x: Math.random() * (window.innerWidth * 0.5),
+      //   y: Math.random() * (window.innerHeight * -0.2) - blockSize,
+      // })
+      // b.__added = false
     })
     blockBodies.length = 0
     createBlocks()

@@ -28,6 +28,15 @@
     pointer-events: none;
   }
 
+  [data-theme='dark'] canvas {
+    filter: brightness(0.8);
+  }
+  @media (prefers-color-scheme: dark) {
+    [data-theme='system'] canvas {
+      filter: brightness(0.8);
+    }
+  }
+
   header {
     width: 100svw;
     height: 100svh;
