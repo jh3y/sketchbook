@@ -37,6 +37,10 @@
     }
   }
 
+  .icons {
+    display: none;
+  }
+
   header {
     width: 100svw;
     height: 100svh;
