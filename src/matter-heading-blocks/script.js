@@ -342,6 +342,7 @@ const render = () => {
 setTimeout(() => {}, 0)
 document.documentElement.dataset.active = true
 gsap.ticker.add(render)
+gsap.ticker.fps(60)
 
 ctrl
   .addBinding(config, 'blockCount', {
