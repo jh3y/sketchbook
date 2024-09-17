@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&display=swap');
+/* @import url('https://unpkg.com/normalize.css') layer(normalize); */
 @import 'normalize.css' layer(normalize);
 
 @layer normalize, base, demo;
@@ -17,6 +19,11 @@
     --color: color-mix(in hsl, canvas 92%, canvasText);
   }
 
+  .nav button {
+    padding: 0;
+    width: 100%;
+  }
+
   .nav {
     color: var(--color);
     box-shadow: 0 4px 8px 0 hsl(0 0% 0% / 0.2);
@@ -29,11 +36,11 @@
     background: linear-gradient(var(--bg), var(--bg)) padding-box,
       linear-gradient(white, black) border-box;
     border: 1px solid transparent;
-    transition: box-shadow 0s var(--transition);
+    transition: opacity 0s var(--transition);
   }
 
   body:has(:popover-open) .nav {
-    box-shadow: none;
+    opacity: 0;
     transition-delay: 0s;
   }
 
@@ -50,6 +57,12 @@
     font-weight: 500;
     color: inherit;
     background: transparent;
+
+    &:is(:focus-visible) {
+      outline-color: transparent;
+      outline-width: 0px;
+      background: color-mix(in hsl, canvas, canvasText 75%);
+    }
   }
 
   [popover] [aria-hidden],
@@ -72,8 +85,17 @@
     anchor-name: --nav;
   }
 
-  [popover] .content {
-    position: absolute;
+  .theme-icon path {
+    display: none;
+  }
+
+  [data-theme='system'] .theme-icon path:nth-of-type(1),
+  [data-theme='light'] .theme-icon path:nth-of-type(2),
+  [data-theme='dark'] .theme-icon path:nth-of-type(3) {
+    display: block;
+  }
+
+  [popover] .content__content {
     top: 0;
     left: 0;
     width: min(var(--width), 100vw - 2rem);
@@ -95,7 +117,60 @@
   :root {
     --width: 640px;
     --height: 580px;
-    --transition: 0.35s;
+    --power-in: linear(
+      0 0%,
+      0.0039 6.25%,
+      0.0156 12.5%,
+      0.0352 18.75%,
+      0.0625 25%,
+      0.0977 31.25%,
+      0.1407 37.5%,
+      0.1914 43.74%,
+      0.2499 49.99%,
+      0.3164 56.25%,
+      0.3906 62.5%,
+      0.5625 75%,
+      0.7656 87.5%,
+      1 100%
+    );
+    --power-in-out: linear(
+      0 0%,
+      0.0012 14.95%,
+      0.0089 22.36%,
+      0.0297 28.43%,
+      0.0668 33.43%,
+      0.0979 36.08%,
+      0.1363 38.55%,
+      0.2373 43.07%,
+      0.3675 47.01%,
+      0.5984 52.15%,
+      0.7121 55.23%,
+      0.8192 59.21%,
+      0.898 63.62%,
+      0.9297 66.23%,
+      0.9546 69.06%,
+      0.9733 72.17%,
+      0.9864 75.67%,
+      0.9982 83.73%,
+      1 100%
+    );
+    --power-out: linear(
+      0 0%,
+      0.2342 12.49%,
+      0.4374 24.99%,
+      0.6093 37.49%,
+      0.6835 43.74%,
+      0.7499 49.99%,
+      0.8086 56.25%,
+      0.8593 62.5%,
+      0.9023 68.75%,
+      0.9375 75%,
+      0.9648 81.25%,
+      0.9844 87.5%,
+      0.9961 93.75%,
+      1 100%
+    );
+    --transition: calc(var(--speed, 0.35) * 1s);
     --ease: linear(
       0 0%,
       0.0027 3.64%,
@@ -127,8 +202,7 @@
     transition-timing-function: var(--ease);
     translate: -50% 0;
     padding: 0;
-    /* overflow: hidden; */
-    clip-path: inset(0 0 0 0 round 21px);
+    /* clip-path: inset(0 0 0 0 round 21px); */
     box-shadow: 0 4px 8px 0 hsl(0 0% 0% / 0.2);
 
     bottom: anchor(bottom);
@@ -144,28 +218,114 @@
     }
   }
 
-  [popover] .content {
+  [popover] .content__content {
     transition-property: display, opacity, filter;
-    transition-duration: var(--transition);
+    transition-duration: calc(var(--transition) * 0.5);
     transition-behavior: allow-discrete;
-    transition-timing-function: ease-in;
-
+    transition-timing-function: var(--power-out);
     opacity: 0;
     filter: blur(4px);
+    display: flex;
+    flex-direction: column;
+
+    .links {
+      position: relative;
+      flex: 1;
+
+      nav {
+        padding-block: 12px;
+        overflow: auto;
+        position: absolute;
+        inset: 0;
+        scrollbar-color: canvas transparent;
+        scrollbar-width: thin;
+      }
+
+      &:after {
+        content: '';
+        pointer-events: none;
+        position: absolute;
+        inset: 0;
+        background: var(--bg);
+        mask: linear-gradient(0deg, #000, #0000 12px calc(100% - 12px), #000);
+      }
+    }
   }
 
-  .content ul {
+  .content__content h3 {
+    font-size: 0.875rem;
+    margin: 0;
+    opacity: 0.675;
+    font-weight: 400;
+    padding: 0 12px;
+    margin-block: 6px;
+  }
+
+  .content__content li a svg {
+    width: 16px;
+  }
+
+  .content__content li a {
+    font-weight: 300;
+    display: flex;
+    color: var(--color);
+    align-items: center;
+    height: 40px;
+    gap: 12px;
+    text-decoration: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+
+    &:is(:hover, :focus-visible) {
+      outline-color: transparent;
+      outline-width: 0px;
+      background: color-mix(in hsl, canvasText, canvas 25%);
+    }
+  }
+
+  .content__content ul {
     margin: 0;
     padding: 0;
-  }
-
-  .content li {
-    padding: 6px 12px;
+    padding-inline: 4px;
+    list-style-type: none;
   }
 
   .content {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+  }
+
+  .heading {
+    padding-top: 0.75rem;
     display: flex;
     flex-direction: column;
+    gap: 4px;
+    align-items: flex-start;
+  }
+
+  .pill {
+    --color: color-mix(in hsl, canvas 85%, canvasText);
+    font-size: 0.75rem;
+    text-decoration: none;
+    border: 1px solid color-mix(in hsl, currentColor, #0000);
+    color: inherit;
+    background: canvasText;
+    color: var(--color);
+    padding: 2px;
+    border-radius: 4px;
+    margin-left: 0.75rem;
+
+    &:is(:hover, :focus-visible) {
+      --color: canvas;
+      outline-color: transparent;
+      outline-width: 0px;
+    }
+  }
+
+  hr {
+    opacity: 0.25;
+    margin: 12px 0;
   }
 
   [type='search'] {
@@ -174,24 +334,21 @@
     background: transparent;
     border: 0;
     color: var(--color);
+    border-radius: calc(21px - 4px);
+    transition: background-color 0.2s;
 
-    &::placeholder {
-      color: red;
-      mask: linear-gradient(80deg, #000, #0000 10px, #000) 0 0 / 200px 100px
-        no-repeat;
-      animation: scale 1s 2s both infinite;
-    }
-
-    @keyframes scale {
-      to {
-        mask-position: -100px 0;
-      }
+    &:focus-visible {
+      /* background: color-mix(in hsl, canvasText, canvas 12%); */
+      outline-color: #0000;
+      outline-width: 0;
     }
   }
 
-  [popover]:popover-open .content {
+  [popover]:popover-open .content__content {
     opacity: 1;
     filter: blur(0);
+    transition-delay: calc(var(--transition) * 0.5);
+    transition-timing-function: var(--power-in);
 
     @starting-style {
       opacity: 0;
@@ -231,6 +388,32 @@
       opacity: 1;
       filter: blur(0);
     }
+  }
+
+  .arrow {
+    position-anchor: --nav;
+    width: clamp(80px, 10vmin, 200px);
+    container-type: inline-size;
+    position: absolute;
+    bottom: anchor(top);
+    left: anchor(center);
+
+    color: color-mix(in hsl, canvasText, #0000 40%);
+  }
+
+  .arrow svg {
+    width: 100%;
+    scale: -1 -1;
+  }
+
+  .arrow label {
+    font-family: 'Gloria Hallelujah', cursive;
+    position: absolute;
+    left: 80%;
+    bottom: 25%;
+    rotate: 8deg;
+    font-size: 20cqi;
+    white-space: nowrap;
   }
 }
 
@@ -344,5 +527,56 @@
     clip: rect(0, 0, 0, 0);
     white-space: nowrap;
     border-width: 0;
+  }
+}
+
+@property --pos {
+  inherits: true;
+  initial-value: 100%;
+  syntax: '<percentage>';
+}
+
+::placeholder {
+  color: canvas;
+  mask: linear-gradient(
+      -75deg,
+      #0009 calc(50% - 4ch),
+      #000,
+      #0009 calc(50% + 4ch)
+    )
+    0% 50% / 300% 100%;
+  mask-position: var(--pos) 50%;
+}
+
+[popover]:popover-open [type='search'] {
+  animation: shimmer 8s calc(var(--speed, 0.35) * 1s);
+}
+
+@keyframes shimmer {
+  0% {
+    --pos: 100%;
+  }
+
+  50%,
+  100% {
+    --pos: 0%;
+  }
+}
+
+[data-backdrop='true'] [popover]::backdrop {
+  transition-property: overlay, display, opacity;
+  transition-duration: calc(var(--speed, 0.35) * 1s);
+  transition-behavior: allow-discrete;
+  background: hsl(0 0% 0% / 0.25);
+  backdrop-filter: blur(4px);
+  opacity: 0;
+}
+
+[data-backdrop='true'] [popover]:popover-open::backdrop {
+  opacity: 1;
+}
+@starting-style {
+  [data-backdrop='true'] [popover]:popover-open::backdrop {
+    opacity: 0;
   }
 }
