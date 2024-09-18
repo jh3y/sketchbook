@@ -13,6 +13,12 @@
     height: 150vh;
   }
 
+  @media (pointer: coarse) {
+    [data-interactive='false'] header {
+      pointer-events: none;
+    }
+  }
+
   main {
     height: 100vh;
     display: grid;
@@ -72,7 +78,6 @@
     animation-timeline: view();
     animation-range: cover;
     clip-path: inset(0 0 0 0);
-    /* scroll-padding-block: calc(50vh - 3lh); */
   }
 
   h2 > span:first-of-type {

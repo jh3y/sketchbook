@@ -18,6 +18,7 @@ const config = {
   device: false,
   xLimit: 0.2,
   yLimit: 0.2,
+  interactive: false,
 }
 const content = document.querySelector('h1')
 const icons = {}
@@ -311,9 +312,14 @@ const syncWalls = () => {
   })
 }
 
+const canvas = document.querySelector('canvas')
+const ctx = canvas.getContext('2d')
+canvas.width = canvas.offsetWidth * DPR
+canvas.height = canvas.offsetHeight * DPR
+
 // Add the dragging
 const mouseConstraint = Matter.MouseConstraint.create(engine, {
-  element: document.documentElement,
+  element: document.querySelector('header'),
 })
 
 // Remove the scroll interception so we can scroll past
@@ -346,11 +352,6 @@ Matter.Composite.add(engine.world, [
   ...wordBodies,
   mouseConstraint,
 ])
-
-const canvas = document.querySelector('canvas')
-const ctx = canvas.getContext('2d')
-canvas.width = canvas.offsetWidth * DPR
-canvas.height = canvas.offsetHeight * DPR
 
 const render = () => {
   frame++
@@ -387,12 +388,11 @@ const render = () => {
   Matter.Engine.update(engine)
 }
 
-setTimeout(() => {}, 0)
 document.documentElement.dataset.active = true
 gsap.ticker.add(render)
 gsap.ticker.fps(60)
 
-const blockFolder = ctrl.addFolder({ title: 'Blocks', expanded: true })
+const blockFolder = ctrl.addFolder({ title: 'Blocks', expanded: false })
 blockFolder
   .addBinding(config, 'blockCount', {
     min: 1,
@@ -560,3 +560,8 @@ const adapt = () => {
 
 window.addEventListener('resize', adapt)
 update()
+document.documentElement.dataset.interactive = config.interactive
+window.addEventListener('dblclick', () => {
+  config.interactive = !config.interactive
+  document.documentElement.dataset.interactive = config.interactive
+})
