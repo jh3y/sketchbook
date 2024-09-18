@@ -8,40 +8,91 @@ const config = {
   theme: 'system',
   x: 0,
   y: 0.25,
+  lower: 1.2,
+  upper: 5,
+  stagger: 12,
   scale: 0.01,
   blockCount: 35,
+  bounce: 0.5,
+  random: true,
+  device: false,
+  xLimit: 0.2,
+  yLimit: 0.2,
 }
-const content = document.querySelector('.content')
+const content = document.querySelector('h1')
 const icons = {}
+
+const loadSVG = async (svg) => {
+  return new Promise((resolve, reject) => {
+    const title = svg.querySelector('title').innerHTML
+    const path = svg.querySelector('path')
+    const svgData = new XMLSerializer().serializeToString(svg)
+    const svgBlob = new Blob([svgData], {
+      type: 'image/svg+xml;charset=utf-8',
+    })
+    const url = URL.createObjectURL(svgBlob)
+
+    const img = new Image()
+    img.onload = () => {
+      URL.revokeObjectURL(url) // Clean up after load
+      config[title] = title.toLowerCase().indexOf('bear') !== -1
+      const vertices = Matter.Svg.pathToVertices(path)
+      if (title === 'Bear' && !icons[title]) icons[title] = []
+      if (title === 'Bear') {
+        icons[title].push({
+          img,
+          svg,
+          vertices,
+        })
+      } else {
+        icons[title] = {
+          img,
+          svg,
+          vertices,
+        }
+      }
+      resolve(true) // Resolve promise with the loaded image
+    }
+    img.onerror = reject // Reject promise if an error occurs
+    img.src = url
+  })
+}
+
 function loadSVGs(svgElements) {
   // Return a Promise that resolves when all SVG elements are loaded
   return Promise.allSettled(
     svgElements.map(
       (svg) =>
         new Promise((resolve, reject) => {
-          const svgData = new XMLSerializer().serializeToString(svg)
-          const svgBlob = new Blob([svgData], {
-            type: 'image/svg+xml;charset=utf-8',
-          })
-          const url = URL.createObjectURL(svgBlob)
+          const title = svg.querySelector('title').innerHTML
 
-          const img = new Image()
-          img.onload = () => {
-            URL.revokeObjectURL(url) // Clean up after load
-            const path = svg.querySelector('path')
-            const title = svg.querySelector('title').innerHTML
-            config[title] =
-              title === 'X' || title === 'Twitter' || title === 'Threads'
-            const vertices = Matter.Svg.pathToVertices(path)
-            icons[title] = {
-              img,
-              svg,
-              vertices,
+          if (title === 'Bear') {
+            // Load up a load of bears to use
+            for (let i = 0; i < 20; i++) {
+              const bear = svg.cloneNode(true)
+              const cap = bear.querySelector('.strap')
+              cap.setAttribute(
+                'fill',
+                `hsl(${gsap.utils.random(0, 359, 1)} 100% ${gsap.utils.random(
+                  50,
+                  80,
+                  1
+                )}%)`
+              )
+              const body = bear.querySelector('.body')
+              body.setAttribute(
+                'fill',
+                `hsl(32 ${gsap.utils.random(20, 80, 1)}% ${gsap.utils.random(
+                  16,
+                  65,
+                  1
+                )}%)`
+              )
+              resolve(loadSVG(bear))
             }
-            resolve(true) // Resolve promise with the loaded image
+          } else {
+            resolve(loadSVG(svg))
           }
-          img.onerror = reject // Reject promise if an error occurs
-          img.src = url
         })
     )
   )
@@ -71,7 +122,6 @@ const wordBodies = []
 const blockBodies = []
 // Kick off the render...
 let frame = 0
-const buffer = 12
 
 const ctrl = new Pane({
   title: 'Config',
@@ -84,6 +134,8 @@ const update = () => {
   engine.gravity.x = config.x
   engine.gravity.y = config.y
   engine.gravity.scale = config.scale
+  setUpper.min = config.lower
+  setLower.max = config.upper
 }
 
 const sync = (event) => {
@@ -96,9 +148,9 @@ const sync = (event) => {
   document.startViewTransition(() => update())
 }
 
-ctrl.addBinding(config, 'debug', {
-  label: 'Debug',
-})
+// ctrl.addBinding(config, 'debug', {
+//   label: 'Debug',
+// })
 
 ctrl.addBinding(config, 'theme', {
   label: 'Theme',
@@ -110,14 +162,17 @@ ctrl.addBinding(config, 'theme', {
 })
 
 ctrl.on('change', sync)
-update()
 
 const createBlocks = () => {
   blockBodies.length = 0
   for (let i = 0; i < config.blockCount; i++) {
     const blockSize = 24
     const allowed = Object.keys(icons).filter((i) => config[i])
-    const icon = icons[allowed[gsap.utils.random(0, allowed.length - 1, 1)]]
+    const chosen = allowed[gsap.utils.random(0, allowed.length - 1, 1)]
+    const icon =
+      chosen === 'Bear'
+        ? icons['Bear'][gsap.utils.random(0, icons['Bear'].length - 1, 1)]
+        : icons[chosen]
     const vertices = icon.vertices
 
     // console.info({ path, vertices })
@@ -135,15 +190,16 @@ const createBlocks = () => {
     //   }
     // )
     //
-    const contentBounds = content.getBoundingClientRect()
-    const scale = gsap.utils.random(1.25, 4)
+    const { left, width } = content.getBoundingClientRect()
+    const x = gsap.utils.random(left - width * 0.25, left + width * 1.25, 1)
+    const scale = gsap.utils.random(config.lower, config.upper)
     const newBlock = Matter.Bodies.fromVertices(
-      Math.random() * (window.innerWidth * 0.5),
+      x,
       Math.random() * (window.innerHeight * -0.2) - blockSize * scale,
       vertices,
       {
         icon,
-        restitution: Math.random(),
+        restitution: config.random ? Math.random() : config.bounce,
         angle: gsap.utils.random(0, 359),
         w: blockSize,
         h: blockSize,
@@ -170,14 +226,6 @@ const newBlocksPlease = (event) => {
   blockBodies.length = 0
   createBlocks()
 }
-
-const iconsFolder = ctrl.addFolder({ title: 'Icons', expanded: false })
-for (const icon of Object.keys(icons)) {
-  iconsFolder.addBinding(config, icon, {
-    label: icon,
-  })
-}
-iconsFolder.on('change', newBlocksPlease)
 
 for (const elem of document.querySelectorAll('.word')) {
   const bounds = elem.getBoundingClientRect()
@@ -307,7 +355,7 @@ canvas.height = canvas.offsetHeight * DPR
 const render = () => {
   frame++
   const newBody = blockBodies.filter((body) => !body.__added)[0]
-  if (newBody && frame % buffer === 0) {
+  if (newBody && frame % config.stagger === 0) {
     newBody.__added = true
     Matter.Composite.add(engine.world, [newBody])
   }
@@ -344,22 +392,74 @@ document.documentElement.dataset.active = true
 gsap.ticker.add(render)
 gsap.ticker.fps(60)
 
-ctrl
+const blockFolder = ctrl.addFolder({ title: 'Blocks', expanded: true })
+blockFolder
   .addBinding(config, 'blockCount', {
     min: 1,
     max: 100,
     step: 1,
-    label: 'Blocks',
+    label: 'Count',
   })
   .on('change', newBlocksPlease)
-const gravity = ctrl.addFolder({ title: 'Gravity' })
-gravity.addBinding(config, 'x', {
+const setLower = blockFolder
+  .addBinding(config, 'lower', {
+    min: 0.5,
+    max: config.upper,
+    step: 0.01,
+    label: 'Lower (scale)',
+  })
+  .on('change', newBlocksPlease)
+const setUpper = blockFolder
+  .addBinding(config, 'upper', {
+    min: config.lower,
+    max: 6,
+    step: 0.01,
+    label: 'Upper (scale)',
+  })
+  .on('change', newBlocksPlease)
+blockFolder
+  .addBinding(config, 'stagger', {
+    min: 0,
+    max: 60,
+    step: 1,
+    label: 'Stagger (frame)',
+  })
+  .on('change', newBlocksPlease)
+
+const iconsFolder = ctrl.addFolder({ title: 'Icons', expanded: false })
+for (const icon of Object.keys(icons)) {
+  iconsFolder.addBinding(config, icon, {
+    label: icon,
+  })
+}
+iconsFolder.on('change', newBlocksPlease)
+
+const bounce = ctrl.addFolder({ title: 'Bounce', expanded: false })
+const bounciness = bounce
+  .addBinding(config, 'bounce', {
+    label: 'Bounciness',
+    min: 0,
+    max: 1,
+    step: 0.01,
+    disabled: true,
+  })
+  .on('change', newBlocksPlease)
+bounce
+  .addBinding(config, 'random', {
+    label: 'Random',
+  })
+  .on('change', (event) => {
+    bounciness.disabled = config.random
+    newBlocksPlease(event)
+  })
+const gravity = ctrl.addFolder({ title: 'Gravity', expanded: false })
+const x = gravity.addBinding(config, 'x', {
   label: 'x',
   min: -1,
   max: 1,
   step: 0.01,
 })
-gravity.addBinding(config, 'y', {
+const y = gravity.addBinding(config, 'y', {
   label: 'y',
   min: -1,
   max: 1,
@@ -371,6 +471,65 @@ gravity.addBinding(config, 'scale', {
   max: 1,
   step: 0.01,
 })
+
+const handleDeviceOrientation = ({ beta, gamma }) => {
+  const xGravity = gsap.utils.clamp(
+    -config.xLimit,
+    config.xLimit,
+    gsap.utils.mapRange(-90, 90, -config.xLimit, config.xLimit, gamma)
+  )
+  const yGravity = gsap.utils.clamp(
+    -config.yLimit,
+    config.yLimit,
+    gsap.utils.mapRange(-90, 90, -config.yLimit, config.yLimit, beta)
+  )
+  config.y = yGravity
+  config.x = xGravity
+  ctrl.refresh()
+}
+
+gravity
+  .addBinding(config, 'device', {
+    label: 'Device Control',
+  })
+  .on('change', () => {
+    y.disabled = x.disabled = config.device
+    yLimit.disabled = xLimit.disabled = !config.device
+
+    if (config.device) {
+      if (DeviceOrientationEvent?.requestPermission) {
+        Promise.all([DeviceOrientationEvent.requestPermission()]).then(
+          (results) => {
+            if (results.every((result) => result === 'granted')) {
+              window.addEventListener(
+                'deviceorientation',
+                handleDeviceOrientation
+              )
+            }
+          }
+        )
+      } else {
+        window.addEventListener('deviceorientation', handleDeviceOrientation)
+      }
+    } else {
+      window.removeEventListener('deviceorientation', handleDeviceOrientation)
+    }
+  })
+
+const xLimit = gravity.addBinding(config, 'xLimit', {
+  min: 0,
+  max: 1,
+  step: 0.001,
+  label: 'Range (x)',
+  disabled: !config.device,
+})
+const yLimit = gravity.addBinding(config, 'yLimit', {
+  min: 0,
+  max: 1,
+  step: 0.001,
+  label: 'Range (y)',
+  disabled: !config.device,
+})
 gravity
   .addButton({
     title: 'Reset',
@@ -379,6 +538,8 @@ gravity
     config.x = 0
     config.y = 0.25
     config.scale = 0.01
+    config.xLimit = config.yLimit = 0.2
+    config.device = false
     ctrl.refresh()
     update()
   })
@@ -398,3 +559,4 @@ const adapt = () => {
 }
 
 window.addEventListener('resize', adapt)
+update()
