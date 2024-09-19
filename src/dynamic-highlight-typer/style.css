@@ -18,9 +18,12 @@
     animation: cursor-blink 0.8s infinite steps(1) paused;
   }
 
-  [data-paused='false'] main {
+  [data-paused='false'] {
     animation: none;
-    --alpha: 1;
+  }
+
+  [data-paused='false'] [data-type] {
+    --alpha: 0;
   }
 
   [data-paused='true'] main {
@@ -41,40 +44,20 @@
   ::highlight(cursor) {
     color: transparent;
   }
-  [data-theme='dark'] {
-    ::highlight(content) {
-      color: var(--color);
-    }
-    ::highlight(cursor) {
-      background-color: hsl(var(--hue) 100% 70% / var(--alpha));
-    }
+
+  [data-type] {
+    --cursor-blink: color-mix(
+      in hsl,
+      var(--cursor),
+      #0000 calc(var(--alpha) * 100%)
+    );
   }
 
-  @media (prefers-color-scheme: dark) {
-    ::highlight(content) {
-      color: var(--color);
-    }
-    ::highlight(cursor) {
-      background-color: hsl(var(--hue) 100% 70% / var(--alpha));
-    }
+  ::highlight(content) {
+    color: var(--content);
   }
-
-  [data-theme='light'] {
-    ::highlight(content) {
-      color: var(--color-light);
-    }
-    ::highlight(cursor) {
-      background-color: hsl(var(--hue) 100% 40% / var(--alpha));
-    }
-  }
-
-  @media (prefers-color-scheme: light) {
-    ::highlight(content) {
-      color: var(--color-light);
-    }
-    ::highlight(cursor) {
-      background-color: hsl(var(--hue) 100% 40% / var(--alpha));
-    }
+  ::highlight(cursor) {
+    background-color: var(--cursor-blink);
   }
 
   [data-type] {
@@ -87,6 +70,10 @@
     font-weight: 300;
     margin: 0;
     letter-spacing: 1px;
+  }
+
+  [data-debug='true'] [data-type] {
+    color: color-mix(in hsl, canvasText, #0000 75%);
   }
 }
 

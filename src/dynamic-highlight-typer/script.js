@@ -5,8 +5,11 @@ const config = {
   theme: 'system',
   cursor: 0,
   delay: 1,
-  probability: 0.25,
-  text: `The CSS Custom Highlight API gives you a way to create typewriter animations using the ::highlight pseudoelement and without changing DOM content. Pretty cool. ʕ•ᴥ•ʔ`,
+  probability: 0.2,
+  block: '#0bba20',
+  content: '#0bba20',
+  debug: false,
+  text: `The CSS Custom Highlight API gives you a way to create typing animations using the ::highlight pseudoelement and without changing DOM content. Pretty cool. ʕ•ᴥ•ʔ`,
 }
 
 const ctrl = new Pane({
@@ -16,6 +19,9 @@ const ctrl = new Pane({
 
 const update = () => {
   document.documentElement.dataset.theme = config.theme
+  document.documentElement.dataset.debug = config.debug
+  document.documentElement.style.setProperty('--cursor', config.block)
+  document.documentElement.style.setProperty('--content', config.content)
 }
 
 const sync = (event) => {
@@ -200,6 +206,19 @@ cursorRange.controller.view.element.addEventListener('click', () => {
 })
 cursorRange.controller.view.element.addEventListener('keyup', () => {
   interrupt()
+})
+
+ctrl.addBinding(config, 'block', {
+  label: 'Cursor',
+  view: 'color',
+})
+ctrl.addBinding(config, 'content', {
+  label: 'Text',
+  view: 'color',
+})
+
+ctrl.addBinding(config, 'debug', {
+  label: 'Debug',
 })
 
 ctrl.addBinding(config, 'theme', {
