@@ -1,0 +1,204 @@
+@import 'normalize.css' layer(normalize);
+
+@font-face {
+  font-family: 'Departure Mono';
+  src: url('https://assets.codepen.io/605876/DepartureMono-Regular.woff');
+}
+
+@layer normalize, base, demo;
+
+@layer demo {
+  @property --alpha {
+    syntax: '<number>';
+    inherits: true;
+    initial-value: 1;
+  }
+
+  main {
+    animation: cursor-blink 0.8s infinite steps(1) paused;
+  }
+
+  [data-paused='false'] main {
+    animation: none;
+    --alpha: 1;
+  }
+
+  [data-paused='true'] main {
+    animation-play-state: running;
+  }
+
+  @keyframes cursor-blink {
+    50% {
+      --alpha: 0;
+    }
+  }
+
+  :root {
+    --hue: 120;
+    --color: hsl(var(--hue) 100% 70%);
+    --color-light: hsl(var(--hue) 100% 40%);
+  }
+  ::highlight(cursor) {
+    color: transparent;
+  }
+  [data-theme='dark'] {
+    ::highlight(content) {
+      color: var(--color);
+    }
+    ::highlight(cursor) {
+      background-color: hsl(var(--hue) 100% 70% / var(--alpha));
+    }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    ::highlight(content) {
+      color: var(--color);
+    }
+    ::highlight(cursor) {
+      background-color: hsl(var(--hue) 100% 70% / var(--alpha));
+    }
+  }
+
+  [data-theme='light'] {
+    ::highlight(content) {
+      color: var(--color-light);
+    }
+    ::highlight(cursor) {
+      background-color: hsl(var(--hue) 100% 40% / var(--alpha));
+    }
+  }
+
+  @media (prefers-color-scheme: light) {
+    ::highlight(content) {
+      color: var(--color-light);
+    }
+    ::highlight(cursor) {
+      background-color: hsl(var(--hue) 100% 40% / var(--alpha));
+    }
+  }
+
+  [data-type] {
+    --font-level: 1.4;
+    width: 40ch;
+    max-width: calc(100vw - 2rem);
+    color: transparent;
+    white-space: break-spaces;
+    font-family: 'Departure Mono', monospace;
+    font-weight: 300;
+    margin: 0;
+    letter-spacing: 1px;
+  }
+}
+
+@layer base {
+  :root {
+    --font-size-min: 16;
+    --font-size-max: 20;
+    --font-ratio-min: 1.2;
+    --font-ratio-max: 1.33;
+    --font-width-min: 375;
+    --font-width-max: 1500;
+  }
+
+  html {
+    color-scheme: light dark;
+  }
+
+  [data-theme='light'] {
+    color-scheme: light only;
+  }
+
+  [data-theme='dark'] {
+    color-scheme: dark only;
+  }
+
+  :where(.fluid) {
+    --fluid-min: calc(
+      var(--font-size-min) * pow(var(--font-ratio-min), var(--font-level, 0))
+    );
+    --fluid-max: calc(
+      var(--font-size-max) * pow(var(--font-ratio-max), var(--font-level, 0))
+    );
+    --fluid-preferred: calc(
+      (var(--fluid-max) - var(--fluid-min)) /
+        (var(--font-width-max) - var(--font-width-min))
+    );
+    --fluid-type: clamp(
+      (var(--fluid-min) / 16) * 1rem,
+      ((var(--fluid-min) / 16) * 1rem) -
+        (((var(--fluid-preferred) * var(--font-width-min)) / 16) * 1rem) +
+        (var(--fluid-preferred) * var(--variable-unit, 100vi)),
+      (var(--fluid-max) / 16) * 1rem
+    );
+    font-size: var(--fluid-type);
+  }
+
+  *,
+  *:after,
+  *:before {
+    box-sizing: border-box;
+  }
+
+  body {
+    display: grid;
+    place-items: center;
+    min-height: 100vh;
+    font-family: 'SF Pro Text', 'SF Pro Icons', 'AOS Icons', 'Helvetica Neue',
+      Helvetica, Arial, sans-serif, system-ui;
+  }
+
+  body::before {
+    --size: 45px;
+    --line: color-mix(in lch, canvasText, transparent 70%);
+    content: '';
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    background: linear-gradient(
+          90deg,
+          var(--line) 1px,
+          transparent 1px var(--size)
+        )
+        50% 50% / var(--size) var(--size),
+      linear-gradient(var(--line) 1px, transparent 1px var(--size)) 50% 50% /
+        var(--size) var(--size);
+    mask: linear-gradient(-20deg, transparent 50%, white);
+    top: 0;
+    transform-style: flat;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .bear-link {
+    color: canvasText;
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    width: 48px;
+    aspect-ratio: 1;
+    display: grid;
+    place-items: center;
+    opacity: 0.8;
+  }
+
+  :where(.x-link, .bear-link):is(:hover, :focus-visible) {
+    opacity: 1;
+  }
+
+  .bear-link svg {
+    width: 75%;
+  }
+
+  /* Utilities */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+}
