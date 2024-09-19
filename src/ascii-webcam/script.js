@@ -1,16 +1,20 @@
 import { Pane } from 'https://cdn.skypack.dev/tweakpane'
+import * as TweakpaneEssentialsPlugin from 'https://cdn.skypack.dev/@tweakpane/plugin-essentials'
+
 import gsap from 'https://cdn.skypack.dev/gsap@3.12.0'
 
 const config = {
   theme: 'system',
-  font: 20,
+  font: 4,
   ascii: '@#S%?*+;:,.',
   device: '',
   width: null,
   height: null,
-  sample: 1,
+  sample: 3,
   debug: false,
   color: false,
+  invert: false,
+  matrix: false,
 }
 
 let devices = []
@@ -32,6 +36,7 @@ const ctrl = new Pane({
   title: 'Config',
   expanded: true,
 })
+ctrl.registerPlugin(TweakpaneEssentialsPlugin)
 
 const update = () => {
   input.innerText = `${config.width} / ${config.height}`
@@ -55,24 +60,38 @@ const camera = ctrl.addBinding(config, 'device', {
   label: 'Camera',
   options: {},
 })
-
-ctrl.addBinding(config, 'sample', {
+const fps = ctrl.addBlade({
+  view: 'fpsgraph',
+  label: 'FPS',
+  rows: 2,
+})
+const font = ctrl.addFolder({ title: 'Font', expanded: false })
+font.addBinding(config, 'sample', {
   label: 'Downsample',
   min: 1,
   max: 20,
   step: 1,
 })
-ctrl.addBinding(config, 'font', {
+font.addBinding(config, 'font', {
   label: 'Font Size',
   min: 1,
   max: 50,
   step: 1,
 })
-ctrl.addBinding(config, 'ascii', {
+font.addBinding(config, 'ascii', {
   label: 'Characters',
 })
-ctrl.addBinding(config, 'color', {
+
+const colorFolder = ctrl.addFolder({ title: 'Color', expanded: false })
+
+colorFolder.addBinding(config, 'color', {
   label: 'Color',
+})
+colorFolder.addBinding(config, 'invert', {
+  label: 'Invert',
+})
+colorFolder.addBinding(config, 'matrix', {
+  label: 'Matrix',
 })
 ctrl.addBinding(config, 'debug', {
   label: 'Debug',
@@ -126,20 +145,41 @@ const renderAscii = (ctx, imageData) => {
       const averageRed = totalRed / sampleCount
       const averageGreen = totalGreen / sampleCount
       const averageBlue = totalBlue / sampleCount
+      const light = averageBrightness > 128
 
       const charIndex = Math.floor(
         (averageBrightness / 256) * config.ascii.length
       )
+
+      if (config.invert && !config.matrix) {
+        ctx.fillStyle = config.color
+          ? `rgb(${averageRed}, ${averageGreen}, ${averageBlue})`
+          : 'canvasText'
+        ctx.fillRect(posX, posY, cellHeight, cellHeight)
+      }
       const char = config.ascii[charIndex] || ' '
-      ctx.fillStyle = config.color
-        ? `rgb(${averageRed}, ${averageGreen}, ${averageBlue})`
-        : 'canvasText'
+      let color = 'canvasText'
+      if (config.invert) color = 'canvas'
+      if (config.color && config.invert) color = light ? 'canvas' : 'canvasText'
+      if (config.color && !config.invert)
+        color = `rgb(${averageRed}, ${averageGreen}, ${averageBlue})`
+      if (config.matrix) {
+        color = `hsl(120 100% ${gsap.utils.mapRange(
+          0,
+          256,
+          20,
+          80,
+          averageBrightness
+        )}%)`
+      }
+      ctx.fillStyle = color
       ctx.fillText(char, posX, posY + cellHeight)
     }
   }
 }
 
 const updateCanvas = () => {
+  fps.begin()
   const downsampled = {
     width: Math.floor(video.videoWidth / config.sample),
     height: Math.floor(video.videoHeight / config.sample),
@@ -165,6 +205,7 @@ const updateCanvas = () => {
       downsampled.height * DPR
     )
   )
+  fps.end()
 }
 
 let capturing = false
