@@ -1,6 +1,240 @@
 @import 'normalize.css' layer(normalize);
 
-@layer normalize, base, demo;
+@layer normalize, base, demo, slider, animation;
+
+@layer animation {
+  @supports (animation-timeline: scroll()) {
+    :root {
+      timeline-scope: --thumb;
+    }
+    .slider ::-webkit-slider-thumb {
+      view-timeline: --thumb inline;
+    }
+    .slider {
+      timeline-scope: --thumb;
+      animation: progress both linear;
+      animation-direction: reverse;
+      animation-timeline: --thumb;
+      animation-range: contain;
+    }
+    @keyframes progress {
+      to {
+        --slider-complete: 100;
+      }
+    }
+  }
+  :root {
+    --transition: 0.625s;
+    --ease: linear(
+      0 0%,
+      0.5007 7.21%,
+      0.7803 12.29%,
+      0.8883 14.93%,
+      0.9724 17.63%,
+      1.0343 20.44%,
+      1.0754 23.44%,
+      1.0898 25.22%,
+      1.0984 27.11%,
+      1.1014 29.15%,
+      1.0989 31.4%,
+      1.0854 35.23%,
+      1.0196 48.86%,
+      1.0043 54.06%,
+      0.9956 59.6%,
+      0.9925 68.11%,
+      1 100%
+    );
+    --ease: ease;
+  }
+
+  @property --slider-complete {
+    initial-value: 0;
+    inherits: true;
+    syntax: '<integer>';
+  }
+
+  .slider::after {
+    content: 'Debug: ' counter(progress);
+    counter-set: progress var(--slider-complete);
+    position: absolute;
+    top: 100px;
+    left: 1rem;
+  }
+
+  .slider input {
+    overflow: hidden;
+    clip-path: inset(0 50cqi 0 0);
+  }
+
+  .slider:active .slider__indicator,
+  .slider:active .slider__fill::after,
+  .slider:active .track {
+    transition: translate var(--transition) var(--ease);
+    transition: none;
+  }
+
+  .slider__indicator,
+  .slider__fill::after,
+  .track {
+    transition: translate calc(var(--transition) * 1) var(--ease);
+  }
+
+  .slider__indicator {
+    translate: calc((round(to-zero, var(--slider-complete), 100) * 1cqi) - 50%) -50%;
+  }
+
+  :where(.slider:active, .slider:has(:focus-visible):not(:active))
+    .slider__indicator {
+    translate: calc((var(--slider-complete) * 1cqi) - 50%) -50%;
+  }
+  .slider:active .slider__fill::after {
+    translate: calc(var(--slider-complete) * 1cqi) 0%;
+  }
+  .slider__fill::after {
+    translate: calc(round(to-zero, var(--slider-complete), 100) * 1cqi) 0%;
+  }
+  .track {
+    translate: 0 calc(var(--slider-complete) * (2.625rem * 10));
+  }
+}
+
+@layer slider {
+  :root {
+    --width: 400;
+  }
+  .slider {
+    --height: 2.625rem;
+    display: flex;
+    /* gap: 0.875rem; */
+    border-radius: 12px;
+    background: red;
+    color: white;
+    /* padding: 0 1.125rem; */
+    width: calc(var(--width) * 1px);
+    max-width: calc(100vw - 2rem);
+    align-items: center;
+  }
+
+  .slider__track {
+    --gradient: radial-gradient(
+      0.5rem 0.5rem at calc(0.5rem) 50%,
+      hsl(0 0% 25%) calc(0.5rem - 3px),
+      transparent calc(0.5rem - 3px)
+    );
+    flex: 1;
+    height: var(--height);
+    position: relative;
+    container-type: inline-size;
+  }
+
+  .slider__fill {
+    /* height: 0.875rem; */
+    height: 100%;
+    border-radius: 12px;
+    position: absolute;
+    left: 0;
+    width: 100%;
+    top: 50%;
+    translate: 0 -50%;
+    clip-path: inset(0 0 0 0 round 12px);
+    pointer-events: none;
+  }
+
+  .slider__fill::after {
+    content: '';
+    width: 120%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: white;
+    clip-path: inset(0 0 0 0 round 12px);
+    transform: translateX(-100%);
+  }
+
+  .slider__indicator {
+    pointer-events: none;
+    height: 100%;
+    aspect-ratio: 1;
+    background: white;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    translate: calc(((100cqi - 100%) / 10) * 10) -50%;
+    outline: 2px solid hsl(0 0% 50%);
+    opacity: 0.5;
+  }
+
+  .slider__label {
+    font-size: 13px;
+    font-weight: 600;
+    font-family: 'Raleway', sans-serif;
+  }
+
+  .slider__track input {
+    width: 100%;
+  }
+
+  .slider [type='range'] {
+    opacity: 1;
+    height: var(--height);
+    transition: translate var(--transition) var(--ease),
+      opacity var(--transition) var(--ease);
+  }
+
+  .slider:has(:focus-visible) {
+    outline: 4px solid red;
+    outline-offset: 2px;
+  }
+
+  .slider [type='range']:hover {
+    cursor: -webkit-grab;
+  }
+
+  .slider [type='range']:active {
+    cursor: -webkit-grabbing;
+  }
+
+  .slider [type='range']::-webkit-slider-thumb {
+    /* height: var(--height); */
+    /* width: 48px; */
+    margin-top: unset;
+    opacity: 1;
+  }
+
+  .slider [type='range']::-webkit-slider-runnable-track {
+    height: var(--height);
+    background: hsl(10 0% 50% / 0.5);
+  }
+
+  .slider [type='range']::-moz-range-track {
+    height: var(--height);
+    background: hsl(10 0% 50% / 0.5);
+  }
+
+  /* [data-reveal='true'] .slider [type='range'] { */
+  .slider [type='range'] {
+    opacity: 1;
+    translate: 0 -150%;
+  }
+  /* [data-reveal='true'] .slider [type='range']::-webkit-slider-thumb { */
+  .slider [type='range']::-webkit-slider-thumb {
+    opacity: 1;
+    height: auto;
+    margin-top: unset;
+    width: unset;
+  }
+
+  /* [data-reveal='true'] .slider [type='range']::-webkit-slider-runnable-track { */
+  .slider [type='range']::-webkit-slider-runnable-track {
+    height: unset;
+  }
+
+  /* [data-reveal='true'] .slider [type='range']::-moz-range-track { */
+  .slider [type='range']::-moz-range-track {
+    height: unset;
+  }
+}
 
 @layer base {
   :root {
