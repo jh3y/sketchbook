@@ -1,0 +1,53 @@
+'use client'
+
+import { useState, useEffect } from 'react'
+import Image from 'next/image'
+
+export default function Component() {
+  const [randomSeed, setRandomSeed] = useState(1)
+
+  useEffect(() => {
+    setRandomSeed(Math.floor(Math.random() * 1000))
+  }, [])
+
+  return (
+    <div className="relative w-full max-w-md mx-auto">
+      {/* SVG Filter Definition */}
+      <svg width="0" height="0" style={{ position: 'absolute' }}>
+        <defs>
+          <filter id="knockout-text">
+            <feColorMatrix
+              type="matrix"
+              values="1 0 0 0 0
+                      0 1 0 0 0
+                      0 0 1 0 0
+                      -1 -1 -1 1 0"
+            />
+          </filter>
+        </defs>
+      </svg>
+
+      {/* Background Image */}
+      <Image
+        src={`https://picsum.photos/seed/${randomSeed}/400/300`}
+        alt="Random background from picsum.photos"
+        width={400}
+        height={300}
+        className="w-full h-auto"
+      />
+
+      {/* Overlay with Filter Applied */}
+      <div
+        className="absolute inset-0 flex items-center justify-center bg-black"
+        style={{ mixBlendMode: 'multiply' }}
+      >
+        <div
+          className="text-white p-4 text-4xl font-bold"
+          style={{ filter: 'url(#knockout-text)' }}
+        >
+          Knockout Text
+        </div>
+      </div>
+    </div>
+  )
+}
