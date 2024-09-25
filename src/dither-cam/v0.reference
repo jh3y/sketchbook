@@ -1,0 +1,235 @@
+'use client'
+
+import { useState, useRef, useEffect } from 'react'
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Slider } from "@/components/ui/slider"
+
+export default function AtkinsonDithering() {
+  const [image, setImage] = useState<string | null>(null)
+  const [threshold, setThreshold] = useState(128)
+  const [downscaleFactor, setDownscaleFactor] = useState(1)
+  const [noiseAmount, setNoiseAmount] = useState(0)
+  const [grayscaleSteps, setGrayscaleSteps] = useState(2)
+  const canvasRef = useRef<HTMLCanvasElement>(null)
+  const [originalDimensions, setOriginalDimensions] = useState({ width: 0, height: 0 })
+
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0]
+    if (file) {
+      const reader = new FileReader()
+      reader.onload = (e) => setImage(e.target?.result as string)
+      reader.readAsDataURL(file)
+    }
+  }
+
+  const downscaleImage = (ctx: CanvasRenderingContext2D, width: number, height: number) => {
+    const scaledWidth = Math.floor(width / downscaleFactor)
+    const scaledHeight = Math.floor(height / downscaleFactor)
+    const scaledImageData = ctx.getImageData(0, 0, scaledWidth, scaledHeight)
+
+    for (let y = 0; y < scaledHeight; y++) {
+      for (let x = 0; x < scaledWidth; x++) {
+        const i = (y * scaledWidth + x) * 4
+        const origX = x * downscaleFactor
+        const origY = y * downscaleFactor
+        const origI = (origY * width + origX) * 4
+        scaledImageData.data[i] = ctx.getImageData(origX, origY, 1, 1).data[0]
+        scaledImageData.data[i + 1] = ctx.getImageData(origX, origY, 1, 1).data[1]
+        scaledImageData.data[i + 2] = ctx.getImageData(origX, origY, 1, 1).data[2]
+        scaledImageData.data[i + 3] = 255
+      }
+    }
+
+    return scaledImageData
+  }
+
+  const applyAtkinsonDithering = (imageData: ImageData, threshold: number, noiseAmount: number, steps: number) => {
+    const data = imageData.data
+    const width = imageData.width
+    const height = imageData.height
+
+    const grayscalePalette = Array.from({ length: steps }, (_, i) => Math.round(i * 255 / (steps - 1)))
+
+    for (let y = 0; y < height; y++) {
+      for (let x = 0; x < width; x++) {
+        const i = (y * width + x) * 4
+        const avg = (data[i] + data[i + 1] + data[i + 2]) / 3
+
+        // Apply noise to the pixel value
+        const noise = (Math.random() - 0.5) * 2 * noiseAmount * 255
+        const adjustedValue = Math.max(0, Math.min(255, avg + noise))
+
+        // Find the closest grayscale value
+        const newPixel = grayscalePalette.reduce((prev, curr) =>
+          Math.abs(curr - adjustedValue) < Math.abs(prev - adjustedValue) ? curr : prev
+        )
+
+        const error = Math.floor((adjustedValue - newPixel) / 8)
+
+        data[i] = data[i + 1] = data[i + 2] = newPixel
+
+        const offsets = [
+          [1, 0],
+          [2, 0],
+          [-1, 1],
+          [0, 1],
+          [1, 1],
+          [0, 2]
+        ]
+
+        for (const [dx, dy] of offsets) {
+          const nx = x + dx
+          const ny = y + dy
+          if (nx >= 0 && nx < width && ny >= 0 && ny < height) {
+            const ni = (ny * width + nx) * 4
+            data[ni] = Math.min(255, Math.max(0, data[ni] + error))
+            data[ni + 1] = Math.min(255, Math.max(0, data[ni + 1] + error))
+            data[ni + 2] = Math.min(255, Math.max(0, data[ni + 2] + error))
+          }
+        }
+      }
+    }
+
+    return imageData
+  }
+
+  useEffect(() => {
+    if (image && canvasRef.current) {
+      const canvas = canvasRef.current
+      const ctx = canvas.getContext('2d')
+      if (ctx) {
+        const img = new Image()
+        img.onload = () => {
+          setOriginalDimensions({ width: img.width, height: img.height })
+
+          // Set canvas dimensions to match the original image size
+          canvas.width = img.width
+          canvas.height = img.height
+
+          // Calculate downscaled dimensions
+          const displayWidth = Math.floor(img.width / downscaleFactor)
+          const displayHeight = Math.floor(img.height / downscaleFactor)
+
+          // Create a temporary canvas for processing
+          const tempCanvas = document.createElement('canvas')
+          tempCanvas.width = displayWidth
+          tempCanvas.height = displayHeight
+          const tempCtx = tempCanvas.getContext('2d')
+
+          if (tempCtx) {
+            // Draw the downscaled image on the temporary canvas
+            tempCtx.drawImage(img, 0, 0, displayWidth, displayHeight)
+
+            // Get the downscaled image data
+            const imageData = tempCtx.getImageData(0, 0, displayWidth, displayHeight)
+
+            // Apply dithering with integrated noise and grayscale palette
+            const processedData = applyAtkinsonDithering(imageData, threshold, noiseAmount / 100, grayscaleSteps)
+
+            // Put the processed data back on the temporary canvas
+            tempCtx.putImageData(processedData, 0, 0)
+
+            // Clear the main canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+            // Disable image smoothing for nearest-neighbor interpolation
+            ctx.imageSmoothingEnabled = false
+
+            // Draw the processed image from the temporary canvas to the main canvas, scaling it up
+            ctx.drawImage(tempCanvas, 0, 0, displayWidth, displayHeight, 0, 0, canvas.width, canvas.height)
+          }
+        }
+        img.src = image
+      }
+    }
+  }, [image, threshold, downscaleFactor, noiseAmount, grayscaleSteps])
+
+  return (
+    <div className="container mx-auto p-4 max-w-3xl">
+      <h1 className="text-2xl font-bold mb-4">Atkinson Dithering with Grayscale Palette</h1>
+      <div className="mb-4">
+        <Label htmlFor="image-upload">Upload Image</Label>
+        <Input id="image-upload" type="file" accept="image/*" onChange={handleImageUpload} className="mt-1" />
+      </div>
+      <div className="mb-4">
+        <Label htmlFor="threshold">Threshold</Label>
+        <Slider
+          id="threshold"
+          min={0}
+          max={255}
+          step={1}
+          value={[threshold]}
+          onValueChange={(value) => setThreshold(value[0])}
+          className="mt-1"
+        />
+        <span className="text-sm text-gray-500">{threshold}</span>
+      </div>
+      <div className="mb-4">
+        <Label htmlFor="downscale">Downscale Factor</Label>
+        <Slider
+          id="downscale"
+          min={1}
+          max={10}
+          step={1}
+          value={[downscaleFactor]}
+          onValueChange={(value) => setDownscaleFactor(value[0])}
+          className="mt-1"
+        />
+        <span className="text-sm text-gray-500">{downscaleFactor}</span>
+      </div>
+      <div className="mb-4">
+        <Label htmlFor="noise">Noise Amount (%)</Label>
+        <Slider
+          id="noise"
+          min={0}
+          max={100}
+          step={1}
+          value={[noiseAmount]}
+          onValueChange={(value) => setNoiseAmount(value[0])}
+          className="mt-1"
+        />
+        <span className="text-sm text-gray-500">{noiseAmount}%</span>
+      </div>
+      <div className="mb-4">
+        <Label htmlFor="grayscale">Grayscale Steps</Label>
+        <Slider
+          id="grayscale"
+          min={2}
+          max={16}
+          step={1}
+          value={[grayscaleSteps]}
+          onValueChange={(value) => setGrayscaleSteps(value[0])}
+          className="mt-1"
+        />
+        <span className="text-sm text-gray-500">{grayscaleSteps}</span>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {image && (
+          <div>
+            <h2 className="text-lg font-semibold mb-2">Original Image</h2>
+            <img src={image} alt="Original" className="w-full h-auto" />
+          </div>
+        )}
+        <div>
+          <h2 className="text-lg font-semibold mb-2">Processed Image</h2>
+          <canvas ref={canvasRef} className="w-full h-auto" />
+        </div>
+      </div>
+      {image && (
+        <Button
+          onClick={() => {
+            const link = document.createElement('a')
+            link.download = 'processed-image.png'
+            link.href = canvasRef.current?.toDataURL() || ''
+            link.click()
+          }}
+          className="mt-4"
+        >
+          Download Processed Image
+        </Button>
+      )}
+    </div>
+  )
+}

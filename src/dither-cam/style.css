@@ -1,0 +1,231 @@
+@import 'normalize.css' layer(normalize);
+@import url('https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&display=swap');
+
+@layer normalize, base, demo;
+
+@layer demo {
+  video {
+    object-fit: cover;
+    width: 100%;
+    background: color-mix(in hsl, canvas, canvasText 15%);
+  }
+
+  canvas {
+    opacity: var(--hide, 0);
+    width: 50vmin;
+    max-width: calc(100vw - 1rem);
+    transition: opacity 0.25s;
+  }
+
+  dl {
+    display: grid;
+    gap: 0.5rem;
+    grid-column: 1 / -1;
+    grid-template-columns: auto 1fr;
+    margin: 0;
+  }
+
+  [data-debug='true'] {
+    --debug: 1;
+  }
+
+  .debug {
+    --bs-bg: var(--tp-base-background-color, hsl(230, 7%, 17%));
+    --bs-br: var(--tp-base-border-radius, 6px);
+    --bs-sh: var(--tp-base-shadow-color, rgba(0, 0, 0, 0.2));
+    --lbl-fg: var(--tp-label-foreground-color, rgba(187, 188, 196, 0.7));
+    --bs-ff: var(
+      --tp-base-font-family,
+      Roboto Mono,
+      Source Code Pro,
+      Menlo,
+      Courier,
+      monospace
+    );
+    gap: 0.5rem;
+    display: grid;
+    width: 256px;
+    position: fixed;
+    bottom: 8px;
+    right: 8px;
+    translate: calc((1 - var(--debug, 0)) * (100% + 12px)) 0;
+    font-family: var(
+      --tp-base-font-family,
+      Roboto Mono,
+      Source Code Pro,
+      Menlo,
+      Courier,
+      monospace
+    );
+    background-color: var(--bs-bg);
+    border-radius: var(--bs-br);
+    box-shadow: 0 2px 4px var(--bs-sh);
+    font-family: var(--bs-ff);
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1;
+    text-align: left;
+    color: var(--lbl-fg);
+    padding: 4px;
+    transition: translate 0.25s
+      linear(
+        0 0%,
+        0.2342 12.49%,
+        0.4374 24.99%,
+        0.6093 37.49%,
+        0.6835 43.74%,
+        0.7499 49.99%,
+        0.8086 56.25%,
+        0.8593 62.5%,
+        0.9023 68.75%,
+        0.9375 75%,
+        0.9648 81.25%,
+        0.9844 87.5%,
+        0.9961 93.75%,
+        1 100%
+      );
+  }
+
+  [data-capturing='true'] {
+    --hide: 1;
+  }
+
+  .arrow {
+    opacity: calc(1 - var(--hide, 0));
+    transition: opacity 0.25s;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    width: 100px;
+    font-family: 'Gloria Hallelujah', cursive;
+
+    span {
+      display: inline-block;
+      rotate: 12deg;
+      white-space: nowrap;
+    }
+
+    svg {
+      position: absolute;
+      scale: 1 -1;
+      rotate: -75deg;
+      bottom: 100%;
+      left: 100%;
+      width: 100%;
+    }
+  }
+}
+
+@layer base {
+  :root {
+    --font-size-min: 16;
+    --font-size-max: 20;
+    --font-ratio-min: 1.2;
+    --font-ratio-max: 1.33;
+    --font-width-min: 375;
+    --font-width-max: 1500;
+  }
+
+  :where(.fluid) {
+    --fluid-min: calc(
+      var(--font-size-min) * pow(var(--font-ratio-min), var(--font-level, 0))
+    );
+    --fluid-max: calc(
+      var(--font-size-max) * pow(var(--font-ratio-max), var(--font-level, 0))
+    );
+    --fluid-preferred: calc(
+      (var(--fluid-max) - var(--fluid-min)) /
+        (var(--font-width-max) - var(--font-width-min))
+    );
+    --fluid-type: clamp(
+      (var(--fluid-min) / 16) * 1rem,
+      ((var(--fluid-min) / 16) * 1rem) -
+        (((var(--fluid-preferred) * var(--font-width-min)) / 16) * 1rem) +
+        (var(--fluid-preferred) * var(--variable-unit, 100vi)),
+      (var(--fluid-max) / 16) * 1rem
+    );
+    font-size: var(--fluid-type);
+  }
+
+  *,
+  *:after,
+  *:before {
+    box-sizing: border-box;
+  }
+
+  html {
+    color-scheme: light dark;
+  }
+
+  [data-theme='light'] {
+    color-scheme: light only;
+  }
+
+  [data-theme='dark'] {
+    color-scheme: dark only;
+  }
+
+  body {
+    display: grid;
+    place-items: center;
+    min-height: 100vh;
+    font-family: 'SF Pro Text', 'SF Pro Icons', 'AOS Icons', 'Helvetica Neue',
+      Helvetica, Arial, sans-serif, system-ui;
+  }
+
+  body::before {
+    --size: 45px;
+    --line: color-mix(in lch, canvasText, transparent 70%);
+    content: '';
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    background: linear-gradient(
+          90deg,
+          var(--line) 1px,
+          transparent 1px var(--size)
+        )
+        50% 50% / var(--size) var(--size),
+      linear-gradient(var(--line) 1px, transparent 1px var(--size)) 50% 50% /
+        var(--size) var(--size);
+    mask: linear-gradient(-20deg, transparent 50%, white);
+    top: 0;
+    transform-style: flat;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .bear-link {
+    color: canvasText;
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    width: 48px;
+    aspect-ratio: 1;
+    display: grid;
+    place-items: center;
+    opacity: 0.8;
+  }
+
+  :where(.x-link, .bear-link):is(:hover, :focus-visible) {
+    opacity: 1;
+  }
+
+  .bear-link svg {
+    width: 75%;
+  }
+
+  /* Utilities */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+}
