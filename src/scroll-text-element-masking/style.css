@@ -1,33 +1,168 @@
 @import 'normalize.css' layer(normalize);
 
-@layer normalize, base, demo;
+@layer normalize, base, demo, animation;
+
+@layer animation {
+  :root {
+    timeline-scope: --buffer, --outro;
+  }
+
+  .spacer {
+    height: 100vh;
+    margin-top: 120vh;
+    view-timeline: --buffer;
+  }
+
+  video {
+    --to: 0;
+    translate: 0 50%;
+  }
+
+  body {
+  }
+
+  video,
+  header {
+    animation: lift both linear;
+    animation-timeline: scroll(root);
+    animation-range: 0 100vh;
+  }
+
+  header {
+    --to: -100%;
+    /* translate: 0 calc(0vh - (var(--reveal) * 1vh)); */
+  }
+  video {
+    --to: 0;
+    translate: 0 50%;
+    /* translate: 0 calc(50vh - (var(--reveal) * 0.5vh)); */
+  }
+
+  /* .video-mask {
+    animation: lift both ease-out;
+    animation-timeline: --buffer;
+    animation-range: entry;
+  } */
+
+  .video-mask .svg-wrap,
+  .video-mask h1 {
+    /* scale: calc(
+      var(--scale, 33) - ((var(--reveal) / 100) * (var(--scale, 33) - 1))
+    ); */
+    scale: var(--scale, 33);
+    transform-origin: calc(var(--x, 39) * 1%) calc(var(--y, 50) * 1%);
+    animation: shrink both ease-out;
+    animation-timeline: --buffer;
+    animation-range: entry;
+  }
+
+  @keyframes shrink {
+    to {
+      scale: 1;
+    }
+  }
+
+  @property --active {
+    inherits: true;
+    initial-value: 0;
+    syntax: '<number>';
+  }
+
+  .outro section:last-of-type {
+    view-timeline: --outro;
+  }
+
+  .follow h2 span {
+    opacity: calc(0.25 + (var(--active) / 100));
+    animation: activate both
+      linear(
+        0 0%,
+        0.6832 7.89%,
+        0.9171 11.07%,
+        1.0251 12.99%,
+        1.1058 14.9%,
+        1.1619 16.86%,
+        1.1945 18.91%,
+        1.2024 20.02%,
+        1.2043 21.18%,
+        1.1907 23.72%,
+        1.1598 26.27%,
+        1.0604 32.59%,
+        1.0172 35.84%,
+        0.9839 39.49%,
+        0.967 43.26%,
+        0.9639 45.77%,
+        0.9661 48.59%,
+        0.9963 60.54%,
+        1.0054 67.42%,
+        1 100%
+      );
+    animation-timeline: --outro;
+  }
+
+  @keyframes activate {
+    to {
+      --active: 100;
+    }
+  }
+
+  .follow h2 span:first-of-type {
+    animation-range: entry 0% entry 50%;
+  }
+  .follow h2 span:last-of-type {
+    animation-range: entry 50% entry 100%;
+  }
+
+  /* .content {
+    animation: lift both ease-out;
+    animation-timeline: --buffer;
+    animation-range: entry 94% entry 102%;
+  } */
+
+  .content > div {
+    --to: 0;
+    /* opacity: calc(var(--reveal) / 100);
+    translate: 0 calc(((100 - var(--reveal)) / 100) * 0.25lh); */
+    translate: 0 0.25lh;
+    opacity: 0;
+    animation: lift both ease-out, reveal both ease-out;
+    animation-timeline: --buffer;
+    animation-range: entry 94% entry 102%;
+  }
+
+  @keyframes reveal {
+    to {
+      opacity: var(--light, 1);
+    }
+  }
+
+  @keyframes lift {
+    to {
+      translate: 0 var(--to, 0);
+    }
+  }
+}
 
 @layer demo {
   header {
     height: 100vh;
     display: grid;
     inset: 0;
+    align-content: center;
     place-items: center;
-    background: canvas;
+    background: black;
     position: fixed;
-    animation: lift both linear;
-    animation-timeline: scroll(root);
-    animation-range: 0 100vh;
     z-index: 2;
   }
 
-  @keyframes lift {
-    to {
-      translate: 0 var(--to, -100%);
-    }
-  }
-  /* header::before {
+  body::before,
+  header::before {
     --size: 45px;
     --line: color-mix(in lch, canvasText, transparent 70%);
     content: '';
     height: 100vh;
     width: 100vw;
-    position: absolute;
+    position: fixed;
     background: linear-gradient(
           90deg,
           var(--line) 1px,
@@ -36,40 +171,212 @@
         50% 50% / var(--size) var(--size),
       linear-gradient(var(--line) 1px, transparent 1px var(--size)) 50% 50% /
         var(--size) var(--size);
-    background-attachment: local;
     mask: linear-gradient(-20deg, transparent 50%, white);
     top: 0;
     transform-style: flat;
     pointer-events: none;
     z-index: -1;
-  } */
+  }
+
+  body::before {
+    mask: linear-gradient(160deg, transparent 50%, white);
+  }
+
+  header h1 {
+    --font-level: 7;
+    position: relative;
+    margin: 0;
+  }
+
+  header h1 span {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    display: inline-block;
+    translate: -50% 50%;
+    font-size: 0.2em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: hsl(6 100% 50%);
+  }
+
+  header h2 {
+    --font-level: 1;
+    margin: 0;
+    opacity: 0.5;
+    text-transform: uppercase;
+  }
+
+  .svg-filter {
+    width: 0;
+    height: 0;
+    position: absolute;
+  }
+
+  [contenteditable]:focus-visible {
+    outline-color: red;
+  }
+
+  /* Video layout stuff */
+
   .video-container {
+    --font-level: var(--font, 10);
     position: sticky;
-    top: 0;
+    inset: 0;
     height: 100vh;
   }
-  .video-container + section {
-    margin-top: 100vh;
-    background: grey;
+
+  [data-svg='false'] .svg-wrap {
+    display: none;
   }
+
+  [data-svg='true'] .video-mask {
+    filter: none;
+    background: transparent;
+    h1 {
+      display: none;
+    }
+    .svg-wrap {
+      position: relative;
+      width: 90%;
+
+      div {
+        position: absolute;
+        height: 100vh;
+        width: 100vw;
+        background: black;
+
+        &:nth-of-type(1) {
+          right: 99%;
+          top: 50%;
+          translate: 0 -50%;
+        }
+        &:nth-of-type(2) {
+          left: 99%;
+          top: 50%;
+          translate: 0 -50%;
+        }
+        &:nth-of-type(3) {
+          left: 50%;
+          top: 90%;
+          translate: -50% 0;
+        }
+        &:nth-of-type(4) {
+          left: 50%;
+          bottom: 100%;
+          translate: -50% 0;
+        }
+      }
+    }
+  }
+
+  .video-mask {
+    height: 100vh;
+    position: absolute;
+    z-index: 2;
+    background: black;
+    color: white;
+    display: grid;
+    place-items: center;
+    filter: url(#knockout-filter);
+    inset: 0;
+    overflow: hidden;
+  }
+
   video {
-    height: 100%;
-    width: 100%;
+    height: 100vh;
+    width: 100vw;
     object-fit: cover;
-    z-index: -2;
-    translate: 0 20%;
-    --to: 0%;
-    animation: lift both linear;
-    animation-timeline: scroll(root);
-    animation-range: 0 100vh;
   }
-  section {
+
+  .video-mask h1 {
+    display: flex;
+    text-align: center;
+    margin: 0;
+    anchor-name: --head;
+  }
+
+  .video-mask h1 svg {
+    width: 2ch;
+  }
+
+  footer {
+    padding: 2rem;
+    text-align: center;
+    opacity: 0.875;
+    font-weight: 300;
+    font-size: 0.875rem;
+  }
+
+  footer a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .content {
+    --font-level: var(--font, 10);
+    position: relative;
+    z-index: 2;
+    margin-top: calc(-50vh + 0.5lh);
+    background: linear-gradient(#0000, black calc(100% - 25vh), #0000);
+  }
+
+  .content > div {
+    --font-level: var(--font, 10);
+    width: 5ch;
+    max-width: calc(100vw - 2rem);
+    margin: 0 auto;
+    padding-bottom: 25vh;
+  }
+
+  h2 {
+    --font-level: 5;
+    font-weight: 500;
+    margin: 0;
+  }
+  p {
+    color: #86868b;
+  }
+  .content p {
+    --font-level: 2;
+    width: 30ch;
+    max-width: 100%;
+    span {
+      color: white;
+    }
+  }
+
+  .follow {
     min-height: 100vh;
+    display: grid;
+    place-items: center;
+    align-content: center;
+    position: sticky;
+    top: 0;
   }
-  main {
+
+  .outro section:last-of-type {
+    height: 100vh;
   }
-  .timeline {
-    min-height: 200vh;
+
+  .follow h2 span {
+    --font-level: 6;
+    filter: drop-shadow(
+        0 0 calc((var(--active) / 100) * 5px) hsl(0 0% 100% / 0.6)
+      )
+      drop-shadow(0 0 calc((var(--active) / 100) * 10px) hsl(0 0% 100% / 0.4))
+      drop-shadow(
+        0 calc((var(--active) / 100) * 6px) calc((var(--active) / 100) * 15px)
+          hsl(0 0% 100% / 0.3)
+      )
+      drop-shadow(
+        0 calc((var(--active) / 100) * 8px) calc((var(--active) / 100) * 20px)
+          hsl(0 0% 100% / 0.2)
+      )
+      drop-shadow(
+        0 calc((var(--active) / 100) * 10px) calc((var(--active) / 100) * 30px)
+          hsl(0 0% 100% / 0.1)
+      );
   }
 }
 
@@ -84,7 +391,9 @@
   }
 
   html {
-    color-scheme: light dark;
+    color-scheme: dark only;
+    background: black;
+    overflow-x: hidden;
   }
 
   [data-theme='light'] {
@@ -166,4 +475,5 @@
 div.tp-dfwv {
   position: fixed;
   z-index: 99999;
+  width: 280px;
 }
