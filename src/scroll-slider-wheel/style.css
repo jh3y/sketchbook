@@ -40,6 +40,7 @@
           round(down, var(--value) / 10, 1) * 1rem
         )
         1rem;
+      grid-template-columns: repeat(3, 1fr);
       align-content: center;
       height: 3rem;
       transition: grid-template-columns 0.2s;
@@ -55,23 +56,35 @@
       font-size: 1.5rem;
       width: 1rem;
       height: 2rem;
-
-      background: blue;
-      /* transform: rotateX(32deg) rotateY(24deg); */
       transform-style: preserve-3d;
       transition: transform 0.5s var(--ease);
     }
 
     .slider__wheel:nth-of-type(1) {
       transform: rotateX(calc(round(down, var(--value) / 100, 1) * -36deg));
-      transition: transform 0.5s var(--ease);
+      span {
+        /* opacity: min(1, round(down, var(--value) / 100, 1)); */
+        transition: opacity 0.2s ease-out;
+      }
     }
     .slider__wheel:nth-of-type(2) {
-      transform: rotateX(calc(round(down, var(--value) / 10, 1) * -36deg));
-      transition: transform 0.5s var(--ease);
+      /* need to offset how many times round the 10s go */
+      /* If you had a max of 240, that would be 24. Divide max by 10 after rounding down */
+      /* Times by the value then the -36deg */
+      /* Gonna have to come back in here to account for the min value I feel... */
+
+      /* This is what you were doing... */
+      --val: round(var(--value), 1);
+      transform: rotateX(calc(round(down, var(--val) / 10, 1) * -36deg));
+
+      span {
+        /* opacity: min(1, round(down, var(--value) / 10, 1)); */
+        transition: opacity 0.2s ease-out;
+      }
     }
     .slider__wheel:nth-of-type(3) {
-      transform: rotateX(calc(-36deg * var(--value)));
+      --rotation: calc((var(--value) / var(--max)) * (var(--max) * -36));
+      transform: rotateX(calc(var(--rotation) * 1deg));
     }
 
     .slider__wheel span {
@@ -80,7 +93,6 @@
         translateZ(calc(var(--radius, -5ch) * -1));
       display: grid;
       place-items: center;
-      background: green;
       position: absolute;
       top: 50%;
       left: 50%;
@@ -94,7 +106,7 @@
     @property --value {
       initial-value: 0;
       inherits: true;
-      syntax: '<integer>';
+      syntax: '<number>';
     }
 
     .slider::after {
@@ -133,13 +145,13 @@
     }
 
     .slider__indicator {
-      translate: calc((var(--value) * 1cqi) - 50%) -50%;
+      translate: calc((var(--value) / 100 * (100cqi - 100%)) - 0%) -50%;
     }
     .slider__fill::after {
-      translate: calc(var(--value) * 1cqi) 0%;
+      /* translate: calc(var(--value) * 1cqi) 0%; */
     }
     .track {
-      translate: 0 calc(var(--value) * (2.625rem * 10));
+      /* translate: 0 calc(var(--value) * (2.625rem * 10)); */
     }
   }
 }
@@ -149,12 +161,12 @@
     --width: 400;
   }
   .slider {
-    --height: 2.625rem;
+    --height: 2.75rem;
     display: flex;
     /* gap: 0.875rem; */
     border-radius: 12px;
-    background: red;
-    color: white;
+    background: color-mix(in hsl, canvasText, canvas 90%);
+    color: canvasText;
     /* padding: 0 1.125rem; */
     width: calc(var(--width) * 1px);
     max-width: calc(100vw - 2rem);
@@ -168,7 +180,7 @@
       transparent calc(0.5rem - 3px)
     );
     flex: 1;
-    height: var(--height);
+    height: 0.5rem;
     position: relative;
     container-type: inline-size;
   }
@@ -193,28 +205,28 @@
     position: absolute;
     left: 0;
     top: 0;
-    background: white;
+    background: color-mix(in hsl, canvasText, canvas);
     clip-path: inset(0 0 0 0 round 12px);
     transform: translateX(-100%);
   }
 
   .slider__indicator {
     pointer-events: none;
-    height: 100%;
+    height: 1.75rem;
+    box-shadow: 0 0 4px -2px canvasText;
     aspect-ratio: 1;
-    background: white;
+    border-radius: 50%;
+    background: color-mix(in hsl, canvasText, canvas);
     position: absolute;
     top: 50%;
     left: 0;
-    translate: calc(((100cqi - 100%) / 10) * 10) -50%;
-    outline: 2px solid hsl(0 0% 50%);
-    opacity: 0.5;
+    translate: calc(((100cqi - 0%) / 10) * 10) -50%;
+    /* outline: 2px solid hsl(0 0% 50%); */
   }
 
   .slider__label {
     font-size: 13px;
     font-weight: 600;
-    font-family: 'Raleway', sans-serif;
   }
 
   .slider__track input {
@@ -264,7 +276,6 @@
     translate: 0 -150%;
   }
   [data-reveal='true'] .slider [type='range']::-webkit-slider-thumb {
-    /* .slider [type='range']::-webkit-slider-thumb { */
     opacity: 1;
     height: auto;
     margin-top: unset;
@@ -272,12 +283,10 @@
   }
 
   [data-reveal='true'] .slider [type='range']::-webkit-slider-runnable-track {
-    /* .slider [type='range']::-webkit-slider-runnable-track { */
     height: unset;
   }
 
   [data-reveal='true'] .slider [type='range']::-moz-range-track {
-    /* .slider [type='range']::-moz-range-track { */
     height: unset;
   }
 }
