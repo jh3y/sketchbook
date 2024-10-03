@@ -7,11 +7,18 @@ const config = {
   debug: 0,
   min: 0,
   step: 1,
-  max: 120,
+  max: 242,
+  label: false,
+  fixed: false,
 }
 
 const sliders = document.querySelectorAll('.slider')
 const range = sliders[0].querySelector('[type="range"]')
+const style = sliders[0].querySelector('style')
+
+let min
+let max
+let step
 
 const ctrl = new Pane({
   title: 'Config',
@@ -21,14 +28,23 @@ const ctrl = new Pane({
 const update = () => {
   document.documentElement.dataset.theme = config.theme
   document.documentElement.dataset.reveal = config.reveal
+  document.documentElement.dataset.labelled = config.label
+  document.documentElement.dataset.fixed = config.fixed
   sliders[0].style.setProperty('--min', config.min)
   sliders[0].style.setProperty('--max', config.max)
   sliders[0].style.setProperty('--step', config.step)
   range.setAttribute('min', config.min)
   range.setAttribute('max', config.max)
   range.setAttribute('step', config.step)
-
-  sliders[0].style.setProperty('--tens', Math.floor(config.max / 10))
+  ctrl.refresh()
+  style.innerHTML = `@keyframes progress {
+    to {
+      --value: calc(var(--max) - var(--min));
+    }
+  }`
+  min.max = config.max - 1
+  max.min = config.min + 1
+  step.max = config.max - config.min
 }
 
 const sync = (event) => {
@@ -40,23 +56,50 @@ const sync = (event) => {
   document.startViewTransition(() => update())
 }
 
-ctrl.addBinding(config, 'reveal', {
+const setup = ctrl.addFolder({ title: 'Range' })
+setup.addBinding(config, 'label', {
+  label: 'Label',
+})
+setup.addBinding(config, 'fixed', {
+  label: 'Fixed',
+})
+min = setup.addBinding(config, 'min', {
+  label: 'Min',
+  min: 0,
+  max: config.max - 1,
+  step: 1,
+})
+max = setup.addBinding(config, 'max', {
+  label: 'Max',
+  min: config.min + 1,
+  max: 999,
+  step: 1,
+})
+step = setup.addBinding(config, 'step', {
+  label: 'Step',
+  min: 1,
+  max: config.max - config.min,
+  step: 1,
+})
+
+const debugging = ctrl.addFolder({ title: 'Debug' })
+
+debugging.addBinding(config, 'reveal', {
   label: 'Reveal',
 })
 
-ctrl.addBinding(config, 'value', {
+debugging.addBinding(config, 'value', {
   label: 'Value',
   disabled: true,
-  min: 0,
+  min: config.min,
   max: config.max,
   step: 1,
 })
-ctrl.addBinding(config, 'debug', {
-  label: 'Debug',
+debugging.addBinding(config, 'debug', {
+  label: 'Progress',
   disabled: true,
   min: 0,
   max: 100,
-  step: 1,
 })
 
 ctrl.addBinding(config, 'theme', {
@@ -79,7 +122,7 @@ class Slider {
     if (!CSS.supports('animation-timeline: scroll()')) {
       const sync = () => {
         const val = (input.value - input.min) / (input.max - input.min)
-        element.style.setProperty('--slider-complete', val)
+        element.style.setProperty('--value', input.value)
       }
       console.info('polyfilling scroll-animation')
       input.addEventListener('input', sync)
@@ -92,14 +135,7 @@ for (const slider of sliders) new Slider(slider)
 
 sliders[0].querySelector('[type=range]').addEventListener('input', (event) => {
   config.value = event.target.value
-  config.debug = (event.target.value / config.max) * 100
-  const turn = config.max * -36 * (config.debug / 100)
-  sliders[0].style.setProperty('--r', turn)
-  const mini = Math.abs(
-    Math.floor(config.max / 10) * -36 * (config.debug / 100)
-  )
-  sliders[0].style.setProperty('--m', mini)
-  console.info({ turn, debug: config.debug / 100, mini })
-
+  config.debug =
+    ((event.target.value - config.min) / (config.max - config.min)) * 100
   ctrl.refresh()
 })

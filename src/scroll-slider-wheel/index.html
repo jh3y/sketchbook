@@ -12,28 +12,10 @@
   </head>
   <body>
     <div class="slider">
-      <div class="slider__label">
-        <label class="sr-only" for="snap">Snap step</label>
-        <!-- <span aria-hidden="true" class="number">
-          <span class="number__track">
-            <span class="track">
-              <span>10</span>
-              <span>9</span>
-              <span>8</span>
-              <span>7</span>
-              <span>6</span>
-              <span>5</span>
-              <span>4</span>
-              <span>3</span>
-              <span>2</span>
-              <span>1</span>
-              <span>0</span>
-            </span>
-          </span>
-          <span class="slash">/</span>
-          10
-        </span> -->
-        <div class="wheels">
+      <label class="slider__label" for="snap">Amount</label>
+      <div class="slider__track">
+        <input type="range" id="snap" min="0" max="100" step="1" />
+        <div class="wheels" aria-hidden="true">
           <span class="slider__wheel">
             <span style="--index: 0">0</span>
             <span style="--index: 1">1</span>
@@ -71,12 +53,10 @@
             <span style="--index: 9">9</span>
           </span>
         </div>
-      </div>
-      <div class="slider__track">
-        <input type="range" id="snap" min="0" max="100" step="1" />
         <div class="slider__fill"></div>
         <div class="slider__indicator"></div>
       </div>
+      <style></style>
     </div>
     <a
       class="bear-link"
