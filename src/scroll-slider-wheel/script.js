@@ -7,7 +7,7 @@ const config = {
   debug: 0,
   min: 0,
   step: 1,
-  max: 100,
+  max: 120,
 }
 
 const sliders = document.querySelectorAll('.slider')

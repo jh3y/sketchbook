@@ -126,7 +126,7 @@
     }
     @keyframes progress {
       to {
-        --value: 100;
+        --value: var(--max);
       }
     }
     .slider input {
