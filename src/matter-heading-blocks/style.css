@@ -314,3 +314,25 @@ div.tp-dfwv {
   position: fixed;
   width: 290px;
 }
+
+.unlock {
+  position: fixed;
+  z-index: 99999;
+  left: 1rem;
+  bottom: 1rem;
+  width: 44px;
+  aspect-ratio: 1;
+  border-radius: 12px;
+  color: canvas;
+  background: canvasText;
+  cursor: pointer;
+  scale: 0;
+  transition: scale 0.5s;
+  svg {
+    width: 75%;
+  }
+}
+
+[data-interactive='true'] .unlock {
+  scale: 1;
+}

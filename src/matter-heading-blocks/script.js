@@ -561,7 +561,15 @@ const adapt = () => {
 window.addEventListener('resize', adapt)
 update()
 document.documentElement.dataset.interactive = config.interactive
-window.addEventListener('dblclick', () => {
-  config.interactive = !config.interactive
+const setInteractive = (interactive) => {
+  config.interactive = interactive || !config.interactive
   document.documentElement.dataset.interactive = config.interactive
+}
+window.addEventListener('dblclick', () => {
+  setInteractive(true)
+})
+
+const unlock = document.querySelector('.unlock')
+unlock.addEventListener('click', () => {
+  setInteractive(false)
 })
