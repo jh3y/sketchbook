@@ -1,14 +1,14 @@
 import { Pane } from 'https://cdn.skypack.dev/tweakpane'
 
 const config = {
-  theme: 'system',
+  theme: 'dark',
   reveal: false,
   explode: false,
   value: 0,
   debug: 0,
   min: 0,
   step: 1,
-  max: 242,
+  max: 100,
   label: false,
   fixed: false,
 }

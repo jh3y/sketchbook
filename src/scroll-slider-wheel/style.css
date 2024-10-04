@@ -106,7 +106,7 @@
 
   .slider__wheel {
     font-size: calc(var(--label) * 1rem);
-    width: calc(var(--label) * 0.75rem);
+    width: calc(var(--label) * 0.65rem);
     height: calc(var(--label) * 1.25rem);
     transform-style: preserve-3d;
     transition: transform 0.5s var(--ease);
@@ -133,7 +133,8 @@
   .slider__wheel:nth-of-type(3) {
     --min-rotation: calc(var(--min) * -36);
     --rotation: calc((var(--value) / var(--max)) * (var(--max) * -36));
-    transform: rotateX(calc((var(--min-rotation) + var(--rotation)) * 1deg));
+    --final: round(nearest, var(--min-rotation) + var(--rotation), 1);
+    transform: rotateX(calc(var(--final) * 1deg));
   }
 
   .slider__wheel span {
