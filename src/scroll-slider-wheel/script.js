@@ -3,6 +3,7 @@ import { Pane } from 'https://cdn.skypack.dev/tweakpane'
 const config = {
   theme: 'system',
   reveal: false,
+  explode: false,
   value: 0,
   debug: 0,
   min: 0,
@@ -19,6 +20,7 @@ const style = sliders[0].querySelector('style')
 let min
 let max
 let step
+let val
 
 const ctrl = new Pane({
   title: 'Config',
@@ -30,6 +32,7 @@ const update = () => {
   document.documentElement.dataset.reveal = config.reveal
   document.documentElement.dataset.labelled = config.label
   document.documentElement.dataset.fixed = config.fixed
+  document.documentElement.dataset.explode = config.explode
   sliders[0].style.setProperty('--min', config.min)
   sliders[0].style.setProperty('--max', config.max)
   sliders[0].style.setProperty('--step', config.step)
@@ -45,6 +48,8 @@ const update = () => {
   min.max = config.max - 1
   max.min = config.min + 1
   step.max = config.max - config.min
+  val.max = config.max
+  val.min = config.min
 }
 
 const sync = (event) => {
@@ -56,7 +61,7 @@ const sync = (event) => {
   document.startViewTransition(() => update())
 }
 
-const setup = ctrl.addFolder({ title: 'Range' })
+const setup = ctrl.addFolder({ title: 'Range', expanded: false })
 setup.addBinding(config, 'label', {
   label: 'Label',
 })
@@ -82,13 +87,16 @@ step = setup.addBinding(config, 'step', {
   step: 1,
 })
 
-const debugging = ctrl.addFolder({ title: 'Debug' })
+const debugging = ctrl.addFolder({ title: 'Debug', expanded: false })
 
 debugging.addBinding(config, 'reveal', {
   label: 'Reveal',
 })
+debugging.addBinding(config, 'explode', {
+  label: 'Explode',
+})
 
-debugging.addBinding(config, 'value', {
+val = debugging.addBinding(config, 'value', {
   label: 'Value',
   disabled: true,
   min: config.min,
@@ -139,3 +147,9 @@ sliders[0].querySelector('[type=range]').addEventListener('input', (event) => {
     ((event.target.value - config.min) / (config.max - config.min)) * 100
   ctrl.refresh()
 })
+
+sliders[0]
+  .querySelector('[type=range]')
+  .setAttribute('value', Math.floor(Math.random() * config.max))
+
+sliders[0].style.display = 'flex'
