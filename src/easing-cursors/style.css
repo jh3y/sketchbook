@@ -1,0 +1,174 @@
+@import 'normalize.css' layer(normalize);
+
+@layer normalize, base, demo;
+
+@layer demo {
+  :root {
+    --ease-y: linear(
+      0 0%,
+      0.2342 12.49%,
+      0.4374 24.99%,
+      0.6093 37.49%,
+      0.6835 43.74%,
+      0.7499 49.99%,
+      0.8086 56.25%,
+      0.8593 62.5%,
+      0.9023 68.75%,
+      0.9375 75%,
+      0.9648 81.25%,
+      0.9844 87.5%,
+      0.9961 93.75%,
+      1 100%
+    );
+    --ease-x: linear(
+      0 0%,
+      0.1538 4.09%,
+      0.2926 8.29%,
+      0.4173 12.63%,
+      0.5282 17.12%,
+      0.6255 21.77%,
+      0.7099 26.61%,
+      0.782 31.67%,
+      0.8425 37%,
+      0.8887 42.23%,
+      0.9257 47.79%,
+      0.9543 53.78%,
+      0.9752 60.32%,
+      0.9883 67.11%,
+      0.9961 75%,
+      1 100%
+    );
+  }
+  .cursor {
+    width: 44px;
+    color: red;
+    translate: 0 calc(var(--y) * 1vmin);
+    transform: translateX(calc(var(--x) * 1vmin));
+    animation: swoop-x calc(var(--speed) * 1s) both var(--ease-x),
+      swoop-y calc(var(--speed) * 1s) both var(--ease-y);
+  }
+
+  @keyframes swoop-y {
+    to {
+      translate: 0 0;
+    }
+  }
+  @keyframes swoop-x {
+    to {
+      transform: translateX(0);
+    }
+  }
+}
+
+@layer base {
+  :root {
+    --font-size-min: 16;
+    --font-size-max: 20;
+    --font-ratio-min: 1.2;
+    --font-ratio-max: 1.33;
+    --font-width-min: 375;
+    --font-width-max: 1500;
+  }
+
+  html {
+    color-scheme: light dark;
+  }
+
+  [data-theme='light'] {
+    color-scheme: light only;
+  }
+
+  [data-theme='dark'] {
+    color-scheme: dark only;
+  }
+
+  :where(.fluid) {
+    --fluid-min: calc(
+      var(--font-size-min) * pow(var(--font-ratio-min), var(--font-level, 0))
+    );
+    --fluid-max: calc(
+      var(--font-size-max) * pow(var(--font-ratio-max), var(--font-level, 0))
+    );
+    --fluid-preferred: calc(
+      (var(--fluid-max) - var(--fluid-min)) /
+        (var(--font-width-max) - var(--font-width-min))
+    );
+    --fluid-type: clamp(
+      (var(--fluid-min) / 16) * 1rem,
+      ((var(--fluid-min) / 16) * 1rem) -
+        (((var(--fluid-preferred) * var(--font-width-min)) / 16) * 1rem) +
+        (var(--fluid-preferred) * var(--variable-unit, 100vi)),
+      (var(--fluid-max) / 16) * 1rem
+    );
+    font-size: var(--fluid-type);
+  }
+
+  *,
+  *:after,
+  *:before {
+    box-sizing: border-box;
+  }
+
+  body {
+    display: grid;
+    place-items: center;
+    min-height: 100vh;
+    font-family: 'SF Pro Text', 'SF Pro Icons', 'AOS Icons', 'Helvetica Neue',
+      Helvetica, Arial, sans-serif, system-ui;
+  }
+
+  body::before {
+    --size: 45px;
+    --line: color-mix(in lch, canvasText, transparent 70%);
+    content: '';
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    background: linear-gradient(
+          90deg,
+          var(--line) 1px,
+          transparent 1px var(--size)
+        )
+        50% 50% / var(--size) var(--size),
+      linear-gradient(var(--line) 1px, transparent 1px var(--size)) 50% 50% /
+        var(--size) var(--size);
+    mask: linear-gradient(-20deg, transparent 50%, white);
+    top: 0;
+    transform-style: flat;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .bear-link {
+    color: canvasText;
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    width: 48px;
+    aspect-ratio: 1;
+    display: grid;
+    place-items: center;
+    opacity: 0.8;
+  }
+
+  :where(.x-link, .bear-link):is(:hover, :focus-visible) {
+    opacity: 1;
+  }
+
+  .bear-link svg {
+    width: 75%;
+  }
+
+  /* Utilities */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+}
