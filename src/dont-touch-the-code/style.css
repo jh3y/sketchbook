@@ -6,7 +6,7 @@
   @counter-style pad-example {
     system: extends decimal;
     suffix: ' ';
-    pad: 2 '0';
+    pad: 2 ' ';
   }
   main pre {
     margin: 0;
@@ -21,7 +21,7 @@
     position: relative;
   }
 
-  main[data-active='false'] {
+  main:not([data-active='true']) {
     cursor: not-allowed;
   }
 
@@ -46,7 +46,7 @@
     list-style-position: inside;
   }
   .line::marker {
-    color: hsl(0 0% 50% / 0.25);
+    color: hsl(0 0% 50% / 0.5);
     font-family: monospace;
   }
 }

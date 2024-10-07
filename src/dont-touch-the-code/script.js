@@ -9,6 +9,7 @@ let render
 let characterBodies = []
 const config = {
   theme: 'dark',
+  lang: 'javascript',
   code: `function processData(data) {
   // Assume data is an array of numbers and always has at least 5 elements
   const result = (data[0] * data[1]) / data[4];
@@ -30,6 +31,7 @@ function fetchDataFromServer() {
   // Otherwise, assume everything is broken
   throw new Error("Bad response from server");
 }`,
+  fizzy: false,
 }
 
 const ctrl = new Pane({
@@ -51,7 +53,7 @@ const createCharacters = () => {
       bounds.width,
       bounds.height,
       {
-        restitution: 1,
+        restitution: config.fizzy ? 1.28 : 1,
         elem: chars[i],
         startX: bounds.x + bounds.width * 0.5,
         startY: bounds.y + bounds.height * 0.5 + window.scrollY,
@@ -75,7 +77,7 @@ const renderCode = async () => {
   characterBodies = []
   // Once you've cleared out the bodies, create the code
   const html = await codeToHtml(config.code, {
-    lang: 'javascript',
+    lang: config.lang,
     theme: 'poimandres',
     transformers: [
       {
@@ -118,10 +120,22 @@ ctrl
     view: 'textarea',
     rows: 6,
   })
-  .on('change', (event) => {
-    renderCode()
+  .on('change', renderCode)
+ctrl
+  .addBinding(config, 'lang', {
+    label: 'Language',
+    options: {
+      JS: 'javascript',
+      CSS: 'css',
+      HTML: 'html',
+    },
   })
-
+  .on('change', renderCode)
+ctrl
+  .addBinding(config, 'fizzy', {
+    label: 'Fizzy',
+  })
+  .on('change', renderCode)
 const update = () => {
   document.documentElement.dataset.theme = config.theme
 }
@@ -134,15 +148,6 @@ const sync = (event) => {
     return update()
   document.startViewTransition(() => update())
 }
-
-// ctrl.addBinding(config, 'theme', {
-//   label: 'Theme',
-//   options: {
-//     System: 'system',
-//     Light: 'light',
-//     Dark: 'dark',
-//   },
-// })
 
 ctrl.on('change', sync)
 update()
