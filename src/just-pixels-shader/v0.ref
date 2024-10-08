@@ -1,0 +1,165 @@
+"use client"
+
+import React, { useRef, useEffect } from 'react'
+
+const vertexShaderSource = `
+  attribute vec2 a_position;
+  attribute vec2 a_texCoord;
+  varying vec2 v_texCoord;
+  void main() {
+    gl_Position = vec4(a_position, 0, 1);
+    v_texCoord = a_texCoord;
+  }
+`
+
+const fragmentShaderSource = `
+  precision mediump float;
+  uniform sampler2D u_image;
+  uniform vec2 u_resolution;
+  uniform vec2 u_mouse;
+  varying vec2 v_texCoord;
+
+  void main() {
+    vec2 st = gl_FragCoord.xy / u_resolution;
+    vec2 mouse = u_mouse / u_resolution;
+
+    float dist = distance(st, mouse);
+    float maxDist = 0.2;
+    float strength = smoothstep(maxDist, 0.0, dist);
+
+    vec2 displacement = normalize(st - mouse) * strength * 0.1;
+    vec2 newCoord = v_texCoord + displacement;
+
+    gl_FragColor = texture2D(u_image, newCoord);
+  }
+`
+
+export default function Component() {
+  const canvasRef = useRef<HTMLCanvasElement>(null)
+
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+
+    const gl = canvas.getContext('webgl')
+    if (!gl) {
+      console.error('WebGL not supported')
+      return
+    }
+
+    // Create text canvas
+    const textCanvas = document.createElement('canvas')
+    textCanvas.width = canvas.width
+    textCanvas.height = canvas.height
+    const textCtx = textCanvas.getContext('2d')
+    if (!textCtx) return
+
+    // Draw text
+    textCtx.fillStyle = 'black'
+    textCtx.fillRect(0, 0, textCanvas.width, textCanvas.height)
+    textCtx.fillStyle = 'white'
+    textCtx.font = '48px serif'
+    textCtx.textAlign = 'center'
+    textCtx.textBaseline = 'middle'
+    textCtx.fillText('Just Pixels', textCanvas.width / 2, textCanvas.height / 2)
+
+    // Create shaders
+    const vertexShader = gl.createShader(gl.VERTEX_SHADER)!
+    gl.shaderSource(vertexShader, vertexShaderSource)
+    gl.compileShader(vertexShader)
+
+    const fragmentShader = gl.createShader(gl.FRAGMENT_SHADER)!
+    gl.shaderSource(fragmentShader, fragmentShaderSource)
+    gl.compileShader(fragmentShader)
+
+    // Create program
+    const program = gl.createProgram()!
+    gl.attachShader(program, vertexShader)
+    gl.attachShader(program, fragmentShader)
+    gl.linkProgram(program)
+    gl.useProgram(program)
+
+    // Set up buffers
+    const positionBuffer = gl.createBuffer()
+    gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer)
+    const positions = [
+      -1, -1,
+       1, -1,
+      -1,  1,
+      -1,  1,
+       1, -1,
+       1,  1,
+    ]
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW)
+
+    const positionAttributeLocation = gl.getAttribLocation(program, 'a_position')
+    gl.enableVertexAttribArray(positionAttributeLocation)
+    gl.vertexAttribPointer(positionAttributeLocation, 2, gl.FLOAT, false, 0, 0)
+
+    const texCoordBuffer = gl.createBuffer()
+    gl.bindBuffer(gl.ARRAY_BUFFER, texCoordBuffer)
+    const texCoords = [
+      0, 1,
+      1, 1,
+      0, 0,
+      0, 0,
+      1, 1,
+      1, 0,
+    ]
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(texCoords), gl.STATIC_DRAW)
+
+    const texCoordAttributeLocation = gl.getAttribLocation(program, 'a_texCoord')
+    gl.enableVertexAttribArray(texCoordAttributeLocation)
+    gl.vertexAttribPointer(texCoordAttributeLocation, 2, gl.FLOAT, false, 0, 0)
+
+    // Create texture
+    const texture = gl.createTexture()
+    gl.bindTexture(gl.TEXTURE_2D, texture)
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, textCanvas)
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE)
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE)
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR)
+
+    // Set up uniforms
+    const resolutionUniformLocation = gl.getUniformLocation(program, 'u_resolution')
+    const mouseUniformLocation = gl.getUniformLocation(program, 'u_mouse')
+
+    gl.uniform2f(resolutionUniformLocation, canvas.width, canvas.height)
+
+    // Animation loop
+    let mouseX = canvas.width / 2
+    let mouseY = canvas.height / 2
+
+    const render = () => {
+      gl.uniform2f(mouseUniformLocation, mouseX, mouseY)
+      gl.drawArrays(gl.TRIANGLES, 0, 6)
+      requestAnimationFrame(render)
+    }
+
+    const handleMouseMove = (event: MouseEvent) => {
+      const rect = canvas.getBoundingClientRect()
+      mouseX = event.clientX - rect.left
+      mouseY = canvas.height - (event.clientY - rect.top) // Flip Y coordinate
+    }
+
+    canvas.addEventListener('mousemove', handleMouseMove)
+
+    requestAnimationFrame(render)
+
+    return () => {
+      canvas.removeEventListener('mousemove', handleMouseMove)
+      cancelAnimationFrame(render)
+    }
+  }, [])
+
+  return (
+    <div className="w-full h-screen bg-black flex items-center justify-center">
+      <canvas
+        ref={canvasRef}
+        width={800}
+        height={600}
+        className="border border-white"
+      />
+    </div>
+  )
+}
