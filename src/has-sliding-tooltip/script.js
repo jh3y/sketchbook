@@ -10,6 +10,7 @@ const config = {
   speed: 0.26,
   blur: 4,
   debug: false,
+  flow: 'auto',
 }
 
 const ctrl = new Pane({
@@ -21,6 +22,7 @@ const update = () => {
   document.documentElement.dataset.theme = config.theme
   document.documentElement.dataset.debug = config.debug
   document.documentElement.dataset.locked = config.locked
+  document.documentElement.dataset.flow = config.flow
   document.documentElement.style.setProperty('--speed', config.speed)
   document.documentElement.style.setProperty('--blur', config.blur)
 }
@@ -36,6 +38,14 @@ const sync = (event) => {
 
 ctrl.addBinding(config, 'locked', {
   label: 'Locked',
+})
+ctrl.addBinding(config, 'flow', {
+  label: 'Flow',
+  options: {
+    Auto: 'auto',
+    Horizontal: 'horizontal',
+    Vertical: 'vertical',
+  },
 })
 ctrl.addBinding(config, 'speed', {
   label: 'Speed (s)',

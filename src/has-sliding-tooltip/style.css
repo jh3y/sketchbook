@@ -8,16 +8,27 @@
     --bd-top: light-dark(hsl(0 0% 90%), hsl(0 0% 50%));
     --bd-bottom: light-dark(hsl(0 0% 40% / 0.5), black);
     --color: light-dark(hsl(0 0% 10%), hsl(0 0% 90%));
-    --tip: light-dark(color-mix(in hsl, var(--bg), canvasText 5%), color-mix(in hsl, var(--bg), canvasText 25%));
+    --tip: light-dark(
+      color-mix(in hsl, var(--bg), canvasText 5%),
+      color-mix(in hsl, var(--bg), canvasText 25%)
+    );
     --tip-height: 2rem;
     --ease-in: linear(
-        0 0%, 0.0039 6.25%, 0.0156 12.5%,
-        0.0352 18.75%, 0.0625 25%,
-        0.0977 31.25%, 0.1407 37.5%,
-        0.1914 43.74%, 0.2499 49.99%,
-        0.3164 56.25%, 0.3906 62.5%, 0.5625 75%,
-        0.7656 87.5%, 1 100%
-      );
+      0 0%,
+      0.0039 6.25%,
+      0.0156 12.5%,
+      0.0352 18.75%,
+      0.0625 25%,
+      0.0977 31.25%,
+      0.1407 37.5%,
+      0.1914 43.74%,
+      0.2499 49.99%,
+      0.3164 56.25%,
+      0.3906 62.5%,
+      0.5625 75%,
+      0.7656 87.5%,
+      1 100%
+    );
     --ease: ease;
   }
   .nav li {
@@ -109,7 +120,11 @@
     width: 100px;
     pointer-events: none;
     overflow: hidden;
-    border: 1px solid light-dark(color-mix(in hsl, var(--bd-top), canvasText 15%), color-mix(in hsl, var(--bd-top), canvasText 15%));
+    border: 1px solid
+      light-dark(
+        color-mix(in hsl, var(--bd-top), canvasText 15%),
+        color-mix(in hsl, var(--bd-top), canvasText 15%)
+      );
     height: var(--tip-height);
     z-index: 999999999;
   }
@@ -134,9 +149,17 @@
 
   .tip__track {
     display: grid;
-    grid-template-columns: 100%;
     height: var(--tip-height);
   }
+
+  [data-flow='horizontal'] .tip,
+  [data-flow='auto'][data-orientation='horizontal'] .tip {
+    .tip__track {
+      grid-auto-flow: column;
+      grid-auto-columns: 100%;
+    }
+  }
+
   .tip__track div {
     height: var(--tip-height);
     padding-inline: 0.5rem;
@@ -235,9 +258,18 @@
       filter calc(var(--speed) * 1s) ease;
   }
 
-  .tip__track {
+  [data-flow='horizontal'] .tip__track,
+  [data-flow='auto'][data-orientation='horizontal'] .tip__track {
+    translate: calc((var(--active) - 1) * (-100%)) 0;
+  }
+  [data-flow='vertical'] .tip__track,
+  [data-flow='auto'][data-orientation='vertical'] .tip__track {
     translate: 0 calc((var(--active) - 1) * (var(--tip-height) * -1));
-    transition: translate calc(var(--speed) * 1s) calc(var(--speed) * 1s) var(--ease);
+  }
+
+  .tip__track {
+    transition: translate calc(var(--speed) * 1s) calc(var(--speed) * 1s)
+      var(--ease);
   }
 
   .tip__track div {
