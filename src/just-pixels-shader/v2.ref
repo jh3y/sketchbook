@@ -1,0 +1,268 @@
+"use client"
+
+import React, { useRef, useEffect, useState } from 'react'
+
+const vertexShaderSource = `
+  attribute vec2 a_position;
+  attribute vec2 a_texCoord;
+  varying vec2 v_texCoord;
+  void main() {
+    gl_Position = vec4(a_position, 0, 1);
+    v_texCoord = a_texCoord;
+  }
+`
+
+const fragmentShaderSource = `
+  precision mediump float;
+  uniform sampler2D u_image;
+  uniform vec2 u_resolution;
+  uniform vec2 u_mouse;
+  uniform float u_maxDist;
+  uniform float u_minDist;
+  uniform float u_randomOffset;
+  uniform float u_displacementStrength;
+  varying vec2 v_texCoord;
+
+  float random(vec2 st) {
+    return fract(sin(dot(st.xy, vec2(12.9898, 78.233))) * 43758.5453123);
+  }
+
+  void main() {
+    vec2 st = gl_FragCoord.xy / u_resolution;
+    vec2 mouse = u_mouse / u_resolution;
+
+    vec2 direction = st - mouse;
+    float distance = length(direction);
+
+    // Only affect pixels within the proximity range
+    if (distance < u_maxDist) {
+      float displacement = 1.0 - smoothstep(u_minDist, u_maxDist, distance);
+
+      // Add some randomness to the displacement
+      vec2 randomOffset = vec2(random(st), random(st + vec2(1.0))) * 2.0 - 1.0;
+      vec2 offset = normalize(direction + randomOffset * u_randomOffset) * displacement * u_displacementStrength;
+
+      vec2 newCoord = v_texCoord - offset;
+
+      // Ensure the new coordinates stay within the texture bounds
+      newCoord = clamp(newCoord, vec2(0.0), vec2(1.0));
+
+      vec4 color = texture2D(u_image, newCoord);
+
+      // Fade out pixels that are very close to the mouse
+      if (distance < u_minDist) {
+        color.a = smoothstep(0.0, u_minDist, distance);
+      }
+
+      gl_FragColor = color;
+    } else {
+      gl_FragColor = texture2D(u_image, v_texCoord);
+    }
+  }
+`
+
+export default function Component() {
+  const canvasRef = useRef<HTMLCanvasElement>(null)
+  const [maxDist, setMaxDist] = useState(0.2)
+  const [minDist, setMinDist] = useState(0.02)
+  const [randomOffset, setRandomOffset] = useState(0.2)
+  const [displacementStrength, setDisplacementStrength] = useState(0.1)
+
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+
+    const gl = canvas.getContext('webgl')
+    if (!gl) {
+      console.error('WebGL not supported')
+      return
+    }
+
+    // Create text canvas
+    const textCanvas = document.createElement('canvas')
+    textCanvas.width = canvas.width
+    textCanvas.height = canvas.height
+    const textCtx = textCanvas.getContext('2d')
+    if (!textCtx) return
+
+    // Draw text
+    textCtx.fillStyle = 'black'
+    textCtx.fillRect(0, 0, textCanvas.width, textCanvas.height)
+    textCtx.fillStyle = 'white'
+    textCtx.font = '48px serif'
+    textCtx.textAlign = 'center'
+    textCtx.textBaseline = 'middle'
+    textCtx.fillText('Just Pixels', textCanvas.width / 2, textCanvas.height / 2)
+
+    // Create shaders
+    const vertexShader = gl.createShader(gl.VERTEX_SHADER)!
+    gl.shaderSource(vertexShader, vertexShaderSource)
+    gl.compileShader(vertexShader)
+
+    const fragmentShader = gl.createShader(gl.FRAGMENT_SHADER)!
+    gl.shaderSource(fragmentShader, fragmentShaderSource)
+    gl.compileShader(fragmentShader)
+
+    // Create program
+    const program = gl.createProgram()!
+    gl.attachShader(program, vertexShader)
+    gl.attachShader(program, fragmentShader)
+    gl.linkProgram(program)
+    gl.useProgram(program)
+
+    // Set up buffers
+    const positionBuffer = gl.createBuffer()
+    gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer)
+    const positions = [
+      -1, -1,
+       1, -1,
+      -1,  1,
+      -1,  1,
+       1, -1,
+       1,  1,
+    ]
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW)
+
+    const positionAttributeLocation = gl.getAttribLocation(program, 'a_position')
+    gl.enableVertexAttribArray(positionAttributeLocation)
+    gl.vertexAttribPointer(positionAttributeLocation, 2, gl.FLOAT, false, 0, 0)
+
+    const texCoordBuffer = gl.createBuffer()
+    gl.bindBuffer(gl.ARRAY_BUFFER, texCoordBuffer)
+    const texCoords = [
+      0, 1,
+      1, 1,
+      0, 0,
+      0, 0,
+      1, 1,
+      1, 0,
+    ]
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(texCoords), gl.STATIC_DRAW)
+
+    const texCoordAttributeLocation = gl.getAttribLocation(program, 'a_texCoord')
+    gl.enableVertexAttribArray(texCoordAttributeLocation)
+    gl.vertexAttribPointer(texCoordAttributeLocation, 2, gl.FLOAT, false, 0, 0)
+
+    // Create texture
+    const texture = gl.createTexture()
+    gl.bindTexture(gl.TEXTURE_2D, texture)
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, textCanvas)
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE)
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE)
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR)
+
+    // Set up uniforms
+    const resolutionUniformLocation = gl.getUniformLocation(program, 'u_resolution')
+    const mouseUniformLocation = gl.getUniformLocation(program, 'u_mouse')
+    const maxDistUniformLocation = gl.getUniformLocation(program, 'u_maxDist')
+    const minDistUniformLocation = gl.getUniformLocation(program, 'u_minDist')
+    const randomOffsetUniformLocation = gl.getUniformLocation(program, 'u_randomOffset')
+    const displacementStrengthUniformLocation = gl.getUniformLocation(program, 'u_displacementStrength')
+
+    gl.uniform2f(resolutionUniformLocation, canvas.width, canvas.height)
+
+    // Enable alpha blending
+    gl.enable(gl.BLEND)
+    gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA)
+
+    // Animation loop
+    let mouseX = canvas.width / 2
+    let mouseY = canvas.height / 2
+
+    const render = () => {
+      gl.clearColor(0, 0, 0, 1)
+      gl.clear(gl.COLOR_BUFFER_BIT)
+      gl.uniform2f(mouseUniformLocation, mouseX, mouseY)
+      gl.uniform1f(maxDistUniformLocation, maxDist)
+      gl.uniform1f(minDistUniformLocation, minDist)
+      gl.uniform1f(randomOffsetUniformLocation, randomOffset)
+      gl.uniform1f(displacementStrengthUniformLocation, displacementStrength)
+      gl.drawArrays(gl.TRIANGLES, 0, 6)
+      requestAnimationFrame(render)
+    }
+
+    const handleMouseMove = (event: MouseEvent) => {
+      const rect = canvas.getBoundingClientRect()
+      mouseX = event.clientX - rect.left
+      mouseY = canvas.height - (event.clientY - rect.top) // Flip Y coordinate
+    }
+
+    canvas.addEventListener('mousemove', handleMouseMove)
+
+    requestAnimationFrame(render)
+
+    return () => {
+      canvas.removeEventListener('mousemove', handleMouseMove)
+      cancelAnimationFrame(render)
+    }
+  }, [maxDist, minDist, randomOffset, displacementStrength])
+
+  return (
+    <div className="w-full h-screen bg-black flex flex-col items-center justify-center">
+      <canvas
+        ref={canvasRef}
+        width={800}
+        height={600}
+        className="border border-white mb-4"
+      />
+      <div className="flex flex-col items-start space-y-2 text-white">
+        <div className="flex items-center space-x-4">
+          <label htmlFor="maxDist">Max Distance:</label>
+          <input
+            id="maxDist"
+            type="range"
+            min="0.05"
+            max="0.5"
+            step="0.01"
+            value={maxDist}
+            onChange={(e) => setMaxDist(parseFloat(e.target.value))}
+            className="w-64"
+          />
+          <span>{maxDist.toFixed(2)}</span>
+        </div>
+        <div className="flex items-center space-x-4">
+          <label htmlFor="minDist">Min Distance:</label>
+          <input
+            id="minDist"
+            type="range"
+            min="0.01"
+            max="0.1"
+            step="0.01"
+            value={minDist}
+            onChange={(e) => setMinDist(parseFloat(e.target.value))}
+            className="w-64"
+          />
+          <span>{minDist.toFixed(2)}</span>
+        </div>
+        <div className="flex items-center space-x-4">
+          <label htmlFor="randomOffset">Random Offset:</label>
+          <input
+            id="randomOffset"
+            type="range"
+            min="0"
+            max="1"
+            step="0.01"
+            value={randomOffset}
+            onChange={(e) => setRandomOffset(parseFloat(e.target.value))}
+            className="w-64"
+          />
+          <span>{randomOffset.toFixed(2)}</span>
+        </div>
+        <div className="flex items-center space-x-4">
+          <label htmlFor="displacementStrength">Displacement Strength:</label>
+          <input
+            id="displacementStrength"
+            type="range"
+            min="0"
+            max="0.5"
+            step="0.01"
+            value={displacementStrength}
+            onChange={(e) => setDisplacementStrength(parseFloat(e.target.value))}
+            className="w-64"
+          />
+          <span>{displacementStrength.toFixed(2)}</span>
+        </div>
+      </div>
+    </div>
+  )
+}

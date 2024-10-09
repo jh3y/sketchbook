@@ -1,0 +1,372 @@
+@import 'normalize.css' layer(normalize);
+
+@layer normalize, base, demo;
+
+@layer demo {
+  :root {
+    --bg: light-dark(white, black);
+    --bd-top: light-dark(hsl(0 0% 90%), hsl(0 0% 50%));
+    --bd-bottom: light-dark(hsl(0 0% 40% / 0.5), black);
+    --color: light-dark(hsl(0 0% 10%), hsl(0 0% 90%));
+    --tip: light-dark(color-mix(in hsl, var(--bg), canvasText 5%), color-mix(in hsl, var(--bg), canvasText 25%));
+    --tip-height: 2rem;
+    --ease-in: linear(
+        0 0%, 0.0039 6.25%, 0.0156 12.5%,
+        0.0352 18.75%, 0.0625 25%,
+        0.0977 31.25%, 0.1407 37.5%,
+        0.1914 43.74%, 0.2499 49.99%,
+        0.3164 56.25%, 0.3906 62.5%, 0.5625 75%,
+        0.7656 87.5%, 1 100%
+      );
+    --ease: ease;
+  }
+  .nav li {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset: -1px 0;
+    }
+  }
+  .nav {
+    opacity: 0;
+    height: 42px;
+    color: var(--color);
+    box-shadow: 0 4px 8px 0 hsl(0 0% 0% / 0.2);
+    position: fixed;
+    bottom: 3rem;
+    left: 50%;
+    translate: 0% 0;
+    margin-left: calc(var(--width) * -0.5px);
+    border-radius: 100px;
+    background: linear-gradient(var(--bg), var(--bg)) padding-box,
+      linear-gradient(var(--bd-top), var(--bd-bottom)) border-box;
+    border: 1px solid #0000;
+    transition: opacity 0s var(--transition);
+  }
+  nav button {
+    color: canvasText;
+    position: absolute;
+    left: 0;
+    top: 0;
+    translate: -100% -50%;
+    opacity: 0.25;
+    transition: opacity calc(var(--speed) * 1s);
+
+    &:is(:hover, :active) {
+      opacity: 1;
+    }
+  }
+  .nav:has(ul:is(:hover, :focus-within)) button {
+    opacity: 0;
+  }
+  .nav :where(a, button) {
+    width: 32px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    text-decoration: none;
+    border: 0;
+    cursor: pointer;
+    font-weight: 500;
+    color: inherit;
+    background: transparent;
+
+    &:is(:focus-visible) {
+      outline-color: transparent;
+      outline-width: 0px;
+      background: var(--tip);
+    }
+  }
+  .nav ul {
+    display: flex;
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+  }
+  li svg {
+    width: 24px;
+  }
+
+  /* Positioning stuff */
+  .nav {
+    anchor-name: --nav;
+  }
+  .tip {
+    position: fixed;
+    position-anchor: --nav;
+    background: var(--tip);
+    color: var(--color);
+    font-size: 0.875rem;
+    border-radius: 100px;
+    width: 100px;
+    pointer-events: none;
+    overflow: hidden;
+    border: 1px solid light-dark(color-mix(in hsl, var(--bd-top), canvasText 15%), color-mix(in hsl, var(--bd-top), canvasText 15%));
+    height: var(--tip-height);
+    z-index: 999999999;
+  }
+
+  .x {
+    width: 18px;
+  }
+
+  [data-debug='true'] .tip {
+    overflow: visible;
+
+    .tip__track {
+      outline: 1px dashed orange;
+      outline-offset: 1px;
+    }
+
+    .tip__track div {
+      opacity: 1;
+      outline: 1px dashed red;
+    }
+  }
+
+  .tip__track {
+    display: grid;
+    grid-template-columns: 100%;
+    height: var(--tip-height);
+  }
+  .tip__track div {
+    height: var(--tip-height);
+    padding-inline: 0.5rem;
+    display: grid;
+    place-items: center;
+  }
+  .tip {
+    position-try-fallbacks: flip-block, flip-inline;
+  }
+  [data-locked='true'][data-orientation='horizontal'] {
+    .tip {
+      left: anchor(left);
+      bottom: calc(anchor(top) + 1rem);
+      translate: 21px 0;
+    }
+  }
+  [data-locked='true'][data-orientation='vertical'] {
+    .tip {
+      left: calc(anchor(right) + 1rem);
+      bottom: unset;
+      top: anchor(top);
+      translate: 0 21px;
+    }
+  }
+
+  [data-locked='false'][data-orientation='horizontal'] .tip {
+    left: anchor(left);
+    bottom: calc(anchor(top) + 1rem);
+    translate: calc(-50% + (var(--tip-x) * 1px)) calc(var(--tip-y) * 1px + -50%);
+  }
+
+  [data-locked='false'][data-orientation='vertical'] .tip {
+    left: calc(anchor(right) + 1rem);
+    top: anchor(top);
+    bottom: unset;
+    translate: calc(-1rem + (var(--tip-x) * 1px))
+      calc(var(--tip-y) * 1px + -50%);
+  }
+
+  [data-orientation='vertical'] {
+    nav {
+      width: 42px;
+      height: fit-content;
+      margin-left: 0;
+
+      ul {
+        flex-direction: column;
+      }
+    }
+  }
+
+  /* :has() hovering stuff */
+  :root:has(nav li:nth-of-type(1):is(:hover, :focus-within)) {
+    --active: 1;
+    .tip__track div:nth-of-type(1) {
+      --shown: 1;
+    }
+  }
+  :root:has(nav li:nth-of-type(2):is(:hover, :focus-within)) {
+    --active: 2;
+    .tip__track div:nth-of-type(2) {
+      --shown: 1;
+    }
+  }
+  :root:has(nav li:nth-of-type(3):is(:hover, :focus-within)) {
+    --active: 3;
+    .tip__track div:nth-of-type(3) {
+      --shown: 1;
+    }
+  }
+  :root:has(nav li:nth-of-type(4):is(:hover, :focus-within)) {
+    --active: 4;
+    .tip__track div:nth-of-type(4) {
+      --shown: 1;
+    }
+  }
+  :root:has(nav li:nth-of-type(5):is(:hover, :focus-within)) {
+    --active: 5;
+
+    .tip__track div:nth-of-type(5) {
+      --shown: 1;
+    }
+  }
+  :root:has(nav li:nth-of-type(6):is(:hover, :focus-within)) {
+    --active: 6;
+
+    .tip__track div:nth-of-type(6) {
+      --shown: 1;
+    }
+  }
+
+  .tip {
+    scale: var(--show, 0);
+    filter: blur(calc(var(--blur, 0) * 1px)));
+    transition: scale calc(var(--speed) * 1s) var(--ease),
+      filter calc(var(--speed) * 1s) ease;
+  }
+
+  .tip__track {
+    translate: 0 calc((var(--active) - 1) * (var(--tip-height) * -1));
+    transition: translate calc(var(--speed) * 1s) calc(var(--speed) * 1s) var(--ease);
+  }
+
+  .tip__track div {
+    filter: blur(calc((var(--blur, 0) * 1px) * (1 - var(--shown, 0))));
+    opacity: var(--shown, 0);
+    transition: filter calc(var(--speed) * 1s) var(--ease-in),
+      opacity calc(var(--speed) * 1s) var(--ease);
+  }
+
+  :root:has(.nav ul:is(:hover, :focus-within)) {
+    .tip {
+      --show: 1;
+      filter: blur(0);
+    }
+    .tip__track {
+      transition-delay: 0s;
+    }
+  }
+}
+
+@layer base {
+  :root {
+    --font-size-min: 16;
+    --font-size-max: 20;
+    --font-ratio-min: 1.2;
+    --font-ratio-max: 1.33;
+    --font-width-min: 375;
+    --font-width-max: 1500;
+  }
+
+  html {
+    color-scheme: light dark;
+  }
+
+  [data-theme='light'] {
+    color-scheme: light only;
+  }
+
+  [data-theme='dark'] {
+    color-scheme: dark only;
+  }
+
+  :where(.fluid) {
+    --fluid-min: calc(
+      var(--font-size-min) * pow(var(--font-ratio-min), var(--font-level, 0))
+    );
+    --fluid-max: calc(
+      var(--font-size-max) * pow(var(--font-ratio-max), var(--font-level, 0))
+    );
+    --fluid-preferred: calc(
+      (var(--fluid-max) - var(--fluid-min)) /
+        (var(--font-width-max) - var(--font-width-min))
+    );
+    --fluid-type: clamp(
+      (var(--fluid-min) / 16) * 1rem,
+      ((var(--fluid-min) / 16) * 1rem) -
+        (((var(--fluid-preferred) * var(--font-width-min)) / 16) * 1rem) +
+        (var(--fluid-preferred) * var(--variable-unit, 100vi)),
+      (var(--fluid-max) / 16) * 1rem
+    );
+    font-size: var(--fluid-type);
+  }
+
+  *,
+  *:after,
+  *:before {
+    box-sizing: border-box;
+  }
+
+  body {
+    display: grid;
+    place-items: center;
+    min-height: 100vh;
+    font-family: 'SF Pro Text', 'SF Pro Icons', 'AOS Icons', 'Helvetica Neue',
+      Helvetica, Arial, sans-serif, system-ui;
+  }
+
+  body::before {
+    --size: 45px;
+    --line: color-mix(in lch, canvasText, transparent 70%);
+    content: '';
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    background: linear-gradient(
+          90deg,
+          var(--line) 1px,
+          transparent 1px var(--size)
+        )
+        50% 50% / var(--size) var(--size),
+      linear-gradient(var(--line) 1px, transparent 1px var(--size)) 50% 50% /
+        var(--size) var(--size);
+    mask: linear-gradient(-20deg, transparent 50%, white);
+    top: 0;
+    transform-style: flat;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .bear-link {
+    color: canvasText;
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    width: 48px;
+    aspect-ratio: 1;
+    display: grid;
+    place-items: center;
+    opacity: 0.8;
+  }
+
+  :where(.x-link, .bear-link):is(:hover, :focus-visible) {
+    opacity: 1;
+  }
+
+  .bear-link svg {
+    width: 75%;
+  }
+
+  /* Utilities */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+}
