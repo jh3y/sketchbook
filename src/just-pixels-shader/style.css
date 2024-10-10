@@ -1,6 +1,45 @@
 @import 'normalize.css' layer(normalize);
 
+@import url('https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&display=swap');
 @layer normalize, base, demo;
+
+@layer demo {
+  canvas {
+    touch-action: none;
+    width: 1080px;
+    aspect-ratio: 1;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    /* outline: 4px dashed hotpink; */
+  }
+
+  .arrow {
+    opacity: 0.75;
+    position: fixed;
+    top: calc(50% + (var(--size) * 2px));
+    left: 50%;
+    translate: -250% 0%;
+    width: 100px;
+    font-family: 'Gloria Hallelujah', cursive;
+
+    span {
+      display: inline-block;
+      rotate: 12deg;
+      white-space: nowrap;
+    }
+
+    svg {
+      position: absolute;
+      scale: 1 -1;
+      rotate: -75deg;
+      bottom: 100%;
+      left: 100%;
+      width: 100%;
+    }
+  }
+}
 
 @layer base {
   :root {
