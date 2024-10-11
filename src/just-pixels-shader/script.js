@@ -11,63 +11,126 @@ const vertexShaderSource = `
   }
 `
 
+// const fragmentShaderSource = `
+//   precision mediump float;
+//   uniform sampler2D u_image;
+//   uniform vec2 u_resolution;
+//   uniform vec2 u_mouse;
+//   uniform float u_maxDist;
+//   uniform float u_minDist;
+//   uniform float u_randomOffset;
+//   uniform float u_displacementStrength;
+//   uniform float u_mouseRadius;
+//   varying vec2 v_texCoord;
+
+//   float random(vec2 st) {
+//     return fract(sin(dot(st.xy, vec2(12.9898, 78.233))) * 43758.5453123);
+//   }
+
+//   void main() {
+//     vec2 st = gl_FragCoord.xy / u_resolution;
+//     vec2 mouse = u_mouse / u_resolution;
+
+//     vec2 direction = st - mouse;
+//     float distance = length(direction);
+
+//     // Only affect pixels within the proximity range
+//     float normalizedDist = distance / (u_mouseRadius / u_resolution.y);
+//     if (normalizedDist < 1.0) {
+//       // Smooth transition for displacement strength
+//       float smoothStrength = 1.0 - smoothstep(0.0, 1.0, normalizedDist);
+//       float displacement = smoothStrength * u_displacementStrength;
+
+//       // Add some randomness to the displacement
+//       vec2 randomOffset = vec2(random(st), random(st + vec2(1.0))) * 2.0 - 1.0;
+//       vec2 offset = normalize(direction + randomOffset * u_randomOffset) * displacement;
+
+//       vec2 newCoord = v_texCoord - offset;
+
+//       // Ensure the new coordinates stay within the texture bounds
+//       newCoord = clamp(newCoord, vec2(0.0), vec2(1.0));
+
+//       vec4 color = texture2D(u_image, newCoord);
+
+//       // Fade out pixels that are very close to the mouse
+//       if (distance < u_minDist) {
+//         color.a *= smoothstep(0.0, u_minDist, distance);
+//       }
+
+//       gl_FragColor = color;
+//     } else {
+//       gl_FragColor = texture2D(u_image, v_texCoord);
+//     }
+//   }
+// `
+
 const fragmentShaderSource = `
-  precision mediump float;
+  precision highp float;
   uniform sampler2D u_image;
   uniform vec2 u_resolution;
   uniform vec2 u_mouse;
-  uniform float u_maxDist;
-  uniform float u_minDist;
-  uniform float u_randomOffset;
   uniform float u_displacementStrength;
   uniform float u_mouseRadius;
+  uniform float u_randomness;
   varying vec2 v_texCoord;
 
+  // A function to generate random values based on texture coordinates
   float random(vec2 st) {
-    return fract(sin(dot(st.xy, vec2(12.9898, 78.233))) * 43758.5453123);
+      return fract(sin(dot(st.xy, vec2(12.9898, 78.233))) * 43758.5453123);
   }
 
   void main() {
-    vec2 st = gl_FragCoord.xy / u_resolution;
-    vec2 mouse = u_mouse / u_resolution;
+      // Normalized pixel coordinates for the current fragment
+      vec2 st = gl_FragCoord.xy / u_resolution;
+      vec2 mouse = u_mouse / u_resolution;
 
-    vec2 direction = st - mouse;
-    float distance = length(direction);
+      // Calculate the vector from the mouse to the pixel
+      vec2 direction = st - mouse;
+      float distance = length(direction);
 
-    // Only affect pixels within the proximity range
-    float normalizedDist = distance / (u_mouseRadius / u_resolution.y);
-    if (normalizedDist < 1.0) {
-      // Smooth transition for displacement strength
-      float smoothStrength = 1.0 - smoothstep(0.0, 1.0, normalizedDist);
-      float displacement = smoothStrength * u_displacementStrength;
+      // Apply shattering only within the mouse radius
+      if (distance < (u_mouseRadius / u_resolution.y)) {
+          // Normalized direction vector pointing away from the mouse
+          vec2 normalizedDirection = normalize(direction);
 
-      // Add some randomness to the displacement
-      vec2 randomOffset = vec2(random(st), random(st + vec2(1.0))) * 2.0 - 1.0;
-      vec2 offset = normalize(direction + randomOffset * u_randomOffset) * displacement;
+          // Add randomness to the pixel movement (for shattering effect)
+          float randomAngle = random(v_texCoord) * 6.28318; // Random angle in radians (0 to 2*PI)
+          vec2 randomDirection = vec2(cos(randomAngle), sin(randomAngle));
 
-      vec2 newCoord = v_texCoord - offset;
+          // Use both normalized and random direction for the shatter effect
+          vec2 finalDirection = mix(normalizedDirection, randomDirection, u_randomness);
 
-      // Ensure the new coordinates stay within the texture bounds
-      newCoord = clamp(newCoord, vec2(0.0), vec2(1.0));
+          // Calculate displacement strength based on distance to mouse
+          float displacement = (1.0 - (distance / (u_mouseRadius / u_resolution.y))) * u_displacementStrength;
 
-      vec4 color = texture2D(u_image, newCoord);
+          // Move each pixel away in the final (randomized) direction
+          vec2 newCoord = v_texCoord + finalDirection * displacement;
 
-      // Fade out pixels that are very close to the mouse
-      if (distance < u_minDist) {
-        color.a *= smoothstep(0.0, u_minDist, distance);
+          // Shatter: break text into smaller pixel-like pieces by snapping to a grid
+          vec2 gridSize = vec2(1.0 / u_resolution.x, 1.0 / u_resolution.y); // Grid the size of one pixel
+          newCoord = floor(newCoord / gridSize) * gridSize;
+
+          // Ensure the new coordinates stay within the texture bounds
+          newCoord = clamp(newCoord, vec2(0.0), vec2(1.0));
+
+          // Sample the displaced pixel color from the image texture
+          vec4 color = texture2D(u_image, newCoord);
+
+          // Optionally fade out pixels very close to the mouse (like disappearing fragments)
+          color.a *= smoothstep(u_mouseRadius / u_resolution.y, 0.0, distance);
+
+          gl_FragColor = color;
+      } else {
+          // If outside the effect radius, render the original pixel
+          gl_FragColor = texture2D(u_image, v_texCoord);
       }
-
-      gl_FragColor = color;
-    } else {
-      gl_FragColor = texture2D(u_image, v_texCoord);
-    }
   }
 `
 
 let program
 let uniformLocations
 const canvas = document.querySelector('canvas')
-const gl = canvas.getContext('webgl')
+const gl = canvas.getContext('webgl', { antialias: false })
 
 const config = {
   min: 0,
@@ -188,7 +251,8 @@ const configureTexture = () => {
   )
   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE)
   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE)
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR)
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST)
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST)
 }
 
 const configureUniforms = () => {

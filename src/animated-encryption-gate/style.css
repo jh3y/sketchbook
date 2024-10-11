@@ -1,0 +1,195 @@
+@import 'normalize.css' layer(normalize);
+
+@layer normalize, base, demo;
+
+@layer demo {
+  .container {
+    --font-size-min: 16;
+    --font-size-max: 32;
+    --font-ratio-min: 1;
+    --font-ratio-max: 1.4;
+    --font-width-min: 375;
+    --font-width-max: 1500;
+    --font-level: 1.5;
+    /* width: max(340px, 50vw); */
+    width: calc(var(--container) * 1ch);
+    container-type: inline-size;
+    height: 200px;
+    border: 2px solid canvasText;
+    border-radius: 6px;
+    position: relative;
+    font-family: monospace;
+  }
+
+  .container::after {
+    content: '';
+    background: red;
+    width: 4px;
+    height: 100%;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    translate: -50% -50%;
+    z-index: 10;
+    /* animation: beam 20s infinite ease-in-out both; */
+  }
+
+  .container::before {
+    position: absolute;
+    inset: 0;
+    content: '';
+    background: linear-gradient(
+        90deg,
+        #0000 calc(100% - 2px),
+        black calc(100% - 2px) 100%
+      )
+      0 0 / 1ch 100%;
+  }
+
+  :is(.password, .encrypted) {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    font-size: inherit;
+    white-space: nowrap;
+    translate: 0 var(--y);
+    animation: slide calc(var(--ch-speed) * 1s) infinite steps(var(--steps))
+      both;
+    animation-timing-function: linear;
+  }
+  .password {
+    --y: -100%;
+  }
+  .encrypted {
+    --y: 100%;
+  }
+
+  .encrypted span {
+    --i-delay: calc((var(--ch-delay) * (var(--ch-count) - var(--i))) * 1s);
+    /* Everyone uses the same window but with a different offset... */
+    display: inline-block;
+    animation: highlight calc(var(--ch-speed) * 1s) var(--i-delay) infinite both;
+  }
+
+  @keyframes slide {
+    0% {
+      translate: calc(-100% - (var(--ch-offset) * 1ch)) var(--y);
+    }
+    100% {
+      translate: calc(100cqi + (var(--ch-offset) * 1ch)) var(--y);
+    }
+  }
+}
+
+@layer base {
+  :root {
+    --font-size-min: 16;
+    --font-size-max: 20;
+    --font-ratio-min: 1.2;
+    --font-ratio-max: 1.33;
+    --font-width-min: 375;
+    --font-width-max: 1500;
+  }
+
+  html {
+    color-scheme: light dark;
+  }
+
+  [data-theme='light'] {
+    color-scheme: light only;
+  }
+
+  [data-theme='dark'] {
+    color-scheme: dark only;
+  }
+
+  :where(.fluid) {
+    --fluid-min: calc(
+      var(--font-size-min) * pow(var(--font-ratio-min), var(--font-level, 0))
+    );
+    --fluid-max: calc(
+      var(--font-size-max) * pow(var(--font-ratio-max), var(--font-level, 0))
+    );
+    --fluid-preferred: calc(
+      (var(--fluid-max) - var(--fluid-min)) /
+        (var(--font-width-max) - var(--font-width-min))
+    );
+    --fluid-type: clamp(
+      (var(--fluid-min) / 16) * 1rem,
+      ((var(--fluid-min) / 16) * 1rem) -
+        (((var(--fluid-preferred) * var(--font-width-min)) / 16) * 1rem) +
+        (var(--fluid-preferred) * var(--variable-unit, 100vi)),
+      (var(--fluid-max) / 16) * 1rem
+    );
+    font-size: var(--fluid-type);
+  }
+
+  *,
+  *:after,
+  *:before {
+    box-sizing: border-box;
+  }
+
+  body {
+    display: grid;
+    place-items: center;
+    min-height: 100vh;
+    font-family: 'SF Pro Text', 'SF Pro Icons', 'AOS Icons', 'Helvetica Neue',
+      Helvetica, Arial, sans-serif, system-ui;
+  }
+
+  body::before {
+    --size: 45px;
+    --line: color-mix(in lch, canvasText, transparent 70%);
+    content: '';
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    background: linear-gradient(
+          90deg,
+          var(--line) 1px,
+          transparent 1px var(--size)
+        )
+        50% 50% / var(--size) var(--size),
+      linear-gradient(var(--line) 1px, transparent 1px var(--size)) 50% 50% /
+        var(--size) var(--size);
+    mask: linear-gradient(-20deg, transparent 50%, white);
+    top: 0;
+    transform-style: flat;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .bear-link {
+    color: canvasText;
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    width: 48px;
+    aspect-ratio: 1;
+    display: grid;
+    place-items: center;
+    opacity: 0.8;
+  }
+
+  :where(.x-link, .bear-link):is(:hover, :focus-visible) {
+    opacity: 1;
+  }
+
+  .bear-link svg {
+    width: 75%;
+  }
+
+  /* Utilities */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+}
