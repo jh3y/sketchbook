@@ -8,7 +8,7 @@ const config = {
   // password: 'horse',
   offset: 2, // these number values refer to the number of characters (ch)
   start: -1,
-  encrypt: 2,
+  encrypt: 3,
   speed: 10,
   width: 30,
 }
@@ -74,6 +74,11 @@ const startFrame = startIndex / total
 const endIndex = startIndex + config.encrypt
 const endFrame = endIndex / total
 
+const beamIndex = startIndex - 1
+const beamStart = beamIndex / total
+const beamEndStart = (beamIndex + characterCount + 1) / total
+const beamEnd = (beamIndex + characterCount + 2) / total
+
 console.info({ startIndex, startFrame, endIndex, endFrame })
 
 // TODO:: Techincally if we want, we could animate each character individually
@@ -92,6 +97,16 @@ const frames = `
     }
     ${(endFrame * 100 + 1).toFixed(2)}%, 100% {
       color: blue;
+    }
+  }
+
+  @keyframes beam {
+    0%, ${(beamStart * 100).toFixed(2)}%, ${(beamEnd * 100).toFixed(2)}%, 100% {
+      scale: 1 1;
+    }
+    ${(startFrame * 100).toFixed(2)}%,
+    ${(beamEndStart * 100).toFixed(2)}% {
+      scale: 2 1;
     }
   }
 `
