@@ -2,6 +2,24 @@
 
 @layer normalize, base, demo;
 
+@layer demo {
+  video,
+  canvas {
+    aspect-ratio: 4 / 3;
+    width: clamp(300px, 50vmin, 640px);
+    object-fit: cover;
+  }
+  video {
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+    width: 260px;
+  }
+  div.tp-dfwv {
+    width: 260px !important;
+  }
+}
+
 @layer base {
   :root {
     --font-size-min: 16;
