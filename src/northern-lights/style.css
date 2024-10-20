@@ -1,0 +1,189 @@
+@import 'normalize.css' layer(normalize);
+
+@layer normalize, base, demo;
+
+@layer demo {
+  @property --pos-x {
+    initial-value: 50;
+    syntax: '<number>';
+    inherits: true;
+  }
+  :root {
+    animation: night 4s infinite ease-in-out;
+  }
+  @keyframes night {
+    50% {
+      --pos-x: 20;
+    }
+  }
+  body {
+    --lights: linear-gradient(
+        35deg,
+        hsl(10 80% 50% / 1),
+        hsl(140 80% 90% / 1),
+        hsl(280 80% 89% / 1)
+      )
+      50% 0% / 75% 50% repeat-x fixed;
+    --lights: radial-gradient(
+          200px 400px at calc(50% + (var(--pos-x) * -0.5%)) 0%,
+          red,
+          #0000
+        )
+        fixed,
+      radial-gradient(
+          220px 300px at calc(50% + (var(--pos-x) * 0.25%)) 0%,
+          purple,
+          #0000
+        )
+        fixed,
+      radial-gradient(220px 330px at 50% 0%, green, #0000) fixed,
+      radial-gradient(120px 340px at 50% 0%, aqua, #0000) fixed,
+      radial-gradient(340px 420px at 50% 0%, hotpink, #0000) fixed,
+      radial-gradient(250px 280px at 50% 0%, blue, #0000) fixed;
+  }
+  body::after {
+    content: '';
+    opacity: 0.2;
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background: var(--lights);
+    background-blend-mode: hard-light;
+    z-index: -1;
+    filter: blur(10px);
+  }
+  article {
+    --font-level: 4;
+    font-weight: 500;
+    padding: 1rem 4rem;
+    aspect-ratio: 4 / 3;
+    --bg: light-dark(white, black);
+    background: linear-gradient(var(--bg), var(--bg)) padding-box,
+      var(--lights) border-box,
+      light-dark(hsl(0 0% 80% / 0.5), hsl(0 0% 20% / 0.5));
+    background-repeat: repeat-x;
+    display: grid;
+    /* background-color: canvas; */
+    place-items: center;
+    border-radius: 12px;
+    border: 2px solid transparent;
+  }
+
+  /* positioning */
+  article {
+    position: absolute;
+  }
+}
+
+@layer base {
+  :root {
+    --font-size-min: 16;
+    --font-size-max: 20;
+    --font-ratio-min: 1.2;
+    --font-ratio-max: 1.33;
+    --font-width-min: 375;
+    --font-width-max: 1500;
+  }
+
+  html {
+    color-scheme: light dark;
+  }
+
+  [data-theme='light'] {
+    color-scheme: light only;
+  }
+
+  [data-theme='dark'] {
+    color-scheme: dark only;
+  }
+
+  :where(.fluid) {
+    --fluid-min: calc(
+      var(--font-size-min) * pow(var(--font-ratio-min), var(--font-level, 0))
+    );
+    --fluid-max: calc(
+      var(--font-size-max) * pow(var(--font-ratio-max), var(--font-level, 0))
+    );
+    --fluid-preferred: calc(
+      (var(--fluid-max) - var(--fluid-min)) /
+        (var(--font-width-max) - var(--font-width-min))
+    );
+    --fluid-type: clamp(
+      (var(--fluid-min) / 16) * 1rem,
+      ((var(--fluid-min) / 16) * 1rem) -
+        (((var(--fluid-preferred) * var(--font-width-min)) / 16) * 1rem) +
+        (var(--fluid-preferred) * var(--variable-unit, 100vi)),
+      (var(--fluid-max) / 16) * 1rem
+    );
+    font-size: var(--fluid-type);
+  }
+
+  *,
+  *:after,
+  *:before {
+    box-sizing: border-box;
+  }
+
+  body {
+    display: grid;
+    place-items: center;
+    min-height: 100vh;
+    font-family: 'SF Pro Text', 'SF Pro Icons', 'AOS Icons', 'Helvetica Neue',
+      Helvetica, Arial, sans-serif, system-ui;
+  }
+
+  body::before {
+    --size: 45px;
+    --line: color-mix(in lch, canvasText, transparent 70%);
+    content: '';
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    background: linear-gradient(
+          90deg,
+          var(--line) 1px,
+          transparent 1px var(--size)
+        )
+        50% 50% / var(--size) var(--size),
+      linear-gradient(var(--line) 1px, transparent 1px var(--size)) 50% 50% /
+        var(--size) var(--size);
+    mask: linear-gradient(-20deg, transparent 50%, white);
+    top: 0;
+    transform-style: flat;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .bear-link {
+    color: canvasText;
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    width: 48px;
+    aspect-ratio: 1;
+    display: grid;
+    place-items: center;
+    opacity: 0.8;
+  }
+
+  :where(.x-link, .bear-link):is(:hover, :focus-visible) {
+    opacity: 1;
+  }
+
+  .bear-link svg {
+    width: 75%;
+  }
+
+  /* Utilities */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+}

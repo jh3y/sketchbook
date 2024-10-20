@@ -1,0 +1,331 @@
+@import 'normalize.css' layer(normalize);
+
+@layer normalize, base, demo, animation;
+
+@layer animation {
+  :root {
+    --duration: 0.25s;
+    timeline-scope: --drawer;
+  }
+
+  .drawer__slide {
+    view-timeline: --drawer;
+  }
+
+  .drawer__slide::before {
+    animation: slide both linear reverse;
+    animation-timeline: --drawer;
+    animation-range: entry;
+  }
+
+  .drawer:not([data-snapped='true']) {
+    /* This acts like a holding animation */
+    transition-property: display, overlay;
+    transition-behavior: allow-discrete;
+    transition-duration: var(--duration);
+  }
+
+  .drawer__content {
+    transition-property: display, translate, overlay;
+    transition-behavior: allow-discrete;
+    transition-duration: var(--duration);
+    transition-timing-function: ease-in-out;
+    translate: 0 100%;
+  }
+
+  .drawer:popover-open .drawer__content {
+    translate: 0 0;
+    @starting-style {
+      translate: 0 100%;
+    }
+  }
+
+  body {
+    /* only transition the opener */
+    transition-property: --opened, --closed;
+    transition-duration: var(--duration);
+    transition-timing-function: ease-in-out;
+    transform-origin: 50% 100%;
+  }
+
+  :root:has(.drawer:popover-open) body {
+    transition-property: --opened;
+  }
+
+  body {
+    --diff: calc(var(--opened) * var(--closed));
+    --ty: calc(env(safe-area-inset-top) - 14px);
+    scale: calc(1 - ((var(--opened) * 0.04) - (var(--diff) * 0.04)));
+    border-radius: calc((var(--opened) * 12px) - (var(--diff) * 12px));
+    translate: 0 calc((var(--opened) * var(--ty)) - (var(--diff) * var(--ty)));
+  }
+
+  :root:has(.drawer:popover-open) body {
+    overflow: hidden;
+    --opened: 1;
+  }
+
+  :root:has(.drawer:popover-open) {
+    animation: reverse both linear reverse;
+    animation-timeline: --drawer;
+    animation-range: entry;
+  }
+
+  /* transition this one */
+  @property --opened {
+    syntax: '<number>';
+    inherits: true;
+    initial-value: 0;
+  }
+
+  /* don't transition this one */
+  @property --closed {
+    syntax: '<number>';
+    inherits: true;
+    initial-value: 1;
+  }
+
+  @keyframes reverse {
+    0% {
+      --closed: 0;
+    }
+  }
+
+  .drawer::backdrop {
+    transition-property: display, --opened, overlay;
+    transition-behavior: allow-discrete;
+    transition-duration: var(--duration);
+    transition-timing-function: ease-in-out;
+    opacity: calc(var(--opened) - var(--closed));
+    --opened: 0;
+  }
+  .drawer:popover-open::backdrop {
+    --opened: 1;
+  }
+  @starting-style {
+    .drawer:popover-open::backdrop {
+      --opened: 0;
+    }
+  }
+}
+
+@layer demo {
+  .drawer {
+    inset: 0;
+    margin: 0;
+    width: unset;
+    height: unset;
+    border: 0;
+    padding: 0;
+    background: transparent;
+  }
+
+  .drawer::backdrop {
+    background: hsl(0 0% 0% / 0.5);
+  }
+
+  .drawer__scroller {
+    height: 100%;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    display: flex;
+    overflow-y: auto;
+    scroll-snap-type: y mandatory;
+
+    /* Acts as a buffer */
+    &::after {
+      content: '';
+      height: 100svh;
+      order: -999999;
+      flex: 1 0 100svh;
+    }
+  }
+
+  .drawer__slide {
+    --size: 300px;
+    width: 600px;
+    max-height: 95%;
+    max-width: 100vw;
+    height: var(--size);
+    flex: 1 0 var(--size);
+    position: relative;
+
+    &::after,
+    &::before {
+      content: 'snap element';
+      height: 50px;
+      outline: 4px dashed blue;
+      width: 100%;
+      position: absolute;
+      display: grid;
+      place-items: center;
+      color: blue;
+      font-weight: 500;
+      top: 0;
+      left: 0;
+      z-index: 10;
+      pointer-events: none;
+    }
+
+    &::before {
+      translate: 0 -100%;
+    }
+
+    &::after {
+      top: unset;
+      bottom: 0;
+      scroll-snap-align: end;
+    }
+  }
+  .drawer__curtain {
+    position: absolute;
+    left: 50%;
+    opacity: 0;
+    height: 100vh;
+    width: 100vw;
+    bottom: 0;
+    border: 0;
+    translate: -50% 0;
+  }
+  .drawer__content {
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    background: canvas;
+    position: absolute;
+  }
+
+  :root {
+    --size: 45px;
+    --line: color-mix(in lch, white, transparent 85%);
+    background: linear-gradient(
+          90deg,
+          var(--line) 1px,
+          transparent 1px var(--size)
+        )
+        50% 50% / var(--size) var(--size),
+      linear-gradient(var(--line) 1px, transparent 1px var(--size)) 50% 50% /
+        var(--size) var(--size),
+      hsl(210 70% 34%);
+  }
+
+  @keyframes slide {
+    to {
+      scroll-snap-align: end;
+    }
+  }
+}
+
+@layer base {
+  :root {
+    --font-size-min: 16;
+    --font-size-max: 20;
+    --font-ratio-min: 1.2;
+    --font-ratio-max: 1.33;
+    --font-width-min: 375;
+    --font-width-max: 1500;
+  }
+
+  html {
+    color-scheme: light dark;
+  }
+
+  [data-theme='light'] {
+    color-scheme: light only;
+  }
+
+  [data-theme='dark'] {
+    color-scheme: dark only;
+  }
+
+  :where(.fluid) {
+    --fluid-min: calc(
+      var(--font-size-min) * pow(var(--font-ratio-min), var(--font-level, 0))
+    );
+    --fluid-max: calc(
+      var(--font-size-max) * pow(var(--font-ratio-max), var(--font-level, 0))
+    );
+    --fluid-preferred: calc(
+      (var(--fluid-max) - var(--fluid-min)) /
+        (var(--font-width-max) - var(--font-width-min))
+    );
+    --fluid-type: clamp(
+      (var(--fluid-min) / 16) * 1rem,
+      ((var(--fluid-min) / 16) * 1rem) -
+        (((var(--fluid-preferred) * var(--font-width-min)) / 16) * 1rem) +
+        (var(--fluid-preferred) * var(--variable-unit, 100vi)),
+      (var(--fluid-max) / 16) * 1rem
+    );
+    font-size: var(--fluid-type);
+  }
+
+  *,
+  *:after,
+  *:before {
+    box-sizing: border-box;
+  }
+
+  body {
+    display: grid;
+    place-items: center;
+    background: canvas;
+    min-height: 100svh;
+    font-family: 'SF Pro Text', 'SF Pro Icons', 'AOS Icons', 'Helvetica Neue',
+      Helvetica, Arial, sans-serif, system-ui;
+  }
+
+  body::before {
+    --size: 45px;
+    --line: color-mix(in lch, canvasText, transparent 70%);
+    content: '';
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    background: linear-gradient(
+          90deg,
+          var(--line) 1px,
+          transparent 1px var(--size)
+        )
+        50% 50% / var(--size) var(--size),
+      linear-gradient(var(--line) 1px, transparent 1px var(--size)) 50% 50% /
+        var(--size) var(--size);
+    mask: linear-gradient(-20deg, transparent 50%, white);
+    top: 0;
+    transform-style: flat;
+    pointer-events: none;
+  }
+
+  .bear-link {
+    color: canvasText;
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    width: 48px;
+    aspect-ratio: 1;
+    display: grid;
+    place-items: center;
+    opacity: 0.8;
+  }
+
+  :where(.x-link, .bear-link):is(:hover, :focus-visible) {
+    opacity: 1;
+  }
+
+  .bear-link svg {
+    width: 75%;
+  }
+
+  /* Utilities */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+}
