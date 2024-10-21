@@ -15,18 +15,28 @@
     <aside class="drawer" popover="auto" id="sidebar">
       <div class="drawer__scroller">
         <div class="drawer__slide">
+          <div class="drawer__anchors">
+            <div class="drawer__anchor"></div>
+            <div class="drawer__anchor"></div>
+          </div>
           <!-- Acts like a backdrop button so you don't body click -->
-          <div aria-hidden="true">
+          <button
+            popovertargetaction="hide"
+            popovertarget="sidebar"
+            class="drawer__curtain"
+            tabindex="-1"
+          ></button>
+          <div class="drawer__content">
             <button
+              autofocus
+              class="drawer__drag"
               popovertargetaction="hide"
               popovertarget="sidebar"
-              class="drawer__curtain"
-            ></button>
-          </div>
-          <div class="drawer__content">
-            <button popovertargetaction="hide" popovertarget="sidebar">
+            >
               Close
             </button>
+            <div class="content"></div>
+            <div class="reaction-bar"></div>
           </div>
         </div>
       </div>
