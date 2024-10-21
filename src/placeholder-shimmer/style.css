@@ -1,0 +1,188 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+@import 'normalize.css' layer(normalize);
+
+@layer normalize, base, demo;
+
+@layer demo {
+  :root {
+    --bg: linear-gradient(90deg, red, orange, yellow) 0 0 /
+        calc(var(--placeholder-length) * 1ch) 100% no-repeat padding-box,
+      black;
+  }
+
+  .wrap {
+    --font-level: 0;
+    --font-size-min: 14;
+    --font-size-max: 22;
+    /* font-family: monospace; */
+    font-weight: 500;
+    font-family: 'Ubuntu', sans-serif;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .wrap :is(span, input) {
+    padding: 16px;
+    border-radius: 12px;
+    border: 2px solid #0000;
+  }
+
+  .wrap span {
+    background: var(--bg);
+  }
+
+  @property --position {
+    syntax: '<number>';
+    inherits: true;
+    initial-value: 0;
+  }
+
+  .wrap input {
+    background: light-dark(#fff, #000);
+    outline-color: red;
+    border: 2px solid color-mix(in hsl, canvas, canvasText 25%);
+
+    &::placeholder {
+      width: calc(var(--placeholder-length) * 1ch);
+      background: var(--bg);
+      background-clip: text;
+      color: transparent;
+    }
+  }
+
+  .wrap {
+    --duration: calc(
+      (var(--multiplier, 0.12) * var(--placeholder-length)) * 1s
+    );
+    animation: shimmer var(--duration) infinite both ease-out;
+  }
+
+  @keyframes shimmer {
+    0% {
+      --position: calc(var(--placeholder-length) * -1);
+    }
+    80%,
+    100% {
+      --position: var(--placeholder-length);
+    }
+  }
+
+  .wrap span,
+  .wrap input::placeholder {
+    background-position: calc(var(--position) * 1ch);
+  }
+}
+
+@layer base {
+  :root {
+    --font-size-min: 16;
+    --font-size-max: 20;
+    --font-ratio-min: 1.2;
+    --font-ratio-max: 1.33;
+    --font-width-min: 375;
+    --font-width-max: 1500;
+  }
+
+  html {
+    color-scheme: light dark;
+  }
+
+  [data-theme='light'] {
+    color-scheme: light only;
+  }
+
+  [data-theme='dark'] {
+    color-scheme: dark only;
+  }
+
+  :where(.fluid) {
+    --fluid-min: calc(
+      var(--font-size-min) * pow(var(--font-ratio-min), var(--font-level, 0))
+    );
+    --fluid-max: calc(
+      var(--font-size-max) * pow(var(--font-ratio-max), var(--font-level, 0))
+    );
+    --fluid-preferred: calc(
+      (var(--fluid-max) - var(--fluid-min)) /
+        (var(--font-width-max) - var(--font-width-min))
+    );
+    --fluid-type: clamp(
+      (var(--fluid-min) / 16) * 1rem,
+      ((var(--fluid-min) / 16) * 1rem) -
+        (((var(--fluid-preferred) * var(--font-width-min)) / 16) * 1rem) +
+        (var(--fluid-preferred) * var(--variable-unit, 100vi)),
+      (var(--fluid-max) / 16) * 1rem
+    );
+    font-size: var(--fluid-type);
+  }
+
+  *,
+  *:after,
+  *:before {
+    box-sizing: border-box;
+  }
+
+  body {
+    display: grid;
+    place-items: center;
+    min-height: 100vh;
+    font-family: 'SF Pro Text', 'SF Pro Icons', 'AOS Icons', 'Helvetica Neue',
+      Helvetica, Arial, sans-serif, system-ui;
+  }
+
+  body::before {
+    --size: 45px;
+    --line: color-mix(in lch, canvasText, transparent 70%);
+    content: '';
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    background: linear-gradient(
+          90deg,
+          var(--line) 1px,
+          transparent 1px var(--size)
+        )
+        50% 50% / var(--size) var(--size),
+      linear-gradient(var(--line) 1px, transparent 1px var(--size)) 50% 50% /
+        var(--size) var(--size);
+    mask: linear-gradient(-20deg, transparent 50%, white);
+    top: 0;
+    transform-style: flat;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .bear-link {
+    color: canvasText;
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    width: 48px;
+    aspect-ratio: 1;
+    display: grid;
+    place-items: center;
+    opacity: 0.8;
+  }
+
+  :where(.x-link, .bear-link):is(:hover, :focus-visible) {
+    opacity: 1;
+  }
+
+  .bear-link svg {
+    width: 75%;
+  }
+
+  /* Utilities */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+}
