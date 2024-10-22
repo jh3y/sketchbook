@@ -1,0 +1,43 @@
+import { Pane } from 'https://cdn.skypack.dev/tweakpane'
+
+const config = {
+  theme: 'system',
+  text: 'Click!',
+}
+
+const ctrl = new Pane({
+  title: 'Config',
+  expanded: true,
+})
+
+const spans = document.querySelectorAll('.dazzle span')
+
+const update = () => {
+  spans.forEach((span) => (span.innerText = config.text))
+  document.documentElement.dataset.theme = config.theme
+}
+
+const sync = (event) => {
+  if (
+    !document.startViewTransition ||
+    event.target.controller.view.labelElement.innerText !== 'Theme'
+  )
+    return update()
+  document.startViewTransition(() => update())
+}
+
+ctrl.addBinding(config, 'text', {
+  label: 'Text',
+})
+
+ctrl.addBinding(config, 'theme', {
+  label: 'Theme',
+  options: {
+    System: 'system',
+    Light: 'light',
+    Dark: 'dark',
+  },
+})
+
+ctrl.on('change', sync)
+update()

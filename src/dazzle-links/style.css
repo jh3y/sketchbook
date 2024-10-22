@@ -1,0 +1,287 @@
+@import 'normalize.css' layer(normalize);
+
+@layer normalize, base, demo;
+
+@layer demo {
+  :root {
+    --color: light-dark(hsl(45.2deg 97.42% 64.31%), hsl(45.2deg 97.42% 54.31%));
+    --shadow: light-dark(hsl(35deg 100% 57.06%), hsl(35deg 100% 47.06%));
+    --glare: light-dark(white, hsl(0 0% 100% / 0.75));
+    --transition: 0.2s;
+  }
+
+  .dazzle {
+    --font-level: 5;
+    --font-size: 1em;
+    --padding: 0.12em;
+    padding: var(--padding) calc(var(--padding) * 2);
+    border-radius: 0.25em;
+    text-decoration: none;
+    color: transparent;
+    position: relative;
+    transition: background 0.2s 0.1s;
+    font-weight: 600;
+  }
+
+  .dazzle:is(:hover, :focus-visible) {
+    background: color-mix(in hsl, canvasText, #0000 86%);
+  }
+
+  .dazzle span {
+    display: inline-block;
+    transition: all 0.2s;
+    text-decoration: none;
+    text-shadow: calc(var(--hover) * (var(--font-size) * -0))
+        calc(var(--hover) * (var(--font-size) * 0)) var(--shadow),
+      calc(var(--hover) * (var(--font-size) * -0.02))
+        calc(var(--hover) * (var(--font-size) * 0.02)) var(--shadow),
+      calc(var(--hover) * (var(--font-size) * -0.04))
+        calc(var(--hover) * (var(--font-size) * 0.04)) var(--shadow),
+      calc(var(--hover) * (var(--font-size) * -0.06))
+        calc(var(--hover) * (var(--font-size) * 0.06)) var(--shadow),
+      calc(var(--hover) * (var(--font-size) * -0.08))
+        calc(var(--hover) * (var(--font-size) * 0.08)) var(--shadow),
+      calc(var(--hover) * (var(--font-size) * -0.1))
+        calc(var(--hover) * (var(--font-size) * 0.1)) var(--shadow);
+    transform: translate(
+      calc(var(--hover) * (var(--font-size) * 0.1)),
+      calc(var(--hover) * (var(--font-size) * -0.1))
+    );
+  }
+
+  .dazzle span:last-of-type {
+    position: absolute;
+    inset: var(--padding) calc(var(--padding) * 2);
+    background: linear-gradient(
+          108deg,
+          transparent 0 55%,
+          var(--glare) 55% 60%,
+          transparent 60% 70%,
+          var(--glare) 70% 85%,
+          transparent 85%
+        )
+        calc(var(--pos) * -200%) 0% / 200% 100%,
+      var(--color);
+    -webkit-background-clip: text;
+    color: transparent;
+    z-index: 2;
+    text-shadow: none;
+    transform: translate(
+      calc(var(--hover) * (var(--font-size) * 0.1)),
+      calc(var(--hover) * (var(--font-size) * -0.1))
+    );
+  }
+
+  .dazzle span:last-of-type {
+    transition: transform 0.2s, background-position 0s;
+  }
+
+  .dazzle:is(:hover, :focus-visible) span:last-of-type {
+    transition: transform 0.2s,
+      background-position calc(var(--hover) * 1.5s) calc(var(--hover) * 0.25s);
+  }
+
+  .dazzle {
+    --hover: 0.4;
+    --pos: 0;
+  }
+
+  .dazzle:is(:hover, :focus-visible) {
+    --hover: 1;
+    --pos: 1;
+  }
+
+  .dazzle:active {
+    --hover: 0;
+  }
+
+  .dazzle:active span:last-of-type {
+    --hover: 0;
+    --pos: 1;
+  }
+
+  .dazzle svg {
+    position: absolute;
+    z-index: 3;
+    width: calc(var(--font-size) * 0.5);
+    aspect-ratio: 1;
+  }
+
+  .dazzle svg path {
+    fill: var(--glare);
+  }
+
+  /* Animation for sparkles */
+
+  .dazzle:focus-visible {
+    outline: none;
+  }
+
+  .dazzle:is(:hover, :focus-visible) svg {
+    animation: sparkle 0.75s calc(0.1s + ((var(--delay-step) * var(--d)) * 1s))
+      both;
+  }
+
+  @keyframes sparkle {
+    50% {
+      transform: translate(-50%, -50%) scale(var(--s, 1));
+    }
+  }
+
+  .dazzle svg {
+    --delay-step: 0.15;
+    top: calc(var(--y, 50) * 1%);
+    left: calc(var(--x, 0) * 1%);
+    transform: translate(-50%, -50%) scale(0);
+    stroke-width: 1;
+    stroke: light-dark(black, #0000);
+  }
+
+  .dazzle svg:nth-of-type(1) {
+    --x: 0;
+    --y: 20;
+    --s: 1.1;
+    --d: 1;
+  }
+
+  .dazzle svg:nth-of-type(2) {
+    --x: 15;
+    --y: 80;
+    --s: 1.25;
+    --d: 2;
+  }
+
+  .dazzle svg:nth-of-type(3) {
+    --x: 45;
+    --y: 40;
+    --s: 1.1;
+    --d: 3;
+  }
+
+  .dazzle svg:nth-of-type(4) {
+    --x: 75;
+    --y: 60;
+    --s: 0.9;
+    --d: 2;
+  }
+
+  .dazzle svg:nth-of-type(5) {
+    --x: 100;
+    --y: 30;
+    --s: 0.8;
+    --d: 4;
+  }
+}
+
+@layer base {
+  :root {
+    --font-size-min: 16;
+    --font-size-max: 20;
+    --font-ratio-min: 1.2;
+    --font-ratio-max: 1.33;
+    --font-width-min: 375;
+    --font-width-max: 1500;
+  }
+
+  html {
+    color-scheme: light dark;
+  }
+
+  [data-theme='light'] {
+    color-scheme: light only;
+  }
+
+  [data-theme='dark'] {
+    color-scheme: dark only;
+  }
+
+  :where(.fluid) {
+    --fluid-min: calc(
+      var(--font-size-min) * pow(var(--font-ratio-min), var(--font-level, 0))
+    );
+    --fluid-max: calc(
+      var(--font-size-max) * pow(var(--font-ratio-max), var(--font-level, 0))
+    );
+    --fluid-preferred: calc(
+      (var(--fluid-max) - var(--fluid-min)) /
+        (var(--font-width-max) - var(--font-width-min))
+    );
+    --fluid-type: clamp(
+      (var(--fluid-min) / 16) * 1rem,
+      ((var(--fluid-min) / 16) * 1rem) -
+        (((var(--fluid-preferred) * var(--font-width-min)) / 16) * 1rem) +
+        (var(--fluid-preferred) * var(--variable-unit, 100vi)),
+      (var(--fluid-max) / 16) * 1rem
+    );
+    font-size: var(--fluid-type);
+  }
+
+  *,
+  *:after,
+  *:before {
+    box-sizing: border-box;
+  }
+
+  body {
+    display: grid;
+    place-items: center;
+    min-height: 100vh;
+    font-family: 'SF Pro Text', 'SF Pro Icons', 'AOS Icons', 'Helvetica Neue',
+      Helvetica, Arial, sans-serif, system-ui;
+  }
+
+  body::before {
+    --size: 45px;
+    --line: color-mix(in lch, canvasText, transparent 70%);
+    content: '';
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    background: linear-gradient(
+          90deg,
+          var(--line) 1px,
+          transparent 1px var(--size)
+        )
+        50% 50% / var(--size) var(--size),
+      linear-gradient(var(--line) 1px, transparent 1px var(--size)) 50% 50% /
+        var(--size) var(--size);
+    mask: linear-gradient(-20deg, transparent 50%, white);
+    top: 0;
+    transform-style: flat;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .bear-link {
+    color: canvasText;
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    width: 48px;
+    aspect-ratio: 1;
+    display: grid;
+    place-items: center;
+    opacity: 0.8;
+  }
+
+  :where(.x-link, .bear-link):is(:hover, :focus-visible) {
+    opacity: 1;
+  }
+
+  .bear-link svg {
+    width: 75%;
+  }
+
+  /* Utilities */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+}
