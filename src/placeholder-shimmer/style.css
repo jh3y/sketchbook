@@ -4,73 +4,256 @@
 @layer normalize, base, demo;
 
 @layer demo {
+  [data-style='classic'] {
+    --chosen: var(--classic);
+  }
+  [data-style='flame'] {
+    --chosen: var(--flame);
+  }
+  [data-style='aurora'] {
+    --chosen: var(--aurora);
+  }
+  [data-style='change'] {
+    --chosen: var(--changing);
+  }
+
   :root {
-    --bg: linear-gradient(90deg, red, orange, yellow) 0 0 /
-        calc(var(--placeholder-length) * 1ch) 100% no-repeat padding-box,
-      black;
+    --start: 120;
+    --end: 280;
+  }
+
+  @property --hue {
+    initial-value: 10;
+    syntax: '<number>';
+    inherits: true;
+  }
+
+  [data-style='change'][data-debug='false'] {
+    animation: hue calc(var(--duration) * 0.5) infinite both linear;
+  }
+
+  @keyframes hue {
+    0%,
+    15% {
+      --hue: 120;
+    }
+    85%,
+    100% {
+      --hue: 280;
+    }
+  }
+
+  [data-debug='true'] {
+    --hue: calc(
+      var(--end) +
+        (
+          clamp(0.15, var(--bg-position) / 100, 0.85) *
+            (var(--start) - var(--end))
+        )
+    );
+  }
+
+  :root {
+    --duration: calc((var(--multiplier, 0.2) * var(--placeholder-length)) * 2s);
+    --place-color: light-dark(
+      color-mix(in hsl, canvas, canvasText 20%),
+      color-mix(in hsl, canvas, canvasText 20%)
+    );
+    --offset: calc(var(--bg-spread, 6) * 0.5ch);
+    --angle: calc(var(--bg-angle) * 1deg);
+    --flame: linear-gradient(
+      var(--angle),
+      #0000 calc(50% - var(--offset)),
+      hsl(45 100% 60%) calc(50% - (var(--offset) - 0.5ch)),
+      hsl(0 100% 50%),
+      #0000 calc(50% + var(--offset))
+    );
+    --aurora: linear-gradient(
+      var(--angle),
+      #0000 calc(50% - var(--offset)),
+      #a960ee,
+      #ff333d,
+      #ffcb57,
+      #90e0ff,
+      #0000 calc(50% + var(--offset))
+    );
+    --changing: linear-gradient(
+      var(--angle),
+      #0000 calc(50% - var(--offset)),
+      hsl(var(--hue) 90% 60%),
+      #0000 calc(50% + var(--offset))
+    );
+    --classic: linear-gradient(
+      var(--angle),
+      #0000 calc(50% - var(--offset)),
+      canvasText,
+      #0000 calc(50% + var(--offset))
+    );
+    --bg: var(--chosen) 0 0 / 300% 100% no-repeat border-box,
+      linear-gradient(var(--place-color), var(--place-color)) padding-box;
+  }
+
+  .wrap input {
+    width: 290px;
+    max-width: calc(100vw - 2rem);
   }
 
   .wrap {
     --font-level: 0;
     --font-size-min: 14;
     --font-size-max: 22;
-    /* font-family: monospace; */
     font-weight: 500;
     font-family: 'Ubuntu', sans-serif;
     display: flex;
     flex-direction: column;
+    position: relative;
     gap: 2rem;
   }
 
-  .wrap :is(span, input) {
+  .wrap :is(.debugger, .placeholder, input) {
     padding: 16px;
     border-radius: 12px;
+  }
+
+  .wrap :is(.debugger, .placeholder) {
     border: 2px solid #0000;
-  }
-
-  .wrap span {
     background: var(--bg);
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    pointer-events: none;
+    transition: top 0.2s, bottom 0.2s;
   }
 
-  @property --position {
-    syntax: '<number>';
-    inherits: true;
-    initial-value: 0;
+  input::placeholder {
+    font-weight: 500;
+    transition: opacity 0.2s;
+  }
+
+  .debugger {
+    top: 0;
+  }
+  .placeholder {
+    bottom: 0;
+  }
+
+  .placeholder::before,
+  .placeholder::after {
+    opacity: 0;
+  }
+
+  .placeholder::before {
+    content: attr(data-placeholder);
+    background: var(--bg);
+    background-clip: text;
+    color: transparent;
+    position: absolute;
+    inset: 0;
+    padding: 1rem;
+  }
+
+  [data-bordered='true'] .placeholder::after {
+    content: '';
+    border: 2px solid #0000;
+    position: absolute;
+    inset: -2px;
+    border-radius: 12px;
+    background: var(--bg);
+    mask: linear-gradient(#0000, #0000) padding-box,
+      linear-gradient(#fff, #fff) border-box;
+    mask-composite: intersect;
+    transition: opacity 0.2s;
+  }
+
+  [data-debug='false'] .wrap input::placeholder {
+    opacity: 0;
+  }
+
+  [data-debug='true'] .placeholder::after,
+  [data-debug='true'] .placeholder::before,
+  [data-debug='false'] input:placeholder-shown + .placeholder::after,
+  [data-debug='false'] input:placeholder-shown + .placeholder::before {
+    opacity: 1;
+  }
+
+  [data-debug='true'] .debugger {
+    top: calc(100% + 2rem);
+  }
+  [data-debug='true'] .placeholder {
+    bottom: calc(100% + 2rem);
+  }
+
+  .debugger {
+    z-index: -1;
   }
 
   .wrap input {
     background: light-dark(#fff, #000);
-    outline-color: red;
-    border: 2px solid color-mix(in hsl, canvas, canvasText 25%);
+    border: 2px solid var(--place-color);
+
+    &::selection {
+      background-color: red;
+      color: white;
+    }
 
     &::placeholder {
-      width: calc(var(--placeholder-length) * 1ch);
-      background: var(--bg);
-      background-clip: text;
-      color: transparent;
+      color: var(--place-color);
+    }
+
+    &:focus-visible {
+      outline: 2px solid #0000;
     }
   }
 
-  .wrap {
-    --duration: calc(
-      (var(--multiplier, 0.12) * var(--placeholder-length)) * 1s
-    );
-    animation: shimmer var(--duration) infinite both ease-out;
+  [data-debug='false'] .placeholder::before,
+  [data-debug='false'] .placeholder::after {
+    animation: shimmer var(--duration) infinite both ease-in-out;
+  }
+
+  .labels {
+    opacity: 0;
+    filter: blur(4px);
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    right: calc(100% + 2rem);
+    top: 50%;
+    translate: 0 -50%;
+    gap: 2rem;
+    font-weight: 300;
+    transition: opacity 0.2s, filter 0.2s;
+  }
+
+  [data-debug='true'] .labels {
+    opacity: 1;
+    filter: blur(0px);
+  }
+
+  .label {
+    padding-block: 1.1rem;
+    font-size: 0.8rem;
+    opacity: 0.5;
   }
 
   @keyframes shimmer {
     0% {
-      --position: calc(var(--placeholder-length) * -1);
+      background-position: 100% 0;
     }
-    80%,
+    50%,
     100% {
-      --position: var(--placeholder-length);
+      background-position: 0% 0;
     }
   }
 
-  .wrap span,
-  .wrap input::placeholder {
-    background-position: calc(var(--position) * 1ch);
+  .wrap .placeholder {
+    background-clip: text;
+    color: transparent;
+  }
+
+  [data-debug='true'] .wrap .placeholder::after,
+  [data-debug='true'] .wrap .placeholder::before,
+  [data-debug='true'] .wrap .debugger {
+    background-position: calc(var(--bg-position) * 1%);
   }
 }
 
@@ -185,4 +368,8 @@
     white-space: nowrap;
     border-width: 0;
   }
+}
+
+div.tp-dfwv {
+  width: 270px;
 }

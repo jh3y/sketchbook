@@ -12,9 +12,21 @@
   </head>
   <body>
     <div class="wrap">
-      <input class="fluid" type="text" placeholder="What we cookin'?" />
-      <span class="fluid">What we cookin'?</span>
+      <input
+        aria-hidden="true"
+        class="fluid"
+        type="text"
+        placeholder="What we cookin'?"
+      />
+      <span class="fluid placeholder"></span>
+      <span aria-hidden="true" class="fluid debugger">What we cookin'?</span>
+      <div class="labels fluid">
+        <div class="label">Placeholder</div>
+        <div class="label">Input</div>
+        <div class="label">Debug</div>
+      </div>
     </div>
+    <style id="frames" type="text/css"></style>
     <a
       class="bear-link"
       href="https://twitter.com/intent/follow?screen_name=jh3yy"
