@@ -64,10 +64,11 @@
         left: 50%;
         translate: -50% -50%;
         width: 100%;
-        height: calc(10px + (var(--active) * 10px));
+        height: 10px;
         background: red;
         opacity: calc(0.25 + var(--active));
-        transition: opacity calc((1- var(--active)) * 0.4s);
+        scale: 1 calc(1 + var(--active));
+        transition: opacity 1s, scale 0.1s;
       }
 
       &:first-of-type,
@@ -86,6 +87,7 @@
     position: absolute;
     inset: 0;
     overflow: hidden;
+    scroll-padding-inline: calc(50% - 8px);
   }
 
   @property --active {
